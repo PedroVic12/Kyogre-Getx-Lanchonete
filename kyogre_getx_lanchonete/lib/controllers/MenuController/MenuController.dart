@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../pikachu/rotas/routes.dart';
+import 'package:kyogre_getx_lanchonete/app/rotas/routes.dart';
 
 // TODO 1:15
 

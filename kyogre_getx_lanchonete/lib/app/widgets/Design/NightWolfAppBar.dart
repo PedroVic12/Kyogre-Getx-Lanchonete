@@ -1,47 +1,71 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
-import 'package:kyogre_getx_lanchonete/views/responsividade/ResponsiveWidget.dart';
 
-AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
-    AppBar(
-      leading: !ResponsiveWidget.isSmallScreen(context)
-          ? Row(
-        children: [
-          Container(
-            padding: EdgeInsets.only(left: 10),
-            child: Text('Logo da Citta-RJ aqui'),
-          ),
-        ],
-      )
-          : IconButton(
+class NightWolfAppBar extends StatefulWidget implements PreferredSizeWidget {
+  final GlobalKey<ScaffoldState>? drawerKey;
+  final String title;
+
+  const NightWolfAppBar({
+    Key? key,
+    this.drawerKey,
+    this.title = 'Citta RJ Lanchonete',
+  }) : super(key: key);
+
+  @override
+  _NightWolfAppBarState createState() => _NightWolfAppBarState();
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
+
+class _NightWolfAppBarState extends State<NightWolfAppBar> {
+  bool _isPurple = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      leading: widget.drawerKey != null
+          ? IconButton(
+        icon: Icon(
+          Icons.menu_rounded,
+          color: _isPurple ? Colors.purple : Colors.black,
+        ),
         onPressed: () {
-          key.currentState?.openDrawer();
+          widget.drawerKey!.currentState?.openDrawer();
         },
-        icon: Icon(Icons.menu_rounded),
-      ),
+      )
+          : null,
       elevation: 5,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.black,
       title: Row(
         children: [
           Visibility(
+            visible: _isPurple,
             child: CustomText(
-              text: 'Meu Dashboard Small Screen',
+              text: widget.title,
               color: CupertinoColors.inactiveGray,
               size: 22,
               weight: FontWeight.bold,
             ),
           ),
           Expanded(
-            child: Container(
-              color: Colors.red,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _isPurple = !_isPurple;
+                });
+              },
+              child: Container(
+                color: _isPurple ? Colors.purple : Colors.black,
+              ),
             ),
           ),
           IconButton(
             onPressed: () {},
             icon: Icon(
               Icons.settings,
-              color: CupertinoColors.black.withOpacity(.7),
+              color: _isPurple ? Colors.black.withOpacity(.7) : Colors.white,
             ),
           ),
           Stack(
@@ -50,7 +74,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                 onPressed: () {},
                 icon: Icon(
                   Icons.notifications_rounded,
-                  color: CupertinoColors.black.withOpacity(.7),
+                  color: _isPurple ? Colors.black.withOpacity(.7) : Colors.white,
                 ),
               ),
               Positioned(
@@ -80,7 +104,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
           ),
           CustomText(
             text: 'Pedro Victor',
-            color: CupertinoColors.inactiveGray,
+            color: _isPurple ? CupertinoColors.inactiveGray : Colors.white,
           ),
           SizedBox(
             width: 16,
@@ -94,15 +118,17 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
               padding: EdgeInsets.all(2),
               margin: EdgeInsets.all(2),
               child: CircleAvatar(
-                backgroundColor: CupertinoColors.inactiveGray,
+                backgroundColor: _isPurple ? CupertinoColors.inactiveGray : Colors.white,
                 child: Icon(
                   Icons.person,
-                  color: CupertinoColors.black,
+                  color: _isPurple ? CupertinoColors.black : Colors.black,
                 ),
               ),
             ),
           ),
         ],
       ),
-      iconTheme: IconThemeData(color: Colors.blue),
+      iconTheme: IconThemeData(color: _isPurple ? Colors.blue : Colors.white),
     );
+  }
+}

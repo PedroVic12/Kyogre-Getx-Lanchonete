@@ -1,0 +1,23 @@
+{
+  "nome": "Anakin Skywalker",
+  "telefone": "21999289987",
+  "carrinho": {
+    "itensPedido": [
+      {
+        "nome": "Cheese Burguer",
+        "quantidade": 2
+      },
+      {
+        "nome": "Guaraviton",
+        "quantidade": 1
+      },
+      {
+        "nome": "Tapioca",
+        "quantidade": 1
+      }
+    ],
+    "totalPrecoPedido": 100.0
+  },
+  "forma_pagamento": "Dinheiro",
+  "endereco_cliente": "Niteroi"
+}

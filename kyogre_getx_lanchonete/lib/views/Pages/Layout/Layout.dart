@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/SideMenu.dart';
+import 'package:kyogre_getx_lanchonete/views/Screens/Screens.dart';
 import 'package:kyogre_getx_lanchonete/views/responsividade/ResponsiveWidget.dart';
 
-import '../views/pages/Screens/Screens.dart';
 
 
 class Layout extends StatelessWidget {

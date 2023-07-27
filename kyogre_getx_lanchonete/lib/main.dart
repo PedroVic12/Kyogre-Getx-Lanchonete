@@ -1,15 +1,15 @@
-import 'package:delivery_kyogre_getx/Kyogre/UI/GridView.dart';
-import 'package:delivery_kyogre_getx/pikachu/layout.dart';
-import 'package:delivery_kyogre_getx/views/pages/CardapioDigital/CardapioDigitalPage.dart';
-import 'package:delivery_kyogre_getx/views/pages/Dashboard/DashBoardPage.dart';
-import 'package:delivery_kyogre_getx/views/pages/Dashboard/Dashboard.dart';
-import 'package:delivery_kyogre_getx/views/pages/Dashboard/Pedido/PedidoControler.dart';
-import 'Teoria do Caos/RestAPI/RestApiHttp.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kyogre_getx_lanchonete/app/RestAPI/RestAPI.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Design/CartaoGridView.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CardapioDigitalPage.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Layout/Layout.dart';
+
+import 'views/Pages/DashBoard/Pedido/PedidoController.dart';
 
 //TODO -> Menu controller 1:08
 

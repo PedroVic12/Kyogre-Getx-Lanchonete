@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:delivery_kyogre_getx/Teoria%20do%20Caos/RestAPI/modelsApi.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:kyogre_getx_lanchonete/models/Clientes/ClienteModel.dart';
 
 class RestApiPage extends StatefulWidget {
   const RestApiPage({Key? key}) : super(key: key);

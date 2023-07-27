@@ -1,7 +1,6 @@
-import 'package:delivery_kyogre_getx/app/widgets/horizontal_menu_item.dart';
-import 'package:delivery_kyogre_getx/app/widgets/vertical_menu_item.dart';
-import 'package:delivery_kyogre_getx/pikachu/ResponsiveWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Utils/HorizontalMenuItem.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Utils/VerticalMenuItem.dart';
 import 'package:kyogre_getx_lanchonete/views/responsividade/ResponsiveWidget.dart';
 
 class SideMenuItem extends StatelessWidget {

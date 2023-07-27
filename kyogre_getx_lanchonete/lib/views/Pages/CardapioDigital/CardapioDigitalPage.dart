@@ -5,6 +5,28 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+
+
+//! DEEP LINKING
+// O servidor Node.js (BackendController) gera um ID de pedido aleatório e constrói um link para o aplicativo Flutter na web com esse ID de pedido.
+//
+// O servidor Node.js envia esse link para o servidor FastAPI usando uma solicitação POST.
+//
+// O servidor FastAPI recebe o link e o armazena.
+//
+// TODO O servidor Node.js então envia uma mensagem para o cliente via WhatsApp com o link.
+//
+// O cliente clica no link no WhatsApp, que abre o aplicativo Flutter na web na página de detalhes do pedido correspondente ao ID no link.
+//
+// O cliente faz o pedido através do aplicativo Flutter na web.
+//
+// Quando o pedido é concluído, o aplicativo Flutter na web pode então enviar uma mensagem de volta para o servidor FastAPI com os detalhes do pedido.
+//
+// O servidor FastAPI pode processar o pedido como necessário (por exemplo, armazená-lo em um banco de dados, enviá-lo para um sistema de gerenciamento de pedidos, etc.). Se necessário, o servidor Node.js pode então enviar uma mensagem de confirmação para o cliente via WhatsApp.
+//
+// *//
+
+
 class CardapioDigitalPage extends StatefulWidget {
   const CardapioDigitalPage({super.key});
 

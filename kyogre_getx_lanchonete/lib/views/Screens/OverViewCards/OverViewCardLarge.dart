@@ -49,7 +49,7 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
           double _cardWidth = constraints.maxWidth / 4;
 
           return FutureBuilder<dynamic>(
-            future: readJsonFile('lib/pikachu/rayquaza_db/pedido_data.json'),
+            future: readJsonFile('lib/repository/db_template.json'),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {

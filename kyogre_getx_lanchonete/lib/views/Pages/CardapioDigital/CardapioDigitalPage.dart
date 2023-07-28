@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
 
 class DetailsPage extends StatefulWidget {
   final String id;
@@ -51,6 +52,8 @@ class _DetailsPageState extends State<DetailsPage> {
               Text('Nome do Cliente: $nomeCliente'),
             if (telefoneCliente != null)
               Text('Telefone do Cliente: $telefoneCliente'),
+
+             CatalogoProdutos()
           ],
         ),
       ),
@@ -58,3 +61,5 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
 }
+
+

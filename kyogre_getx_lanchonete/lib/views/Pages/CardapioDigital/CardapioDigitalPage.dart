@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 //
 // O servidor FastAPI recebe o link e o armazena.
 //
-// TODO O servidor Node.js então envia uma mensagem para o cliente via WhatsApp com o link.
+//  O servidor Node.js então envia uma mensagem para o cliente via WhatsApp com o link.
 //
 // O cliente clica no link no WhatsApp, que abre o aplicativo Flutter na web na página de detalhes do pedido correspondente ao ID no link.
 //

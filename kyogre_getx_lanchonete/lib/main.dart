@@ -38,7 +38,10 @@ class MyApp extends StatelessWidget {
             name: '/pedido', page: () => const RestApiPage()), //! Change Here
         GetPage(name: '/dash', page: () => DashboardPage()),
         GetPage(name: '/layoutDesign', page: () => const CartaoGridView()),
-        GetPage(name: '/details/:id', page: () => const CardapioDigitalPage()),
+        GetPage(name: '/details/:id', page: () {
+          final id = Get.parameters['id']!;
+          return DetailsPage(id: id);
+        }),
       ],
 
       debugShowCheckedModeBanner: false,

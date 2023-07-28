@@ -37,7 +37,7 @@ class CatalogoProdutosCard extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 40,
-          //backgroundImage: NetworkImage(Produto.produtos_loja[index].imageUrl),
+          backgroundImage: NetworkImage(Produto.produtos_loja[index].imageUrl),
           backgroundColor: Colors.blue,
         ),
 
@@ -46,11 +46,10 @@ class CatalogoProdutosCard extends StatelessWidget {
           fontSize: 20,
           fontWeight: FontWeight.bold
         ),)),
-        Expanded(child:Text(Produto.produtos_loja[index].preco as String)),
+        Expanded(child:Text('${Produto.produtos_loja[index].preco}')),
         IconButton(onPressed: (){}, icon: Icon(Icons.add_circle_rounded))
 
       ],
-    )
-      );
+    ));
   }
 }

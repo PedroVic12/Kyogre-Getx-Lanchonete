@@ -41,7 +41,7 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detalhes do Pedido'),
+        title: Text('Detalhes do Pedido ${widget.id}'),
       ),
       body: Center(
         child: Column(

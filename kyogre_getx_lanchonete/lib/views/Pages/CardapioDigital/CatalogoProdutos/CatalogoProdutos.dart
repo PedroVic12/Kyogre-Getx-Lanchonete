@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/Produtos/products_model.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CarrinhoCart.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CartController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CarrinhoCart.txt';
 
-//TODO 5:10 TUTORIAL
+//TODO 12 TUTORIAL
 
 class CatalogoProdutos extends StatelessWidget {
   const CatalogoProdutos({Key? key}) : super(key: key);
@@ -15,7 +17,8 @@ class CatalogoProdutos extends StatelessWidget {
               return Column(
                 children: [
                   Text('Ola mundo'),
-                  CatalogoProdutosCard(index: index)
+                  CatalogoProdutosCard(index: index),
+
                 ],
               );
             }));
@@ -24,8 +27,9 @@ class CatalogoProdutos extends StatelessWidget {
 
 class CatalogoProdutosCard extends StatelessWidget {
   final int index;
+  final cartController = Get.put(CarrinhoController());
 
-  const CatalogoProdutosCard({Key? key, required this.index}) : super(key: key);
+  CatalogoProdutosCard({Key? key, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +51,13 @@ class CatalogoProdutosCard extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             )),
             Expanded(child: Text('${Produto.produtos_loja[index].preco}')),
-            IconButton(onPressed: () {}, icon: Icon(Icons.add_circle_rounded)),
+            IconButton(onPressed: () {
+              cartController.adicionarProduto(Produto.produtos_loja[index]);
+
+            }, icon: Icon(Icons.add_circle_rounded)),
+
+
+            // botao de teste
             IconButton(
               onPressed: () {
                 // Create a new ShoppingCartItem and call the onAddToCart callback
@@ -55,7 +65,7 @@ class CatalogoProdutosCard extends StatelessWidget {
                     ShoppingCartItem(produto: Produto.produtos_loja[index]);
                 //onAddToCart(item);
               },
-              icon: Icon(Icons.add_circle_rounded),
+              icon: Icon(Icons.ac_unit_rounded),
             )
           ],
         ));

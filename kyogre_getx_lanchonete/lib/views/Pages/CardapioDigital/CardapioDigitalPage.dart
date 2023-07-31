@@ -1,8 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
+
+import 'Carrinho/CartProdutos.dart';
+
 
 class DetailsPage extends StatefulWidget {
   final String id;
@@ -28,8 +32,8 @@ class _DetailsPageState extends State<DetailsPage> {
         Uri.parse('https://rayquaza-citta-server.onrender.com/cliente/${widget.id}'));
 
     if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      setState(() {
+        var data = jsonDecode(response.body);
+        setState(() {
         nomeCliente = data['nome'];
         telefoneCliente = data['telefone'];
       });
@@ -53,7 +57,12 @@ class _DetailsPageState extends State<DetailsPage> {
             if (telefoneCliente != null)
               Text('Telefone do Cliente: $telefoneCliente'),
 
-             CatalogoProdutos()
+             CatalogoProdutos(),
+
+            ElevatedButton(onPressed: (){
+              Get.to(Carrinho());
+            }, child: Text('Ver o Carrinho'))
+
           ],
         ),
       ),

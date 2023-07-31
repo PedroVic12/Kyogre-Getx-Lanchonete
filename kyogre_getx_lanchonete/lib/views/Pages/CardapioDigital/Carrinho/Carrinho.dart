@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/Produtos/products_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CartController.dart';
 
+
+// https://www.youtube.com/watch?v=S_LZiS5VNKA -> 1:13 Carrinho layout
+
 class Carrinho extends StatelessWidget {
   final CarrinhoController controller = Get.find();
 
@@ -35,7 +38,6 @@ class Carrinho extends StatelessWidget {
     );
   }
 }
-
 class CarrinhoCard extends StatelessWidget {
   final CarrinhoController controller;
   final Produto produto;
@@ -52,35 +54,120 @@ class CarrinhoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: EdgeInsets.all(20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      height: 600,
+      child: Column(
         children: [
-          CircleAvatar(
-            radius: 40,
-            backgroundImage: NetworkImage(produto.imageUrl),
-          ),
-          SizedBox(width: 20),
-          Expanded(
-            child: Text(
-              produto.nome,
-              style: TextStyle(fontSize: 18),
+          Container(
+            height: 500,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 8,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CircleAvatar(
+                          radius: 40,
+                          backgroundImage: NetworkImage(produto.imageUrl),
+                        ),
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: Text(
+                            produto.nome,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            produto.preco.toString(),
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            controller.removerProduto(produto);
+                          },
+                          icon: Icon(Icons.remove_circle),
+                        ),
+                        Text("$quantidade"),
+                        IconButton(
+                          onPressed: () {
+                            controller.adicionarProduto(produto);
+                          },
+                          icon: Icon(Icons.add_circle),
+                        ),
+                        Spacer(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12),
+                          child: Column(
+                            children: [
+                              Icon(Icons.disabled_by_default,
+                                  color: Colors.green, size: 30),
+                              SizedBox(height: 25),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 2,
+                                          blurRadius: 8,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Icon(CupertinoIcons.minus),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 2,
+                                          blurRadius: 8,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Icon(CupertinoIcons.plus),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: () {
-              controller.removerProduto(produto);
-            },
-            icon: Icon(Icons.remove_circle),
-          ),
-          Text("$quantidade"),
-          IconButton(
-            onPressed: () {
-              controller.adicionarProduto(produto);
-            },
-            icon: Icon(Icons.add_circle),
-          ),
+          )
         ],
       ),
     );

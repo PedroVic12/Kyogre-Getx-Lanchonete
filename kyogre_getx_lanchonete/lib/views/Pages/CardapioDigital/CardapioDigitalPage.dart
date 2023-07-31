@@ -57,6 +57,8 @@ class _DetailsPageState extends State<DetailsPage> {
             if (telefoneCliente != null)
               Text('Telefone do Cliente: $telefoneCliente'),
 
+            CategoriasWidget(),
+
              CatalogoProdutos(),
 
             ElevatedButton(onPressed: (){

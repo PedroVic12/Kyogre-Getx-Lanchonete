@@ -30,16 +30,16 @@ class CarrinhoController extends GetxController {
 
   get produtosCarrinho => _products;
 
-  get totalCarrinho {
-
-
-    _products.entries.map((product.key.preco * product.value).toList());
-
-    // Implemente o cálculo do total do carrinho aqui
-    // Pode ser a soma dos preços dos produtos multiplicados pela quantidade
+  double get totalCarrinho {
+    return _products.entries
+        .map((product) => product.key.preco * product.value)
+        .reduce((value, element) => value + element);
   }
 
-  get total {
-    _products.entries.map((product.key.preco * product.value).toList()).reduce((value,element)=> value + element).toStringAsFixed(2);
+  String get total {
+    return _products.entries
+        .map((product) => product.key.preco * product.value)
+        .reduce((value, element) => value + element)
+        .toStringAsFixed(2);
   }
 }

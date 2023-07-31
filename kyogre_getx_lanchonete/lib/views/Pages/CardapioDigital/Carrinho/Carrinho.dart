@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/Produtos/products_model.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CartController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CarrinhoController.dart';
 
 
 // https://www.youtube.com/watch?v=S_LZiS5VNKA -> 1:13 Carrinho layout

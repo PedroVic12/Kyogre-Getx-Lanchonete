@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/Produtos/products_model.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CartController.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CarrinhoCart.txt';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CarrinhoController.dart';
 
 //TODO 12 TUTORIAL
 
@@ -16,7 +15,6 @@ class CatalogoProdutos extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return Column(
                 children: [
-                  Text('Ola mundo'),
                   CatalogoProdutosCard(index: index),
 
                 ],
@@ -57,16 +55,7 @@ class CatalogoProdutosCard extends StatelessWidget {
             }, icon: Icon(Icons.add_circle_rounded)),
 
 
-            // botao de teste
-            IconButton(
-              onPressed: () {
-                // Create a new ShoppingCartItem and call the onAddToCart callback
-                final item =
-                    ShoppingCartItem(produto: Produto.produtos_loja[index]);
-                //onAddToCart(item);
-              },
-              icon: Icon(Icons.ac_unit_rounded),
-            )
+
           ],
         ));
   }

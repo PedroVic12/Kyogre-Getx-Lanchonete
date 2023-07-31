@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CarrinhoController.dart';
 
 class CarrinhoTotal extends StatelessWidget {
  
   final CarrinhoController controller = Get.find();
  
-  const CarrinhoTotal({Key? key}) : super(key: key);
+  CarrinhoTotal({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class CarrinhoTotal extends StatelessWidget {
           Text('Total:', style: TextStyle(
             fontSize: 24,fontWeight: FontWeight.bold
           )),
-           Text('R$${controller.total}', style: TextStyle(
+           Text('R${controller.total}', style: TextStyle(
             fontSize: 24,fontWeight: FontWeight.bold
           )),
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 
-import '../../../models/DataBaseController/Produtos/Produto.dart';
 
 class CategoriasWidget extends StatefulWidget {
   final Color backgroundColor;
@@ -18,7 +17,6 @@ class CategoriasWidget extends StatefulWidget {
 class _CategoriasWidgetState extends State<CategoriasWidget> {
   int selectedCategoryIndex = 0;
   final DataBaseController _dataBaseController = DataBaseController();
-  List<Produto> produtos = [];
 
   @override
   void initState() {
@@ -94,7 +92,7 @@ class _CategoriasWidgetState extends State<CategoriasWidget> {
                         children: [
                           Padding(
                             padding: EdgeInsets.all(5),
-                            child: Icon(Icons.abc_sharp),
+                            child: Icon(Icons.fastfood_rounded),
                             //child: Image.asset('', height: 50, width: 50,),
                           ),
                           Padding(

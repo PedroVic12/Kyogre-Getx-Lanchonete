@@ -11,6 +11,7 @@ class CatalogoProdutos extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
         child: ListView.builder(
+
             itemCount: Produto.produtos_loja.length,
             itemBuilder: (BuildContext context, int index) {
               return Column(

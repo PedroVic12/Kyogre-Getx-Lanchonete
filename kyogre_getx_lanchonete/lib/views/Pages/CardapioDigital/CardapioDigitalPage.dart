@@ -4,11 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:kyogre_getx_lanchonete/app/widgets/Barra%20Inferior/BarraInferior.dart';
+import 'package:kyogre_getx_lanchonete/app/Teoria%20do%20Caos/CaosPage.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Categorias/CategoriasWidget.dart';
-import 'package:kyogre_getx_lanchonete/app/widgets/Categorias/MenuScrollLateral.dart';
+import 'package:kyogre_getx_lanchonete/app/Teoria%20do%20Caos/MenuScrollLateral.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/Carrinho.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CarrinhoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
 
 
@@ -55,17 +54,22 @@ class _DetailsPageState extends State<DetailsPage> {
       body: Center(
         child: Column(
           children: [
+
+            // Dados do Cliente pelo Whatsapp
             Text('ID do Pedido: ${widget.id}'),
             if (nomeCliente != null)
               Text('Nome do Cliente: $nomeCliente'),
             if (telefoneCliente != null)
               Text('Telefone do Cliente: $telefoneCliente'),
 
+            // Menu Lateral com Scrol mostrando as categorias
             CategoriasWidget(backgroundColor: CupertinoColors.systemPurple),
 
-             MenuLateralScroll(),
+
+             // Lista de Produtos Selecionados
              CatalogoProdutos(),
 
+            //Carrinho
             ElevatedButton(onPressed: (){
               Get.to(Carrinho());
             }, child: Text('Ver o Carrinho')),

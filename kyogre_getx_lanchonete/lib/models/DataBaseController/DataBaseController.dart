@@ -1,32 +1,73 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
+import 'dart:io'; // Importe a biblioteca 'dart:io' para lidar com arquivos
+
+class Produto {
+  final int id;
+  final String nome;
+  final double preco;
+  final String imageUrl;
+
+  Produto({
+    required this.id,
+    required this.nome,
+    required this.preco,
+    required this.imageUrl,
+  });
+}
 
 class DataBaseController {
-  // Instância do Firestore
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final Map<String, List<Produto>> _categorias = {
+    'Bebidas': [],
+    'Comidas': [],
+    'Açai': [],
+    'Pizzas': [],
+    'Pratos': [],
+    'SanduichesNaturais': [],
+  };
 
-  // Método para obter os dados de uma coleção específica
-  Future<List<Map<String, dynamic>>> getCollectionData(String collectionName) async {
-    try {
-      final QuerySnapshot<Map<String, dynamic>> snapshot =
-      await _firestore.collection(collectionName).get();
+  // Métodos para ler o JSON
+  List<Produto> lerAcai(List<dynamic> listaJson) {
+    List<Produto> produtos = listaJson.map((json) {
+      return Produto(
+        id: json['id'],
+        nome: json['Açaí e Pitaya'],
+        preco: json['500ml'] ?? 0.0,
+        imageUrl: '', // Preencher aqui com a URL da imagem do açaí, se houver
+      );
+    }).toList();
 
-      return snapshot.docs.map((doc) => doc.data()).toList();
-    } catch (e) {
-      print('Erro ao obter os dados: $e');
-      return [];
-    }
+    return produtos;
   }
 
-  // Método para obter os dados de um documento específico em uma coleção
-  Future<Map<String, dynamic>?> getDocumentData(String collectionName, String documentId) async {
-    try {
-      final DocumentSnapshot<Map<String, dynamic>> snapshot =
-      await _firestore.collection(collectionName).doc(documentId).get();
+  List<Produto> lerSanduiches(List<dynamic> listaJson) {
+    List<Produto> produtos = listaJson.map((json) {
+      return Produto(
+        id: json['id'],
+        nome: json['Sanduíches Tradicionais'],
+        preco: json['Preço.4'] ?? 0.0,
+        imageUrl: json['imagem'] ?? '',
+      );
+    }).toList();
 
-      return snapshot.data();
-    } catch (e) {
-      print('Erro ao obter os dados do documento: $e');
-      return null;
-    }
+    return produtos;
   }
+
+  //! Métodos que retornas os dados lidos
+  List<Produto> getAcai() {
+    const acai_file = 'lib/repository/cardapio_2.json';
+    String jsonDados = File(acai_file).readAsStringSync();
+    List<dynamic> listaJson = jsonDecode(jsonDados);
+
+    return _categorias['Acai'] ??= lerAcai(listaJson);
+  }
+
+  List<Produto> getSanduiches() {
+    const sanduiche_file = 'lib/repository/cardapio_2.json';
+    String jsonDados = File(sanduiche_file).readAsStringSync();
+    List<dynamic> listaJson = jsonDecode(jsonDados);
+
+    return _categorias['Sanduiches'] ??= lerSanduiches(listaJson);
+  }
+
+// Implemente outras funções get para as demais categorias se necessário...
 }

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kyogre_getx_lanchonete/app/widgets/Barra%20Inferior/BarraInferior.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Categorias/CategoriasWidget.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Categorias/MenuScrollLateral.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/Carrinho.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CarrinhoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
@@ -62,6 +63,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
             CategoriasWidget(backgroundColor: CupertinoColors.systemPurple),
 
+             MenuLateralScroll(),
              CatalogoProdutos(),
 
             ElevatedButton(onPressed: (){

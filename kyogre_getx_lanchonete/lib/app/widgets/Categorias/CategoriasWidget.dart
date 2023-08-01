@@ -23,17 +23,10 @@ class _CategoriasWidgetState extends State<CategoriasWidget> {
   @override
   void initState() {
     super.initState();
-    _loadProdutos('lib/repository/cardapio_1.json');
     // _loadProdutos('bebidas.json');
     // _loadProdutos('sobremesas.json');
   }
 
-  Future<void> _loadProdutos(String fileName) async {
-    List<Produto> listaProdutos = await _dataBaseController.getCardapio(fileName);
-    setState(() {
-      produtos = listaProdutos;
-    });
-  }
 
   Widget build(BuildContext context) {
     return Card(
@@ -83,7 +76,7 @@ class _CategoriasWidgetState extends State<CategoriasWidget> {
                     },
                     child: Container(
                       margin: EdgeInsets.all(10),
-                      height: 50,
+                      height: 40,
                       decoration: BoxDecoration(
                         color: i == selectedCategoryIndex
                             ? Colors.red // Cor do fundo do item selecionado
@@ -93,7 +86,7 @@ class _CategoriasWidgetState extends State<CategoriasWidget> {
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 1,
-                            blurRadius: 6,
+                            blurRadius: 8,
                           )
                         ],
                       ),

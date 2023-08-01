@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:kyogre_getx_lanchonete/app/Teoria%20do%20Caos/CaosPage.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Categorias/CategoriasWidget.dart';
 import 'package:kyogre_getx_lanchonete/app/Teoria%20do%20Caos/MenuScrollLateral.dart';
+import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/Carrinho.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
 
@@ -23,6 +24,7 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage> {
   String? nomeCliente;
   String? telefoneCliente;
+  final DataBaseController _dataBaseController = DataBaseController();
 
   @override
   void initState() {
@@ -63,8 +65,10 @@ class _DetailsPageState extends State<DetailsPage> {
               Text('Telefone do Cliente: $telefoneCliente'),
 
             // Menu Lateral com Scrol mostrando as categorias
-            CategoriasWidget(backgroundColor: CupertinoColors.systemPurple),
-
+            CategoriasWidget(
+              backgroundColor: Colors.blueGrey,
+              dataBaseController: _dataBaseController,
+            ),
 
              // Lista de Produtos Selecionados
              CatalogoProdutos(),

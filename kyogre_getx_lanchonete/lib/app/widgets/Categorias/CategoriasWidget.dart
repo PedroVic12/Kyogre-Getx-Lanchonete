@@ -4,10 +4,12 @@ import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseControl
 
 class CategoriasWidget extends StatefulWidget {
   final Color backgroundColor;
+  final DataBaseController dataBaseController;
 
   const CategoriasWidget({
     Key? key,
     required this.backgroundColor,
+    required this.dataBaseController,
   }) : super(key: key);
 
   @override

@@ -1,24 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CarrinhoController.dart';
+
 
 class BarraInferiorWidget extends StatelessWidget {
-  const BarraInferiorWidget({Key? key}) : super(key: key);
+  final double totalCarrinho;
+  final CarrinhoController controller = Get.find();
+
+  BarraInferiorWidget({Key? key, required this.totalCarrinho}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
       child: Container(
         height: 70,
-        padding: EdgeInsets.all(12),
+        padding: EdgeInsets.all(4),
         decoration: BoxDecoration(color: Colors.redAccent),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'R\$120',
-              style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
+            Obx(
+                    ()=> Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Total: ', style: TextStyle(
+                          fontSize: 24,fontWeight: FontWeight.bold
+                      )),
+                      Text(' R\$ ${controller.total}', style: TextStyle(
+                          fontSize: 24,fontWeight: FontWeight.bold
+                      )),
+
+                    ],
+                  ),
+                )
             ),
             InkWell(
               onTap: () {},
@@ -36,7 +52,7 @@ class BarraInferiorWidget extends StatelessWidget {
                   SizedBox(
                     width: 5,
                   ),
-                  Text('Adicionar ao carrinho')
+                  Text('Continuar o Pedido no Whatsapp')
                 ]),
               ),
             )

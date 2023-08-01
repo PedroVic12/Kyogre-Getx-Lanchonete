@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Barra%20Inferior/BarraInferior.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Botoes/BotoesIcone.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/models/Produtos/products_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CarrinhoController.dart';
 
@@ -18,33 +21,42 @@ class Carrinho extends StatelessWidget {
       appBar: AppBar(
         title: Text('Carrinho'),
       ),
-      body: Obx(() => SizedBox(
-        height: 600,
-        child: ListView.builder(
-          itemCount: controller.produtosCarrinho.length,
-          itemBuilder: (BuildContext context, int index) {
-            final produto = controller.produtosCarrinho.keys.toList()[index];
-            final quantidade = controller.produtosCarrinho[produto] ?? 0;
+      body: Column(
+        children: [
+          Obx(() => SizedBox(
+            height: 550,
+            child: ListView.builder(
+              itemCount: controller.produtosCarrinho.length,
+              itemBuilder: (BuildContext context, int index) {
+                final produto = controller.produtosCarrinho.keys.toList()[index];
+                final quantidade = controller.produtosCarrinho[produto] ?? 0;
 
-            return CarrinhoCard(
-              controller: controller,
-              produto: produto,
-              quantidade: quantidade,
-              index: index,
-            );
-          },
-        ),
-      )),
+                return CarrinhoCard(
+                  controller: controller,
+                  produto: produto,
+                  quantidade: quantidade,
+                  index: index,
+                );
+              },
+            ),
+          )),
+          BarraInferiorWidget(totalCarrinho: controller.totalCarrinho)
+
+
+        ],
+      )
     );
   }
 }
+
+
 class CarrinhoCard extends StatelessWidget {
   final CarrinhoController controller;
   final Produto produto;
   final int quantidade;
   final int index;
 
-  const CarrinhoCard({
+   CarrinhoCard({
     Key? key,
     required this.controller,
     required this.produto,
@@ -54,122 +66,67 @@ class CarrinhoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(padding: EdgeInsets.all(7),child: Container(
       padding: EdgeInsets.all(20),
-      height: 600,
-      child: Column(
+      height: 90,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 8,
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            height: 500,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 8,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CircleAvatar(
-                          radius: 40,
-                          backgroundImage: NetworkImage(produto.imageUrl),
-                        ),
-                        SizedBox(width: 20),
-                        Expanded(
-                          child: Text(
-                            produto.nome,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            produto.preco.toString(),
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            controller.removerProduto(produto);
-                          },
-                          icon: Icon(Icons.remove_circle),
-                        ),
-                        Text("$quantidade"),
-                        IconButton(
-                          onPressed: () {
-                            controller.adicionarProduto(produto);
-                          },
-                          icon: Icon(Icons.add_circle),
-                        ),
-                        Spacer(),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: Column(
-                            children: [
-                              Icon(Icons.disabled_by_default,
-                                  color: Colors.green, size: 30),
-                              SizedBox(height: 25),
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(2),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(20),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 8,
-                                        ),
-                                      ],
-                                    ),
-                                    child: Icon(CupertinoIcons.minus),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(2),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(20),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 8,
-                                        ),
-                                      ],
-                                    ),
-                                    child: Icon(CupertinoIcons.plus),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
+          CircleAvatar(
+            radius: 40,
+            backgroundImage: NetworkImage(produto.imageUrl),
+          ),
+          SizedBox(width: 20),
+          Expanded(
+            child: Text(
+              produto.nome,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             ),
+          ),
+          SizedBox(width: 20),
+          Expanded(
+            child: Text(
+              produto.preco.toString(),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          BotoesIcone(
+            onPressed: () {
+              controller.removerProduto(produto);
+            },
+            cor: Colors.black,
+            iconData: CupertinoIcons.minus_circle_fill,
+          ),
+          CustomText(text: "$quantidade", size: 18),
+          BotoesIcone(
+            onPressed: () {
+              controller.adicionarProduto(produto);
+            },
+            cor: Colors.black,
+            iconData: CupertinoIcons.plus_circle_fill,
           )
         ],
       ),
-    );
+    ),);
   }
 }
+
+
+

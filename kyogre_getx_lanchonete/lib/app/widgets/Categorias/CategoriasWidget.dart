@@ -32,10 +32,14 @@ class _CategoriasWidgetState extends State<CategoriasWidget> {
         child: Column(
           children: [
             CategoriasHeader(),
+
+
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: CategoriasList(dataBaseController: widget.dataBaseController),
             ),
+
+
             SizedBox(height: 10),
             Expanded(
               child: CategoriasListView(dataBaseController: widget.dataBaseController),

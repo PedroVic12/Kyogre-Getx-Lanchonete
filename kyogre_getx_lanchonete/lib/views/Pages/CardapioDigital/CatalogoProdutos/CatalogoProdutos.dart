@@ -4,26 +4,32 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomCard.dart';
 import 'package:kyogre_getx_lanchonete/models/Produtos/products_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CarrinhoController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/ItemPage/itemPage.dart';
 
 class CatalogoProdutos extends StatelessWidget {
   const CatalogoProdutos({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Flexible(
-        child: ListView.builder(
-
-            itemCount: Produto.produtos_loja.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Column(
-                children: [
-
-                  CatalogoProdutosCard(index: index),
-
-                ],
-              );
-            }));
+      child: ListView.builder(
+        itemCount: Produto.produtos_loja.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Column(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Get.to(() => ItemPage());
+                },
+                child: CatalogoProdutosCard(index: index),
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 }
+
 class CatalogoProdutosCard extends StatelessWidget {
   final int index;
   final cartController = Get.put(CarrinhoController());
@@ -78,7 +84,10 @@ class CatalogoProdutosCard extends StatelessWidget {
                 onPressed: () {
                   cartController.adicionarProduto(produto);
                 },
-                icon: Icon(CupertinoIcons.plus_app_fill, size: 30,),
+                icon: Icon(
+                  CupertinoIcons.plus_app_fill,
+                  size: 30,
+                ),
               ),
             ],
           ),

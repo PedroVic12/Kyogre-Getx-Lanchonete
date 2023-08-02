@@ -1,5 +1,7 @@
 import 'dart:convert';
-import 'dart:io'; // Importe a biblioteca 'dart:io' para lidar com arquivos
+import 'dart:io';
+
+import 'package:flutter/material.dart'; // Importe a biblioteca 'dart:io' para lidar com arquivos
 
 class Produto {
   final int id;
@@ -57,19 +59,57 @@ class DataBaseController {
   //! Métodos que retornas os dados lidos
   List<Produto> getAcai() {
     const acai_file = 'lib/repository/cardapio_2.json';
-    String jsonDados = File(acai_file).readAsStringSync();
-    List<dynamic> listaJson = jsonDecode(jsonDados);
+    try {
+      String jsonDados = File(acai_file).readAsStringSync();
+      List<dynamic> listaJson = jsonDecode(jsonDados);
 
-    return categorias['Acai'] ??= lerAcai(listaJson);
+      return categorias['Acai'] ??= lerAcai(listaJson);
+    } catch (e) {
+      print('Erro ao ler o arquivo JSON de Açaí: $e');
+      return []; // Retorna uma lista vazia em caso de erro
+    }
   }
 
   List<Produto> getSanduiches() {
     const sanduiche_file = 'lib/repository/cardapio_2.json';
-    String jsonDados = File(sanduiche_file).readAsStringSync();
-    List<dynamic> listaJson = jsonDecode(jsonDados);
+    try {
+      String jsonDados = File(sanduiche_file).readAsStringSync();
+      List<dynamic> listaJson = jsonDecode(jsonDados);
 
-    return categorias['Sanduiches'] ??= lerSanduiches(listaJson);
+      return categorias['Sanduiches'] ??= lerSanduiches(listaJson);
+    } catch (e) {
+      print('Erro ao ler o arquivo JSON de Sanduiches: $e');
+      return []; // Retorna uma lista vazia em caso de erro
+    }
   }
 
 // Implemente outras funções get para as demais categorias se necessário...
+}
+class JSONListView extends StatelessWidget {
+  final DataBaseController dataBaseController = DataBaseController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            itemCount: dataBaseController.categorias['Acai']?.length ?? 0,
+            itemBuilder: (context, index) {
+              Produto produto = dataBaseController.categorias['Acai']![index];
+              return ListTile(
+                title: Text(produto.nome),
+                subtitle: Text('Preço: R\$ ${produto.preco}'),
+                leading: CircleAvatar(
+                  //backgroundImage: NetworkImage(produto.imageUrl),
+                  backgroundColor: Colors.blue,
+                ),
+              );
+            },
+          ),
+        ),
+        // Você pode criar mais ListViews para as demais categorias, se necessário...
+      ],
+    );
+  }
 }

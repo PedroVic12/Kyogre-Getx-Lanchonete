@@ -4,10 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:kyogre_getx_lanchonete/app/Teoria%20do%20Caos/CaosPage.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Categorias/CategoriasWidget.dart';
 
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/Carrinho.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/MenuCategorias.dart';
 
 
 
@@ -48,6 +51,7 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.red,
       appBar: AppBar(
         title: Text('Detalhes do Pedido ${widget.id}'),
       ),
@@ -62,11 +66,13 @@ class _DetailsPageState extends State<DetailsPage> {
             if (telefoneCliente != null)
               Text('Telefone do Cliente: $telefoneCliente'),
 
+            ElevatedButton(onPressed: (){
+              Get.to(CaosPage());
+            }, child: Text('Ver o CAOS')),
+
+
             // Menu Lateral com Scrol mostrando as categorias
-            //CategoriasWidget(
-              //backgroundColor: Colors.blueGrey,
-              //dataBaseController: _dataBaseController,
-            //),
+            MenuCategorias(),
 
              // Lista de Produtos Selecionados
              CatalogoProdutos(),

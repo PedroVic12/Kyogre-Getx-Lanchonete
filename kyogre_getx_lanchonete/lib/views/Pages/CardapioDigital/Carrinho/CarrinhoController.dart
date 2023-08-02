@@ -14,8 +14,8 @@ class CarrinhoController extends GetxController {
 
     Get.snackbar('Produto adicionado!',
         'O produto ${produto.nome} foi adicionado ao carrinho',
-        snackPosition: SnackPosition.BOTTOM,
-        duration: Duration(seconds: 2));
+        snackPosition: SnackPosition.TOP,
+        duration: Duration(seconds: 1));
   }
 
   void removerProduto(Produto produto) {

@@ -66,10 +66,6 @@ class _DetailsPageState extends State<DetailsPage> {
             if (telefoneCliente != null)
               Text('Telefone do Cliente: $telefoneCliente'),
 
-            ElevatedButton(onPressed: (){
-              Get.to(CaosPage());
-            }, child: Text('Ver o CAOS')),
-
 
             // Menu Lateral com Scrol mostrando as categorias
             MenuCategorias(),
@@ -80,7 +76,11 @@ class _DetailsPageState extends State<DetailsPage> {
             //Carrinho
             ElevatedButton(onPressed: (){
               Get.to(Carrinho());
-            }, child: Text('Ver o Carrinho')),
+            },
+                style: ButtonStyle(
+
+                ),
+                child: Text('Ver o Carrinho')),
 
           ],
         ),

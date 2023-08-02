@@ -12,13 +12,13 @@ class CatalogoProdutos extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: ListView.builder(
-        itemCount: Produto.produtos_loja.length,
+        itemCount: ProductsModel.produtos_loja.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
               GestureDetector(
                 onTap: () {
-                  Get.to(() => ItemPage());
+                  //Get.to(() => ItemPage());
                 },
                 child: CatalogoProdutosCard(index: index),
               ),
@@ -38,7 +38,7 @@ class CatalogoProdutosCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final produto = Produto.produtos_loja[index];
+    final produto = ProductsModel.produtos_loja[index];
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

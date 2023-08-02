@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
+import '../../../../models/DataBaseController/DataBaseController.dart';
+
 
 class MenuCategorias extends StatefulWidget {
   MenuCategorias({Key? key}) : super(key: key);
@@ -11,6 +13,29 @@ class MenuCategorias extends StatefulWidget {
 
 class _MenuCategoriasState extends State<MenuCategorias> {
   int selectedCategoryIndex = 0;
+
+  List<String> categorias = [
+    'Todos os Produtos', // Adicionamos uma categoria "Todos os Produtos"
+    'Sanduíches Tradicionais',
+    'Açaí e Pitaya',
+    'Petiscos',
+  ];
+
+  List<Produto> produtos = []; // Lista para armazenar todos os produtos
+
+  @override
+  void initState() {
+    super.initState();
+    getProdutos(); // Carregar a lista de produtos ao inicializar o widget
+  }
+
+  Future<void> getProdutos() async {
+    DataBaseController dataBaseController = DataBaseController();
+    List<Produto> allProducts = await dataBaseController.getAllProducts();
+    setState(() {
+      produtos = allProducts;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +64,7 @@ class _MenuCategoriasState extends State<MenuCategorias> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  for (int i = 1; i < 8; i++)
+                  for (int i = 0; i < categorias.length; i++)
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -48,7 +73,7 @@ class _MenuCategoriasState extends State<MenuCategorias> {
                       },
                       child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        height: 40,
+                        height: 30,
                         decoration: BoxDecoration(
                           color: selectedCategoryIndex == i
                               ? Colors.red // Cor do fundo do item selecionado
@@ -71,7 +96,7 @@ class _MenuCategoriasState extends State<MenuCategorias> {
                             Padding(
                               padding: EdgeInsets.only(right: 5),
                               child: CustomText(
-                                text: 'Categoria $i',
+                                text: categorias[i],
                               ),
                             )
                           ],
@@ -82,6 +107,7 @@ class _MenuCategoriasState extends State<MenuCategorias> {
               ),
             ),
           ),
+
         ],
       ),
     );

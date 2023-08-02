@@ -52,7 +52,7 @@ class Carrinho extends StatelessWidget {
 
 class CarrinhoCard extends StatelessWidget {
   final CarrinhoController controller;
-  final Produto produto;
+  final ProductsModel produto;
   final int quantidade;
   final int index;
 

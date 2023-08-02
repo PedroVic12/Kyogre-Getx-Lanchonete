@@ -3,9 +3,9 @@ import 'package:kyogre_getx_lanchonete/models/Produtos/products_model.dart';
 
 class CarrinhoController extends GetxController {
   // Usando RxMap para tornar o mapa de produtos reativo
-  var _products = <Produto, int>{}.obs;
+  var _products = <ProductsModel, int>{}.obs;
 
-  void adicionarProduto(Produto produto) {
+  void adicionarProduto(ProductsModel produto) {
     if (_products.containsKey(produto)) {
       _products[produto] = (_products[produto] ?? 0) + 1;
     } else {
@@ -18,7 +18,7 @@ class CarrinhoController extends GetxController {
         duration: Duration(seconds: 1));
   }
 
-  void removerProduto(Produto produto) {
+  void removerProduto(ProductsModel produto) {
     if (_products.containsKey(produto)) {
       if (_products[produto] == 1) {
         _products.remove(produto);

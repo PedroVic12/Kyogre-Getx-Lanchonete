@@ -1,32 +1,32 @@
-class Produto {
+class ProductsModel {
   final int id;
   final String nome;
   final double preco;
   final String imageUrl;
 
-  Produto({
+  ProductsModel({
     required this.id,
     required this.nome,
     required this.preco,
     required this.imageUrl,
   });
 
-  static List<Produto> produtos_loja = [
-    Produto(
+  static List<ProductsModel> produtos_loja = [
+    ProductsModel(
       id: 1,
       nome: 'Sanduiches Naturais',
       preco: 7.99,
       imageUrl:
       'https://media.istockphoto.com/id/1309352410/pt/foto/cheeseburger-with-tomato-and-lettuce-on-wooden-board.jpg?s=1024x1024&w=is&k=20&c=zRrwnY2BdwaC5GgLFPcVNWedOPQ-0OVEkjqYzRx4jPQ=',
     ),
-    Produto(
+    ProductsModel(
       id: 2,
       nome: 'Açai',
       preco: 12.75,
       imageUrl:
       'https://lh3.googleusercontent.com/p/AF1QipNC2D-Ggc3JYDp1W37zHGU5de2Rbmel2n7NLzlT=s1280-p-no-v1',
     ),
-    Produto(
+    ProductsModel(
       id: 3,
       nome: 'Pizza',
       preco: 22.75,

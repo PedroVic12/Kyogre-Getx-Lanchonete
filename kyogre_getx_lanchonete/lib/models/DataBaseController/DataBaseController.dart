@@ -46,15 +46,18 @@ class DataBaseController {
   List<Produto> lerSanduiches(List<dynamic> listaJson) {
     List<Produto> produtos = listaJson.map((json) {
       return Produto(
-        id: json['id'],
-        nome: json['Sanduíches Tradicionais'],
-        preco: json['Preço.4'] ?? 0.0,
-        imageUrl: json['imagem'] ?? '',
+        id: json['id'] ?? 0, // Se o valor for nulo, atribui o valor 0
+        nome: json['Sanduíches Tradicionais'] ?? '', // Se o valor for nulo, atribui uma string vazia
+        preco: json['Preço.4'] ?? 0.0, // Se o valor for nulo, atribui o valor 0.0
+        imageUrl: json['imagem'] ?? '', // Se o valor for nulo, atribui uma string vazia
       );
     }).toList();
 
     return produtos;
   }
+
+
+
 
   //! Métodos que retornas os dados lidos
   List<Produto> getAcai() {
@@ -71,20 +74,27 @@ class DataBaseController {
   }
 
   List<Produto> getSanduiches() {
-    const sanduiche_file = 'lib/repository/cardapio_2.json';
+    const sanduiche_file = 'lib/repository/cardapio_1.json';
     try {
+      if (!File(sanduiche_file).existsSync()) {
+        print('\n\nArquivo JSON de Sanduiches não encontrado.');
+        return []; // Retorna uma lista vazia caso o arquivo não seja encontrado
+      }
+
       String jsonDados = File(sanduiche_file).readAsStringSync();
       List<dynamic> listaJson = jsonDecode(jsonDados);
 
       return categorias['Sanduiches'] ??= lerSanduiches(listaJson);
     } catch (e) {
-      print('Erro ao ler o arquivo JSON de Sanduiches: $e');
+      print('\n\nErro ao ler o arquivo JSON de Sanduiches: $e');
       return []; // Retorna uma lista vazia em caso de erro
     }
   }
 
 // Implemente outras funções get para as demais categorias se necessário...
 }
+
+
 class JSONListView extends StatelessWidget {
   final DataBaseController dataBaseController = DataBaseController();
 
@@ -93,17 +103,29 @@ class JSONListView extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-          child: ListView.builder(
-            itemCount: dataBaseController.categorias['Acai']?.length ?? 0,
-            itemBuilder: (context, index) {
-              Produto produto = dataBaseController.categorias['Acai']![index];
-              return ListTile(
-                title: Text(produto.nome),
-                subtitle: Text('Preço: R\$ ${produto.preco}'),
-                leading: CircleAvatar(
-                  //backgroundImage: NetworkImage(produto.imageUrl),
-                  backgroundColor: Colors.blue,
-                ),
+          child: Builder(
+            builder: (context) {
+              final sanduiches = dataBaseController.categorias['Sanduiches'];
+
+              if (sanduiches == null || sanduiches.isEmpty) {
+                return Center(
+                  child: Text('Não foi possível ler o JSON'),
+                );
+              }
+
+              return ListView.builder(
+                itemCount: sanduiches.length,
+                itemBuilder: (context, index) {
+                  Produto produto = sanduiches[index];
+                  return ListTile(
+                    title: Text(produto.nome),
+                    subtitle: Text('Preço: R\$ ${produto.preco}'),
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(produto.imageUrl),
+                      backgroundColor: Colors.blue,
+                    ),
+                  );
+                },
               );
             },
           ),

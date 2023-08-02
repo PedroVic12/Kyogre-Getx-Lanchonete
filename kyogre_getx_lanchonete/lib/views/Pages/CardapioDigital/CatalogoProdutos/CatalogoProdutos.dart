@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomCard.dart';
 import 'package:kyogre_getx_lanchonete/models/Produtos/products_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CarrinhoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/ItemPage/itemPage.dart';
@@ -34,6 +33,7 @@ class CatalogoProdutosCard extends StatelessWidget {
   final int index;
   final cartController = Get.put(CarrinhoController());
 
+  
   CatalogoProdutosCard({Key? key, required this.index}) : super(key: key);
 
   @override

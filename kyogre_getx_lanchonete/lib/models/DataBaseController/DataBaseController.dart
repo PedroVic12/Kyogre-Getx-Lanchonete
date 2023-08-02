@@ -16,7 +16,7 @@ class Produto {
 }
 
 class DataBaseController {
-  final Map<String, List<Produto>> _categorias = {
+  final Map<String, List<Produto>> categorias = {
     'Bebidas': [],
     'Comidas': [],
     'Açai': [],
@@ -24,6 +24,8 @@ class DataBaseController {
     'Pratos': [],
     'SanduichesNaturais': [],
   };
+
+  int get categoriasLength => categorias.length;
 
   // Métodos para ler o JSON
   List<Produto> lerAcai(List<dynamic> listaJson) {
@@ -58,7 +60,7 @@ class DataBaseController {
     String jsonDados = File(acai_file).readAsStringSync();
     List<dynamic> listaJson = jsonDecode(jsonDados);
 
-    return _categorias['Acai'] ??= lerAcai(listaJson);
+    return categorias['Acai'] ??= lerAcai(listaJson);
   }
 
   List<Produto> getSanduiches() {
@@ -66,7 +68,7 @@ class DataBaseController {
     String jsonDados = File(sanduiche_file).readAsStringSync();
     List<dynamic> listaJson = jsonDecode(jsonDados);
 
-    return _categorias['Sanduiches'] ??= lerSanduiches(listaJson);
+    return categorias['Sanduiches'] ??= lerSanduiches(listaJson);
   }
 
 // Implemente outras funções get para as demais categorias se necessário...

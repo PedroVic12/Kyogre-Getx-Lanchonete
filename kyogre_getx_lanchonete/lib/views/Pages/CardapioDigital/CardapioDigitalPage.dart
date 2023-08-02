@@ -4,13 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:kyogre_getx_lanchonete/app/Teoria%20do%20Caos/CaosPage.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Categorias/CategoriasWidget.dart';
 
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/Carrinho.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/MenuCategorias.dart';
+
+import '../../../app/Teoria do Caos/CaosPage.dart';
 
 
 

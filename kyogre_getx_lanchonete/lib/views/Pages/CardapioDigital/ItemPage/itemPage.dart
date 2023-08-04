@@ -117,7 +117,7 @@ class ItemPage extends StatelessWidget {
                 ],
               ),
             ),
-            BarraInferiorWidget(totalCarrinho: controller.totalCarrinho)
+            //BarraInferiorWidget(totalCarrinho: controller.totalCarrinho)
           ],
         ),
       )),

@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
-import '../../../../models/DataBaseController/DataBaseController.dart';
-
+import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 
 class MenuCategorias extends StatefulWidget {
-  MenuCategorias({Key? key}) : super(key: key);
+  final Function(int) onCategorySelected;
+
+  MenuCategorias({Key? key, required this.onCategorySelected, required List<String> categorias}) : super(key: key);
 
   @override
   _MenuCategoriasState createState() => _MenuCategoriasState();
@@ -15,27 +16,11 @@ class _MenuCategoriasState extends State<MenuCategorias> {
   int selectedCategoryIndex = 0;
 
   List<String> categorias = [
-    'Todos os Produtos', // Adicionamos uma categoria "Todos os Produtos"
+    'Todos os Produtos',
     'Sanduíches Tradicionais',
     'Açaí e Pitaya',
     'Petiscos',
   ];
-
-  List<Produto> produtos = []; // Lista para armazenar todos os produtos
-
-  @override
-  void initState() {
-    super.initState();
-    getProdutos(); // Carregar a lista de produtos ao inicializar o widget
-  }
-
-  Future<void> getProdutos() async {
-    DataBaseController dataBaseController = DataBaseController();
-    List<Produto> allProducts = await dataBaseController.getAllProducts();
-    setState(() {
-      produtos = allProducts;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +35,9 @@ class _MenuCategoriasState extends State<MenuCategorias> {
             padding: EdgeInsets.all(10),
             child: Align(
               alignment: Alignment.topLeft,
-              child: CustomText(
-                text: 'Categorias',
-                size: 25,
-                weight: FontWeight.bold,
-                color: Colors.black,
+              child: Text(
+                'Categorias',
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black),
               ),
             ),
           ),
@@ -70,14 +53,15 @@ class _MenuCategoriasState extends State<MenuCategorias> {
                         setState(() {
                           selectedCategoryIndex = i;
                         });
+                        widget.onCategorySelected(i);
                       },
                       child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         height: 30,
                         decoration: BoxDecoration(
                           color: selectedCategoryIndex == i
-                              ? Colors.red // Cor do fundo do item selecionado
-                              : CupertinoColors.systemPurple, // Cor do fundo padrão
+                              ? Colors.red
+                              : CupertinoColors.systemPurple,
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
@@ -95,9 +79,7 @@ class _MenuCategoriasState extends State<MenuCategorias> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(right: 5),
-                              child: CustomText(
-                                text: categorias[i],
-                              ),
+                              child: Text(categorias[i]),
                             )
                           ],
                         ),
@@ -107,7 +89,6 @@ class _MenuCategoriasState extends State<MenuCategorias> {
               ),
             ),
           ),
-
         ],
       ),
     );

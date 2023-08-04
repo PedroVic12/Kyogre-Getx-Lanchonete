@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kyogre_getx_lanchonete/app/RestAPI/RestAPI.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Design/CartaoGridView.dart';
+import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CardapioDigitalPage.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Layout/Layout.dart';
 
@@ -18,6 +20,8 @@ import 'views/Pages/DashBoard/Pedido/PedidoController.dart';
 void main() {
   Get.put(MenuController());
   Get.put(PedidoController());
+  Get.put(DataBaseController());
+  Get.put(CatalogoProdutosController());
 
   //Get.put(NavigationController());
   runApp(MyApp());

@@ -13,9 +13,13 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdu
 import '../../../app/Teoria do Caos/CaosPage.dart';
 
 
+/*
+* Paleta de Cores : #ff8c00 , #f2ff00, # ff0d00
+* */
 
 class DetailsPage extends StatefulWidget {
   final String id;
+
    DetailsPage({required this.id, Key? key}) : super(key: key);
 
   @override
@@ -25,8 +29,9 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage> {
   String? nomeCliente;
   String? telefoneCliente;
-  final DataBaseController _dataBaseController = DataBaseController();
 
+
+  final DataBaseController _dataBaseController = DataBaseController();
   @override
   void initState() {
     super.initState();
@@ -50,6 +55,8 @@ class _DetailsPageState extends State<DetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       backgroundColor: Colors.red,
       appBar: AppBar(
@@ -67,11 +74,10 @@ class _DetailsPageState extends State<DetailsPage> {
               Text('Telefone do Cliente: $telefoneCliente'),
 
 
-            // Menu Lateral com Scrol mostrando as categorias
-            MenuCategorias(),
-
-             // Lista de Produtos Selecionados
-             CatalogoProdutos(),
+            // Lista de Produtos Selecionados
+            Expanded(
+              child: CatalogoProdutos(),
+            ),
 
             //Carrinho
             ElevatedButton(onPressed: (){

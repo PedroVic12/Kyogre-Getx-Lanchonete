@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Barra%20Inferior/BarraInferior.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Botoes/BotoesIcone.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
-import 'package:kyogre_getx_lanchonete/models/Produtos/products_model.dart';
+import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CarrinhoController.dart';
 
 
@@ -40,7 +40,7 @@ class Carrinho extends StatelessWidget {
               },
             ),
           )),
-          BarraInferiorWidget(totalCarrinho: controller.totalCarrinho)
+          //BarraInferiorWidget(totalCarrinho: controller.totalCarrinho)
 
 
         ],
@@ -52,7 +52,7 @@ class Carrinho extends StatelessWidget {
 
 class CarrinhoCard extends StatelessWidget {
   final CarrinhoController controller;
-  final ProductsModel produto;
+  final Produto produto;
   final int quantidade;
   final int index;
 
@@ -85,7 +85,7 @@ class CarrinhoCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 40,
-            backgroundImage: NetworkImage(produto.imageUrl),
+            backgroundImage: NetworkImage(produto.image_url),
           ),
           SizedBox(width: 20),
           Expanded(

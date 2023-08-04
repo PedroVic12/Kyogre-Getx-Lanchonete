@@ -21,27 +21,25 @@ class Produto {
   final String tipo_produto;
   Preco? preco;
   late final String igredientes;
+  late final String image_url;
 
   Produto(this.nome, this.tipo_produto, {this.preco, required this.igredientes});
 
-  void adicionarTamanho(String tamanho, double preco) {
-    // Não é mais necessário o campo tamanhos
-  }
 }
 
 class DataBaseController {
   final String sanduicheTradicionalFile = 'lib/repository/cardapio_1.json';
   final String acaiFile = 'lib/repository/cardapio_2.json';
   final String petiscosFile = 'lib/repository/cardapio_3.json';
+  List<Produto> produtos_loja = [];
 
   Future<List<Produto>> getAllProducts() async {
-    List<Produto> produtos = [];
 
-    produtos.addAll(await getSanduichesTradicionais());
-    produtos.addAll(await getAcai());
-    produtos.addAll(await getPetiscos());
+    produtos_loja.addAll(await getSanduichesTradicionais());
+    produtos_loja.addAll(await getAcai());
+    produtos_loja.addAll(await getPetiscos());
 
-    return produtos;
+    return produtos_loja;
   }
 
   Future<List<Produto>> getSanduichesTradicionais() async {
@@ -106,6 +104,9 @@ class DataBaseController {
     }
   }
 }
+
+
+
 class ProdutosListView extends StatelessWidget {
   final String categoria;
   final List<Produto> produtos;

@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/ItemPage/itemPage.dart';
@@ -27,13 +29,13 @@ class CatalogoProdutosCard extends StatelessWidget {
                   Produto produto = controller.produtos[index];
                   return Card(
                     child: ListTile(
-                      title: Text(produto.nome),
+                      title: CustomText(text: produto.nome,size: 20,),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (produto.preco != null) ...[
                             if (produto.preco!.preco1 != null)
-                              Text('Preço 1: R\$ ${produto.preco!.preco1}'),
+                              CustomText(text: 'R\$ ${produto.preco!.preco1}', color: Colors.green, weight: FontWeight.bold, size: 18,),
                             if (produto.preco!.preco2 != null)
                               Text('Preço 2: R\$ ${produto.preco!.preco2}'),
                           ],
@@ -42,7 +44,7 @@ class CatalogoProdutosCard extends StatelessWidget {
                       ),
                       leading: Icon(Icons.fastfood),  // Um ícone para indicar que este é um produto
                       trailing: IconButton(
-                        icon: Icon(Icons.add_shopping_cart),  // Um botão para adicionar o produto ao carrinho
+                        icon: Icon(Icons.add_box_sharp, color: Colors.blue,),  // Um botão para adicionar o produto ao carrinho
                         onPressed: () {
                           // Adicione o produto ao carrinho aqui
                         },

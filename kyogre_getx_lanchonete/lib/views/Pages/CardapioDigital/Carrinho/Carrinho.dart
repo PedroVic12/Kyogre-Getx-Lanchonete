@@ -32,7 +32,7 @@ class Carrinho extends StatelessWidget {
                 final quantidade = controller.produtosCarrinho[produto] ?? 0;
 
                 return CarrinhoCard(
-                  controller: controller,
+                  carrinhoController: controller,
                   produto: produto,
                   quantidade: quantidade,
                   index: index,
@@ -51,14 +51,14 @@ class Carrinho extends StatelessWidget {
 
 
 class CarrinhoCard extends StatelessWidget {
-  final CarrinhoController controller;
+  final CarrinhoController carrinhoController;
   final Produto produto;
   final int quantidade;
   final int index;
 
    CarrinhoCard({
     Key? key,
-    required this.controller,
+    required this.carrinhoController,
     required this.produto,
     required this.quantidade,
     required this.index,
@@ -109,7 +109,7 @@ class CarrinhoCard extends StatelessWidget {
           ),
           BotoesIcone(
             onPressed: () {
-              controller.removerProduto(produto);
+              carrinhoController.removerProduto(produto);
             },
             cor: Colors.black,
             iconData: CupertinoIcons.minus_circle_fill,
@@ -117,7 +117,7 @@ class CarrinhoCard extends StatelessWidget {
           CustomText(text: "$quantidade", size: 18),
           BotoesIcone(
             onPressed: () {
-              controller.adicionarProduto(produto);
+              carrinhoController.adicionarProduto(produto);
             },
             cor: Colors.black,
             iconData: CupertinoIcons.plus_circle_fill,

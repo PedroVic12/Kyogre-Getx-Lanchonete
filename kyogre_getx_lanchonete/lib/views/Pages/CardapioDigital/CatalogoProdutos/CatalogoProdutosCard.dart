@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/ItemPage/itemPage.dart';
 
 class CatalogoProdutosCard extends StatelessWidget {
+
+  final CarrinhoController carrinhoController = Get.put(CarrinhoController());
+
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -46,8 +51,7 @@ class CatalogoProdutosCard extends StatelessWidget {
                       trailing: IconButton(
                         icon: Icon(Icons.add_box_sharp, color: Colors.blue,),  // Um botão para adicionar o produto ao carrinho
                         onPressed: () {
-                          // Adicione o produto ao carrinho aqui
-                        },
+                          carrinhoController.adicionarProduto(produto);                        },
                       ),
                     ),
                   );

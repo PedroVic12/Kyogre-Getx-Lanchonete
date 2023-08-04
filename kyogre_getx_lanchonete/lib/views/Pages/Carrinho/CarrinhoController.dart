@@ -41,8 +41,9 @@ class CarrinhoController extends GetxController {
 
   String get total {
     return _products.entries
-        .map((product) => product.key.preco?.preco1 ?? 0 * product.value)
+        .map((product) => (product.key.preco?.preco1 ?? 0) * product.value)
         .reduce((value, element) => value + element)
         .toStringAsFixed(2);
   }
+
 }

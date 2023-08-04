@@ -1,6 +1,79 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/CarrinhoController.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
+
+
+class BarraInferiorPedido extends StatelessWidget {
+  final CarrinhoController controller = Get.find();
+
+  BarraInferiorPedido({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return  Container(
+        decoration: BoxDecoration(
+            color: CupertinoColors.white,
+            borderRadius: BorderRadius.vertical(
+                top: Radius.circular(30)
+            ),
+            boxShadow:[
+              BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 3,
+                  spreadRadius: 2
+              )
+            ]
+        ),
+
+        child: Padding(
+          padding: EdgeInsets.only(left: 20, top: 10, bottom: 20, right: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+
+
+
+              Obx(
+                      ()=> Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Total: ', style: TextStyle(
+                            fontSize: 24,fontWeight: FontWeight.bold
+                        )),
+                        Text(' R\$ ${controller.total}', style: TextStyle(
+                            fontSize: 24,fontWeight: FontWeight.bold
+                        )),
+
+                      ],
+                    ),
+                  )
+              ),
+
+              //Botao
+              Padding(padding: EdgeInsets.all(8),child:
+              SizedBox(
+                  height: 40,
+                  child: ElevatedButton(onPressed: (){}, style: ElevatedButton.styleFrom(
+                      backgroundColor: CupertinoColors.systemGreen,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)
+                      )
+                  ),
+                      child: const Text('Continuar o Pedido no Whatsapp', style: TextStyle(fontSize: 16),))
+
+              )
+              )
+            ],
+          ),
+        )
+    );
+  }
+}
+
 
 
 class BarraInferiorWidget extends StatelessWidget {

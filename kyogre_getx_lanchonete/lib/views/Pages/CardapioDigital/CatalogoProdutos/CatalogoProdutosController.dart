@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
+
+
+
 class CatalogoProdutosController extends GetxController {
   String categoria = 'Todos os Produtos';
   final DataBaseController _dataBaseController = Get.find<DataBaseController>();

@@ -6,9 +6,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/Carrinho/Carrinho.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/MenuCategorias.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
 
 import '../../../app/Teoria do Caos/CaosPage.dart';
 
@@ -80,13 +79,23 @@ class _DetailsPageState extends State<DetailsPage> {
             ),
 
             //Carrinho
-            ElevatedButton(onPressed: (){
-              Get.to(Carrinho());
-            },
-                style: ButtonStyle(
-
+            Padding(padding: EdgeInsets.all(8),child:
+            SizedBox(
+                height: 50,
+                width: 200,
+                child: ElevatedButton(onPressed: (){
+                  Get.to(CarrinhoPage());
+                }, style: ElevatedButton.styleFrom(
+                    backgroundColor: CupertinoColors.activeBlue,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                    )
                 ),
-                child: Text('Ver o Carrinho')),
+                    child: const Text('Ver o Carrinho', style: TextStyle(fontSize: 16),))
+
+            )
+            ),
+
 
           ],
         ),

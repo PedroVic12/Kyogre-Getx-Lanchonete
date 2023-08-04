@@ -5,7 +5,7 @@ class CatalogoProdutosController extends GetxController {
   String categoria = 'Todos os Produtos';
   final DataBaseController _dataBaseController = Get.find<DataBaseController>();
   Produto? selectedProduct;
-  List<Produto> produtos = [];
+  RxList<Produto> produtos = RxList<Produto>();
 
   final List<String> categorias = [
     'Todos os Produtos',
@@ -17,15 +17,12 @@ class CatalogoProdutosController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _carregarProdutosFiltrados();
+    _carregarProdutos();
   }
 
-  Future<void> _carregarProdutosFiltrados() async {
-    print('Carregando produtos filtrados...');
-    produtos = await _dataBaseController.getAllProducts();
-    if (categoria != 'Todos os Produtos') {
-      produtos = produtos.where((produto) => produto.tipo_produto == categoria).toList();
-    }
+  Future<void> _carregarProdutos() async {
+    print('Carregando produtos...');
+    produtos = RxList<Produto>(await _dataBaseController.getAllProducts());
     selectedProduct = produtos.isNotEmpty ? produtos[0] : null;
     print('Produto selecionado: ${selectedProduct?.nome}');
     update();
@@ -40,8 +37,15 @@ class CatalogoProdutosController extends GetxController {
   }
 
   void setCategoria(String novaCategoria) {
-    print('Setando a categoria: $novaCategoria');
     categoria = novaCategoria;
-    _carregarProdutosFiltrados();
+    update();
+  }
+
+  List<Produto> get produtosFiltrados {
+    if (categoria == 'Todos os Produtos') {
+      return produtos;
+    } else {
+      return produtos.where((produto) => produto.tipo_produto == categoria).toList();
+    }
   }
 }

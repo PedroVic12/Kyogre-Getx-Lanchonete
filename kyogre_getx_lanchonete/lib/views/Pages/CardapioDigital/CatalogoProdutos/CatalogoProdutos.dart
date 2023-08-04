@@ -21,13 +21,13 @@ class ProdutosList extends StatelessWidget {
               controller.categoria,
               style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
             ),
-            ListView.builder(
+            Obx(() => ListView.builder(
               shrinkWrap: true,
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
-              itemCount: controller.produtos.length,
+              itemCount: controller.produtosFiltrados.length,
               itemBuilder: (context, index) {
-                Produto produto = controller.produtos[index];
+                Produto produto = controller.produtosFiltrados[index];
                 return Card(
                   child: ListTile(
                     title: Text(produto.nome),
@@ -53,14 +53,14 @@ class ProdutosList extends StatelessWidget {
                   ),
                 );
               },
-            )
-
+            ))
           ],
         );
       },
     );
   }
 }
+
 
 
 class CatalogoProdutos extends StatelessWidget {
@@ -76,6 +76,7 @@ class CatalogoProdutos extends StatelessWidget {
             categorias: catalogoProdutosController.categorias,
             onCategorySelected: (index) {
               catalogoProdutosController.setCategoria(catalogoProdutosController.categorias[index]);
+              print('\n\nCategoria selecionada: ${catalogoProdutosController.categorias[index]}');
             },
           ),
 

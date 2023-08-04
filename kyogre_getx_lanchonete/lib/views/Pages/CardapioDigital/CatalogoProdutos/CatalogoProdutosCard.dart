@@ -1,57 +1,59 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/ItemPage/itemPage.dart';
 
 class CatalogoProdutosCard extends StatelessWidget {
-  final Produto produto;
-
-  const CatalogoProdutosCard({Key? key, required this.produto}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    String nomeProduto = produto.nome;
-    double? preco1 = produto.preco?.preco1;
-    double? preco2 = produto.preco?.preco2;
+    return GestureDetector(
 
-    return Card(
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              nomeProduto,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            if (preco1 != null)
-              Text(
-                'R\$ $preco1',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
-            if (preco2 != null)
-              Text(
-                'R\$ $preco2',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
-          ],
-        ),
+      onTap: (){
+        Get.to(ItemPage());
+      },
+
+      child: GetBuilder<CatalogoProdutosController>(
+        builder: (controller) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Obx(() => ListView.builder(
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                itemCount: controller.produtos.length,
+                itemBuilder: (context, index) {
+                  Produto produto = controller.produtos[index];
+                  return Card(
+                    child: ListTile(
+                      title: Text(produto.nome),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (produto.preco != null) ...[
+                            if (produto.preco!.preco1 != null)
+                              Text('Preço 1: R\$ ${produto.preco!.preco1}'),
+                            if (produto.preco!.preco2 != null)
+                              Text('Preço 2: R\$ ${produto.preco!.preco2}'),
+                          ],
+                          // Adicione mais detalhes sobre o produto aqui
+                        ],
+                      ),
+                      leading: Icon(Icons.fastfood),  // Um ícone para indicar que este é um produto
+                      trailing: IconButton(
+                        icon: Icon(Icons.add_shopping_cart),  // Um botão para adicionar o produto ao carrinho
+                        onPressed: () {
+                          // Adicione o produto ao carrinho aqui
+                        },
+                      ),
+                    ),
+                  );
+                },
+              ))
+            ],
+          );
+        },
       ),
     );
   }

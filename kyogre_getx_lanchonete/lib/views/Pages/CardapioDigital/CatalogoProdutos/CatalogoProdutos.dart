@@ -7,57 +7,6 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdu
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/MenuCategorias.dart';
 
 
-class ProdutosList extends StatelessWidget {
-  const ProdutosList({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GetBuilder<CatalogoProdutosController>(
-      builder: (controller) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Obx(() => ListView.builder(
-              shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              itemCount: controller.produtos.length,
-              itemBuilder: (context, index) {
-                Produto produto = controller.produtos[index];
-                return Card(
-                  child: ListTile(
-                    title: Text(produto.nome),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (produto.preco != null) ...[
-                          if (produto.preco!.preco1 != null)
-                            Text('Preço 1: R\$ ${produto.preco!.preco1}'),
-                          if (produto.preco!.preco2 != null)
-                            Text('Preço 2: R\$ ${produto.preco!.preco2}'),
-                        ],
-                        // Adicione mais detalhes sobre o produto aqui
-                      ],
-                    ),
-                    leading: Icon(Icons.fastfood),  // Um ícone para indicar que este é um produto
-                    trailing: IconButton(
-                      icon: Icon(Icons.add_shopping_cart),  // Um botão para adicionar o produto ao carrinho
-                      onPressed: () {
-                        // Adicione o produto ao carrinho aqui
-                      },
-                    ),
-                  ),
-                );
-              },
-            ))
-          ],
-        );
-      },
-    );
-  }
-}
-
-
 
 class CatalogoProdutos extends StatelessWidget {
   final catalogoProdutosController = Get.find<CatalogoProdutosController>();
@@ -67,7 +16,8 @@ class CatalogoProdutos extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // Menu Com Scroll para selecionar os produtos
+
+
           MenuCategorias(
             categorias: catalogoProdutosController.categorias,
             onCategorySelected: (index) {
@@ -76,8 +26,7 @@ class CatalogoProdutos extends StatelessWidget {
             },
           ),
 
-          // Catalogo de Produtos
-          ProdutosList(),
+          CatalogoProdutosCard(),
         ],
       ),
     );

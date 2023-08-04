@@ -17,17 +17,13 @@ class ProdutosList extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              controller.categoria,
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-            ),
             Obx(() => ListView.builder(
               shrinkWrap: true,
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
-              itemCount: controller.produtosFiltrados.length,
+              itemCount: controller.produtos.length,
               itemBuilder: (context, index) {
-                Produto produto = controller.produtosFiltrados[index];
+                Produto produto = controller.produtos[index];
                 return Card(
                   child: ListTile(
                     title: Text(produto.nome),

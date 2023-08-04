@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
-
 class CatalogoProdutosController extends GetxController {
   String categoria = 'Todos os Produtos';
   final DataBaseController _dataBaseController = Get.find<DataBaseController>();
   Produto? selectedProduct;
-  RxList<Produto> produtos = RxList<Produto>();
+  RxList<Produto> allProdutos = RxList<Produto>();  // Mudamos o nome para 'allProdutos'
+  RxList<Produto> produtos = RxList<Produto>();  // Esta lista vai conter os produtos filtrados
 
   final List<String> categorias = [
     'Todos os Produtos',
@@ -22,10 +22,19 @@ class CatalogoProdutosController extends GetxController {
 
   Future<void> _carregarProdutos() async {
     print('Carregando produtos...');
-    produtos = RxList<Produto>(await _dataBaseController.getAllProducts());
+    allProdutos.addAll(await _dataBaseController.getAllProducts());
+    _atualizarProdutosFiltrados();
     selectedProduct = produtos.isNotEmpty ? produtos[0] : null;
     print('Produto selecionado: ${selectedProduct?.nome}');
     update();
+  }
+
+  void _atualizarProdutosFiltrados() {
+    if (categoria == 'Todos os Produtos') {
+      produtos.assignAll(allProdutos);
+    } else {
+      produtos.assignAll(allProdutos.where((produto) => produto.tipo_produto == categoria));
+    }
   }
 
   void selectProduct(int index) {
@@ -37,15 +46,9 @@ class CatalogoProdutosController extends GetxController {
   }
 
   void setCategoria(String novaCategoria) {
+    print('Setando a categoria: $novaCategoria');
     categoria = novaCategoria;
-    update();
-  }
-
-  List<Produto> get produtosFiltrados {
-    if (categoria == 'Todos os Produtos') {
-      return produtos;
-    } else {
-      return produtos.where((produto) => produto.tipo_produto == categoria).toList();
-    }
+    _atualizarProdutosFiltrados();
   }
 }
+

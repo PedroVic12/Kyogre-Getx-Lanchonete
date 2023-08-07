@@ -68,7 +68,11 @@ class BarraInferiorPedido extends StatelessWidget {
                       try {
                         final String groundon_number1 = '5521983524026';
                         final String message = controller.gerarResumoPedidoCardapio();
-                        await controller.enviarPedidoWhatsapp(phone: groundon_number1, message: message);
+                        controller.sendPedidoWpp(phone: groundon_number1, message: message);
+
+                        //funciona
+                        //controller.abrirWpp(phone: groundon_number1, message: 'Ola mundo');
+
                       } catch (e) {
                         print('Erro ao tentar abrir o WhatsApp: $e');
                         Get.snackbar(

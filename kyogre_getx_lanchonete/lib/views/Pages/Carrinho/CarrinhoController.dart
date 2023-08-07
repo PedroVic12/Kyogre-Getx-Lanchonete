@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:universal_html/html.dart' as html;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,7 +7,6 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class CarrinhoController extends GetxController {
   late final CatalogoProdutosController produtosController;
@@ -17,29 +16,102 @@ class CarrinhoController extends GetxController {
     super.onInit();
   }
 
-  // Metodos do Pedido no whatsapp
-  Future<void> enviarPedidoWhatsapp({required String phone, required String message}) async {
-    String url() {
-      print('\nEnviando mensagem para: $phone');
+// Metodos do Pedido no whatsapp
+  Future<void> sendPedidoWpp({required String phone, required String message}) async {
+    String generateUrl(String type) {
+      switch (type) {
 
-      if (Theme.of(Get.context!).platform == TargetPlatform.android || Theme.of(Get.context!).platform == TargetPlatform.iOS) {
-        //return 'api.whatsapp.com/send/?phone=${phone}&text=${message}';
-        return "https://wa.me/$phone/?text=${Uri.parse(message)}";
-      } else {
-        return "whatsapp://send?phone=$phone&text=${message}";
+        case "wa.me":
+          return "https://wa.me/$phone/?text=${Uri.encodeComponent(message)}";
+        case "api":
+          return "https://api.whatsapp.com/send?phone=$phone&text=${Uri.encodeComponent(message)}";
+        case "whatsapp":
+          return 'whatsapp://send?phone=${phone}&text=${message}';
+        default:
+          return 'whatsapp://send?phone=${phone}&text=${message}';
       }
     }
 
-    if (await canLaunch(url())) {
-      await launch(url(),
-        enableJavaScript: true,
-        forceWebView: true,
-          );
-    } else {
-      print('Nao foi possivel enviar o link');
-      throw 'Nao foi possivel enviar o link: $url';
+    Future<bool> canLaunchUrl(Uri uri) async {
+      return await canLaunch(uri.toString());
     }
+
+    Future<bool> launchUrl(Uri uri) async {
+      return await launch(uri.toString(), enableJavaScript: true, forceWebView: true);
+    }
+
+    List<String> urlsToTry;
+
+    if (html.window.navigator.userAgent.contains('Android')) {
+      urlsToTry = ["whatsapp", "wa.me", "api"];
+      print('Detectado plataforma Android. Tentando URLs na ordem: $urlsToTry');
+    } else if (html.window.navigator.userAgent.contains('iPhone') || html.window.navigator.userAgent.contains('iPad')) {
+      urlsToTry = ["wa.me", "api", "whatsapp"];
+      print('Detectado plataforma iOS. Tentando URLs na ordem: $urlsToTry');
+    } else if (html.window.navigator.userAgent.contains('Web')) { // Detectando web
+      urlsToTry = ["wa.me", "api", "whatsapp"];
+      print('Detectado Flutter Web. Tentando URLs na ordem: $urlsToTry');
+    } else {
+      urlsToTry = [ "wa.me", "whatsapp", "api"];
+      print('Detectado plataforma desconhecida. Tentando URLs na ordem: $urlsToTry');
+    }
+
+
+
+    for (var urlType in urlsToTry) {
+      var urlString = generateUrl(urlType);
+      print('Tentando abrir o URL: $urlString');
+
+      if (await canLaunchUrl(Uri.parse(urlString))) {
+
+        try{
+          await launchUrl(Uri.parse(urlString));
+          print('URL $urlString aberto com sucesso!');
+
+          // Mostrar snackbar com detalhes do link e plataforma
+          Get.rawSnackbar(
+              message: 'WhatsApp Aberto com Sucesso!',
+              title: 'URL usado: $urlString\nPlataforma: ${Platform.operatingSystem}',
+              backgroundColor: CupertinoColors.systemGreen,
+              duration: Duration(seconds: 1)
+          );
+
+
+          return; // Se lançado com sucesso, saia da função
+        } catch (e){
+          print('Falha ao tentar abrir: $urlString em ${Platform.operatingSystem}');
+          Get.snackbar(
+              'Error: ${e}',
+              'URL usado: $urlString\nPlataforma: ${Platform.operatingSystem}',
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: CupertinoColors.systemRed,
+              colorText: Colors.white,
+              duration: Duration(seconds: 5)
+          );
+        }
+
+      }
+    }
+
+    print('Nenhum URL funcionou para a plataforma ${Platform.operatingSystem}. Lançando exceção.');
+    throw 'Nenhum URL funcionou para a plataforma ${Platform.operatingSystem}';
   }
+
+
+  void abriWpp({required String phone, required String message}) async {
+    var wpp_url = 'whatsapp://send?phone=${phone}&text=${message}';
+
+    if (await canLaunchUrl(Uri.parse(wpp_url))){
+      await launchUrl(Uri.parse(wpp_url));
+
+    } else {
+      throw 'Nao foi possivel enviar msg';
+    }
+
+  }
+
+
+
 
 
 

@@ -16,8 +16,9 @@ class CarrinhoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Carrinho de {Cliente} 4'),
+        title: Text('Carrinho de {Cliente} 9'),
       ),
+
       body: Obx(() {
         if (carrinhoController.produtosCarrinho.isEmpty) {
           return const Center(

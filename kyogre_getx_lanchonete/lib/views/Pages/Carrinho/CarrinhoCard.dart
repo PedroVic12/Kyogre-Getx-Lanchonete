@@ -20,8 +20,7 @@ class CardCarrinho extends StatelessWidget {
         leading: CircleAvatar(
           backgroundColor: Colors.blueGrey,
         ),
-        title: CustomText(text: produto.nome,),
-        subtitle: CustomText(text: produto.preco!.preco1.toString(),),
+        title: CustomText(text: produto.nome,weight: FontWeight.bold,),
         trailing: SizedBox(
           width: 120,  // You can adjust the width as needed
           child: Row(
@@ -33,7 +32,7 @@ class CardCarrinho extends StatelessWidget {
                 cor: Colors.black,
                 iconData: CupertinoIcons.minus_circle_fill,
               ),
-              CustomText(text: "$quantidade", size: 18),
+              CustomText(text: "$quantidade", size: 22),
               BotoesIcone(
                 onPressed: () {
                   carrinhoController.adicionarProduto(produto);
@@ -44,6 +43,7 @@ class CardCarrinho extends StatelessWidget {
             ],
           ),
         ),
+        subtitle: CustomText(text: 'R\$ ${produto.preco!.preco1}'),
       ),
     );
   }

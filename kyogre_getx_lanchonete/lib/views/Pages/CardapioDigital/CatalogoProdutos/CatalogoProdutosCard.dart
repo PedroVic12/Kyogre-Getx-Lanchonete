@@ -49,7 +49,7 @@ class CatalogoProdutosCard extends StatelessWidget {
                       ),
                       leading: Icon(Icons.fastfood),  // Um ícone para indicar que este é um produto
                       trailing: IconButton(
-                        icon: Icon(Icons.add_box_sharp, color: Colors.blue,),  // Um botão para adicionar o produto ao carrinho
+                        icon: Icon(Icons.add_box_sharp, color: Colors.blue,size: 30),  // Um botão para adicionar o produto ao carrinho
                         onPressed: () {
                           carrinhoController.adicionarProduto(produto);                        },
                       ),

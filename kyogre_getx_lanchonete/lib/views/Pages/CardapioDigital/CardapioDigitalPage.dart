@@ -91,13 +91,13 @@ class _DetailsPageState extends State<DetailsPage> {
                         borderRadius: BorderRadius.circular(20)
                     )
                 ),
-                    child: const Text('Ver o Carrinho', style: TextStyle(fontSize: 16),))
+                    child: const Text('Ver o Carrinho', style: TextStyle(fontSize: 22),))
 
             )
             ),
 
 
-          ],
+          ]
         ),
       ),
 

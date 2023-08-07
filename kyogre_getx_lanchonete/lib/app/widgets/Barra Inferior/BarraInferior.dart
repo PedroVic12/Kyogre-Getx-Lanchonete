@@ -57,7 +57,12 @@ class BarraInferiorPedido extends StatelessWidget {
               Padding(padding: EdgeInsets.all(8),child:
               SizedBox(
                   height: 40,
-                  child: ElevatedButton(onPressed: (){}, style: ElevatedButton.styleFrom(
+                  child: ElevatedButton(onPressed: (){
+                    const String texto_mensagem_pedido = "resumo do %20pedido%20 de: ";
+                    const String link_wpp = 'https://wa.me//5521983524026?//text=${texto_mensagem_pedido}';
+
+
+                  }, style: ElevatedButton.styleFrom(
                       backgroundColor: CupertinoColors.systemGreen,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)

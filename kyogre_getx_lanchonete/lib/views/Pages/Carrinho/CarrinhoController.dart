@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
@@ -21,9 +23,12 @@ class CarrinhoController extends GetxController {
     }
 
     Get.snackbar('Produto adicionado!',
-        'O produto ${produto.nome} foi adicionado ao carrinho',
+        '${produto.nome} foi adicionado ao seu carrinho',
         snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 1));
+        backgroundColor: CupertinoColors.activeGreen,
+        backgroundGradient: LinearGradient(colors: [CupertinoColors.systemGreen, Colors.blue]),
+        showProgressIndicator: true,
+        duration: Duration(seconds: 2));
   }
 
   void removerProduto(Produto produto) {

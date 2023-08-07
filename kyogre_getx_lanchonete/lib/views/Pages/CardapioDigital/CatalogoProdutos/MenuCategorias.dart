@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 
 class MenuCategorias extends StatefulWidget {
   final Function(int) onCategorySelected;
@@ -30,7 +31,7 @@ class _MenuCategoriasState extends State<MenuCategorias> {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(5),
             child: Align(
               alignment: Alignment.topLeft,
               child: Text(
@@ -40,7 +41,7 @@ class _MenuCategoriasState extends State<MenuCategorias> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+            padding: EdgeInsets.only(right: 5, bottom: 10),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -72,12 +73,12 @@ class _MenuCategoriasState extends State<MenuCategorias> {
                         child: Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(5),
+                              padding: EdgeInsets.all(2),
                               child: Icon(Icons.fastfood_rounded),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(right: 5),
-                              child: Text(categorias[i]),
+                              padding: EdgeInsets.only(right: 3),
+                              child: CustomText(text: categorias[i], size: 18,color: CupertinoColors.white,),
                             )
                           ],
                         ),

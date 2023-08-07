@@ -19,14 +19,10 @@ class CarrinhoController extends GetxController {
     String url() {
       print('\nEnviando mensagem para: $phone');
 
-      if (Theme.of(Get.context!).platform == TargetPlatform.linux ) {
-        return "whatsapp://wa.me/$phone/?text=${Uri.encodeComponent(message)}";
-      }
-
       if (Theme.of(Get.context!).platform == TargetPlatform.android || Theme.of(Get.context!).platform == TargetPlatform.iOS) {
         return "https://wa.me/$phone/?text=${Uri.encodeComponent(message)}";
       } else {
-        return "https://send?phone=$phone&text=${Uri.encodeComponent(message)}";
+        return "whatsapp://send?phone=$phone&text=${message}";
       }
     }
 
@@ -66,6 +62,7 @@ class CarrinhoController extends GetxController {
       '', // Deixamos a mensagem vazia porque usaremos messageText para a formatação
       titleText: const CustomText(
         text: 'Produto adicionado!',
+        size: 18,
         weight: FontWeight.bold,
         color: Colors.black, // ou qualquer outra cor padrão que você esteja usando
       ),
@@ -74,11 +71,11 @@ class CarrinhoController extends GetxController {
           children: [
             TextSpan(
               text: '${produto.nome} ',
-              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 18),
             ),
             TextSpan(
               text: 'foi adicionado ao seu carrinho',
-              style: TextStyle(color: Colors.white), // ou qualquer outra cor padrão que você esteja usando
+              style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontSize: 18), // ou qualquer outra cor padrão que você esteja usando
             ),
           ],
         ),

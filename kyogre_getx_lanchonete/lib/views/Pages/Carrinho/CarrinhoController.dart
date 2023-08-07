@@ -14,9 +14,10 @@ class CarrinhoController extends GetxController {
   }
 
   // Metodos do Pedido no whatsapp
-  void enviarPedidoWhatsapp({required String phone, required String message}) async {
+  Future<void> enviarPedidoWhatsapp({required String phone, required String message}) async {
     String url() {
-      if (Theme.of(Get.context!).platform == TargetPlatform.iOS) {
+      print('\nEnviando mensagem para: $phone');
+      if (Theme.of(Get.context!).platform == TargetPlatform.android || Theme.of(Get.context!).platform == TargetPlatform.iOS) {
         return "whatsapp://wa.me/$phone/?text=${Uri.encodeComponent(message)}";
       } else {
         return "whatsapp://send?phone=$phone&text=${Uri.encodeComponent(message)}";
@@ -30,6 +31,7 @@ class CarrinhoController extends GetxController {
       throw 'Could not launch $url';
     }
   }
+
 
 
   String gerarResumoPedidoCardapio() {

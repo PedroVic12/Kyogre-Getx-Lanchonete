@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Barra%20Inferior/BarraInferior.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoCard.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 
@@ -15,12 +16,12 @@ class CarrinhoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Carrinho de {Cliente}'),
+        title: Text('Carrinho de {Cliente} 4'),
       ),
       body: Obx(() {
         if (carrinhoController.produtosCarrinho.isEmpty) {
-          return Center(
-            child: Text('Você não tem nenhum produto na sacola ainda'),
+          return const Center(
+            child:  CustomText(text: 'Você não tem nenhum produto na sacola ainda', size: 25,),
           );
         } else {
           return Column(

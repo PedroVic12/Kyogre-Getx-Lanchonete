@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,7 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class CarrinhoController extends GetxController {
   late final CatalogoProdutosController produtosController;
@@ -20,17 +23,21 @@ class CarrinhoController extends GetxController {
       print('\nEnviando mensagem para: $phone');
 
       if (Theme.of(Get.context!).platform == TargetPlatform.android || Theme.of(Get.context!).platform == TargetPlatform.iOS) {
-        return "https://wa.me/$phone/?text=${Uri.encodeComponent(message)}";
+        //return 'api.whatsapp.com/send/?phone=${phone}&text=${message}';
+        return "https://wa.me/$phone/?text=${Uri.parse(message)}";
       } else {
         return "whatsapp://send?phone=$phone&text=${message}";
       }
     }
 
     if (await canLaunch(url())) {
-      await launch(url());
+      await launch(url(),
+        enableJavaScript: true,
+        forceWebView: true,
+          );
     } else {
       print('Nao foi possivel enviar o link');
-      throw 'Could not launch $url';
+      throw 'Nao foi possivel enviar o link: $url';
     }
   }
 
@@ -71,7 +78,7 @@ class CarrinhoController extends GetxController {
           children: [
             TextSpan(
               text: '${produto.nome} ',
-              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 18),
+              style: TextStyle(color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 18),
             ),
             TextSpan(
               text: 'foi adicionado ao seu carrinho',

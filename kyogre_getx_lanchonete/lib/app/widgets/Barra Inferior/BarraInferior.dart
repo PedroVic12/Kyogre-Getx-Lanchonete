@@ -44,7 +44,7 @@ class BarraInferiorPedido extends StatelessWidget {
                         Text('Total: ', style: TextStyle(
                             fontSize: 24,fontWeight: FontWeight.bold
                         )),
-                        Text(' R\$ ${controller.total}', style: TextStyle(
+                        Text('R\$ ${controller.total}', style: TextStyle(
                             fontSize: 24,fontWeight: FontWeight.bold
                         )),
 
@@ -72,7 +72,7 @@ class BarraInferiorPedido extends StatelessWidget {
                       } catch (e) {
                         print('Erro ao tentar abrir o WhatsApp: $e');
                         Get.snackbar(
-                            'Erro ${e}',
+                            'Erro: ${e}',
                             'Não foi possível abrir o WhatsApp. Por favor, tente novamente.',
                             snackPosition: SnackPosition.TOP,
                             backgroundColor: Colors.red,

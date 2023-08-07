@@ -72,7 +72,7 @@ class BarraInferiorPedido extends StatelessWidget {
                       } catch (e) {
                         print('Erro ao tentar abrir o WhatsApp: $e');
                         Get.snackbar(
-                            'Erro',
+                            'Erro ${e}',
                             'Não foi possível abrir o WhatsApp. Por favor, tente novamente.',
                             snackPosition: SnackPosition.TOP,
                             backgroundColor: Colors.red,
@@ -97,19 +97,19 @@ class BarraInferiorPedido extends StatelessWidget {
   }
 }
 Widget createDialog(BuildContext context) => CupertinoAlertDialog(
-  title: CustomText(text: 'Confirma os dados do Pedido?'),
+  title: CustomText(text: 'Confirma os dados do Pedido?', weight: FontWeight.bold,),
   content: CustomText(
-    text: 'Deseja continuar e enviar o pedido para o WhatsApp?',
+    text: 'Deseja continuar e finalizar o pedido ir para o WhatsApp?',
   ),
   actions: [
     CupertinoDialogAction(
-        child: Text('Sim'),
+        child: CustomText(text:'Sim', weight: FontWeight.bold,),
         onPressed: (){
           Get.back(result: true); // Retorna true quando o usuário clicar em "Sim".
         }
     ),
     CupertinoDialogAction(
-        child: Text('Não'),
+        child: CustomText(text:'Não', weight: FontWeight.bold,),
         onPressed: (){
           Get.back(result: false); // Retorna false quando o usuário clicar em "Não".
         }

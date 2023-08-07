@@ -58,8 +58,12 @@ class BarraInferiorPedido extends StatelessWidget {
               SizedBox(
                   height: 40,
                   child: ElevatedButton(onPressed: (){
-                    const String texto_mensagem_pedido = "resumo do %20pedido%20 de: ";
-                    const String link_wpp = 'https://wa.me//5521983524026?//text=${texto_mensagem_pedido}';
+
+
+
+                    const String phoneNumber = '5521983524026';
+                    final String message = controller.gerarResumoPedidoCardapio();
+                    controller.enviarPedidoWhatsapp(phone: phoneNumber, message: message);
 
 
                   }, style: ElevatedButton.styleFrom(

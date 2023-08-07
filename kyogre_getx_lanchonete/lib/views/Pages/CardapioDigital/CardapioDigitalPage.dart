@@ -60,6 +60,7 @@ class _DetailsPageState extends State<DetailsPage> {
       backgroundColor: Colors.red,
       appBar: AppBar(
         title: Text('Detalhes do Pedido ${widget.id}'),
+
       ),
       body: Center(
         child: Column(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CarrinhoController extends GetxController {
   late final CatalogoProdutosController produtosController;
@@ -11,6 +12,36 @@ class CarrinhoController extends GetxController {
   void onInit() {
     super.onInit();
   }
+
+  // Metodos do Pedido no whatsapp
+  void enviarPedidoWhatsapp({required String phone, required String message}) async {
+    String url() {
+      if (Theme.of(Get.context!).platform == TargetPlatform.iOS) {
+        return "whatsapp://wa.me/$phone/?text=${Uri.encodeComponent(message)}";
+      } else {
+        return "whatsapp://send?phone=$phone&text=${Uri.encodeComponent(message)}";
+      }
+    }
+
+    if (await canLaunch(url())) {
+      await launch(url());
+    } else {
+      print('Nao foi possivel enviar o link');
+      throw 'Could not launch $url';
+    }
+  }
+
+
+  String gerarResumoPedidoCardapio() {
+    final items = _products.entries.map((entry) {
+      final produto = entry.key;
+      final quantidade = entry.value;
+      return "${produto.nome} (x$quantidade)";
+    }).join(', ');
+
+    return "Resumo do pedido: $items. Total: R\$${total}.";
+  }
+
 
   // Usando RxMap para tornar o mapa de produtos reativo
   var _products = <Produto, int>{}.obs;

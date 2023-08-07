@@ -26,7 +26,7 @@ class ItemPage extends StatelessWidget {
               //decoration: BoxDecoration(             image: DecorationImage(image: AssetImage('imagens/2.png'))),
               child: InkWell(
                 onTap: () {
-                  Navigator.pop(context);
+                  Get.back();
                 },
                 child: Icon(Icons.arrow_back, size: 30, color: Colors.green),
               ),

@@ -38,19 +38,19 @@ class CarrinhoController extends GetxController {
     final items = _products.entries.map((entry) {
       final produto = entry.key;
       final quantidade = entry.value;
-      return "${quantidade}x ${produto.nome} (R\$ ${produto.preco?.preco1})";
+      return "\n${quantidade}x ${produto.nome} (R\$ ${produto.preco?.preco1})";
     }).join('\n');
 
     // Calcula o tempo de entrega
     final agora = DateTime.now();
-    final inicioEntrega = agora.add(Duration(minutes: 25));
+    final inicioEntrega = agora.add(Duration(minutes: 15));
     final fimEntrega = agora.add(Duration(minutes: 50));
     final formatoHora = DateFormat('HH:mm');
 
 
     // Acrescentando detalhes do cliente ao resumo
     final clienteDetails = nomeCliente != null && telefoneCliente != null
-        ? "Cliente: $nomeCliente\n\n  Pedido #${idPedido ?? 'N/A'}\n"
+        ? "Cliente: $nomeCliente\n\n Pedido #${idPedido ?? 'N/A'}\n"
         : "";
 
     return """

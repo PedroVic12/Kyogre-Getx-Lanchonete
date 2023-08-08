@@ -82,6 +82,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
             // Dados do Cliente pelo Whatsapp
             Text('ID do Pedido: ${widget.id}'),
+            if (nomeCliente != null)
               Text('Nome do Cliente: $nomeCliente'),
               Text('Telefone do Cliente: $telefoneCliente'),
 

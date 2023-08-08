@@ -27,12 +27,13 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  String? nomeCliente;
-  String? telefoneCliente;
+  late String nomeCliente;
+  late String telefoneCliente;
+  bool isDevelopment = false; //TODO Defina como false quando não estiver em modo de PRODUÇÃO
 
 
   final DataBaseController _dataBaseController = DataBaseController();
-  final CarrinhoController carrinhoController = CarrinhoController();
+  final CarrinhoController carrinhoController = Get.put(CarrinhoController());
   @override
   void initState() {
     super.initState();
@@ -40,6 +41,16 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
   Future<void> fetchClienteNome() async {
+
+    if (isDevelopment) {
+      setState(() {
+        nomeCliente = "Cliente Teste";
+        telefoneCliente = "1234-5678";
+      });
+      return;
+    }
+
+
     final response = await http.get(
         Uri.parse('https://rayquaza-citta-server.onrender.com/cliente/${widget.id}'));
 
@@ -71,9 +82,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
             // Dados do Cliente pelo Whatsapp
             Text('ID do Pedido: ${widget.id}'),
-            if (nomeCliente != null)
               Text('Nome do Cliente: $nomeCliente'),
-            if (telefoneCliente != null)
               Text('Telefone do Cliente: $telefoneCliente'),
 
 
@@ -88,7 +97,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 height: 50,
                 width: 200,
                 child: ElevatedButton(onPressed: (){
-                  carrinhoController.setClienteDetails(nomeCliente!, telefoneCliente!, widget.id);
+                  carrinhoController.setClienteDetails(nomeCliente, telefoneCliente, widget.id);
                   Get.to(CarrinhoPage(), arguments: [nomeCliente, telefoneCliente, widget.id]);                }, style: ElevatedButton.styleFrom(
                     backgroundColor: CupertinoColors.activeBlue,
                     shape: RoundedRectangleBorder(

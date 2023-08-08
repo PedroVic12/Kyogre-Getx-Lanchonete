@@ -6,14 +6,14 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.d
 
 
 class BarraInferiorPedido extends StatelessWidget {
-  final CarrinhoController controller = Get.find();
+  final CarrinhoController controller = Get.find<CarrinhoController>();
 
   BarraInferiorPedido({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return  Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: CupertinoColors.white,
             borderRadius: BorderRadius.vertical(
                 top: Radius.circular(30)
@@ -28,7 +28,7 @@ class BarraInferiorPedido extends StatelessWidget {
         ),
 
         child: Padding(
-          padding: EdgeInsets.only(left: 20, top: 10, bottom: 20, right: 10),
+          padding: const EdgeInsets.only(left: 20, top: 10, bottom: 20, right: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -37,14 +37,14 @@ class BarraInferiorPedido extends StatelessWidget {
 
               Obx(
                       ()=> Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Total: ', style: TextStyle(
+                        const Text('Total: ', style: TextStyle(
                             fontSize: 24,fontWeight: FontWeight.bold
                         )),
-                        Text('R\$ ${controller.total}', style: TextStyle(
+                        Text('R\$ ${controller.total}', style: const TextStyle(
                             fontSize: 24,fontWeight: FontWeight.bold
                         )),
 
@@ -54,7 +54,7 @@ class BarraInferiorPedido extends StatelessWidget {
               ),
 
               //Botao
-              Padding(padding: EdgeInsets.all(8),child:
+              Padding(padding: const EdgeInsets.all(8),child:
               SizedBox(
                   height: 40,
                   child: ElevatedButton(onPressed: () async {
@@ -66,12 +66,11 @@ class BarraInferiorPedido extends StatelessWidget {
 
                     if (result == true) { // Se o resultado for true, o usuário clicou em "Sim".
                       try {
-                        final String groundon_number1 = '5521983524026';
-                        final String message = controller.gerarResumoPedidoCardapio();
-                        controller.sendPedidoWpp(phone: groundon_number1, message: message);
+                        const String groundon_number1 = '5521983524026';
+                        final String messagemWhatsappPedido = controller.gerarResumoPedidoCardapio();
+                        print(messagemWhatsappPedido);
+                        controller.enviarPedidoWhatsapp(phone: groundon_number1, message: messagemWhatsappPedido);
 
-                        //funciona
-                        //controller.abrirWpp(phone: groundon_number1, message: 'Ola mundo');
 
                       } catch (e) {
                         print('Erro ao tentar abrir o WhatsApp: $e');
@@ -101,19 +100,19 @@ class BarraInferiorPedido extends StatelessWidget {
   }
 }
 Widget createDialog(BuildContext context) => CupertinoAlertDialog(
-  title: CustomText(text: 'Confirma os dados do Pedido?', weight: FontWeight.bold,),
-  content: CustomText(
+  title: const CustomText(text: 'Confirma os dados do Pedido?', weight: FontWeight.bold,),
+  content: const CustomText(
     text: 'Deseja continuar e finalizar o pedido ir para o WhatsApp?',
   ),
   actions: [
     CupertinoDialogAction(
-        child: CustomText(text:'Sim', weight: FontWeight.bold,),
+        child: const CustomText(text:'Sim', weight: FontWeight.bold,),
         onPressed: (){
           Get.back(result: true); // Retorna true quando o usuário clicar em "Sim".
         }
     ),
     CupertinoDialogAction(
-        child: CustomText(text:'Não', weight: FontWeight.bold,),
+        child: const CustomText(text:'Não', weight: FontWeight.bold,),
         onPressed: (){
           Get.back(result: false); // Retorna false quando o usuário clicar em "Não".
         }

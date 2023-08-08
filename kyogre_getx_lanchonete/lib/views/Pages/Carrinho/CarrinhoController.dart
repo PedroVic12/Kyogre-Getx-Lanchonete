@@ -7,9 +7,11 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart'; // Usado para formatar a hora
 
 class CarrinhoController extends GetxController {
   late final CatalogoProdutosController produtosController;
+  // Converta as variáveis para
   String? nomeCliente;
   String? telefoneCliente;
   String? idPedido;
@@ -18,6 +20,51 @@ class CarrinhoController extends GetxController {
   void onInit() {
     super.onInit();
   }
+
+
+  // Usando RxMap para tornar o mapa de produtos reativo
+  final _products = <Produto, int>{}.obs;
+
+  // Método para definir os detalhes do cliente
+  void setClienteDetails(String nome, String telefone, String id) {
+    nomeCliente = nome;
+    telefoneCliente = telefone;
+    idPedido = id;
+
+    print('ID PEDIDO: $idPedido Cliente: $nomeCliente | Telefone: $telefoneCliente');
+  }
+
+  String gerarResumoPedidoCardapio() {
+    final items = _products.entries.map((entry) {
+      final produto = entry.key;
+      final quantidade = entry.value;
+      return "${quantidade}x ${produto.nome} (R\$ ${produto.preco?.preco1})";
+    }).join('\n');
+
+    // Calcula o tempo de entrega
+    final agora = DateTime.now();
+    final inicioEntrega = agora.add(Duration(minutes: 25));
+    final fimEntrega = agora.add(Duration(minutes: 50));
+    final formatoHora = DateFormat('HH:mm');
+
+
+    // Acrescentando detalhes do cliente ao resumo
+    final clienteDetails = nomeCliente != null && telefoneCliente != null
+        ? "Cliente: $nomeCliente\n\n  Pedido #${idPedido ?? 'N/A'}\n"
+        : "";
+
+    return """
+  ▶ *RESUMO DO PEDIDO* 
+   $clienteDetails
+  *🛒 Itens do Pedido*:
+   $items
+   -------------------------------------
+           ▶ TOTAL: R\$${total}
+   -------------------------------------
+   🕙 Tempo de Entrega: aprox. ${formatoHora.format(inicioEntrega)} a ${formatoHora.format(fimEntrega)}
+    """;
+  }
+
 
 
 // Metodos do Pedido no whatsapp
@@ -179,34 +226,6 @@ class CarrinhoController extends GetxController {
   }
 
 
-
-
-
-  // Usando RxMap para tornar o mapa de produtos reativo
-  final _products = <Produto, int>{}.obs;
-
-
- // Método para definir os detalhes do cliente
-  void setClienteDetails(String nome, String telefone, String id) {
-    nomeCliente = nome;
-    telefoneCliente = telefone;
-    idPedido = id;
-  }
-
-  String gerarResumoPedidoCardapio() {
-    final items = _products.entries.map((entry) {
-      final produto = entry.key;
-      final quantidade = entry.value;
-      return "${produto.nome} (x$quantidade)";
-    }).join(', ');
-
-    // Acrescentando detalhes do cliente ao resumo
-    final clienteDetails = nomeCliente != null && telefoneCliente != null
-        ? "Cliente: $nomeCliente, Telefone: $telefoneCliente, ID do Pedido: $idPedido. "
-        : "";
-
-    return "$clienteDetails Resumo do pedido: $items. Total: R\$${total}.";
-  }
 
 
   // Metodos de controle do carrinho

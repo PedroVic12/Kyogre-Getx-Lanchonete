@@ -10,13 +10,94 @@ import 'package:url_launcher/url_launcher.dart';
 
 class CarrinhoController extends GetxController {
   late final CatalogoProdutosController produtosController;
+  String? nomeCliente;
+  String? telefoneCliente;
+  String? idPedido;
 
   @override
   void onInit() {
     super.onInit();
   }
 
+
 // Metodos do Pedido no whatsapp
+  Future<void> enviarPedidoWhatsapp({required String phone, required String message}) async {
+    String generateUrl(String type) {
+      switch (type) {
+        case "wa.me":
+          return "https://wa.me/$phone/?text=${Uri.encodeComponent(message)}";
+        case "api":
+          return "https://api.whatsapp.com/send?phone=$phone&text=${Uri.encodeComponent(message)}";
+        case "whatsapp":
+        default:
+          return 'whatsapp://send?phone=${phone}&text=${message}';
+      }
+    }
+
+    Future<bool> canLaunchUrl(Uri uri) async {
+      return await canLaunch(uri.toString());
+    }
+
+    Future<bool> launchUrl(Uri uri) async {
+      return await launch(uri.toString(), enableJavaScript: true, forceWebView: true);
+    }
+
+    List<String> determineUrlsToTry() {
+      if (html.window.navigator.userAgent.contains('Android')) {
+        return ["whatsapp", "wa.me", "api"];
+      } else if (html.window.navigator.userAgent.contains('iPhone') || html.window.navigator.userAgent.contains('iPad')) {
+        return ["wa.me", "api", "whatsapp"];
+      } else if (html.window.navigator.userAgent.contains('Web')) {
+        return ["wa.me", "api", "whatsapp"];
+      } else {
+        return ["wa.me", "whatsapp", "api"];
+      }
+    }
+
+    Future<void> tryLaunchRecursive(List<String> urls) async {
+      if (urls.isEmpty) {
+        print('Nenhum URL funcionou. Lançando exceção.');
+        throw 'Nenhum URL funcionou';
+      }
+
+      var urlString = generateUrl(urls.first);
+      print('Tentando abrir o URL: $urlString');
+
+      if (await canLaunchUrl(Uri.parse(urlString))) {
+        try {
+          await launchUrl(Uri.parse(urlString));
+          print('URL $urlString aberto com sucesso!');
+
+          Get.rawSnackbar(
+              message: 'WhatsApp Aberto com Sucesso!',
+              title: 'URL usado: $urlString\nPlataforma: ${Platform.operatingSystem}',
+              backgroundColor: CupertinoColors.systemGreen,
+              duration: Duration(seconds: 1)
+          );
+          return;
+
+        } catch (e) {
+          print('Falha ao tentar abrir: $urlString');
+          Get.snackbar(
+              'Error: ${e}',
+              'URL usado: $urlString\nPlataforma: ${Platform.operatingSystem}',
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: CupertinoColors.systemRed,
+              colorText: Colors.white,
+              duration: Duration(seconds: 5)
+          );
+        }
+      }
+
+      // Se a URL atual falhar, tente a próxima na lista
+      await tryLaunchRecursive(urls.sublist(1));
+    }
+
+    List<String> urlsToTry = determineUrlsToTry();
+    await tryLaunchRecursive(urlsToTry);
+  }
+
+
   Future<void> sendPedidoWpp({required String phone, required String message}) async {
     String generateUrl(String type) {
       switch (type) {
@@ -98,22 +179,19 @@ class CarrinhoController extends GetxController {
   }
 
 
-  void abriWpp({required String phone, required String message}) async {
-    var wpp_url = 'whatsapp://send?phone=${phone}&text=${message}';
 
-    if (await canLaunchUrl(Uri.parse(wpp_url))){
-      await launchUrl(Uri.parse(wpp_url));
 
-    } else {
-      throw 'Nao foi possivel enviar msg';
-    }
 
+  // Usando RxMap para tornar o mapa de produtos reativo
+  final _products = <Produto, int>{}.obs;
+
+
+ // Método para definir os detalhes do cliente
+  void setClienteDetails(String nome, String telefone, String id) {
+    nomeCliente = nome;
+    telefoneCliente = telefone;
+    idPedido = id;
   }
-
-
-
-
-
 
   String gerarResumoPedidoCardapio() {
     final items = _products.entries.map((entry) {
@@ -122,13 +200,16 @@ class CarrinhoController extends GetxController {
       return "${produto.nome} (x$quantidade)";
     }).join(', ');
 
-    return "Resumo do pedido: $items. Total: R\$${total}.";
+    // Acrescentando detalhes do cliente ao resumo
+    final clienteDetails = nomeCliente != null && telefoneCliente != null
+        ? "Cliente: $nomeCliente, Telefone: $telefoneCliente, ID do Pedido: $idPedido. "
+        : "";
+
+    return "$clienteDetails Resumo do pedido: $items. Total: R\$${total}.";
   }
 
 
-  // Usando RxMap para tornar o mapa de produtos reativo
-  var _products = <Produto, int>{}.obs;
-
+  // Metodos de controle do carrinho
   void adicionarProduto(Produto produto) {
     if (_products.containsKey(produto)) {
       _products[produto] = (_products[produto] ?? 0) + 1;

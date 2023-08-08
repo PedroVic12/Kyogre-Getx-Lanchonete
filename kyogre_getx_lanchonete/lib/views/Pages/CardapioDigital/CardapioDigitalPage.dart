@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
 
 import '../../../app/Teoria do Caos/CaosPage.dart';
@@ -31,6 +32,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
 
   final DataBaseController _dataBaseController = DataBaseController();
+  final CarrinhoController carrinhoController = CarrinhoController();
   @override
   void initState() {
     super.initState();
@@ -86,8 +88,8 @@ class _DetailsPageState extends State<DetailsPage> {
                 height: 50,
                 width: 200,
                 child: ElevatedButton(onPressed: (){
-                  Get.to(CarrinhoPage());
-                }, style: ElevatedButton.styleFrom(
+                  carrinhoController.setClienteDetails(nomeCliente!, telefoneCliente!, widget.id);
+                  Get.to(CarrinhoPage(), arguments: [nomeCliente, telefoneCliente, widget.id]);                }, style: ElevatedButton.styleFrom(
                     backgroundColor: CupertinoColors.activeBlue,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)

@@ -80,11 +80,13 @@ class _DetailsPageState extends State<DetailsPage> {
         child: Column(
           children: [
 
+
+            Text('Dados do Cliente: '),
+
             // Dados do Cliente pelo Whatsapp
-            Text('ID do Pedido: ${widget.id}'),
-            if (nomeCliente != null)
-              Text('Nome do Cliente: $nomeCliente'),
-              Text('Telefone do Cliente: $telefoneCliente'),
+            //Text('ID do Pedido: ${widget.id}'),
+              //Text('Nome do Cliente: $nomeCliente'),
+              //Text('Telefone do Cliente: $telefoneCliente'),
 
 
             // Lista de Produtos Selecionados

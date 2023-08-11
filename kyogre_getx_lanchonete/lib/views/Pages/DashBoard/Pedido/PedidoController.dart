@@ -32,6 +32,7 @@ class PedidoController extends GetxController {
     super.onClose();
   }
 
+
   Future<void> fetchPedidos() async {
     try {
       final response = await http

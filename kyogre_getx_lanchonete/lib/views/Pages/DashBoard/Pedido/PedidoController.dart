@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -21,9 +23,13 @@ class PedidoController extends GetxController {
 
   void startFetchingPedidos() {
     // Requisição GET a cada 5 segundos (loop)
-    timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
-      fetchPedidos();
-    });
+    try {
+      timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
+        fetchPedidos();
+      });
+    } catch (e) {
+      print('Nao possui pedidos ainda');
+    }
   }
 
   @override
@@ -32,11 +38,14 @@ class PedidoController extends GetxController {
     super.onClose();
   }
 
-
   Future<void> fetchPedidos() async {
     try {
       final response = await http
           .get(Uri.parse('https://rayquaza-citta-server.onrender.com/pedidos'));
+
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         if (jsonData['results'] is List<dynamic>) {
@@ -47,14 +56,17 @@ class PedidoController extends GetxController {
           if (newLength > previousLength) {
             final novoPedido = pedidos[newLength - 1];
             showNovoPedidoAlertDialog(novoPedido);
+          } else {
+            if (pedidos.isEmpty) {
+              print('Ainda não existem pedidos hoje.');
+            }
           }
         }
       } else {
-        throw Exception('Failed to fetch pedidos');
+        print('Não possui pedidos ainda hoje');
       }
     } catch (e) {
       print('Erro ao fazer a solicitação GET: $e');
-      //throw Exception('Failed to fetch pedidos');
     }
   }
 
@@ -90,7 +102,7 @@ class PedidoController extends GetxController {
   void aceitarPedido(dynamic pedido) {
     final pedidoAceito = Pedido(
       pedido: pedido,
-      horaAceite: DateTime.now(),
+      hora: DateTime.now(),
     );
     pedidosAceitos.add(pedidoAceito);
     filaDeliveryController.inserirPedido(pedidoAceito);
@@ -154,7 +166,7 @@ class FilaDeliveryController extends GetxController {
 
 class Pedido {
   dynamic pedido;
-  DateTime horaAceite;
+  DateTime hora;
 
-  Pedido({required this.pedido, required this.horaAceite});
+  Pedido({required this.pedido, required this.hora});
 }

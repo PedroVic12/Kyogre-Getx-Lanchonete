@@ -5,8 +5,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
-
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/AlertaPedidoWidget.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 
 class PedidoController extends GetxController {
   final pedidos = <dynamic>[].obs;
@@ -43,7 +43,7 @@ class PedidoController extends GetxController {
       final response = await http
           .get(Uri.parse('https://rayquaza-citta-server.onrender.com/pedidos'));
 
-      print('Response Status Code: ${response.statusCode}');
+      print('\n\nResponse Status Code: ${response.statusCode}');
       print('Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
@@ -53,15 +53,10 @@ class PedidoController extends GetxController {
           pedidos.assignAll(jsonData['results']);
           final int newLength = pedidos.length;
 
-          if (newLength > previousLength) {
-            final novoPedido = pedidos[newLength - 1];
-            showNovoPedidoAlertDialog(novoPedido);
-          } else {
-            if (pedidos.isEmpty) {
-              print('Ainda não existem pedidos hoje.');
-            }
-          }
+          final novoPedido = pedidos[newLength - 1];
+          showNovoPedidoAlertDialog(novoPedido);
         }
+
       } else {
         print('Não possui pedidos ainda hoje');
       }
@@ -109,6 +104,11 @@ class PedidoController extends GetxController {
     Get.back(); // Voltar para a página anterior
   }
 
+
+
+
+
+
   void showNovoPedidoAlertDialog(dynamic pedido) {
     Future.delayed(Duration.zero, () {
       final context = Get.context;
@@ -141,32 +141,6 @@ class PedidoController extends GetxController {
   }
 }
 
-class FilaDeliveryController extends GetxController {
-  final _filaPedidos = <Pedido>[].obs;
 
-  List<Pedido> get filaPedidos => _filaPedidos.toList();
 
-  void inserirPedido(Pedido pedido) {
-    _filaPedidos.add(pedido);
-  }
 
-  Pedido? removerPedido() {
-    if (_filaPedidos.isNotEmpty) {
-      final pedido = _filaPedidos[0];
-      _filaPedidos.removeAt(0);
-      return pedido;
-    }
-    return null;
-  }
-
-  bool buscarPedido(Pedido pedido) {
-    return _filaPedidos.contains(pedido);
-  }
-}
-
-class Pedido {
-  dynamic pedido;
-  DateTime hora;
-
-  Pedido({required this.pedido, required this.hora});
-}

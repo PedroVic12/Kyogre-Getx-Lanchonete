@@ -5,6 +5,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/AlertaPedidoWidget.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/CardPedido.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
 
 class ColunaPedidosParaAceitar extends StatefulWidget {
@@ -35,17 +36,17 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
       flex: 1,
       child: Container(
         color: Colors.deepPurple,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            Center(
+            const Center(
               child: CustomText(text: 'Pedidos Sendo preparados Na Cozinha',weight: FontWeight.bold, size: 20),
 
             ),
 
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             Expanded(
               child: Obx(
                     () => ListView.builder(
@@ -53,10 +54,10 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
                   itemBuilder: (context, index) {
                     final pedido = widget.pedidoController.pedidos[index];
                     return Dismissible(
-                        key: Key(pedido['id'].toString()),
+                        key: Key(pedido['id']),
                         background: Container(
                           color: Colors.red,
-                          child: Align(
+                          child: const Align(
                             alignment: Alignment.centerRight,
                             child: Padding(
                               padding: EdgeInsets.only(right: 16.0),
@@ -74,7 +75,7 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
                           });
                         },
                         child: Padding(
-                          padding: EdgeInsets.all(12),
+                          padding: const EdgeInsets.all(12),
                           child: GestureDetector(
                             onTap: () {
                               showDialog(

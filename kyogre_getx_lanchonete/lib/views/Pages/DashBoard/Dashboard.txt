@@ -24,11 +24,15 @@ class Dashboard extends StatelessWidget {
             flex: 1,
             child: Container(
               padding: const EdgeInsets.all(8.0),
+
+              //Coluna 1
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const AlertaPedidoChegando(),
                   const CustomText(text: 'Pedidos para serem Aceitos'),
+
+                  // botão
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
@@ -137,6 +141,9 @@ class Dashboard extends StatelessWidget {
               ),
             ),
           ),
+
+
+          // Coluna 2
           const Column(
             children: [
               CustomText(text: 'Pedidos sendo processados'),

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/InfoCards/InfoCard.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
 
+
 class ColunaInfoPedidos extends StatelessWidget {
   const ColunaInfoPedidos({
     Key? key,
@@ -14,22 +15,25 @@ class ColunaInfoPedidos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
-
-      child: Container(
-        width: 200.0,
-        padding: EdgeInsets.all(8.0),
-        child: Obx(
-              () => InfoCard(
-            title: "Pedidos Recebidos",
-            value: pedidoController.pedidos.length.toString(),
-            onTap: () {
-              pedidoController.fetchPedidos();
-            },
-            isActive: true,
+    return Container(
+      width: 200.0,
+      padding: EdgeInsets.all(8.0),
+      child: Column( // Use Column as the parent widget
+        children: [
+          Expanded( // Use Expanded here
+            flex: 1,
+            child: Obx(
+                  () => InfoCard(
+                title: "Pedidos Recebidos",
+                value: pedidoController.pedidos.length.toString(),
+                onTap: () {
+                  pedidoController.fetchPedidos();
+                },
+                isActive: true,
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

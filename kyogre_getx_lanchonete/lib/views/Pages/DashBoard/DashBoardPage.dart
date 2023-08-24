@@ -17,7 +17,7 @@ class DashboardPage extends StatelessWidget {
         children: [
           ColunaPedidosParaAceitar(pedidoController: pedidoController),
           ColunaPedidosProcessados(),
-          ColunaInfoPedidos(pedidoController: pedidoController),
+          //ColunaInfoPedidos(pedidoController: pedidoController),
         ],
       ),
     );

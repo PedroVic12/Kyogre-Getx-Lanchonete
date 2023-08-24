@@ -2,9 +2,7 @@ import 'package:get/get.dart';
 
 class Pedido {
   dynamic pedido;
-  DateTime hora;
-
-  Pedido({required this.pedido, required this.hora});
+  Pedido({required this.pedido});
 }
 
 

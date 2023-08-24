@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class CardPedido extends StatelessWidget {
   final String nome;
   final String telefone;
-  final List<Map<String, dynamic>> itensPedido; // Alterado para List<Map<String, dynamic>>
+  final List<Map<String, dynamic>> itensPedido;
   final double totalPrecoPedido;
   final String formaPagamento;
   final String enderecoEntrega;
   final VoidCallback onTap;
-  final VoidCallback onEnviarEntrega;
+  final VoidCallback onPedidoAceito;
 
-  const CardPedido({
+  CardPedido({
     required this.nome,
     required this.telefone,
     required this.itensPedido,
@@ -18,7 +18,7 @@ class CardPedido extends StatelessWidget {
     required this.formaPagamento,
     required this.enderecoEntrega,
     required this.onTap,
-    required this.onEnviarEntrega,
+    required this.onPedidoAceito,
   });
 
   @override
@@ -62,8 +62,8 @@ class CardPedido extends StatelessWidget {
               Text('Endereço de Entrega: $enderecoEntrega'),
               SizedBox(height: 16),
               ElevatedButton(
-                onPressed: onEnviarEntrega,
-                child: Text('Enviar para Entrega'),
+                onPressed: onPedidoAceito,
+                child: Text('Enviar para COZINHA'),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.blueGrey,
                 ),

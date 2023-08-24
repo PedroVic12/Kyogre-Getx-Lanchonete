@@ -33,7 +33,7 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 1,
+      //flex: 1,
       child: Container(
         color: Colors.deepPurple,
         padding: const EdgeInsets.all(8.0),
@@ -54,7 +54,7 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
                   itemBuilder: (context, index) {
                     final pedido = widget.pedidoController.pedidos[index];
                     return Dismissible(
-                        key: Key(pedido['id']),
+                        key: Key(pedido['id'].toString()),
                         background: Container(
                           color: Colors.red,
                           child: const Align(
@@ -90,19 +90,16 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
                             child: CardPedido(
                               nome: pedido['nome'],
                               telefone: pedido['telefone'],
-                              itensPedido: (pedido['carrinho']['itensPedido']
-                              as List<dynamic>)
+                              itensPedido: (pedido['pedido'] as List<dynamic>)
                                   .map((item) => item as Map<String, dynamic>)
                                   .toList(),
-                              totalPrecoPedido:
-                              pedido['carrinho']['totalPrecoPedido']
-                                  .toDouble(),
-                              formaPagamento: pedido['forma_pagamento'],
-                              enderecoEntrega: pedido['endereco_cliente'],
-                              onTap: (){},
-                              onEnviarEntrega: (){},
-
+                              totalPrecoPedido: pedido['totalPagar'].toDouble(),
+                              formaPagamento: pedido['formaPagamento'],
+                              enderecoEntrega: pedido['endereco'],
+                              onTap: () {},
+                              onPedidoAceito: () {},
                             ),
+
                           ),
                         )
                     );

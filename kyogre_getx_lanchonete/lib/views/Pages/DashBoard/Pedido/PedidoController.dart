@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/AlertaPedidoWidget.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/CardPedido.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 
 class PedidoController extends GetxController {
@@ -40,25 +41,23 @@ class PedidoController extends GetxController {
 
   Future<void> fetchPedidos() async {
     try {
-      final response = await http
-          .get(Uri.parse('https://rayquaza-citta-server.onrender.com/pedidos'));
+      final response =
+      await http.get(
+          Uri.parse('https://rayquaza-citta-server.onrender.com/pedidos'));
 
       print('\n\nResponse Status Code: ${response.statusCode}');
-      print('Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
-        if (jsonData['results'] is List<dynamic>) {
-          final int previousLength = pedidos.length;
-          pedidos.assignAll(jsonData['results']);
-          final int newLength = pedidos.length;
+        print('\nResponse Body: ${jsonData}\n\n');
 
-          final novoPedido = pedidos[newLength - 1];
-          showNovoPedidoAlertDialog(novoPedido);
+        if (jsonData is List<dynamic> && jsonData.isNotEmpty) {
+          for (final novoPedido in jsonData) {
+            showNovoPedidoAlertDialog(novoPedido);
+          }
+        } else {
+          print('Não possui pedidos ainda hoje');
         }
-
-      } else {
-        print('Não possui pedidos ainda hoje');
       }
     } catch (e) {
       print('Erro ao fazer a solicitação GET: $e');
@@ -96,20 +95,22 @@ class PedidoController extends GetxController {
 
   void aceitarPedido(dynamic pedido) {
     final pedidoAceito = Pedido(
-      pedido: pedido,
-      hora: DateTime.now(),
+      pedido: pedido
     );
     pedidosAceitos.add(pedidoAceito);
     filaDeliveryController.inserirPedido(pedidoAceito);
-    Get.back(); // Voltar para a página anterior
+
+    // Remover o pedido da lista de pedidos pendentes
+    pedidos.remove(pedido);
   }
 
-
-
-
-
-
   void showNovoPedidoAlertDialog(dynamic pedido) {
+
+    final List<String> itensPedido = (pedido['pedido'] as List<dynamic>)
+        .map((item) => item['nome'] as String)
+        .toList();
+
+
     Future.delayed(Duration.zero, () {
       final context = Get.context;
       if (context != null) {
@@ -123,14 +124,15 @@ class PedidoController extends GetxController {
                   padding: EdgeInsets.all(16.0),
                   child: AlertaPedidoWidget(
                     nomeCliente: pedido['nome'] ?? '',
-                    enderecoPedido: pedido['endereco_cliente'] ?? '',
-                    itensPedido: pedido['itens_pedido'] != null
-                        ? List<String>.from(pedido['itens_pedido'])
-                        : [],
+                    enderecoPedido: pedido['endereco'] ?? '',
+                    itensPedido: itensPedido,
                     btnOkOnPress: () {
+                      print('\nPedido Aceito!');
                       aceitarPedido(pedido);
+                      Get.back();
                     },
                   ),
+
                 ),
               ),
             );
@@ -140,7 +142,3 @@ class PedidoController extends GetxController {
     });
   }
 }
-
-
-
-

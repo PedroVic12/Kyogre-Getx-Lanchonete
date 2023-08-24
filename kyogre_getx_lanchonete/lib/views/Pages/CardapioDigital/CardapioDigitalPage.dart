@@ -26,36 +26,50 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  late String nomeCliente;
-  late String telefoneCliente;
-  bool isDevelopment =
-      false; //TODO Defina como false quando não estiver em modo de PRODUÇÃO
+  late String nomeCliente = "";
+  late String telefoneCliente = "";
+  late String idPedido = "";
 
   final DataBaseController _dataBaseController = DataBaseController();
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
   @override
   void initState() {
     super.initState();
-    fetchClienteNome();
+
+    //fetchIdPedido().then((idPedido) {
+      //print(idPedido);
+      //fetchClienteNome(idPedido);
+    //});
+
+    fetchClienteNome(widget.id);
   }
 
-  Future<void> fetchClienteNome() async {
-    if (isDevelopment) {
-      setState(() {
-        nomeCliente = "Cliente Teste";
-        telefoneCliente = "1234-5678";
-      });
-      return;
+  Future<String> fetchIdPedido() async {
+    final response_id = await http.get(Uri.parse('https://rayquaza-citta-server.onrender.com/receber-link'));
+
+    if (response_id.statusCode == 200) {
+      String id_data = response_id.body;
+      print(id_data);
+      return id_data;
     }
 
+    else {
+      throw Exception('Failed to fetch ID');
+    }
+  }
+
+
+  Future<void> fetchClienteNome(String clienteId) async {
     final response = await http.get(Uri.parse(
-        'https://rayquaza-citta-server.onrender.com/cliente/${widget.id}'));
+        'https://rayquaza-citta-server.onrender.com/cliente/$clienteId'));
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       setState(() {
+        idPedido = data['id'];
         nomeCliente = data['nome'];
         telefoneCliente = data['telefone'];
+        super.initState();
       });
     } else {
       print('Failed to fetch the client name.');
@@ -67,7 +81,7 @@ class _DetailsPageState extends State<DetailsPage> {
     return Scaffold(
       backgroundColor: Colors.red,
       appBar: AppBar(
-        title: Text('Detalhes do Pedido ${widget.id}'),
+        title: Center(child: Text('Citta Lanchonete {nome} Pedido: ${widget.id}')),
         backgroundColor: Colors.black,
       ),
       body: Center(
@@ -75,7 +89,7 @@ class _DetailsPageState extends State<DetailsPage> {
           Text('Dados do Cliente: '),
 
           // Dados do Cliente pelo Whatsapp
-          Text('ID do Pedido: ${widget.id}'),
+          Text('ID do Pedido: ${idPedido}'),
           Text('Nome do Cliente: $nomeCliente'),
           Text('Telefone do Cliente: $telefoneCliente'),
 

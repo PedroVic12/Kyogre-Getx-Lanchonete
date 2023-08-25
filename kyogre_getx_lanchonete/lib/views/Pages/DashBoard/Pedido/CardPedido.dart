@@ -1,90 +1,69 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
 
 class CardPedido extends StatelessWidget {
-  final String nome;
-  final String telefone;
-  final List<Map<String, dynamic>> itensPedido;
-  final double totalPrecoPedido;
-  final String formaPagamento;
-  final String enderecoEntrega;
-  final VoidCallback onTap;
-  final VoidCallback onPedidoAceito;
+  final Pedido pedido;
 
-  CardPedido({
-    required this.nome,
-    required this.telefone,
-    required this.itensPedido,
-    required this.totalPrecoPedido,
-    required this.formaPagamento,
-    required this.enderecoEntrega,
-    required this.onTap,
-    required this.onPedidoAceito,
-  });
+  const CardPedido({required this.pedido});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
+    return Dismissible(
+      key: Key(pedido.id.toString()),
+      direction: DismissDirection.endToStart,
+      background: Container(
+        color: Colors.red,
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        child: Icon(
+          Icons.check,
           color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 5),
-            ),
-          ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Resumo do Pedido de: $nome',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 8),
-              Text('Telefone: $telefone'),
-              SizedBox(height: 8),
-              Text('Itens do Pedido: ${getItensPedidoText()}'),
-              SizedBox(height: 8),
-              Text('Total a pagar: R\$ ${totalPrecoPedido.toStringAsFixed(2)}'),
-              SizedBox(height: 8),
-              Text('Forma de Pagamento: $formaPagamento'),
-              SizedBox(height: 8),
-              Text('Endereço de Entrega: $enderecoEntrega'),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: onPedidoAceito,
-                child: Text('Enviar para COZINHA'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blueGrey,
-                ),
-              ),
+      ),
+      onDismissed: (direction) {
+        // Aqui você pode executar a lógica para concluir o pedido
+        // Por exemplo, chame uma função do PedidoController
+        final pedidoController = Get.find<PedidoController>();
+        //pedidoController.concluirPedido(pedido);
 
+        // Mostre um snackbar informando que o pedido foi concluído
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Pedido ${pedido.id} concluído!'),
+          ),
+        );
+      },
+      child: CupertinoTheme(
+        data: CupertinoThemeData(
+          primaryColor: Colors.deepPurple,
+        ),
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          child: Column(
+            children: [
+              Text('Pedido: ${pedido.id}'),
+
+              CupertinoListTile(
+                title: Text('Pedido ${pedido.id}'),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Cliente: ${pedido.nome}'),
+                    Text('Endereço: ${pedido.endereco}'),
+                    Text('Itens do Pedido:'),
+                    for (var item in pedido.itensPedido)
+                      Text('${item['quantidade']}x ${item['nome']} - ${item['preco']}'),
+                    Text('Total a Pagar: ${pedido.totalPagar}'),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  String getItensPedidoText() {
-    String itensText = '';
-    for (var item in itensPedido) {
-      String nomeItem = item['nome'];
-      int quantidade = item['quantidade'];
-      String itemText = '$nomeItem (Quantidade: $quantidade)';
-      itensText += itemText + ', ';
-    }
-    itensText = itensText.trim().replaceAll(RegExp(r',\s*$'), '');
-    return itensText;
   }
 }

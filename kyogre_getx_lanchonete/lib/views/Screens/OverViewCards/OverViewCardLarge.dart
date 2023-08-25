@@ -56,11 +56,6 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
                   // Dados do arquivo JSON
                   dynamic jsonData = snapshot.data;
 
-                  // Processar e exibir os dados do JSON no terminal
-                  processJsonData(jsonData);
-
-                  // Processar os dados do JSON
-                  List<Widget> infoCards = processJsonData(jsonData);
 
                   return Container(
                     child: Center(
@@ -101,7 +96,6 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
                                 child: Wrap(
                                   spacing: _cardWidth / 64,
                                   runSpacing: _cardWidth / 64,
-                                  children: infoCards.sublist(1), // Restante dos InfoCards
                                 ),
                               ),
                             ],
@@ -133,52 +127,7 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
     );
   }
 
-  List<Widget> processJsonData(dynamic jsonData) {
-    List<Widget> infoCards = [];
 
-    if (jsonData != null && jsonData is Map<String, dynamic>) {
-      String nome = jsonData['nome'];
-      String telefone = jsonData['telefone'];
-      dynamic carrinho = jsonData['carrinho'];
-      double totalPrecoPedido = carrinho['totalPrecoPedido'];
-      List<dynamic> itensPedido = carrinho['itensPedido'];
-      String formaPagamento = jsonData['forma_pagamento'];
-      String enderecoEntrega = jsonData['endereco_cliente'];
-
-      // Cria a lista de mapas para os itens do pedido
-      List<Map<String, dynamic>> itensPedidoData = [];
-
-      for (var item in itensPedido) {
-        String nomeItem = item['nome'];
-        int quantidade = item['quantidade'];
-
-        // Cria o mapa para cada item do pedido
-        Map<String, dynamic> itemPedidoData = {
-          'nome': nomeItem,
-          'quantidade': quantidade,
-        };
-
-        itensPedidoData.add(itemPedidoData);
-      }
-
-      // Cria o PedidoCard com todas as informações do pedido
-      CardPedido pedidoCard = CardPedido(
-        nome: nome,
-        telefone: telefone,
-        itensPedido: itensPedidoData,
-        totalPrecoPedido: totalPrecoPedido,
-        formaPagamento: formaPagamento,
-        enderecoEntrega: enderecoEntrega,
-
-        // TODO
-        onTap: (){},
-        onPedidoAceito: (){},
-      );
-      infoCards.add(pedidoCard);
-    }
-
-    return infoCards;
-  }
 
 
 

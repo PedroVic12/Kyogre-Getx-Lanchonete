@@ -1,18 +1,15 @@
-// ignore_for_file: avoid_print
-
-import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/AlertaPedidoWidget.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/CardPedido.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 
 class PedidoController extends GetxController {
-  final pedidos = <dynamic>[].obs;
   final pedidosAceitos = <Pedido>[].obs;
   Timer? timer;
+  final Map<int, bool> pedidosAlertaMostrado = {};
 
   final filaDeliveryController = Get.put(FilaDeliveryController());
 
@@ -23,7 +20,6 @@ class PedidoController extends GetxController {
   }
 
   void startFetchingPedidos() {
-    // Requisição GET a cada 5 segundos (loop)
     try {
       timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
         fetchPedidos();
@@ -42,8 +38,7 @@ class PedidoController extends GetxController {
   Future<void> fetchPedidos() async {
     try {
       final response =
-      await http.get(
-          Uri.parse('https://rayquaza-citta-server.onrender.com/pedidos'));
+      await http.get(Uri.parse('https://rayquaza-citta-server.onrender.com/pedidos'));
 
       print('\n\nResponse Status Code: ${response.statusCode}');
 
@@ -52,9 +47,8 @@ class PedidoController extends GetxController {
         print('\nResponse Body: ${jsonData}\n\n');
 
         if (jsonData is List<dynamic> && jsonData.isNotEmpty) {
-          for (final novoPedido in jsonData) {
-            showNovoPedidoAlertDialog(novoPedido);
-          }
+          final novoPedido = jsonData.first;
+          showNovoPedidoAlertDialog(novoPedido);
         } else {
           print('Não possui pedidos ainda hoje');
         }
@@ -64,81 +58,39 @@ class PedidoController extends GetxController {
     }
   }
 
-  void removePedido(dynamic pedido) async {
-    final pedidoId = pedido['id'];
+  void aceitarPedido(Map<String, dynamic> pedidoJson) {
+    final pedido = Pedido.fromJson(pedidoJson);
+    pedidosAceitos.add(pedido);
+    print(pedidosAceitos[0].itensPedido);
+    print('\n\nPedidos: ${pedidosAceitos[0].nome} | ${pedido.itensPedido}');
+  }
 
-    // Faça a solicitação DELETE para excluir o pedido do servidor
-    final response = await http.delete(Uri.parse(
-        'https://rayquaza-citta-server.onrender.com/deletarPedido/$pedidoId'));
+  Future<void> showNovoPedidoAlertDialog(dynamic pedido) async {
+    final pedidoId = pedido['id_pedido'];
 
-    if (response.statusCode == 200) {
-      // Agora você pode remover o pedido localmente
-      pedidos.remove(pedido);
-
-      // Exiba uma Snackbar informando que o pedido foi removido com sucesso
-      Get.snackbar(
-        'Sucesso',
-        'Pedido removido com sucesso.',
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 3),
-      );
-    } else {
-      // Exiba uma Snackbar informando o erro
-      Get.snackbar(
-        'Erro',
-        'Falha ao remover o pedido.',
-        snackPosition: SnackPosition.TOP,
-        duration: const Duration(seconds: 3),
-      );
+    if (pedidosAlertaMostrado.containsKey(pedidoId)) {
+      // Já mostrou o alerta para este pedido, então não mostrar novamente
+      return;
     }
-  }
-
-  void aceitarPedido(dynamic pedido) {
-    final pedidoAceito = Pedido(
-      pedido: pedido
-    );
-    pedidosAceitos.add(pedidoAceito);
-    filaDeliveryController.inserirPedido(pedidoAceito);
-
-    // Remover o pedido da lista de pedidos pendentes
-    pedidos.remove(pedido);
-  }
-
-  void showNovoPedidoAlertDialog(dynamic pedido) {
 
     final List<String> itensPedido = (pedido['pedido'] as List<dynamic>)
         .map((item) => item['nome'] as String)
         .toList();
 
+    print(pedidoId);
 
-    Future.delayed(Duration.zero, () {
-      final context = Get.context;
-      if (context != null) {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return Scaffold(
-              backgroundColor: Colors.transparent,
-              body: Center(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: AlertaPedidoWidget(
-                    nomeCliente: pedido['nome'] ?? '',
-                    enderecoPedido: pedido['endereco'] ?? '',
-                    itensPedido: itensPedido,
-                    btnOkOnPress: () {
-                      print('\nPedido Aceito!');
-                      aceitarPedido(pedido);
-                      Get.back();
-                    },
-                  ),
+    await Get.to(() => AlertaPedidoWidget(
+      nomeCliente: pedido['nome'] ?? '',
+      enderecoPedido: pedido['endereco'] ?? '',
+      itensPedido: itensPedido,
+      btnOkOnPress: () {
+        print('\n\nPedido Aceito!');
+        Get.back();
+        aceitarPedido(pedido);
 
-                ),
-              ),
-            );
-          },
-        );
-      }
-    });
+        // Marcar o alerta como mostrado para este pedido
+        pedidosAlertaMostrado[pedidoId] = true;
+      },
+    ));
   }
 }

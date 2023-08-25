@@ -32,6 +32,9 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
 
   @override
   Widget build(BuildContext context) {
+
+    final pedidos = widget.pedidoController.pedidosAceitos;
+
     return Expanded(
       //flex: 1,
       child: Container(
@@ -49,62 +52,37 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
             const SizedBox(height: 10.0),
             Expanded(
               child: Obx(
-                    () => ListView.builder(
-                  itemCount: widget.pedidoController.pedidos.length,
-                  itemBuilder: (context, index) {
-                    final pedido = widget.pedidoController.pedidos[index];
-                    return Dismissible(
-                        key: Key(pedido['id'].toString()),
-                        background: Container(
-                          color: Colors.red,
-                          child: const Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 16.0),
-                              child: Icon(
-                                Icons.delete,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        direction: DismissDirection.endToStart,
-                        onDismissed: (direction) {
-                          setState(() {
-                            widget.pedidoController.removePedido(pedido);
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertaPedidoWidget(
-                                  nomeCliente: pedido['nome'],
-                                  enderecoPedido: pedido['endereco_cliente'],
-                                  itensPedido: pedido['itensPedido'],
-                                ),
-                              );
-                            },
-                            child: CardPedido(
-                              nome: pedido['nome'],
-                              telefone: pedido['telefone'],
-                              itensPedido: (pedido['pedido'] as List<dynamic>)
-                                  .map((item) => item as Map<String, dynamic>)
-                                  .toList(),
-                              totalPrecoPedido: pedido['totalPagar'].toDouble(),
-                              formaPagamento: pedido['formaPagamento'],
-                              enderecoEntrega: pedido['endereco'],
-                              onTap: () {},
-                              onPedidoAceito: () {},
-                            ),
 
+                    () =>  ListView.builder(
+                itemCount: pedidos.length,
+                itemBuilder: (context, index) {
+                  final pedido = pedidos[index];
+
+                  return Card(
+                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      child: Column(
+                        children: [
+                          Text('Pedido: ${pedido.id}'),
+
+                          ListTile(
+                            title: Text('Pedido ${pedido.id}'),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Cliente: ${pedido.nome}'),
+                                Text('Endereço: ${pedido.endereco}'),
+                                Text('Itens do Pedido:'),
+                                for (var item in pedido.itensPedido)
+                                  Text('${item['quantidade']}x ${item['nome']} - ${item['preco']}'),
+                                Text('Total a Pagar: ${pedido.totalPagar}'),
+                              ],
+                            ),
                           ),
-                        )
-                    );
-                  },
-                ),
+                        ],
+                      )
+                  );
+                },
+              )
               ),
             ),
           ],

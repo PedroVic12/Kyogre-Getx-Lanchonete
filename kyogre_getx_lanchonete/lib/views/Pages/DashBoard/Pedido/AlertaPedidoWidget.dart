@@ -40,8 +40,8 @@ class AlertaPedidoWidget extends StatelessWidget {
       ).show();
     });
 
-    return SizedBox(
-      child: Text('Sem pedidos ainda'),
+    return Container(
+      child: Text('ola mundo'),
     ); // Retorna um widget vazio para não renderizar nada
   }
 }

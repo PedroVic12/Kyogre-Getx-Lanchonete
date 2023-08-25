@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kyogre_getx_lanchonete/app/RestAPI/RestAPI.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Design/CartaoGridView.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CardapioDigitalPage.dart';
@@ -28,7 +27,9 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  final pedidoController = PedidoController();
+
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -38,8 +39,6 @@ class MyApp extends StatelessWidget {
       // TODO Navegação Padrão
       getPages: [
         GetPage(name: '/', page: () => Layout()),
-        GetPage(
-            name: '/pedido', page: () => const RestApiPage()), //! Change Here
         GetPage(name: '/dash', page: () => DashboardPage()),
         GetPage(name: '/layoutDesign', page: () => const CartaoGridView()),
         GetPage(name: '/details/:id', page: () {
@@ -48,7 +47,7 @@ class MyApp extends StatelessWidget {
         }),
       ],
 
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true,
       title: 'Dashboard',
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.blueAccent,

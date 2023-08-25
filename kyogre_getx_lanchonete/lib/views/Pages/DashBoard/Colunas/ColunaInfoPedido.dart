@@ -25,7 +25,7 @@ class ColunaInfoPedidos extends StatelessWidget {
             child: Obx(
                   () => InfoCard(
                 title: "Pedidos Recebidos",
-                value: pedidoController.pedidos.length.toString(),
+                value: pedidoController.toString(),
                 onTap: () {
                   pedidoController.fetchPedidos();
                 },

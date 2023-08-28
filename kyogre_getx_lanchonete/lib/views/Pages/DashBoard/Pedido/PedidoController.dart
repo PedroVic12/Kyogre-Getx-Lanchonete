@@ -7,13 +7,17 @@ import 'dart:convert';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/AlertaPedidoWidget.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 
+
+
 class PedidoController extends GetxController {
-  final pedidosAceitos = <Pedido>[].obs;
+  final PEDIDOS_ACEITOS_ARRAY = <Pedido>[].obs;
   Timer? timer;
   final Map<int, bool> pedidosAlertaMostrado = {};
   bool showAlert = false; // Novo estado para controlar a exibição do alerta
 
   final filaDeliveryController = Get.put(FilaDeliveryController());
+  //final filaDelivery = filaDeliveryController.FILA_PEDIDOS;
+
 
   @override
   void onInit() {
@@ -24,7 +28,7 @@ class PedidoController extends GetxController {
 
   void startFetchingPedidos() {
     try {
-      timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
+      timer = Timer.periodic(Duration(seconds: 7), (Timer timer) {
         fetchPedidos();
       });
     } catch (e) {
@@ -50,37 +54,55 @@ class PedidoController extends GetxController {
         print('\nResponse Body: ${jsonData}\n\n');
 
         if (jsonData is List<dynamic> && jsonData.isNotEmpty) {
-          final novoPedido = jsonData.first;
-          showNovoPedidoAlertDialog(novoPedido);
+          for (final novoPedido in jsonData) {
+            // Verifique se o pedido já foi processado
+            final pedidoId = novoPedido['id_pedido'];
+            if (pedidosAlertaMostrado.containsKey(pedidoId) && pedidosAlertaMostrado[pedidoId] == true) {
+              continue; // O pedido já foi processado e o alerta já foi mostrado, vá para o próximo pedido
+            }
+
+            showNovoPedidoAlertDialog(novoPedido);
+          }
         } else {
           print('Não possui pedidos ainda hoje');
         }
+
       }
     } catch (e) {
       print('Erro ao fazer a solicitação GET: $e');
     }
   }
 
+
   void aceitarPedido(Map<String, dynamic> pedidoJson) {
     final pedido = Pedido.fromJson(pedidoJson);
-    pedidosAceitos.add(pedido);
-    print(pedidosAceitos[0].itensPedido);
-    print('\n\nPedidos: ${pedidosAceitos[0].nome} | ${pedido.itensPedido}');
+    PEDIDOS_ACEITOS_ARRAY.add(pedido);
+    print(PEDIDOS_ACEITOS_ARRAY[0].itensPedido);
+    print('\n\nPedidos: ${PEDIDOS_ACEITOS_ARRAY[0].nome} | ${pedido.itensPedido}');
   }
-  Future<void> showNovoPedidoAlertDialog(dynamic pedido) async {
-    final pedidoId = pedido['id_pedido'];
 
+
+
+
+  Future<void> showNovoPedidoAlertDialog(dynamic pedido) async {
+
+    // Pegando os dados em tempo real
+    final pedidoId = pedido['id_pedido'];
+    print('\n\nPedido de ID: $pedidoId');
+
+
+    // fazendo um map
     final List<String> itensPedido = (pedido['pedido'] as List<dynamic>)
         .map((item) => item['nome'] as String)
         .toList();
 
-    print(pedidoId);
 
     // Verifique se a página atual é a página do cardápio digital
     final currentRoute = Get.currentRoute; // Obtenha a rota atual
-
     final isDashPage = currentRoute == '/dash'; // Substitua com a rota da página do cardápio
     print(isDashPage);
+
+
     if (!showAlert && isDashPage) {
       showAlert = true; // Defina o estado para exibir o alerta
 

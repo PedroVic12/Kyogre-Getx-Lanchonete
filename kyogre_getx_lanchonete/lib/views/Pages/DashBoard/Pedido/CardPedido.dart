@@ -4,13 +4,30 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
 
+
+
+
+
+//TODO CORREÇÃO COM CARACTERRES ESPECIAOS NO CARD
+
+// ESTUDAR LAYOUTS FLUTTER COMO UM JEDI
+
 class CardPedido extends StatelessWidget {
   final Pedido pedido;
+  final PedidoController pedidoController = Get.find<PedidoController>();
+  final filaController = Get.find<FilaDeliveryController>();
 
-  const CardPedido({required this.pedido});
+
+   CardPedido({required this.pedido});
 
   @override
   Widget build(BuildContext context) {
+    final List<Pedido> filaPedidos = pedidoController.PEDIDOS_ACEITOS_ARRAY;
+
+    if (!filaController.buscarPedido(pedido)) {
+      filaController.inserirPedido(pedido);
+    }
+
     return Dismissible(
       key: Key(pedido.id.toString()),
       direction: DismissDirection.endToStart,
@@ -25,7 +42,6 @@ class CardPedido extends StatelessWidget {
       ),
       onDismissed: (direction) {
         // Aqui você pode executar a lógica para concluir o pedido
-        // Por exemplo, chame uma função do PedidoController
         final pedidoController = Get.find<PedidoController>();
         //pedidoController.concluirPedido(pedido);
 
@@ -37,8 +53,9 @@ class CardPedido extends StatelessWidget {
         );
       },
       child: CupertinoTheme(
+
         data: CupertinoThemeData(
-          primaryColor: Colors.deepPurple,
+          primaryColor: Colors.indigoAccent,
         ),
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -57,9 +74,14 @@ class CardPedido extends StatelessWidget {
                     for (var item in pedido.itensPedido)
                       Text('${item['quantidade']}x ${item['nome']} - ${item['preco']}'),
                     Text('Total a Pagar: ${pedido.totalPagar}'),
+                    Divider(), // Adicione uma linha divisória entre os dados do pedido e da fila
+                    Text('Pedidos na Fila:'),
+                    for (var filaPedido in filaPedidos)
+                      Text('Pedido ${filaPedido.id}: ${filaPedido.nome}'),
                   ],
                 ),
               ),
+
             ],
           ),
         ),

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:get/get.dart';
 
 class Pedido {
@@ -40,24 +42,25 @@ class Pedido {
 
 
 class FilaDeliveryController extends GetxController {
-  final _filaPedidos = <Pedido>[].obs;
+  final FILA_PEDIDOS = Rx<Queue<Pedido>>(Queue());
 
-  List<Pedido> get filaPedidos => _filaPedidos.toList();
+  List<Pedido> get filaPedidos => FILA_PEDIDOS.value.toList();
 
   void inserirPedido(Pedido pedido) {
-    _filaPedidos.add(pedido);
+    if (!buscarPedido(pedido)) { // Verifique se o pedido já não está na fila
+      FILA_PEDIDOS.value.add(pedido);
+    }
   }
 
   Pedido? removerPedido() {
-    if (_filaPedidos.isNotEmpty) {
-      final pedido = _filaPedidos[0];
-      _filaPedidos.removeAt(0);
+    if (FILA_PEDIDOS.value.isNotEmpty) {
+      final pedido = FILA_PEDIDOS.value.removeFirst();
       return pedido;
     }
     return null;
   }
 
   bool buscarPedido(Pedido pedido) {
-    return _filaPedidos.contains(pedido);
+    return FILA_PEDIDOS.value.any((filaPedido) => filaPedido.id == pedido.id);
   }
 }

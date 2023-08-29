@@ -16,7 +16,6 @@ class PedidoController extends GetxController {
   bool showAlert = false; // Novo estado para controlar a exibição do alerta
 
   final filaDeliveryController = Get.put(FilaDeliveryController());
-  //final filaDelivery = filaDeliveryController.FILA_PEDIDOS;
 
 
   @override
@@ -37,12 +36,15 @@ class PedidoController extends GetxController {
   }
 
   @override
+
   void onClose() {
     timer?.cancel();
     super.onClose();
   }
 
   Future<void> fetchPedidos() async {
+    final filaDelivery = filaDeliveryController.FILA_PEDIDOS;
+    print('\n\nFILA: $filaDelivery');
     try {
       final response =
       await http.get(Uri.parse('https://rayquaza-citta-server.onrender.com/pedidos'));
@@ -77,6 +79,14 @@ class PedidoController extends GetxController {
   void aceitarPedido(Map<String, dynamic> pedidoJson) {
     final pedido = Pedido.fromJson(pedidoJson);
     PEDIDOS_ACEITOS_ARRAY.add(pedido);
+    //final FILA_STRUCT = filaDeliveryController.FILA_PEDIDOS;
+    //print('Dados: $FILA_STRUCT enviado para cozinha!');
+
+    if (!filaDeliveryController.buscarPedido(pedido)) {
+      filaDeliveryController.inserirPedido(pedido);
+      print('Pedido adicionado à fila de entrega!');
+    }
+
     print(PEDIDOS_ACEITOS_ARRAY[0].itensPedido);
     print('\n\nPedidos: ${PEDIDOS_ACEITOS_ARRAY[0].nome} | ${pedido.itensPedido}');
   }

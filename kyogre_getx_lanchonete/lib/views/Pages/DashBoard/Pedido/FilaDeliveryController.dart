@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
 
 class Pedido {
   final int id;
@@ -42,6 +43,9 @@ class Pedido {
 
 
 class FilaDeliveryController extends GetxController {
+  //final pedidoController = Get.put(PedidoController());
+
+
   final FILA_PEDIDOS = Rx<Queue<Pedido>>(Queue());
 
   List<Pedido> get filaPedidos => FILA_PEDIDOS.value.toList();
@@ -61,6 +65,11 @@ class FilaDeliveryController extends GetxController {
   }
 
   bool buscarPedido(Pedido pedido) {
+    //final array = pedidoController.PEDIDOS_ACEITOS_ARRAY;
+    //print(array);
+
+
+
     return FILA_PEDIDOS.value.any((filaPedido) => filaPedido.id == pedido.id);
   }
 }

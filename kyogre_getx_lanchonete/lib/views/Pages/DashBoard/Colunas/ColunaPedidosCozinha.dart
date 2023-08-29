@@ -33,6 +33,7 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
   Widget build(BuildContext context) {
 
     final pedidos = widget.pedidoController.PEDIDOS_ACEITOS_ARRAY;
+    final filaPedidos = filaController.FILA_PEDIDOS;
 
     return Expanded(
       //flex: 1,
@@ -56,10 +57,15 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
                 itemCount: pedidos.length,
                 itemBuilder: (context, index) {
                   final pedido = pedidos[index];
+                  print('Pedido $pedido.nome');
 
 
-                  return CardPedido(
-                    pedido: pedido
+                  return Column(
+                    children: [
+                      CardPedido(
+                          pedido: pedido
+                      )
+                    ],
                   );
                 },
               )

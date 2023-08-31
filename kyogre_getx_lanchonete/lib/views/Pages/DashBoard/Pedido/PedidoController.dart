@@ -125,6 +125,7 @@ class PedidoController extends GetxController {
             aceitarPedido(pedido);
 
             showAlert = false;
+            pedidosAlertaMostrado[pedidoId] = true;
           },
         ));
       }

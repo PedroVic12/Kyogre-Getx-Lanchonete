@@ -1,5 +1,6 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
@@ -25,13 +26,16 @@ class PedidoController extends GetxController {
   @override
   void onInit() {
     startFetchingPedidos();
+
+
+
     super.onInit();
     update();
   }
 
   void startFetchingPedidos() {
     try {
-      timer = Timer.periodic(Duration(seconds: 7), (Timer timer) {
+      timer = Timer.periodic(const Duration(seconds: 7), (Timer timer) {
         fetchPedidos();
       });
     } catch (e) {
@@ -92,13 +96,14 @@ class PedidoController extends GetxController {
 
   Future<void> showNovoPedidoAlertDialog(dynamic pedido) async {
     final pedidoId = pedido['id_pedido'];
+    print(pedidoId);
     print('\n\nItens na fila: ${filaDeliveryController.FILA_PEDIDOS.size}');
-    final pedidoTimestamp = pedido['data']['hora']; // Use a unique identifier, like a timestamp
-    final pedidoIdentifier = '$pedidoId-$pedidoTimestamp';
-    print(pedidoIdentifier);
 
+    if (pedidosAlertaMostrado.containsKey(pedidoId)) {
+      return;
+    }
 
-    if (!filaDeliveryController.verificarPedidoNaFila(pedidoId)) {
+    if (!pedidosAlertaMostrado.containsKey(pedidoId)) {
 
       print('\n\nPedido ${pedidoId} não está na fila, mostrando alerta...');
 
@@ -131,5 +136,4 @@ class PedidoController extends GetxController {
       }
     }
   }
-
 }

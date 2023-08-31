@@ -65,7 +65,7 @@ class _NightWolfAppBarState extends State<NightWolfAppBar> {
             onPressed: () {},
             icon: Icon(
               Icons.settings,
-              color: _isPurple ? Colors.black.withOpacity(.7) : Colors.white,
+              color: _isPurple ? Colors.white.withOpacity(.7) : Colors.white,
             ),
           ),
           Stack(
@@ -74,10 +74,12 @@ class _NightWolfAppBarState extends State<NightWolfAppBar> {
                 onPressed: () {},
                 icon: Icon(
                   Icons.notifications_rounded,
-                  color: _isPurple ? Colors.black.withOpacity(.7) : Colors.white,
+                  color: _isPurple ? Colors.white.withOpacity(.7) : Colors.white,
                 ),
               ),
               Positioned(
+                top: 7,
+                right: 7,
                 child: Container(
                   width: 12,
                   height: 12,
@@ -91,8 +93,6 @@ class _NightWolfAppBarState extends State<NightWolfAppBar> {
                     ),
                   ),
                 ),
-                top: 7,
-                right: 7,
               ),
             ],
           ),

@@ -30,7 +30,7 @@ class _MenuCategoriasState extends State<MenuCategorias> {
       ),
       child: Column(
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(5),
             child: Align(
               alignment: Alignment.topLeft,
@@ -41,7 +41,7 @@ class _MenuCategoriasState extends State<MenuCategorias> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(right: 5, bottom: 10),
+            padding: const EdgeInsets.only(right: 5, bottom: 10),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -55,7 +55,7 @@ class _MenuCategoriasState extends State<MenuCategorias> {
                         widget.onCategorySelected(i);
                       },
                       child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         height: 30,
                         decoration: BoxDecoration(
                           color: selectedCategoryIndex == i
@@ -72,12 +72,12 @@ class _MenuCategoriasState extends State<MenuCategorias> {
                         ),
                         child: Row(
                           children: [
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.all(2),
                               child: Icon(Icons.fastfood_rounded),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(right: 3),
+                              padding: const EdgeInsets.only(right: 3),
                               child: CustomText(text: categorias[i], size: 18,color: CupertinoColors.white,),
                             )
                           ],

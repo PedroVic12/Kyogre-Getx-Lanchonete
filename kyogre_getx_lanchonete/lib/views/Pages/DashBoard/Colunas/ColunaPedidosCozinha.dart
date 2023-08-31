@@ -32,14 +32,14 @@ class CardPedido2 extends StatelessWidget {
             final pedido = pedidosList[index];
             // Now you can access the properties of 'pedido' and build your card
             return Container(
-              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               color: Colors.white,
               child: Column(
                 children: [
                   Text('Pedido: ${pedido.id}'),
                   Text('Nome: ${pedido.nome}'),
                   // Other widgets displaying 'pedido' properties
-                  Divider(),
+                  const Divider(),
                 ],
               ),
             );
@@ -94,6 +94,37 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
                   size: 20),
             ),
             const SizedBox(height: 10.0),
+
+
+            // Cards Pedido Layout
+            const CupertinoTheme(data: CupertinoThemeData(
+              primaryColor: Colors.indigoAccent,
+            ), child: Card(
+              color: Colors.indigoAccent,
+                shadowColor: Colors.yellow,
+              child: CupertinoListTile(
+                title: CustomText(text: 'nome'),
+                trailing: Text('ID PEDIDO'),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Cliente: {pedido.nome}'),
+                    Text('Endereço: {pedido.endereco}'),
+                    Text('Itens do Pedido:'),
+                      //Text('{item['quantidade']}x {item['nome']} - {item['preco']}'),
+                    Text('Total a Pagar: {pedido.totalPagar}'),
+                    Divider(), // Adicione uma linha divisória entre os dados do pedido e da fila
+
+                  ],
+                ),
+              ),
+            )),
+
+
+
+
+
+            // Lista de Pedidos na Fila
             Expanded(
               child: Obx(
                     () => ListView.builder(
@@ -106,7 +137,8 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
                         if (pedido != null)
                         CardPedido(pedido: pedido,
                         ),
-                        SizedBox(height: 10.0), // Espaço entre os cards
+                        const Divider(),
+                        const SizedBox(height: 10.0), // Espaço entre os cards
                       ],
                     );
                   },

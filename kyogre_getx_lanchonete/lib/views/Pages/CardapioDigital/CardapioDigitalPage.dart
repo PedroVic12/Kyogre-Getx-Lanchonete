@@ -30,7 +30,7 @@ class _DetailsPageState extends State<DetailsPage> {
   late String telefoneCliente = "";
   late String idPedido = "";
 
-  final DataBaseController _dataBaseController = DataBaseController();
+  //final DataBaseController _dataBaseController = DataBaseController();
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
   @override
   void initState() {
@@ -76,12 +76,15 @@ class _DetailsPageState extends State<DetailsPage> {
     }
   }
 
+
+  List nomesLojas = ['Copacabana', 'Botafogo' , 'Ipanema', 'Castelo'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.red,
       appBar: AppBar(
-        title: Center(child: Text('Citta Lanchonete {nome} Pedido: ${widget.id}')),
+        title: Center(child: Text('Citta RJ ${nomesLojas[1]} | Pedido: ${widget.id}')),
         backgroundColor: Colors.black,
       ),
       body: Center(
@@ -124,6 +127,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       )))),
         ]),
       ),
+      //bottomSheet: Expanded(       child: Container(           child: Text('oi'),          color: Colors.greenAccent,        )),
     );
   }
 }

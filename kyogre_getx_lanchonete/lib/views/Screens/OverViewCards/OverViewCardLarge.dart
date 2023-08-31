@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:convert';
 
-import 'package:kyogre_getx_lanchonete/app/Teoria%20do%20Caos/AnimationPage.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/InfoCards/InfoCard.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/CardPedido.dart';
 
@@ -62,7 +61,6 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          if (showPedidoAnimation) PedidoChegandoAnimation(),
                           SizedBox(height: _cardWidth / 64),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

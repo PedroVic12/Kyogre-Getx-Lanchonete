@@ -18,7 +18,7 @@ class DashboardPage extends StatelessWidget {
       body: Row(
         children: [
           CardPedido2(filaPedidos: filaDeliveryController.getFila()),
-          //ColunaPedidosParaAceitar(pedidoController: pedidoController),
+          ColunaPedidosParaAceitar(pedidoController: pedidoController),
           ColunaPedidosProcessados(),
           //ColunaInfoPedidos(pedidoController: pedidoController),
         ],

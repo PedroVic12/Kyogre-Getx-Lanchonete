@@ -28,6 +28,9 @@ class FilaDeliveryController extends GetxController {
   Pedido? removerPedido() {
     return FILA_PEDIDOS.pop();
   }
+  bool verificarPedidoNaFila(int pedidoId) {
+    return buscarPedidoPorId(pedidoId);
+  }
 
   bool buscarPedidoPorId(int pedidoId) {
     No<Pedido>? current = FILA_PEDIDOS.first;

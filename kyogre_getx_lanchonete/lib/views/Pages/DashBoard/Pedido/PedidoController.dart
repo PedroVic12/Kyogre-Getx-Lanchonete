@@ -54,13 +54,21 @@ class PedidoController extends GetxController {
 
       print('\n\nResponse Status Code: ${response.statusCode}');
 
+      // Reset the pedidosAlertaMostrado map
+      pedidosAlertaMostrado.clear();
+
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         print('\nResponse Body: ${jsonData}\n\n');
 
         if (jsonData is List<dynamic> && jsonData.isNotEmpty) {
+          // Reset showAlert flag before processing new orders
+          showAlert = false;
+
           for (final novoPedido in jsonData) {
+            final pedidoId = novoPedido['id_pedido'];
             showNovoPedidoAlertDialog(novoPedido);
+            print(pedidosAlertaMostrado);
           }
         } else {
           print('Não possui pedidos ainda hoje');
@@ -83,46 +91,44 @@ class PedidoController extends GetxController {
 
 
   Future<void> showNovoPedidoAlertDialog(dynamic pedido) async {
-
-    print('\n\nPedidos na Fila: ${filaDeliveryController.FILA_PEDIDOS.size}');
-
-    // Pegando os dados em tempo real
     final pedidoId = pedido['id_pedido'];
-    print('\n\nPedido de ID: $pedidoId');
+    print('\n\nItens na fila: ${filaDeliveryController.FILA_PEDIDOS.size}');
+    final pedidoTimestamp = pedido['data']['hora']; // Use a unique identifier, like a timestamp
+    final pedidoIdentifier = '$pedidoId-$pedidoTimestamp';
+    print(pedidoIdentifier);
 
 
-    // fazendo um map
-    final List<String> itensPedido = (pedido['pedido'] as List<dynamic>)
-        .map((item) => item['nome'] as String)
-        .toList();
+    if (!filaDeliveryController.verificarPedidoNaFila(pedidoId)) {
 
+      print('\n\nPedido ${pedidoId} não está na fila, mostrando alerta...');
 
+      final List<String> itensPedido = (pedido['pedido'] as List<dynamic>)
+          .map((item) => item['nome'] as String)
+          .toList();
 
+      final currentRoute = Get.currentRoute;
+      final isDashPage = currentRoute == '/dash';
+      print(isDashPage);
 
-    // Verifique se a página atual é a página do cardápio digital
-    final currentRoute = Get.currentRoute; // Obtenha a rota atual
-    final isDashPage = currentRoute == '/dash'; // Substitua com a rota da página do cardápio
-    print(isDashPage);
+      if (!showAlert && isDashPage) {
+        showAlert = true;
 
+        await Get.to(() => AlertaPedidoWidget(
+          nomeCliente: pedido['nome'] ?? '',
+          enderecoPedido: pedido['endereco'] ?? '',
+          itensPedido: itensPedido,
+          btnOkOnPress: () {
+            print('\n\nPedido Aceito!');
+            Get.back();
+            Get.to(DashboardPage());
 
-    if (!showAlert && isDashPage) {
-      showAlert = true; // Defina o estado para exibir o alerta
+            aceitarPedido(pedido);
 
-      await Get.to(() => AlertaPedidoWidget(
-        nomeCliente: pedido['nome'] ?? '',
-        enderecoPedido: pedido['endereco'] ?? '',
-        itensPedido: itensPedido,
-        btnOkOnPress: () {
-          print('\n\nPedido Aceito!');
-          Get.back();
-          Get.to(DashboardPage());
-
-          aceitarPedido(pedido);
-
-          // Defina o estado para não exibir mais o alerta
-          showAlert = false;
-        },
-      ));
+            showAlert = false;
+          },
+        ));
+      }
     }
   }
+
 }

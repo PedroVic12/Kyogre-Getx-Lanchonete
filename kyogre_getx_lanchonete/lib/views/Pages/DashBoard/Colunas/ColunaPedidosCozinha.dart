@@ -25,7 +25,7 @@ class CardPedido2 extends StatelessWidget {
 
     return Expanded(
       child: Container(
-        color: Colors.white,
+        color: Colors.red,
         child: ListView.builder(
           itemCount: pedidosList.length,
           itemBuilder: (context, index) {
@@ -33,9 +33,11 @@ class CardPedido2 extends StatelessWidget {
             // Now you can access the properties of 'pedido' and build your card
             return Container(
               margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              color: Colors.white,
               child: Column(
                 children: [
                   Text('Pedido: ${pedido.id}'),
+                  Text('Nome: ${pedido.nome}'),
                   // Other widgets displaying 'pedido' properties
                   Divider(),
                 ],

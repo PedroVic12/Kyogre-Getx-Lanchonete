@@ -22,9 +22,9 @@ class CardPedido extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Pedido> filaPedidos = pedidoController.PEDIDOS_ACEITOS_ARRAY;
+    final filaPedidos = filaController.FILA_PEDIDOS;
 
-    if (!filaController.buscarPedido(pedido)) {
+    if (!filaController.buscarPedidoPorId(pedido.id)) {
       filaController.inserirPedido(pedido);
     }
 
@@ -75,9 +75,7 @@ class CardPedido extends StatelessWidget {
                       Text('${item['quantidade']}x ${item['nome']} - ${item['preco']}'),
                     Text('Total a Pagar: ${pedido.totalPagar}'),
                     Divider(), // Adicione uma linha divisória entre os dados do pedido e da fila
-                    Text('Pedidos na Fila:'),
-                    for (var filaPedido in filaPedidos)
-                      Text('Pedido ${filaPedido.id}: ${filaPedido.nome}'),
+
                   ],
                 ),
               ),

@@ -7,6 +7,48 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/CardPedido.d
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
 
+class CardPedido2 extends StatelessWidget {
+  final Fila<Pedido> filaPedidos;
+
+  CardPedido2({required this.filaPedidos});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Pedido> pedidosList = [];
+
+    // Iterate through the elements in the Fila and add them to the pedidosList
+    No<Pedido>? current = filaPedidos.first;
+    while (current != null) {
+      pedidosList.add(current.data);
+      current = current.next;
+    }
+
+    return Expanded(
+      child: ListView.builder(
+        itemCount: pedidosList.length,
+        itemBuilder: (context, index) {
+          final pedido = pedidosList[index];
+          // Now you can access the properties of 'pedido' and build your card
+          return Container(
+            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            color: Colors.white,
+            child: Column(
+              children: [
+                Text('Pedido: ${pedido.id}'),
+                // Other widgets displaying 'pedido' properties
+                Divider(),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+
+
+
 class ColunaPedidosParaAceitar extends StatefulWidget {
   const ColunaPedidosParaAceitar({
     Key? key,
@@ -21,7 +63,8 @@ class ColunaPedidosParaAceitar extends StatefulWidget {
 }
 
 class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
-  final FilaDeliveryController filaController = Get.put(FilaDeliveryController());
+  final FilaDeliveryController filaController =
+  Get.put(FilaDeliveryController());
 
   @override
   void initState() {
@@ -31,44 +74,39 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
 
   @override
   Widget build(BuildContext context) {
-
-    final pedidos = widget.pedidoController.PEDIDOS_ACEITOS_ARRAY;
-    final filaPedidos = filaController.FILA_PEDIDOS;
+    final filaPedidos = filaController.getFila();
 
     return Expanded(
-      //flex: 1,
       child: Container(
         color: Colors.white70,
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             const Center(
-              child: CustomText(text: 'Pedidos Sendo preparados Na Cozinha',weight: FontWeight.bold, size: 20),
-
+              child: CustomText(
+                  text: 'Pedidos Sendo Preparados na Cozinha',
+                  weight: FontWeight.bold,
+                  size: 20),
             ),
-
             const SizedBox(height: 10.0),
             Expanded(
               child: Obx(
+                    () => ListView.builder(
+                  itemCount: filaPedidos.length + 1,
+                  itemBuilder: (context, index) {
+                    final pedido = filaPedidos[index];
 
-                    () =>  ListView.builder(
-                itemCount: pedidos.length,
-                itemBuilder: (context, index) {
-                  final pedido = pedidos[index];
-                  print('Pedido $pedido.nome');
-
-
-                  return Column(
-                    children: [
-                      CardPedido(
-                          pedido: pedido
-                      )
-                    ],
-                  );
-                },
-              )
+                    return Column(
+                      children: [
+                        if (pedido != null)
+                        CardPedido(pedido: pedido,
+                        ),
+                        SizedBox(height: 10.0), // Espaço entre os cards
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
           ],

@@ -10,9 +10,10 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDelivery
 
 
 class PedidoController extends GetxController {
-  final PEDIDOS_ACEITOS_ARRAY = <Pedido>[].obs;
-  Timer? timer;
+  //final PEDIDOS_ACEITOS_ARRAY = <Pedido>[].obs;
+
   final Map<int, bool> pedidosAlertaMostrado = {};
+  Timer? timer;
   bool showAlert = false; // Novo estado para controlar a exibição do alerta
 
   final filaDeliveryController = Get.put(FilaDeliveryController());
@@ -43,8 +44,7 @@ class PedidoController extends GetxController {
   }
 
   Future<void> fetchPedidos() async {
-    final filaDelivery = filaDeliveryController.FILA_PEDIDOS;
-    print('\n\nFILA: $filaDelivery');
+    final filaDelivery = filaDeliveryController;
     try {
       final response =
       await http.get(Uri.parse('https://rayquaza-citta-server.onrender.com/pedidos'));
@@ -78,23 +78,16 @@ class PedidoController extends GetxController {
 
   void aceitarPedido(Map<String, dynamic> pedidoJson) {
     final pedido = Pedido.fromJson(pedidoJson);
-    PEDIDOS_ACEITOS_ARRAY.add(pedido);
-    //final FILA_STRUCT = filaDeliveryController.FILA_PEDIDOS;
-    //print('Dados: $FILA_STRUCT enviado para cozinha!');
-
-    if (!filaDeliveryController.buscarPedido(pedido)) {
-      filaDeliveryController.inserirPedido(pedido);
-      print('Pedido adicionado à fila de entrega!');
-    }
-
-    print(PEDIDOS_ACEITOS_ARRAY[0].itensPedido);
-    print('\n\nPedidos: ${PEDIDOS_ACEITOS_ARRAY[0].nome} | ${pedido.itensPedido}');
+    filaDeliveryController.inserirPedido(pedido);
+    print('\n\nPedido adicionado à fila de entrega!');
   }
 
 
 
 
   Future<void> showNovoPedidoAlertDialog(dynamic pedido) async {
+
+    print('\n\nPedidos na Fila: ${filaDeliveryController.FILA_PEDIDOS.size}');
 
     // Pegando os dados em tempo real
     final pedidoId = pedido['id_pedido'];
@@ -105,6 +98,7 @@ class PedidoController extends GetxController {
     final List<String> itensPedido = (pedido['pedido'] as List<dynamic>)
         .map((item) => item['nome'] as String)
         .toList();
+    print(filaDeliveryController.todosPedidosNaFila(itensPedido));
 
 
     // Verifique se a página atual é a página do cardápio digital

@@ -7,10 +7,13 @@ import 'dart:convert';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/AlertaPedidoWidget.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 
+// TODO ALERTA NAO ESTA MOSTRANDO OS DADOS DA REQUISIÇÃO
 
+// TODO ACEITAR PEDIDO E JOGAR NA FILA
+
+// TODO CRIAR UM CARD PARA CADA PEDIDO NA FILA
 
 class PedidoController extends GetxController {
-  //final PEDIDOS_ACEITOS_ARRAY = <Pedido>[].obs;
 
   final Map<int, bool> pedidosAlertaMostrado = {};
   Timer? timer;
@@ -32,7 +35,7 @@ class PedidoController extends GetxController {
         fetchPedidos();
       });
     } catch (e) {
-      print('Nao possui pedidos ainda');
+      print(e);
     }
   }
 
@@ -57,12 +60,6 @@ class PedidoController extends GetxController {
 
         if (jsonData is List<dynamic> && jsonData.isNotEmpty) {
           for (final novoPedido in jsonData) {
-            // Verifique se o pedido já foi processado
-            final pedidoId = novoPedido['id_pedido'];
-            if (pedidosAlertaMostrado.containsKey(pedidoId) && pedidosAlertaMostrado[pedidoId] == true) {
-              continue; // O pedido já foi processado e o alerta já foi mostrado, vá para o próximo pedido
-            }
-
             showNovoPedidoAlertDialog(novoPedido);
           }
         } else {
@@ -98,7 +95,8 @@ class PedidoController extends GetxController {
     final List<String> itensPedido = (pedido['pedido'] as List<dynamic>)
         .map((item) => item['nome'] as String)
         .toList();
-    print(filaDeliveryController.todosPedidosNaFila(itensPedido));
+
+
 
 
     // Verifique se a página atual é a página do cardápio digital

@@ -9,13 +9,17 @@ class FilaDeliveryController extends GetxController {
   bool todosPedidosNaFila(pedidos) {
     for (final pedido in pedidos) {
       final pedidoId = pedido['id_pedido'];
-      print(pedidoId);
-      if (!buscarPedidoPorId(pedidoId)) {
+
+      // Convert pedidoId to an integer
+      final intPedidoId = int.tryParse(pedidoId);
+
+      if (intPedidoId != null && !buscarPedidoPorId(intPedidoId)) {
         return false;
       }
     }
     return true;
   }
+
   void inserirPedido(Pedido pedido) {
     FILA_PEDIDOS.push(pedido);
 

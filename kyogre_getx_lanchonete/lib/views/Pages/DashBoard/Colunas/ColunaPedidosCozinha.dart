@@ -24,23 +24,25 @@ class CardPedido2 extends StatelessWidget {
     }
 
     return Expanded(
-      child: ListView.builder(
-        itemCount: pedidosList.length,
-        itemBuilder: (context, index) {
-          final pedido = pedidosList[index];
-          // Now you can access the properties of 'pedido' and build your card
-          return Container(
-            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            color: Colors.white,
-            child: Column(
-              children: [
-                Text('Pedido: ${pedido.id}'),
-                // Other widgets displaying 'pedido' properties
-                Divider(),
-              ],
-            ),
-          );
-        },
+      child: Container(
+        color: Colors.white,
+        child: ListView.builder(
+          itemCount: pedidosList.length,
+          itemBuilder: (context, index) {
+            final pedido = pedidosList[index];
+            // Now you can access the properties of 'pedido' and build your card
+            return Container(
+              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: Column(
+                children: [
+                  Text('Pedido: ${pedido.id}'),
+                  // Other widgets displaying 'pedido' properties
+                  Divider(),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

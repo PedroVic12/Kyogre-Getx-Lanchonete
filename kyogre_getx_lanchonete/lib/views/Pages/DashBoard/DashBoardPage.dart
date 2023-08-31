@@ -17,7 +17,7 @@ class DashboardPage extends StatelessWidget {
       appBar: NightWolfAppBar(),
       body: Row(
         children: [
-          CardPedido2(filaPedidos: filaDeliveryController.getFila(),),
+          CardPedido2(filaPedidos: filaDeliveryController.getFila()),
           //ColunaPedidosParaAceitar(pedidoController: pedidoController),
           ColunaPedidosProcessados(),
           //ColunaInfoPedidos(pedidoController: pedidoController),

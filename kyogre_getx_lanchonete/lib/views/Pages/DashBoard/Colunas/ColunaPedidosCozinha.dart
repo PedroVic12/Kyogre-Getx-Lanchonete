@@ -3,54 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/CardPedido.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
-
-class CardPedido2 extends StatelessWidget {
-  final Fila<Pedido> filaPedidos;
-
-  CardPedido2({required this.filaPedidos});
-
-  @override
-  Widget build(BuildContext context) {
-    final List<Pedido> pedidosList = [];
-
-    // Iterate through the elements in the Fila and add them to the pedidosList
-    No<Pedido>? current = filaPedidos.first;
-    while (current != null) {
-      pedidosList.add(current.data);
-      current = current.next;
-    }
-
-    return Expanded(
-      child: Container(
-        color: Colors.red,
-        child: ListView.builder(
-          itemCount: pedidosList.length,
-          itemBuilder: (context, index) {
-            final pedido = pedidosList[index];
-            // Now you can access the properties of 'pedido' and build your card
-            return Container(
-              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              color: Colors.white,
-              child: Column(
-                children: [
-                  Text('Pedido: ${pedido.id}'),
-                  Text('Nome: ${pedido.nome}'),
-                  // Other widgets displaying 'pedido' properties
-                  const Divider(),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-
 
 
 class ColunaPedidosParaAceitar extends StatefulWidget {
@@ -67,18 +21,25 @@ class ColunaPedidosParaAceitar extends StatefulWidget {
 }
 
 class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
-  final FilaDeliveryController filaController =
-  Get.put(FilaDeliveryController());
+  FilaDeliveryController filaDeliveryController = FilaDeliveryController();
+  final pedidoController = PedidoController();
+
 
   @override
   void initState() {
     super.initState();
     widget.pedidoController.startFetchingPedidos();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
-    final filaPedidos = filaController.getFila();
+    final filaPedidos = filaDeliveryController.getFila();
+
+
+
 
     return Expanded(
       child: Container(
@@ -91,12 +52,14 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
               child: CustomText(
                   text: 'Pedidos Sendo Preparados na Cozinha',
                   weight: FontWeight.bold,
-                  size: 20),
+                  size: 22),
             ),
             const SizedBox(height: 10.0),
 
 
-            // Cards Pedido Layout
+
+
+      // Cards Pedido Layout
             const CupertinoTheme(data: CupertinoThemeData(
               primaryColor: Colors.indigoAccent,
             ), child: Card(
@@ -125,25 +88,18 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
 
 
             // Lista de Pedidos na Fila
+            Text("Renderizando ${filaPedidos.tamanhoFila()} pedidos."),
             Expanded(
-              child: Obx(
-                    () => ListView.builder(
-                  itemCount: filaPedidos.length + 1,
-                  itemBuilder: (context, index) {
-                    final pedido = filaPedidos[index];
-
-                    return Column(
-                      children: [
-                        if (pedido != null)
-                        CardPedido(pedido: pedido,
-                        ),
-                        const Divider(),
-                        const SizedBox(height: 10.0), // Espaço entre os cards
-                      ],
-                    );
-                  },
-                ),
-              ),
+              child: ListView(
+                children: filaPedidos.todosPedidos().map<Widget>((pedido) {
+                  return Card(
+                    child: ListTile(
+                      title: Text(pedido.nome),
+                      subtitle: Text("Pedido ID: ${pedido.id}"),
+                    ),
+                  );
+                }).toList(),
+              )
             ),
           ],
         ),

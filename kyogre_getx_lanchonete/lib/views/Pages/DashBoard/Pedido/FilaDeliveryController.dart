@@ -2,15 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
 
 
 class FilaDeliveryController extends GetxController {
   // Instanciando o Objeto que recebe o padrao do pedido
-  final Fila<Pedido> FILA_PEDIDOS = Fila<Pedido>();
+  final Fila FILA_PEDIDOS = Fila();
+
+  final controller = Get.find<PedidoController>();
+
 
   // Getters
   getFila() => FILA_PEDIDOS;
-  Fila<Pedido> get pedidos => FILA_PEDIDOS;
 
   List array = [];
   bool buscarPedidoNaFila(int pedidoId) {
@@ -39,29 +42,22 @@ class FilaDeliveryController extends GetxController {
     }
   }
 
-  bool todosPedidosNaFila(pedidos) {
-    for (final pedido in pedidos) {
-      final pedidoId = pedido['id_pedido'];
 
-      // Convert pedidoId to an integer
-      final intPedidoId = int.tryParse(pedidoId);
 
-      if (intPedidoId != null && !buscarPedidoPorId(intPedidoId)) {
-        return false;
+  carregarPedidos(pedidosDoServidor) {
+
+
+    print('Tamannho Fila Delivery: ${FILA_PEDIDOS.tamanhoFila()}');
+
+    pedidosDoServidor.forEach((pedidosList) {
+      final pedido = Pedido.fromJson(pedidosList);
+
+      print("Carregando pedido: ${pedido.id}"); // Adicione esta linha
+      if (!FILA_PEDIDOS.contemPedidoComId(pedido.id)) {
+        print('Mostrando o alerta..');
+        controller.showNovoPedidoAlertDialog(pedidosList);
       }
-    }
-    return true;
-  }
-
-  List<Pedido> getAllPedidos() {
-    List<Pedido> pedidos = [];
-
-    // Iterar sobre a fila usando o tamanho da fila
-    for (var i = 0; i < FILA_PEDIDOS.size; i++) {
-      pedidos.add(FILA_PEDIDOS[i]!);
-    }
-
-    return pedidos;
+    });
   }
 
 
@@ -73,129 +69,81 @@ class FilaDeliveryController extends GetxController {
   Pedido? removerPedido() {
     return FILA_PEDIDOS.pop();
   }
-  bool verificarPedidoNaFila(int pedidoId) {
-    return buscarPedidoPorId(pedidoId);
-  }
 
-  bool buscarPedidoPorId(int pedidoId) {
-    No<Pedido>? current = FILA_PEDIDOS.first;
-    while (current != null) {
-      if (current.data.id == pedidoId) {
-        return true;
-      }
-      current = current.next;
-    }
-    return false;
-  }
+
+
 
 
 }
 
 //!Models
-class No<T> {
-  T data;
-  No<T>? next;
+class No {
+  Pedido pedido;
+  No? proximo;
 
-  No(this.data);
-
-  Iterable<T> iterator() {
-    return [data];
-  }
+  No(this.pedido);
 }
 
-class Fila<T> {
-  No<T>? first;
-  No<T>? last;
-  int size = 0;
-  No<T>? _fila;
+class Fila {
+  No? inicio;
+  No? fim;
 
-  Iterable<T> get items sync* {
-    No<T>? current = first;
-    while (current != null) {
-      yield current.data;
-      current = current.next;
+  bool get estaVazia => inicio == null;
+
+  int tamanhoFila() {
+    int tamanho = 0;
+    var atual = inicio;
+    while (atual != null) {
+      tamanho++;
+      atual = atual.proximo;
     }
+    return tamanho;
   }
 
-
-
-
-  void push(T elemento) {
-    No<T> node = No(elemento);
-
-    if (last == null) {
-      last = node;
+  void push(Pedido pedido) {
+    var no = No(pedido);
+    if (estaVazia) {
+      inicio = fim = no;
     } else {
-      last!.next = node;
-      last = node;
+      fim!.proximo = no;
+      fim = no;
     }
-
-    if (first == null) {
-      first = node;
-    }
-
-    size++;
   }
 
-  T? peek() {
-    if (empty()) {
-      return null;
+  Pedido? pop() {
+    if (estaVazia) return null;
+    var temp = inicio;
+    inicio = inicio!.proximo;
+    if (inicio == null) {
+      fim = null;
     }
-    return first!.data;
+    return temp!.pedido;
   }
 
-  T? pop() {
-    if (empty()) {
-      return null;
+  List<Pedido> todosPedidos() {
+    List<Pedido> pedidos = [];
+    var atual = inicio;
+    while (atual != null) {
+      pedidos.add(atual.pedido);
+      atual = atual.proximo;
     }
-    T elemento = first!.data;
-    first = first!.next;
-
-    if (first == null) {
-      last = null;
-    }
-
-    size--;
-    return elemento;
+    return pedidos;
   }
 
-  Pedido? operator [](int index) {
-    if (index < 0 || index >= size) {
-      return null;
-    }
-
-    No<Pedido>? current = first as No<Pedido>?;
-    for (var i = 0; i < index; i++) {
-      current = current!.next;
-    }
-
-    return current!.data;
-  }
-
-
-  int get length => size;
-
-  bool empty() {
-    return size == 0;
-  }
-
-  String showData() {
-    if (empty()) {
-      return 'Fila Vazia, sem pedidos por enquanto';
-    }
-
-    String s = '';
-    No<T>? current = first;
-    while (current != null) {
-      s += current.data.toString();
-      current = current.next;
-      if (current != null) {
-        s += ' -> ';
+  bool contemPedidoComId(int id) {
+    var atual = inicio;
+    while (atual != null) {
+      if (atual.pedido.id == id) {
+        return true;
       }
+      atual = atual.proximo;
     }
-    return s;
+    return false;
   }
 }
+
+
+
 
 class Pedido {
   final int id;

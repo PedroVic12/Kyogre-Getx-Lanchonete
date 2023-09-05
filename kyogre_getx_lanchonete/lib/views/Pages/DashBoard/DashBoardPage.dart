@@ -6,18 +6,20 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Colunas/ColunaPedid
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Colunas/ColunasPedidoProcessados.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidosPage.dart';
 
 
 class DashboardPage extends StatelessWidget {
-  final PedidoController pedidoController = Get.put(PedidoController());
-  final FilaDeliveryController filaDeliveryController = Get.put(FilaDeliveryController());
+  final PedidoController pedidoController = Get.find();
+  final FilaDeliveryController filaDeliveryController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: NightWolfAppBar(),
       body: Row(
         children: [
-          CardPedido2(filaPedidos: filaDeliveryController.getFila()),
+          PedidosServer(),
           ColunaPedidosParaAceitar(pedidoController: pedidoController),
           ColunaPedidosProcessados(),
           //ColunaInfoPedidos(pedidoController: pedidoController),

@@ -8,6 +8,7 @@ import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseControl
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CardapioDigitalPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Layout/Layout.dart';
 
 import 'views/Pages/DashBoard/Pedido/PedidoController.dart';
@@ -18,7 +19,10 @@ import 'views/Pages/DashBoard/Pedido/PedidoController.dart';
 
 void main() {
   Get.put(MenuController());
+
   Get.put(PedidoController());
+  Get.put(FilaDeliveryController());
+
   Get.put(DataBaseController());
   Get.put(CatalogoProdutosController());
 
@@ -27,7 +31,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final pedidoController = PedidoController();
 
 
   @override

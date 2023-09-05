@@ -18,16 +18,14 @@ class PedidoController extends GetxController {
 
   final Map<int, bool> pedidosAlertaMostrado = {};
   Timer? timer;
-  bool showAlert = false; // Novo estado para controlar a exibição do alerta
+  bool showAlert = false; // Novo estado para controlar a exibição do alerta]
 
-  final filaDeliveryController = Get.put(FilaDeliveryController());
+
 
 
   @override
   void onInit() {
     startFetchingPedidos();
-
-
 
     super.onInit();
     update();
@@ -50,8 +48,10 @@ class PedidoController extends GetxController {
     super.onClose();
   }
 
-  Future<void> fetchPedidos() async {
-    final filaDelivery = filaDeliveryController;
+  Future fetchPedidos() async {
+
+    final filaDeliveryController = Get.find<FilaDeliveryController>();
+
     try {
       final response =
       await http.get(Uri.parse('https://rayquaza-citta-server.onrender.com/pedidos'));
@@ -61,9 +61,14 @@ class PedidoController extends GetxController {
       // Reset the pedidosAlertaMostrado map
       pedidosAlertaMostrado.clear();
 
+
       if (response.statusCode == 200) {
+
+        // Pegando o Json da requisição
         final jsonData = json.decode(response.body);
         print('\nResponse Body: ${jsonData}\n\n');
+
+
 
         if (jsonData is List<dynamic> && jsonData.isNotEmpty) {
           // Reset showAlert flag before processing new orders
@@ -71,13 +76,17 @@ class PedidoController extends GetxController {
 
           for (final novoPedido in jsonData) {
             final pedidoId = novoPedido['id_pedido'];
-            showNovoPedidoAlertDialog(novoPedido);
-            print(pedidosAlertaMostrado);
+
+            //! O alerta é chamado aqui pela Fila
+            filaDeliveryController.carregarPedidos(jsonData);
+            //showNovoPedidoAlertDialog(novoPedido);
+
           }
+
+
         } else {
           print('Não possui pedidos ainda hoje');
         }
-
       }
     } catch (e) {
       print('Erro ao fazer a solicitação GET: $e');
@@ -86,6 +95,10 @@ class PedidoController extends GetxController {
 
 
   void aceitarPedido(Map<String, dynamic> pedidoJson) {
+    final filaDeliveryController = Get.find<FilaDeliveryController>();
+
+    //filaDeliveryController.inserirPedido(pedidoJson as Pedido);
+
     final pedido = Pedido.fromJson(pedidoJson);
     filaDeliveryController.inserirPedido(pedido);
     print('\n\nPedido adicionado à fila de entrega!');
@@ -95,9 +108,12 @@ class PedidoController extends GetxController {
 
 
   Future<void> showNovoPedidoAlertDialog(dynamic pedido) async {
+    final filaDeliveryController = Get.find<FilaDeliveryController>();
+
+
     final pedidoId = pedido['id_pedido'];
     print(pedidoId);
-    print('\n\nItens na fila: ${filaDeliveryController.FILA_PEDIDOS.size}');
+    print('\n\nItens na fila: ${filaDeliveryController.FILA_PEDIDOS.tamanhoFila()}');
 
     if (pedidosAlertaMostrado.containsKey(pedidoId)) {
       return;

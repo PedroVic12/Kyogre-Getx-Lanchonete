@@ -25,9 +25,6 @@ class CardPedido extends StatelessWidget {
   Widget build(BuildContext context) {
     final filaPedidos = filaController.FILA_PEDIDOS;
 
-    if (!filaController.buscarPedidoPorId(pedido.id)) {
-      filaController.inserirPedido(pedido);
-    }
 
     return Dismissible(
       key: Key(pedido.id.toString()),

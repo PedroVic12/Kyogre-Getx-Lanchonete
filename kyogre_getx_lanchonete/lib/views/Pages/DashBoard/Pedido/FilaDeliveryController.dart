@@ -7,88 +7,78 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/AlertaPedido
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido.dart';
 
-
 class FilaDeliveryController extends GetxController {
-  // Instanciando o Objeto que recebe o padrao do pedido
-  //final Fila FILA_PEDIDOS = Fila();
   final Rx<Fila> FILA_PEDIDOS = Fila().obs;
-
   final controller = Get.find<PedidoController>();
 
+  final List<dynamic> pedidosParaAlertas = [];
 
-
-  // Getters
   getFila() => FILA_PEDIDOS;
-  getTodosPedidos()=> FILA_PEDIDOS.value.todosPedidos();
-
-  List array = [];
-  bool buscarPedidoNaFila(int pedidoId) {
-    for (final pedido in array) {
-      if (pedido.id == pedidoId) {
-        return true;
-      }
-    }
-    return false;
-  }
+  getTodosPedidos() => FILA_PEDIDOS.value.todosPedidos();
 
 
   carregarPedidos(pedidosDoServidor) {
 
-    print('Tamannho Fila Delivery: ${FILA_PEDIDOS.value.tamanhoFila()}');
-    print('Pegando os produtos: ${getTodosPedidos()}');
+    print('Tamanho da Fila: ${FILA_PEDIDOS.value.tamanhoFila()}');
 
     pedidosDoServidor.forEach((pedidosList) {
       final pedido = Pedido.fromJson(pedidosList);
-
-      print("\nCarregando pedido dentro da Requisição: ${pedido.id}");
-
-
-
+      print(pedido);
       if (!FILA_PEDIDOS.value.contemPedidoComId(pedido.id)) {
-        print('Mostrando o alerta...');
-        showNovoPedidoAlertDialog(pedidosList);
+        pedidosParaAlertas.add(pedidosList);
       }
     });
+    _mostrarAlertaSeNecessario();
+  }
+
+  // Metodos de Controle
+  _mostrarAlertaSeNecessario() {
+    if (!_todosPedidosEstaoNaFila(pedidosParaAlertas) && !controller.showAlert) {
+      showNovoPedidoAlertDialog(pedidosParaAlertas.removeAt(0));
+    }
   }
 
 
+  bool _todosPedidosEstaoNaFila(List<dynamic> pedidosList) {
+    for (var pedidoJson in pedidosList) {
+      final pedido = Pedido.fromJson(pedidoJson);
+      if (!FILA_PEDIDOS.value.contemPedidoComId(pedido.id)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // Metodos Crud
   void inserirPedido(Pedido pedido) {
     FILA_PEDIDOS.value.push(pedido);
+    FILA_PEDIDOS.refresh();
     print("Pedido inserido. Tamanho da fila agora: ${FILA_PEDIDOS.value.tamanhoFila()}");
-
   }
 
   Pedido? removerPedido() {
     return FILA_PEDIDOS.value.pop();
   }
 
-
-
+  // Alerta de Pedido
   Future<void> showNovoPedidoAlertDialog(dynamic pedido) async {
     final controller = Get.find<PedidoController>();
-
-
     final pedidoId = pedido['id_pedido'];
-    print(pedidoId);
-    print('\n\nItens na fila: ${FILA_PEDIDOS.value.tamanhoFila()}');
 
     if (controller.pedidosAlertaMostrado.containsKey(pedidoId)) {
       return;
     }
 
     if (!controller.pedidosAlertaMostrado.containsKey(pedidoId)) {
-
-      print('\n\nPedido ${pedidoId} não está na fila, mostrando alerta...');
-
       final List<String> itensPedido = (pedido['pedido'] as List<dynamic>)
           .map((item) => item['nome'] as String)
           .toList();
 
       final currentRoute = Get.currentRoute;
       final isDashPage = currentRoute == '/dash';
-      print(isDashPage);
 
       if (!controller.showAlert && isDashPage) {
+        print('Pedido ${pedidoId} não esta na Fila, mostrando o alerta...');
         controller.showAlert = true;
 
         await Get.to(() => AlertaPedidoWidget(
@@ -96,22 +86,24 @@ class FilaDeliveryController extends GetxController {
           enderecoPedido: pedido['endereco'] ?? '',
           itensPedido: itensPedido,
           btnOkOnPress: () {
+
+
+            // Adicionando na fila
+            Pedido novoPedido = Pedido.fromJson(pedido);
+            inserirPedido(novoPedido);
             print('\n\nPedido Aceito!');
+
+            //Controle de Rotas
             Get.back();
             Get.to(DashboardPage());
 
-            Pedido novoPedido = Pedido.fromJson(pedido);
-            inserirPedido(novoPedido);
-
+            // Ajustando parametros do alerta
             controller.showAlert = false;
             controller.pedidosAlertaMostrado[pedidoId] = true;
+            _mostrarAlertaSeNecessario();
           },
         ));
       }
     }
   }
-
-
-
 }
-

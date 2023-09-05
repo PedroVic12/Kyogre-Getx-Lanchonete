@@ -19,7 +19,7 @@ class DashboardPage extends StatelessWidget {
       appBar: NightWolfAppBar(),
       body: Row(
         children: [
-          PedidosServer(),
+          //PedidosServer(),
           ColunaPedidosParaAceitar(pedidoController: pedidoController),
           ColunaPedidosProcessados(),
           //ColunaInfoPedidos(pedidoController: pedidoController),

@@ -8,6 +8,44 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoContro
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido.dart';
 
 
+
+class SimpleFilaPage extends StatelessWidget {
+  final FilaDeliveryController filaDeliveryController = Get.find();
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+        final todosPedidos = filaDeliveryController.getTodosPedidos();
+
+        // Se a fila estiver vazia
+        if (todosPedidos.isEmpty) {
+          return Center(
+            child: Text('A fila está vazia'),
+          );
+        }
+
+        // Caso contrário, liste todos os pedidos
+        return Expanded(
+          child: ListView.builder(
+            itemCount: todosPedidos.length,
+            itemBuilder: (context, index) {
+              final pedido = todosPedidos[index];
+              return Card(
+                color: Colors.black12,
+                child: ListTile(
+                  title: Text(pedido.nome),
+                  subtitle: Text('Pedido ID: ${pedido.id}'),
+                ),
+              );
+            },
+          ),
+        );
+      });
+  }
+}
+
+
+
 class ColunaPedidosParaAceitar extends StatefulWidget {
   const ColunaPedidosParaAceitar({
     Key? key,
@@ -26,23 +64,21 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
   final pedidoController = PedidoController();
 
 
-
-
   @override
   void initState() {
     super.initState();
     widget.pedidoController.startFetchingPedidos();
     WidgetsBinding.instance.addPostFrameCallback((_) {
     });
-    filaDeliveryController.getTodosPedidos();
+
   }
 
 
   @override
   Widget build(BuildContext context) {
-    RxList<Pedido> filaPedidos = RxList<Pedido>();
+    final TodosPedidos = filaDeliveryController.FILA_PEDIDOS.value.todosPedidos();
+    print('Todos Pedidos: ${TodosPedidos}');
 
-    final pedidos = filaDeliveryController.getTodosPedidos();
 
     return Expanded(
       child: Container(
@@ -62,47 +98,10 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
 
 
 
-      // Cards Pedido Layout
-            const CupertinoTheme(data: CupertinoThemeData(
-              primaryColor: Colors.indigoAccent,
-            ), child: Card(
-              color: Colors.indigoAccent,
-                shadowColor: Colors.yellow,
-              child: CupertinoListTile(
-                title: CustomText(text: 'nome'),
-                trailing: Text('ID PEDIDO'),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Cliente: {pedido.nome}'),
-                    Text('Endereço: {pedido.endereco}'),
-                    Text('Itens do Pedido:'),
-                      //Text('{item['quantidade']}x {item['nome']} - {item['preco']}'),
-                    Text('Total a Pagar: {pedido.totalPagar}'),
-                    Divider(), // Adicione uma linha divisória entre os dados do pedido e da fila
-
-                  ],
-                ),
-              ),
-            )),
-
-
-
 
 
             // Lista de Pedidos na Fila
-            // Adicionando Obx para tornar esta parte reativa:
-            Obx(() =>Expanded(child:  ListView(
-              children: filaDeliveryController.FILA_PEDIDOS.value.todosPedidos().map((pedido) {
-                return Card(
-                  child: ListTile(
-                    title: Text(pedido.nome),
-                    subtitle: Text("Pedido ID: ${pedido.id}"),
-                  ),
-                );
-              }).toList(),
-            )))
-
+            SimpleFilaPage()
 
           ],
         ),

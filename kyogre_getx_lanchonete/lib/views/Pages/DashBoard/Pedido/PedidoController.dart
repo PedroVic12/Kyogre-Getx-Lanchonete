@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido.dart';
 
 // TODO ALERTA NAO ESTA MOSTRANDO OS DADOS DA REQUISIÇÃO
 
@@ -55,7 +54,7 @@ class PedidoController extends GetxController {
       final response =
       await http.get(Uri.parse('https://rayquaza-citta-server.onrender.com/pedidos'));
 
-      print('\n\nResponse Status Code: ${response.statusCode}');
+      print('\nResponse Status Code: ${response.statusCode}');
 
       // Reset the pedidosAlertaMostrado map
       pedidosAlertaMostrado.clear();
@@ -79,7 +78,7 @@ class PedidoController extends GetxController {
           //Loop que pega todos no corpo da Req
           for (final novoPedido in jsonData) {
             final pedidoId = novoPedido['id_pedido'];
-            print('Pedidos dentro do Array ${pedidoId}');
+            //print('Pedidos dentro do Array ${pedidoId}');
           }
 
 

@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido.dart';
@@ -54,12 +55,15 @@ class CardPedido extends StatelessWidget {
       child: CupertinoTheme(
 
         data: CupertinoThemeData(
+
           primaryColor: Colors.indigoAccent,
         ),
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: Column(
             children: [
+
+
               Text('Pedido: ${pedido.id}'),
 
               CupertinoListTile(

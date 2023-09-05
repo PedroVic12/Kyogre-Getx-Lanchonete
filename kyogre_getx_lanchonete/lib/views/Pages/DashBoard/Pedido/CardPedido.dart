@@ -8,12 +8,6 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoContro
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido.dart';
 
 
-
-
-
-//TODO CORREÇÃO COM CARACTERRES ESPECIAOS NO CARD
-
-// ESTUDAR LAYOUTS FLUTTER COMO UM JEDI
 class CardPedido extends StatelessWidget {
   const CardPedido({Key? key}) : super(key: key);
 
@@ -21,29 +15,44 @@ class CardPedido extends StatelessWidget {
   Widget build(BuildContext context) {
     final FilaDeliveryController filaDeliveryController = Get.find();
 
-    return // Lista de Pedidos na Fila
-      Obx(() {
-        final todosPedidos = filaDeliveryController.getTodosPedidos();
+    return Obx(() {
+      final todosPedidos = filaDeliveryController.getTodosPedidos();
 
-        // Se a fila estiver vazia
-        if (todosPedidos.isEmpty) {
-          return Center(
-            child: Text('A fila está vazia'),
-          );
-        }
+      if (todosPedidos.isEmpty) {
+        return Center(
+          child: Text('A fila está vazia'),
+        );
+      }
 
-        // Caso contrário, liste todos os pedidos
-        return Expanded(
-          child: ListView.builder(
-            itemCount: todosPedidos.length,
-            itemBuilder: (context, index) {
-              final pedido = todosPedidos[index];
-              return Card(
-                elevation: 18.0,  // Adiciona sombra
+      return Expanded(
+        child: ListView.builder(
+          itemCount: todosPedidos.length,
+          itemBuilder: (context, index) {
+            final pedido = todosPedidos[index];
+
+            return Dismissible(
+              key: Key(pedido.id.toString()),
+              direction: DismissDirection.endToStart,
+              background: Container(
+                alignment: AlignmentDirectional.centerEnd,
+                color: Colors.red,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                  child: Icon(Icons.delete, color: Colors.white),
+                ),
+              ),
+              onDismissed: (direction) {
+                filaDeliveryController.removerPedido(); // Suponho que este é o método para remover o pedido da fila
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Pedido concluído!")),
+                );
+              },
+              child: Card(
+                elevation: 18.0,
                 color: Colors.green,
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),  // Espaçamento entre os cards
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),  // Arredonda os cantos do card
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(8),
@@ -61,20 +70,20 @@ class CardPedido extends StatelessWidget {
 
                         CustomText(text:'Total a Pagar: ${pedido.totalPagar}'),
                         CustomText(text: 'Forma de pagamento: ${pedido.formaPagamento}'),
-                        CustomText(text:'Endereço: ${pedido.endereco}',weight: FontWeight.bold),
+                        SizedBox(height: 8),
+                        CustomText(text:'Endereço: ${pedido.endereco}  | Complemento: ${pedido.complemento}',weight: FontWeight.bold),
                         Divider(), // Adicione uma linha divisória entre os dados do pedido e da fila
 
                       ],
                     ),
                     trailing: CustomText(text: 'Pedido ID: ${pedido.id}'),
-
-
                   ),
                 ),
-              );
-            },
-          ),
-        );
-      });
+              ),
+            );
+          },
+        ),
+      );
+    });
   }
 }

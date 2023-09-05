@@ -18,7 +18,7 @@ class FilaDeliveryController extends GetxController {
 
   void carregarPedidos(List<dynamic> pedidosDoServidor) {
     try {
-      print('Número de pedidos do servidor: ${pedidosDoServidor.length}');
+      print('Número de pedidos no Rayquaza: ${pedidosDoServidor.length}');
       _limparPedidosAntigos();
       _adicionarPedidosNaoExistenteNaFila(pedidosDoServidor);
       _mostrarAlertaSeNecessario();
@@ -26,6 +26,8 @@ class FilaDeliveryController extends GetxController {
       print('Erro ao carregar pedidos: $e');
     }
   }
+
+
 
 
   void _limparPedidosAntigos() {
@@ -36,6 +38,7 @@ class FilaDeliveryController extends GetxController {
   void _adicionarPedidosNaoExistenteNaFila(List<dynamic> pedidosDoServidor) {
     for (var pedidoJson in pedidosDoServidor) {
       print('Número de pedidos para alerta: ${PEDIDOS_ALERTA_ARRAY.length}');
+      //print('Tipo do pedidoJson: ${pedidoJson.runtimeType}');  // Adicionei esta linha para debug
       final pedido = Pedido.fromJson(pedidoJson);
       if (!_pedidoEstaNaFila(pedido)) {
         PEDIDOS_ALERTA_ARRAY.add(pedidoJson);

@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 
+import 'modelsPedido.dart';
+
 // TODO ALERTA NAO ESTA MOSTRANDO OS DADOS DA REQUISIÇÃO
 
 // TODO ACEITAR PEDIDO E JOGAR NA FILA
@@ -70,14 +72,9 @@ class PedidoController extends GetxController {
           // Reset showAlert flag before processing new orders
           showAlert = false;
 
+
           //! O alerta é chamado aqui pela Fila
           filaDeliveryController.carregarPedidos(jsonData);
-
-          //Loop que pega todos no corpo da Req
-          for (final novoPedido in jsonData) {
-            final pedidoId = novoPedido['id_pedido'];
-            //print('Pedidos dentro do Array ${pedidoId}');
-          }
 
 
         } else {

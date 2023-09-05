@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -10,100 +11,150 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido
 class FilaDeliveryController extends GetxController {
   final Rx<Fila> FILA_PEDIDOS = Fila().obs;
   final controller = Get.find<PedidoController>();
-
-  final List<dynamic> pedidosParaAlertas = [];
+  final List<dynamic> PEDIDOS_ALERTA_ARRAY = [];
 
   getFila() => FILA_PEDIDOS;
   getTodosPedidos() => FILA_PEDIDOS.value.todosPedidos();
 
+  void carregarPedidos(List<dynamic> pedidosDoServidor) {
+    try {
+      print('Número de pedidos do servidor: ${pedidosDoServidor.length}');
+      _limparPedidosAntigos();
+      _adicionarPedidosNaoExistenteNaFila(pedidosDoServidor);
+      _mostrarAlertaSeNecessario();
+    } catch (e) {
+      print('Erro ao carregar pedidos: $e');
+    }
+  }
 
-  carregarPedidos(pedidosDoServidor) {
 
+  void _limparPedidosAntigos() {
+    PEDIDOS_ALERTA_ARRAY.clear();
     print('Tamanho da Fila: ${FILA_PEDIDOS.value.tamanhoFila()}');
-
-    pedidosDoServidor.forEach((pedidosList) {
-      final pedido = Pedido.fromJson(pedidosList);
-      print(pedido);
-      if (!FILA_PEDIDOS.value.contemPedidoComId(pedido.id)) {
-        pedidosParaAlertas.add(pedidosList);
-      }
-    });
-    _mostrarAlertaSeNecessario();
   }
 
-  // Metodos de Controle
-  _mostrarAlertaSeNecessario() {
-    if (!_todosPedidosEstaoNaFila(pedidosParaAlertas) && !controller.showAlert) {
-      showNovoPedidoAlertDialog(pedidosParaAlertas.removeAt(0));
-    }
-  }
-
-
-  bool _todosPedidosEstaoNaFila(List<dynamic> pedidosList) {
-    for (var pedidoJson in pedidosList) {
+  void _adicionarPedidosNaoExistenteNaFila(List<dynamic> pedidosDoServidor) {
+    for (var pedidoJson in pedidosDoServidor) {
+      print('Número de pedidos para alerta: ${PEDIDOS_ALERTA_ARRAY.length}');
       final pedido = Pedido.fromJson(pedidoJson);
-      if (!FILA_PEDIDOS.value.contemPedidoComId(pedido.id)) {
-        return false;
+      if (!_pedidoEstaNaFila(pedido)) {
+        PEDIDOS_ALERTA_ARRAY.add(pedidoJson);
       }
     }
-    return true;
   }
 
-  // Metodos Crud
+  bool _pedidoEstaNaFila(Pedido pedido) {
+    return FILA_PEDIDOS.value.contemPedidoComId(pedido.id);
+  }
+
+  void _mostrarAlertaSeNecessario() {
+    if (_haPedidosParaAlerta() && !_alertaEstaAtivo()) {
+      _exibirAlertaDePedido(PEDIDOS_ALERTA_ARRAY.removeAt(0));
+    }
+  }
+
+  bool _haPedidosParaAlerta() {
+    return PEDIDOS_ALERTA_ARRAY.isNotEmpty;
+  }
+
+  bool _alertaEstaAtivo() {
+    return controller.showAlert;
+  }
+
+  void _exibirAlertaDePedido(dynamic pedido) {
+    try {
+      showNovoPedidoAlertDialog(pedido);
+    } catch (e) {
+      print('Erro ao exibir alerta de pedido: $e');
+    }
+  }
+
   void inserirPedido(Pedido pedido) {
-    FILA_PEDIDOS.value.push(pedido);
-    FILA_PEDIDOS.refresh();
-    print("Pedido inserido. Tamanho da fila agora: ${FILA_PEDIDOS.value.tamanhoFila()}");
+    try {
+      FILA_PEDIDOS.value.push(pedido);
+      FILA_PEDIDOS.refresh();
+      print("Pedido inserido. Tamanho da fila agora: ${FILA_PEDIDOS.value.tamanhoFila()}");
+    } catch (e) {
+      print('Erro ao inserir pedido: $e');
+    }
   }
 
   Pedido? removerPedido() {
-    return FILA_PEDIDOS.value.pop();
+    try {
+      return FILA_PEDIDOS.value.pop();
+    } catch (e) {
+      print('Erro ao remover pedido: $e');
+      return null;
+    }
   }
 
-  // Alerta de Pedido
   Future<void> showNovoPedidoAlertDialog(dynamic pedido) async {
-    final controller = Get.find<PedidoController>();
     final pedidoId = pedido['id_pedido'];
 
-    if (controller.pedidosAlertaMostrado.containsKey(pedidoId)) {
-      return;
+    if (!_alertaJaFoiMostrado(pedidoId)) {
+      _configurarEExibirAlerta(pedido, pedidoId);
     }
+  }
 
-    if (!controller.pedidosAlertaMostrado.containsKey(pedidoId)) {
-      final List<String> itensPedido = (pedido['pedido'] as List<dynamic>)
-          .map((item) => item['nome'] as String)
-          .toList();
+  bool _alertaJaFoiMostrado(int pedidoId) {
+    return controller.pedidosAlertaMostrado.containsKey(pedidoId);
+  }
 
-      final currentRoute = Get.currentRoute;
-      final isDashPage = currentRoute == '/dash';
+  Future<void> _configurarEExibirAlerta(dynamic pedido, int pedidoId) async {
+    final itensPedido = _obterItensDoPedido(pedido);
 
-      if (!controller.showAlert && isDashPage) {
-        print('Pedido ${pedidoId} não esta na Fila, mostrando o alerta...');
-        controller.showAlert = true;
+    print('Pedido ${pedidoId} não esta na Fila, mostrando o alerta...');
+    print('isDashPage: ${_estaNaDashPage()}');
+    print('SHOW ALERTA: ${controller.showAlert}');
+    print(PEDIDOS_ALERTA_ARRAY);
 
-        await Get.to(() => AlertaPedidoWidget(
-          nomeCliente: pedido['nome'] ?? '',
-          enderecoPedido: pedido['endereco'] ?? '',
-          itensPedido: itensPedido,
-          btnOkOnPress: () {
-
-
-            // Adicionando na fila
-            Pedido novoPedido = Pedido.fromJson(pedido);
-            inserirPedido(novoPedido);
-            print('\n\nPedido Aceito!');
-
-            //Controle de Rotas
-            Get.back();
-            Get.to(DashboardPage());
-
-            // Ajustando parametros do alerta
-            controller.showAlert = false;
-            controller.pedidosAlertaMostrado[pedidoId] = true;
-            _mostrarAlertaSeNecessario();
-          },
-        ));
-      }
+    if (!_alertaEstaAtivo() && _estaNaDashPage()) {
+      await _mostrarAlerta(pedido, itensPedido, pedidoId);
     }
+  }
+
+  List<String> _obterItensDoPedido(dynamic pedido) {
+    return (pedido['pedido'] as List<dynamic>)
+        .map((item) => item['nome'] as String)
+        .toList();
+  }
+
+  bool _estaNaDashPage() {
+    return Get.currentRoute == '/dash';
+  }
+
+  Future<void> _mostrarAlerta(dynamic pedido, List<String> itensPedido, int pedidoId) async {
+    controller.showAlert = true;
+
+    await Get.to(() => AlertaPedidoWidget(
+      nomeCliente: pedido['nome'] ?? '',
+      enderecoPedido: pedido['endereco'] ?? '',
+      itensPedido: itensPedido,
+      btnOkOnPress: () {
+        _handlePedidoAceito(pedido, pedidoId);
+      },
+    ));
+  }
+
+  void _handlePedidoAceito(dynamic pedido, int pedidoId) {
+    _adicionarPedidoNaFila(pedido);
+    Get.back();
+    //Get.off(DashboardPage());
+    _resetarConfiguracoesDeAlerta(pedidoId);
+  }
+
+  void _adicionarPedidoNaFila(dynamic pedido) {
+    Pedido novoPedido = Pedido.fromJson(pedido);
+    inserirPedido(novoPedido);
+    print('\n\nPedido Aceito!');
+  }
+
+
+  void _resetarConfiguracoesDeAlerta(int pedidoId) {
+    Future.delayed(Duration(milliseconds: 200), () {
+      controller.showAlert = false;
+      controller.pedidosAlertaMostrado[pedidoId] = true;
+      _mostrarAlertaSeNecessario();
+    });
   }
 }

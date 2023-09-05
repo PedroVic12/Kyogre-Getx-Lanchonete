@@ -66,8 +66,6 @@ class PedidoController extends GetxController {
         final jsonData = json.decode(response.body);
         print('\nResponse Body: ${jsonData}\n\n');
 
-
-
         if (jsonData is List<dynamic> && jsonData.isNotEmpty) {
           // Reset showAlert flag before processing new orders
           showAlert = false;

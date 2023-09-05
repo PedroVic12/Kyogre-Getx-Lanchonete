@@ -14,79 +14,67 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido
 //TODO CORREÇÃO COM CARACTERRES ESPECIAOS NO CARD
 
 // ESTUDAR LAYOUTS FLUTTER COMO UM JEDI
-
 class CardPedido extends StatelessWidget {
-  final Pedido pedido;
-  final PedidoController pedidoController = Get.find<PedidoController>();
-  final filaController = Get.find<FilaDeliveryController>();
-
-
-   CardPedido({required this.pedido});
+  const CardPedido({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final filaPedidos = filaController.FILA_PEDIDOS;
+    final FilaDeliveryController filaDeliveryController = Get.find();
+
+    return // Lista de Pedidos na Fila
+      Obx(() {
+        final todosPedidos = filaDeliveryController.getTodosPedidos();
+
+        // Se a fila estiver vazia
+        if (todosPedidos.isEmpty) {
+          return Center(
+            child: Text('A fila está vazia'),
+          );
+        }
+
+        // Caso contrário, liste todos os pedidos
+        return Expanded(
+          child: ListView.builder(
+            itemCount: todosPedidos.length,
+            itemBuilder: (context, index) {
+              final pedido = todosPedidos[index];
+              return Card(
+                elevation: 18.0,  // Adiciona sombra
+                color: Colors.green,
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),  // Espaçamento entre os cards
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),  // Arredonda os cantos do card
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(8),
+                  child: CupertinoListTile(
+                    title: CustomText(text:'Cliente: ${pedido.nome}',weight: FontWeight.bold, size: 18,),
+
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(text:'Itens do Pedido:'),
+                        SizedBox(height: 8),
+                        for (var item in pedido.itensPedido)
+                          CustomText(text:'${item['quantidade']}x ${item['nome']} - ${item['preco']}',color: CupertinoColors.systemRed,weight: FontWeight.bold,size: 18,),
+                        SizedBox(height: 8),
+
+                        CustomText(text:'Total a Pagar: ${pedido.totalPagar}'),
+                        CustomText(text: 'Forma de pagamento: ${pedido.formaPagamento}'),
+                        CustomText(text:'Endereço: ${pedido.endereco}',weight: FontWeight.bold),
+                        Divider(), // Adicione uma linha divisória entre os dados do pedido e da fila
+
+                      ],
+                    ),
+                    trailing: CustomText(text: 'Pedido ID: ${pedido.id}'),
 
 
-    return Dismissible(
-      key: Key(pedido.id.toString()),
-      direction: DismissDirection.endToStart,
-      background: Container(
-        color: Colors.red,
-        alignment: Alignment.centerRight,
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
-        child: Icon(
-          Icons.check,
-          color: Colors.white,
-        ),
-      ),
-      onDismissed: (direction) {
-        // Aqui você pode executar a lógica para concluir o pedido
-        final pedidoController = Get.find<PedidoController>();
-        //pedidoController.concluirPedido(pedido);
-
-        // Mostre um snackbar informando que o pedido foi concluído
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Pedido ${pedido.id} concluído!'),
+                  ),
+                ),
+              );
+            },
           ),
         );
-      },
-      child: CupertinoTheme(
-
-        data: CupertinoThemeData(
-
-          primaryColor: Colors.indigoAccent,
-        ),
-        child: Container(
-          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          child: Column(
-            children: [
-
-
-              Text('Pedido: ${pedido.id}'),
-
-              CupertinoListTile(
-                title: Text('Pedido ${pedido.id}'),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Cliente: ${pedido.nome}'),
-                    Text('Endereço: ${pedido.endereco}'),
-                    Text('Itens do Pedido:'),
-                    for (var item in pedido.itensPedido)
-                      Text('${item['quantidade']}x ${item['nome']} - ${item['preco']}'),
-                    Text('Total a Pagar: ${pedido.totalPagar}'),
-                    Divider(), // Adicione uma linha divisória entre os dados do pedido e da fila
-
-                  ],
-                ),
-              ),
-
-            ],
-          ),
-        ),
-      ),
-    );
+      });
   }
 }

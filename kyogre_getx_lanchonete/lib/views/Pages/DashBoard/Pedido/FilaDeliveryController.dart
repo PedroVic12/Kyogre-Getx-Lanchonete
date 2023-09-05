@@ -2,18 +2,24 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/AlertaPedidoWidget.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido.dart';
 
 
 class FilaDeliveryController extends GetxController {
   // Instanciando o Objeto que recebe o padrao do pedido
-  final Fila FILA_PEDIDOS = Fila();
+  //final Fila FILA_PEDIDOS = Fila();
+  final Rx<Fila> FILA_PEDIDOS = Fila().obs;
 
   final controller = Get.find<PedidoController>();
 
 
+
   // Getters
   getFila() => FILA_PEDIDOS;
+  getTodosPedidos()=> FILA_PEDIDOS.value.todosPedidos();
 
   List array = [];
   bool buscarPedidoNaFila(int pedidoId) {
@@ -25,195 +31,86 @@ class FilaDeliveryController extends GetxController {
     return false;
   }
 
-  void lerPedidosArquivos() {
-    // Obter a lista de arquivos json na pasta fila_repository
-    List<String> arquivos = Directory('fila_repository').listSync().map((e) => e.path).toList();
-
-    // Ler cada arquivo json e adicionar os pedidos à fila
-    for (String arquivo in arquivos) {
-      // Ler o arquivo json
-      Map<String, dynamic> json = jsonDecode(File(arquivo).readAsStringSync());
-
-      // Criar um pedido a partir do json
-      Pedido pedido = Pedido.fromJson(json);
-
-      // Adicionar o pedido à fila
-      FILA_PEDIDOS.push(pedido);
-    }
-  }
-
-
 
   carregarPedidos(pedidosDoServidor) {
 
-
-    print('Tamannho Fila Delivery: ${FILA_PEDIDOS.tamanhoFila()}');
+    print('Tamannho Fila Delivery: ${FILA_PEDIDOS.value.tamanhoFila()}');
+    print('Pegando os produtos: ${getTodosPedidos()}');
 
     pedidosDoServidor.forEach((pedidosList) {
       final pedido = Pedido.fromJson(pedidosList);
 
-      print("Carregando pedido: ${pedido.id}"); // Adicione esta linha
-      if (!FILA_PEDIDOS.contemPedidoComId(pedido.id)) {
-        print('Mostrando o alerta..');
-        controller.showNovoPedidoAlertDialog(pedidosList);
+      print("\nCarregando pedido dentro da Requisição: ${pedido.id}");
+
+
+
+      if (!FILA_PEDIDOS.value.contemPedidoComId(pedido.id)) {
+        print('Mostrando o alerta...');
+        showNovoPedidoAlertDialog(pedidosList);
       }
     });
   }
 
 
   void inserirPedido(Pedido pedido) {
-    FILA_PEDIDOS.push(pedido);
+    FILA_PEDIDOS.value.push(pedido);
+    print("Pedido inserido. Tamanho da fila agora: ${FILA_PEDIDOS.value.tamanhoFila()}");
 
   }
 
   Pedido? removerPedido() {
-    return FILA_PEDIDOS.pop();
+    return FILA_PEDIDOS.value.pop();
   }
 
 
 
+  Future<void> showNovoPedidoAlertDialog(dynamic pedido) async {
+    final controller = Get.find<PedidoController>();
 
 
-}
+    final pedidoId = pedido['id_pedido'];
+    print(pedidoId);
+    print('\n\nItens na fila: ${FILA_PEDIDOS.value.tamanhoFila()}');
 
-//!Models
-class No {
-  Pedido pedido;
-  No? proximo;
-
-  No(this.pedido);
-}
-
-class Fila {
-  No? inicio;
-  No? fim;
-
-  bool get estaVazia => inicio == null;
-
-  int tamanhoFila() {
-    int tamanho = 0;
-    var atual = inicio;
-    while (atual != null) {
-      tamanho++;
-      atual = atual.proximo;
+    if (controller.pedidosAlertaMostrado.containsKey(pedidoId)) {
+      return;
     }
-    return tamanho;
-  }
 
-  void push(Pedido pedido) {
-    var no = No(pedido);
-    if (estaVazia) {
-      inicio = fim = no;
-    } else {
-      fim!.proximo = no;
-      fim = no;
-    }
-  }
+    if (!controller.pedidosAlertaMostrado.containsKey(pedidoId)) {
 
-  Pedido? pop() {
-    if (estaVazia) return null;
-    var temp = inicio;
-    inicio = inicio!.proximo;
-    if (inicio == null) {
-      fim = null;
-    }
-    return temp!.pedido;
-  }
+      print('\n\nPedido ${pedidoId} não está na fila, mostrando alerta...');
 
-  List<Pedido> todosPedidos() {
-    List<Pedido> pedidos = [];
-    var atual = inicio;
-    while (atual != null) {
-      pedidos.add(atual.pedido);
-      atual = atual.proximo;
-    }
-    return pedidos;
-  }
+      final List<String> itensPedido = (pedido['pedido'] as List<dynamic>)
+          .map((item) => item['nome'] as String)
+          .toList();
 
-  bool contemPedidoComId(int id) {
-    var atual = inicio;
-    while (atual != null) {
-      if (atual.pedido.id == id) {
-        return true;
+      final currentRoute = Get.currentRoute;
+      final isDashPage = currentRoute == '/dash';
+      print(isDashPage);
+
+      if (!controller.showAlert && isDashPage) {
+        controller.showAlert = true;
+
+        await Get.to(() => AlertaPedidoWidget(
+          nomeCliente: pedido['nome'] ?? '',
+          enderecoPedido: pedido['endereco'] ?? '',
+          itensPedido: itensPedido,
+          btnOkOnPress: () {
+            print('\n\nPedido Aceito!');
+            Get.back();
+            Get.to(DashboardPage());
+
+            Pedido novoPedido = Pedido.fromJson(pedido);
+            inserirPedido(novoPedido);
+
+            controller.showAlert = false;
+            controller.pedidosAlertaMostrado[pedidoId] = true;
+          },
+        ));
       }
-      atual = atual.proximo;
-    }
-    return false;
-  }
-}
-
-
-
-
-class Pedido {
-  final int id;
-  final Map<String, dynamic> data;
-  final String nome;
-  final String telefone;
-  final String endereco;
-  final String complemento;
-  final String formaPagamento;
-  final List<Map<String, dynamic>> itensPedido;
-  final double totalPagar;
-
-  Pedido({
-    required this.id,
-    required this.data,
-    required this.nome,
-    required this.telefone,
-    required this.endereco,
-    required this.complemento,
-    required this.formaPagamento,
-    required this.itensPedido,
-    required this.totalPagar,
-  });
-
-  factory Pedido.fromJson(Map<String, dynamic> json) {
-    return Pedido(
-      id: json['id_pedido'],
-      data: json['data'],
-      nome: json['nome'],
-      telefone: json['telefone'],
-      endereco: json['endereco'],
-      complemento: json['complemento'],
-      formaPagamento: json['formaPagamento'],
-      itensPedido: List<Map<String, dynamic>>.from(json['pedido']),
-      totalPagar: json['totalPagar'],
-    );
-  }
-}
-
-
-
-void main() {
-  // Instanciar o controller
-  final controller = FilaDeliveryController();
-
-  // Ler os pedidos dos arquivos json
-  controller.lerPedidosArquivos();
-  print(controller.FILA_PEDIDOS);
-
-  List array_pedidos = [];
-
-  // Iterar sobre os pedidos
-  for (Pedido pedido in array_pedidos) {
-    // Perguntar se o usuário deseja aceitar o pedido
-    print('Deseja aceitar o pedido de ${pedido.nome}? (1 - Sim, 2 - Não)');
-    String? resposta = stdin.readLineSync();
-
-    // Se a resposta for 1, aceitar o pedido
-    if (resposta == '1') {
-      controller.inserirPedido(pedido);
     }
   }
 
-  // Buscar um pedido na fila pelo ID
-  final pedidoEncontrado = controller.buscarPedidoNaFila(1);
-  print('Pedido encontrado: ${pedidoEncontrado}');
-
-  // Remover um pedido da fila
-  final pedidoRemovido = controller.removerPedido();
-  print('Pedido removido: ${pedidoRemovido}');
 
 
 }

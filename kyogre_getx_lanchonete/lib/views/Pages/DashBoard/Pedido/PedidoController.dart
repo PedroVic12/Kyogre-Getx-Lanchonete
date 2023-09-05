@@ -3,10 +3,9 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
 import 'dart:convert';
-import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/AlertaPedidoWidget.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido.dart';
 
 // TODO ALERTA NAO ESTA MOSTRANDO OS DADOS DA REQUISIÇÃO
 
@@ -19,7 +18,6 @@ class PedidoController extends GetxController {
   final Map<int, bool> pedidosAlertaMostrado = {};
   Timer? timer;
   bool showAlert = false; // Novo estado para controlar a exibição do alerta]
-
 
 
 
@@ -49,6 +47,7 @@ class PedidoController extends GetxController {
   }
 
   Future fetchPedidos() async {
+    print('\n\n\n=================================================\n\t\t\t\tAPP KYOGRE\n=================================================');
 
     final filaDeliveryController = Get.find<FilaDeliveryController>();
 
@@ -74,13 +73,13 @@ class PedidoController extends GetxController {
           // Reset showAlert flag before processing new orders
           showAlert = false;
 
+          //! O alerta é chamado aqui pela Fila
+          filaDeliveryController.carregarPedidos(jsonData);
+
+          //Loop que pega todos no corpo da Req
           for (final novoPedido in jsonData) {
             final pedidoId = novoPedido['id_pedido'];
-
-            //! O alerta é chamado aqui pela Fila
-            filaDeliveryController.carregarPedidos(jsonData);
-            //showNovoPedidoAlertDialog(novoPedido);
-
+            print('Pedidos dentro do Array ${pedidoId}');
           }
 
 
@@ -94,62 +93,5 @@ class PedidoController extends GetxController {
   }
 
 
-  void aceitarPedido(Map<String, dynamic> pedidoJson) {
-    final filaDeliveryController = Get.find<FilaDeliveryController>();
 
-    //filaDeliveryController.inserirPedido(pedidoJson as Pedido);
-
-    final pedido = Pedido.fromJson(pedidoJson);
-    filaDeliveryController.inserirPedido(pedido);
-    print('\n\nPedido adicionado à fila de entrega!');
-  }
-
-
-
-
-  Future<void> showNovoPedidoAlertDialog(dynamic pedido) async {
-    final filaDeliveryController = Get.find<FilaDeliveryController>();
-
-
-    final pedidoId = pedido['id_pedido'];
-    print(pedidoId);
-    print('\n\nItens na fila: ${filaDeliveryController.FILA_PEDIDOS.tamanhoFila()}');
-
-    if (pedidosAlertaMostrado.containsKey(pedidoId)) {
-      return;
-    }
-
-    if (!pedidosAlertaMostrado.containsKey(pedidoId)) {
-
-      print('\n\nPedido ${pedidoId} não está na fila, mostrando alerta...');
-
-      final List<String> itensPedido = (pedido['pedido'] as List<dynamic>)
-          .map((item) => item['nome'] as String)
-          .toList();
-
-      final currentRoute = Get.currentRoute;
-      final isDashPage = currentRoute == '/dash';
-      print(isDashPage);
-
-      if (!showAlert && isDashPage) {
-        showAlert = true;
-
-        await Get.to(() => AlertaPedidoWidget(
-          nomeCliente: pedido['nome'] ?? '',
-          enderecoPedido: pedido['endereco'] ?? '',
-          itensPedido: itensPedido,
-          btnOkOnPress: () {
-            print('\n\nPedido Aceito!');
-            Get.back();
-            Get.to(DashboardPage());
-
-            aceitarPedido(pedido);
-
-            showAlert = false;
-            pedidosAlertaMostrado[pedidoId] = true;
-          },
-        ));
-      }
-    }
-  }
 }

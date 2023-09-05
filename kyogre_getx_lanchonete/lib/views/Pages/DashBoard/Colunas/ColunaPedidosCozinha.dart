@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido.dart';
 
 
 class ColunaPedidosParaAceitar extends StatefulWidget {
@@ -25,21 +26,23 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
   final pedidoController = PedidoController();
 
 
+
+
   @override
   void initState() {
     super.initState();
     widget.pedidoController.startFetchingPedidos();
     WidgetsBinding.instance.addPostFrameCallback((_) {
     });
+    filaDeliveryController.getTodosPedidos();
   }
 
 
   @override
   Widget build(BuildContext context) {
-    final filaPedidos = filaDeliveryController.getFila();
+    RxList<Pedido> filaPedidos = RxList<Pedido>();
 
-
-
+    final pedidos = filaDeliveryController.getTodosPedidos();
 
     return Expanded(
       child: Container(
@@ -88,19 +91,19 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
 
 
             // Lista de Pedidos na Fila
-            Text("Renderizando ${filaPedidos.tamanhoFila()} pedidos."),
-            Expanded(
-              child: ListView(
-                children: filaPedidos.todosPedidos().map<Widget>((pedido) {
-                  return Card(
-                    child: ListTile(
-                      title: Text(pedido.nome),
-                      subtitle: Text("Pedido ID: ${pedido.id}"),
-                    ),
-                  );
-                }).toList(),
-              )
-            ),
+            // Adicionando Obx para tornar esta parte reativa:
+            Obx(() =>Expanded(child:  ListView(
+              children: filaDeliveryController.FILA_PEDIDOS.value.todosPedidos().map((pedido) {
+                return Card(
+                  child: ListTile(
+                    title: Text(pedido.nome),
+                    subtitle: Text("Pedido ID: ${pedido.id}"),
+                  ),
+                );
+              }).toList(),
+            )))
+
+
           ],
         ),
       ),

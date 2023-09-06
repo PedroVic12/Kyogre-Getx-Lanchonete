@@ -71,7 +71,8 @@ class CardPedido extends StatelessWidget {
                         CustomText(text:'Total a Pagar: ${pedido.totalPagar}'),
                         CustomText(text: 'Forma de pagamento: ${pedido.formaPagamento}'),
                         SizedBox(height: 8),
-                        CustomText(text:'Endereço: ${pedido.endereco}  | Complemento: ${pedido.complemento}',weight: FontWeight.bold),
+                        CustomText(text:'Endereço: ${pedido.endereco}',weight: FontWeight.bold),
+                        CustomText(text: 'Complemento: ${pedido.complemento}'),
                         Divider(), // Adicione uma linha divisória entre os dados do pedido e da fila
 
                       ],

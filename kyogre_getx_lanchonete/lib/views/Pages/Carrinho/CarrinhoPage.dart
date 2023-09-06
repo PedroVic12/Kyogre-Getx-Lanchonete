@@ -17,13 +17,13 @@ class CarrinhoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Carrinho de {Cliente} 9'),
+        title: Text('Carrinho de {Cliente} '),
       ),
 
       body: Obx(() {
         if (carrinhoController.produtosCarrinho.isEmpty) {
           return const Center(
-            child:  CustomText(text: 'Você não tem nenhum produto na sacola ainda', size: 25,),
+            child:  CustomText(text: 'Você não tem nenhum produto na sacola ainda', size: 25),
           );
         } else {
           return Column(

@@ -86,15 +86,16 @@ class _DetailsPageState extends State<DetailsPage> {
       appBar: AppBar(
         title: Center(child: Text('Citta RJ ${nomesLojas[1]} | Pedido: ${widget.id}')),
         backgroundColor: Colors.black,
+        automaticallyImplyLeading: false, // Hide the back button
       ),
       body: Center(
         child: Column(children: [
           Text('Dados do Cliente: '),
 
           // Dados do Cliente pelo Whatsapp
-          Text('ID do Pedido: ${idPedido}'),
-          Text('Nome do Cliente: $nomeCliente'),
-          Text('Telefone do Cliente: $telefoneCliente'),
+          //Text('ID do Pedido: ${idPedido}'),
+          //Text('Nome do Cliente: $nomeCliente'),
+          //Text('Telefone do Cliente: $telefoneCliente'),
 
           // Lista de Produtos Selecionados
           Expanded(

@@ -17,19 +17,48 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: NightWolfAppBar(),
-      body: Row(
+      body: Column(
         children: [
-          //PedidosServer(),
-          ColunaPedidosParaAceitar(pedidoController: pedidoController),
-          ColunaPedidosProcessados(),
-          //ColunaInfoPedidos(pedidoController: pedidoController),
+
+          PesquisarDadosWidet(),
+          Expanded(child: Row(
+            children: [
+              //PedidosServer(),
+              ColunaPedidosParaAceitar(pedidoController: pedidoController),
+              ColunaPedidosProcessados(),
+              ColunaInfoPedidos(),
+            ],
+          ),)
         ],
-      ),
+      )
     );
   }
 }
 
 
+class PesquisarDadosWidet extends StatelessWidget {
+  const PesquisarDadosWidet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      child: Row(
+        children: [
+          Center(child: Text('Unidade: {Botafogo}'), ),
+          SizedBox(width: 8),
+          Text('Numero do Pedido'),
+
+          SizedBox(width: 8),
+          Text('Buscar pelo Cliente'),
+          SizedBox(width: 8),
+
+        ],
+      ),
+    );
+
+  }
+}
 
 
 

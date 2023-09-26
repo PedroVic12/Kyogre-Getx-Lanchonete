@@ -44,15 +44,16 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
     final total_pedidos = filaDeliveryController.FILA_PEDIDOS.value.tamanhoFila();
 
     return Expanded(
+      flex: 1,
       child: Container(
-        color: Colors.white,
+        color: Colors.redAccent,
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Center(
               child: CustomText(
-                  text: 'Pedidos Sendo Preparados na Cozinha',
+                  text: 'Pedidos em Análise',
                   weight: FontWeight.bold,
                   size: 24),
             ),

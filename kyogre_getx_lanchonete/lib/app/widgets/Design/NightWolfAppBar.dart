@@ -9,7 +9,7 @@ class NightWolfAppBar extends StatefulWidget implements PreferredSizeWidget {
   const NightWolfAppBar({
     Key? key,
     this.drawerKey,
-    this.title = 'Citta RJ Lanchonete',
+    this.title = 'Citta RJ ',
   }) : super(key: key);
 
   @override

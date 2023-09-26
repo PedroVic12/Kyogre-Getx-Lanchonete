@@ -10,10 +10,20 @@ class ColunaPedidosProcessados extends StatelessWidget {
     return Expanded(
       flex: 1,
       child: Container(
+        color: Colors.orange,
         padding: EdgeInsets.all(8.0),
         child: Column(
           children: [
-            CustomText(text: 'Pedidos sendo processados'),
+            Center(
+              child: CustomText(
+                  text: 'Pedidos em Produção',
+                  weight: FontWeight.bold,
+                  size: 24),
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+            SizedBox(height: 10.0),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,

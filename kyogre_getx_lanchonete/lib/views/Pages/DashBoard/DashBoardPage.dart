@@ -34,10 +34,16 @@ class DashboardPage extends StatelessWidget {
     );
   }
 }
+class PesquisarDadosWidet extends StatefulWidget {
+  PesquisarDadosWidet({Key? key}) : super(key: key);
 
+  @override
+  _PesquisarDadosWidetState createState() => _PesquisarDadosWidetState();
+}
 
-class PesquisarDadosWidet extends StatelessWidget {
-  const PesquisarDadosWidet({super.key});
+class _PesquisarDadosWidetState extends State<PesquisarDadosWidet> {
+  var lojas_citta = ['Loja 1', 'Loja 2', 'Loja 3'];
+  String? lojaSelecionada;
 
   @override
   Widget build(BuildContext context) {
@@ -45,20 +51,31 @@ class PesquisarDadosWidet extends StatelessWidget {
       height: 50,
       child: Row(
         children: [
-          Center(child: Text('Unidade: {Botafogo}'), ),
+          Center(
+            child: Text('Unidade: ${lojaSelecionada ?? "Selecione uma loja"}'),
+          ),
+          DropdownButton<String>(
+            value: lojaSelecionada,
+            hint: Text("Selecione uma loja"),
+            items: lojas_citta.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (newValue) {
+              setState(() {
+                lojaSelecionada = newValue;
+              });
+            },
+          ),
           SizedBox(width: 8),
           Text('Numero do Pedido'),
-
           SizedBox(width: 8),
           Text('Buscar pelo Cliente'),
           SizedBox(width: 8),
-
         ],
       ),
     );
-
   }
 }
-
-
-

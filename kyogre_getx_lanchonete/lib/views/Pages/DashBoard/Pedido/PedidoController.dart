@@ -8,11 +8,6 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDelivery
 
 import 'modelsPedido.dart';
 
-// TODO ALERTA NAO ESTA MOSTRANDO OS DADOS DA REQUISIÇÃO
-
-// TODO ACEITAR PEDIDO E JOGAR NA FILA
-
-// TODO CRIAR UM CARD PARA CADA PEDIDO NA FILA
 
 class PedidoController extends GetxController {
 

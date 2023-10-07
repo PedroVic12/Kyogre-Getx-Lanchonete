@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kyogre_getx_lanchonete/api/Raichu.dart';
 
 class ExampleWidget extends StatelessWidget {
-  final RaichuApi api = RaichuApi();
+  final RaichuApiDioController api = RaichuApiDioController();
 
   Future<void> _performApiOperations() async {
     // Create

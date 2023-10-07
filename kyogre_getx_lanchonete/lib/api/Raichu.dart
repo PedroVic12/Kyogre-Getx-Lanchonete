@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 
-class RaichuApi {
+class RaichuApiDioController {
   final Dio _dio;
 
   // URL da API (altere para o seu endpoint)
   final String baseUrl = 'https://api.example.com';
 
-  RaichuApi([Dio? dio])
+  RaichuApiDioController([Dio? dio])
       : _dio = dio ?? Dio(BaseOptions(baseUrl: 'https://api.example.com'));
 
   // CREATE

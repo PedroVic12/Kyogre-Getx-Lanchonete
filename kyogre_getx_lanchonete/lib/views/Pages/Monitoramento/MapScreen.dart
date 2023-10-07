@@ -9,7 +9,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  final RaichuApi _api = RaichuApi();  // Instancie a API
+  final RaichuApiDioController _api = RaichuApiDioController();  // Instancie a API
   final Location _location = Location();
   late GoogleMapController _mapController;
   late LatLng _currentLocation;

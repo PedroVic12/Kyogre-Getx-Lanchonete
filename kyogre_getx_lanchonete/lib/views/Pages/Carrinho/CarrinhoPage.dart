@@ -17,7 +17,7 @@ class CarrinhoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Carrinho de {Cliente} '),
+        title: Text('Carrinho '),
       ),
 
       body: Obx(() {

@@ -4,16 +4,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
 
 import '../../../app/Teoria do Caos/CaosPage.dart';
+import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
+import 'MenuProdutos/WidgetCardapio.dart';
+import 'MenuProdutos/menu_lateral.dart';
 
 /*
 * Paleta de Cores : #ff8c00 , #f2ff00, # ff0d00
+*
+* page_turn
+* glass_kit
 * */
 
 class DetailsPage extends StatefulWidget {
@@ -30,18 +38,25 @@ class _DetailsPageState extends State<DetailsPage> {
   late String telefoneCliente = "";
   late String idPedido = "";
 
+
   //final DataBaseController _dataBaseController = DataBaseController();
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
   @override
   void initState() {
     super.initState();
-
-    //fetchIdPedido().then((idPedido) {
-      //print(idPedido);
-      //fetchClienteNome(idPedido);
-    //});
-
     fetchClienteNome(widget.id);
+  }
+
+  Widget pegarDadosCliente(){
+    return Column(
+      children: [
+        Text('Dados do Cliente: '),
+        Text('ID do Pedido: ${idPedido}'),
+        Text('Nome do Cliente: $nomeCliente'),
+        Text('Telefone do Cliente: $telefoneCliente'),
+
+      ],
+    );
   }
 
   Future<String> fetchIdPedido() async {
@@ -89,15 +104,18 @@ class _DetailsPageState extends State<DetailsPage> {
         automaticallyImplyLeading: false, // Hide the back button
       ),
       body: Center(
-        child: Column(children: [
-          Text('Dados do Cliente: '),
+        child: ListView(children: [
 
-          // Dados do Cliente pelo Whatsapp
-          //Text('ID do Pedido: ${idPedido}'),
-          //Text('Nome do Cliente: $nomeCliente'),
-          //Text('Telefone do Cliente: $telefoneCliente'),
+          pegarDadosCliente(),
 
-          // Lista de Produtos Selecionados
+
+
+          MenuCategoriasScrollGradientWidget(),
+
+          // Renderizar o cartão do produto selecionado somente se um produto estiver selecionado.
+          Card(child: DetalhesProdutosCard()),
+
+
           Expanded(
             child: CatalogoProdutos(),
           ),
@@ -128,7 +146,54 @@ class _DetailsPageState extends State<DetailsPage> {
                       )))),
         ]),
       ),
-      //bottomSheet: Expanded(       child: Container(           child: Text('oi'),          color: Colors.greenAccent,        )),
+
+      floatingActionButton: FloatingActionButton(
+        child: Text('Abrir'),
+        onPressed: () => Get.bottomSheet(Material(
+          borderRadius: BorderRadius.circular(16),
+          child: Column( // controller carrinho aqui
+            children: [
+
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(100)
+                ),
+                child: ListTile(
+                  leading: CircleAvatar(child: Icon(Icons.add), ),
+                  title: Text('Carrinho'),
+                ),
+              ),
+
+              Padding(
+                  padding: EdgeInsets.all(8),
+                  child: SizedBox(
+                      height: 50,
+                      width: 200,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            carrinhoController.setClienteDetails(
+                                nomeCliente, telefoneCliente, widget.id);
+                            Get.to(CarrinhoPage(), arguments: [
+                              nomeCliente,
+                              telefoneCliente,
+                              widget.id
+                            ]);
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: CupertinoColors.activeBlue,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          child: const Text(
+                            'Ver o Carrinho',
+                            style: TextStyle(fontSize: 22),
+                          )))),
+            ],
+          ),
+        )),
+      ),
     );
   }
 }
+
+

@@ -10,13 +10,17 @@ class CatalogoProdutosController extends GetxController {
   RxList<Produto> allProdutos = RxList<Produto>();  // Mudamos o nome para 'allProdutos'
   RxList<Produto> produtos = RxList<Produto>();  // Esta lista vai conter os produtos filtrados
 
-  final List<String> categorias = [
+  final List<String> Catalogocategorias = [
     'Todos os Produtos',
     'Sanduíches Tradicionais',
     'Açaí e Pitaya',
     'Petiscos',
   ];
+  var selectedCategoryIndex = 0.obs; // Observável para reagir na UI
 
+  void setCategory(int index) {
+    selectedCategoryIndex.value = index;
+  }
   @override
   void onInit() {
     super.onInit();

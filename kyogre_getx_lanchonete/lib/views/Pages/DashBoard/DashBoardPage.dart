@@ -20,7 +20,7 @@ class DashboardPage extends StatelessWidget {
       body: Column(
         children: [
 
-          PesquisarDadosWidet(),
+          //PesquisarDadosWidet(),
           Expanded(child: Row(
             children: [
               //PedidosServer(),

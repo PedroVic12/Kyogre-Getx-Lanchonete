@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/InfoCards/InfoCardSmall.dart';
 
+import '../../Pages/DashBoard/Pedido/CardPedido.dart';
+
 class OverViewCardsSmallScreen extends StatelessWidget {
   const OverViewCardsSmallScreen({Key? key}) : super(key: key);
 
@@ -14,7 +16,7 @@ class OverViewCardsSmallScreen extends StatelessWidget {
         children: [
           InfoCardSmall(title: 'Em processo', value: '7', isActive: true, onTap: (){}),
           SizedBox( height: _width/64),
-
+          CardPedido(),
 
           InfoCardSmall(title: 'Pedidos Concluidos', value: '10', isActive: true, onTap: (){}),
           SizedBox( height: _width/64),

@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseControl
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart'; // Usado para formatar a hora
+import 'package:http/http.dart' as http;
 
 class CarrinhoController extends GetxController {
   late final CatalogoProdutosController produtosController;
@@ -20,6 +23,106 @@ class CarrinhoController extends GetxController {
   void onInit() {
     super.onInit();
   }
+
+
+  Map<String, dynamic> gerarPedidoInfo() {
+    // Lista para armazenar os itens do pedido em formato JSON
+    List<Map<String, dynamic>> pedidoJsonItems = [];
+
+    // Itera sobre cada produto no carrinho e adiciona um objeto JSON à lista
+    _products.entries.forEach((entry) {
+      final produto = entry.key;
+      final quantidade = entry.value;
+
+      pedidoJsonItems.add({
+        "quantidade": quantidade,
+        "nome": produto.nome,
+        "preco": produto.preco?.preco1,
+      });
+    });
+
+    // Cria um objeto JSON completo para o pedido
+    Map<String, dynamic> pedidoInfo = {
+      "nome": nomeCliente,
+      "telefone": telefoneCliente,
+      "endereco": "",  // Adicione um campo para endereço na sua UI e substitua aqui
+      "complemento": "",  // Adicione um campo para complemento na sua UI e substitua aqui
+      "formaPagamento": "",  // Adicione um campo para forma de pagamento na sua UI e substitua aqui
+      "pedido": pedidoJsonItems,
+      "totalPagar": total,
+    };
+
+    return pedidoInfo;
+  }
+
+  Future<void> enviarPedidoServidor() async {
+    // Gera o objeto JSON do pedido usando o método acima
+    Map<String, dynamic> pedidoInfo = gerarPedidoInfo();
+
+    // URL da API do servidor para enviar o pedido
+    const String apiUrl = "https://suaapi.com/pedidos";
+
+    // Converte o pedidoInfo Map para uma String JSON
+    String pedidoJson = jsonEncode(pedidoInfo);
+
+    try {
+      // Envia o pedido ao servidor como um corpo JSON
+      http.Response response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {"Content-Type": "application/json"},
+        body: pedidoJson,
+      );
+
+      // Verifica se o pedido foi enviado com sucesso (código de status HTTP 200)
+      if (response.statusCode == 200) {
+        Get.snackbar(
+          'Pedido Enviado!',
+          'Seu pedido foi enviado com sucesso para o servidor.',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: CupertinoColors.systemGreen,
+          colorText: Colors.white,
+          duration: Duration(seconds: 5),
+        );
+      } else {
+        // Se o servidor responder com um código de status diferente de 200,
+        // lançar um erro
+        throw 'O servidor respondeu com o código de status: ${response.statusCode}';
+      }
+    } catch (e) {
+      // Algo deu errado ao enviar o pedido. Pode ser uma exceção de rede,
+      // tempo de espera, etc.
+      Get.snackbar(
+        'Erro ao Enviar Pedido',
+        'Ocorreu um erro ao enviar o pedido para o servidor: $e',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: CupertinoColors.systemRed,
+        colorText: Colors.white,
+        duration: Duration(seconds: 5),
+      );
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   // Usando RxMap para tornar o mapa de produtos reativo

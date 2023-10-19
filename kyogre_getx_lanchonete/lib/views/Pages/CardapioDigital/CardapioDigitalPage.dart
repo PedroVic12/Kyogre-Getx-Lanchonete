@@ -11,6 +11,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdu
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/modalCarrinho.dart';
 
 import '../../../app/Teoria do Caos/CaosPage.dart';
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
@@ -108,19 +109,16 @@ class _DetailsPageState extends State<DetailsPage> {
 
           pegarDadosCliente(),
 
-
-
           MenuCategoriasScrollGradientWidget(),
 
           // Renderizar o cartão do produto selecionado somente se um produto estiver selecionado.
           Card(child: DetalhesProdutosCard()),
 
 
-          Expanded(
-            child: CatalogoProdutos(),
-          ),
+         CatalogoProdutos(), // tinha um expanded aqui e faz sentido pelo tamanho do conteudo
 
-          //Carrinho
+
+          //botao Carrinho
           Padding(
               padding: EdgeInsets.all(8),
               child: SizedBox(
@@ -149,51 +147,26 @@ class _DetailsPageState extends State<DetailsPage> {
 
       floatingActionButton: FloatingActionButton(
         child: Text('Abrir'),
-        onPressed: () => Get.bottomSheet(Material(
-          borderRadius: BorderRadius.circular(16),
-          child: Column( // controller carrinho aqui
-            children: [
-
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(100)
-                ),
-                child: ListTile(
-                  leading: CircleAvatar(child: Icon(Icons.add), ),
-                  title: Text('Carrinho'),
-                ),
-              ),
-
-              Padding(
-                  padding: EdgeInsets.all(8),
-                  child: SizedBox(
-                      height: 50,
-                      width: 200,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            carrinhoController.setClienteDetails(
-                                nomeCliente, telefoneCliente, widget.id);
-                            Get.to(CarrinhoPage(), arguments: [
-                              nomeCliente,
-                              telefoneCliente,
-                              widget.id
-                            ]);
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: CupertinoColors.activeBlue,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20))),
-                          child: const Text(
-                            'Ver o Carrinho',
-                            style: TextStyle(fontSize: 22),
-                          )))),
-            ],
+        onPressed: () => Get.bottomSheet(
+          BottomSheetWidget(
+            nomeCliente: nomeCliente,
+            telefoneCliente: telefoneCliente,
+            id: widget.id,
           ),
-        )),
+        ),
       ),
+
     );
   }
+
+
+
+
+
+
+
+
+
 }
 
 

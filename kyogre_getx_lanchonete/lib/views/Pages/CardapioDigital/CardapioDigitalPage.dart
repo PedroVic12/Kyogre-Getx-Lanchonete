@@ -9,6 +9,7 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/modalCarrinho.dart';
@@ -94,9 +95,11 @@ class _DetailsPageState extends State<DetailsPage> {
 
 
   List nomesLojas = ['Copacabana', 'Botafogo' , 'Ipanema', 'Castelo'];
-
   @override
   Widget build(BuildContext context) {
+
+    final MenuProdutosController menuController = Get.put(MenuProdutosController());
+
     return Scaffold(
       backgroundColor: Colors.red,
       appBar: AppBar(
@@ -110,12 +113,16 @@ class _DetailsPageState extends State<DetailsPage> {
           pegarDadosCliente(),
 
           MenuCategoriasScrollGradientWidget(),
+          //DetalhesProdutosCard(key: ValueKey(menuController.produtoIndex.value)),
 
-          // Renderizar o cartão do produto selecionado somente se um produto estiver selecionado.
-          Card(child: DetalhesProdutosCard()),
+       
+          AnimatedProduct(
+              leftToRight: menuController.isLeftToRight,
+              child: DetalhesProdutosCard(key: ValueKey(menuController.produtoIndex.value)),
+              keyValue: menuController.produtoIndex.value.toString()
+          ),
 
-
-         CatalogoProdutos(), // tinha um expanded aqui e faz sentido pelo tamanho do conteudo
+          //CatalogoProdutos(), // tinha um expanded aqui e faz sentido pelo tamanho do conteudo
 
 
           //botao Carrinho

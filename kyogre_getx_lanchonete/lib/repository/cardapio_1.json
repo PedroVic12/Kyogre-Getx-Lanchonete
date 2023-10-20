@@ -1,51 +1,51 @@
 [
     {
-        "Sanduíches Tradicionais": "Americano",
+        "Sanduíches": "Americano",
         "Igredientes": "Pão, Queijo Presunto, Ovo, Tomate e Alface",
         "Preço.4": 17.0,
         "imagem": "url"
     },
     {
-        "Sanduíches Tradicionais": "Bauru",
+        "Sanduíches": "Bauru",
         "Igredientes": "Pão, Queijo, Filé, Ovo, Tomate, Alface e Fritas",
         "Preço.4": 30.0,
         "imagem": "url"
     },
     {
-        "Sanduíches Tradicionais": "Filé de Carne",
+        "Sanduíches": "Filé de Carne",
         "Igredientes": "Pão Francês e Filé de Carne",
         "Preço.4": 21.0,
         "imagem": "url"
 
     },
     {
-        "Sanduíches Tradicionais": "Filé de Frango",
+        "Sanduíches": "Filé de Frango",
         "Igredientes": "Pão Francês e Filé de Frango",
         "Preço.4": 19.0
     },
     {
-        "Sanduíches Tradicionais": "Misto Quente",
+        "Sanduíches": "Misto Quente",
         "Igredientes": "Pão de forma, Queijo e Presunto",
         "Preço.4": 12.0,
         "imagem": "url"
 
     },
     {
-        "Sanduíches Tradicionais": "Peito de Peru",
+        "Sanduíches": "Peito de Peru",
         "Igredientes": "Pão árabe e Peito de Peru",
         "Preço.4": 18.0,
         "imagem": "url"
 
     },
     {
-        "Sanduíches Tradicionais": "Queijo Quente",
+        "Sanduíches": "Queijo Quente",
         "Igredientes": "Pão de Forma e Queijo",
         "Preço.4": 12.0,
         "imagem": "url"
 
     },
     {
-        "Sanduíches Tradicionais": "Queijo Quente com Banana",
+        "Sanduíches": "Queijo Quente com Banana",
         "Igredientes": "Pão de forma, Queijo, Banana, Canela e Açucar",
         "Preço.4": 14.0,
         "imagem": "url"

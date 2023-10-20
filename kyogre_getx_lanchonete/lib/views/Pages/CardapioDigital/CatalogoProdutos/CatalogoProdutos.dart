@@ -21,10 +21,10 @@ class CatalogoProdutos extends StatelessWidget {
 
 
           MenuCategorias(
-            categorias: catalogoProdutosController.Catalogocategorias,
+            categorias: catalogoProdutosController.catalogoCategorias,
             onCategorySelected: (index) {
-              catalogoProdutosController.setCategoria(catalogoProdutosController.Catalogocategorias[index]);
-              print('\n\nCategoria selecionada: ${catalogoProdutosController.Catalogocategorias[index]}');
+              catalogoProdutosController.setCategoria(catalogoProdutosController.catalogoCategorias[index] as int);
+              print('\n\nCategoria selecionada: ${catalogoProdutosController.catalogoCategorias[index]}');
             },
           ),
 

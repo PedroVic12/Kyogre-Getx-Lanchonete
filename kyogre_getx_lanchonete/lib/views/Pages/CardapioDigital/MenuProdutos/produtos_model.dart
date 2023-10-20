@@ -15,38 +15,47 @@ class CategoriaModel {
 
 }
 
-
+//Controller
 class MenuProdutosController extends GetxController {
   final CatalogoProdutosController catalogoController = Get.put(CatalogoProdutosController());
 
 
-  var produtoIndex = -1; // Inicialmente nenhum produto selecionado
-  List<CategoriaModel> categorias_produtos = [];
+  List<CategoriaModel> categorias_produtos_carregados = [];
+  List<CategoriaModel> categorias = [];
+  var produtos = <CategoriaModel>[].obs;
+  var produtoIndex = 0.obs;
+
 
   // Carregamento
-  bool _isLoading = true; // Defina como true para indicar que está carregando.
+  var isLoading = true.obs; // Para rastrear o estado de carregamento.
+
+
+  // Obtém as categorias do controlador de catálogo de produtos
+  List get categoriasCatalogoProdutos => catalogoController.catalogoCategorias;
+
 
   @override
   void onInit() {
     super.onInit();
-    _getCategorias();
+    getCategorias();
   }
 
-  void _getCategorias() {
-    categorias_produtos = getCategorias();
-    _isLoading = false;
-    update(); // Atualiza a UI após o carregamento
+  void getCategorias() {
+    categorias_produtos_carregados = fetchCategorias();
+    isLoading.value = false;
+    produtoIndex.value = 0; // Definir "Sanduíche" como selecionado.
+    trocarItemSelecionado(0); // Isso garante que o produto seja selecionado corretamente ao iniciar
+    update();
   }
 
 
 
-  List<CategoriaModel> categorias = [];
 
-   List<CategoriaModel> getCategorias(){
-
+    //Pega os Dados do Menu
+   List<CategoriaModel> fetchCategorias(){
 
     categorias.add(
-        CategoriaModel(nome: 'Sanduiches', iconPath: Icon(Icons.fastfood_rounded), boxColor: Colors.purple.shade300)
+        CategoriaModel(nome: 'Sanduíches', iconPath: Icon(Icons.fastfood_rounded), boxColor: Colors.purple.shade300)
     );
 
     categorias.add(
@@ -54,16 +63,13 @@ class MenuProdutosController extends GetxController {
     );
 
     categorias.add(
-        CategoriaModel(nome: 'Açai e Pitaya', iconPath: Icon(Icons.fastfood_rounded), boxColor: Colors.purple.shade300)
+        CategoriaModel(nome:  'Açaí e Pitaya', iconPath: Icon(Icons.fastfood_rounded), boxColor: Colors.purple.shade300)
     );
 
     categorias.add(
-        CategoriaModel(nome: 'salada', iconPath: Icon(Icons.fastfood_rounded), boxColor: Colors.purple.shade100)
+        CategoriaModel(nome: 'Salada', iconPath: Icon(Icons.fastfood_rounded), boxColor: Colors.purple.shade100)
     );
 
-    categorias.add(
-        CategoriaModel(nome: 'Hamburguer', iconPath: Icon(Icons.fastfood_rounded), boxColor: Colors.purple.shade200)
-    );
 
     categorias.add(
         CategoriaModel(nome: 'Pizza', iconPath: Icon(Icons.fastfood_rounded), boxColor: Colors.purple.shade300)
@@ -75,18 +81,22 @@ class MenuProdutosController extends GetxController {
   }
 
 
+  bool isLeftToRight = true;  // Adicione esta variável
 
 
-  // Obtém as categorias do controlador de catálogo de produtos
-  List get categoriasCatalogoProdutos => catalogoController.Catalogocategorias;
-
-
-  // Atualiza o produto selecionado com base no índice
-  void atualizarProdutoSelecionado(int index) {
-    if (index >= 0 && index < categoriasCatalogoProdutos.length) {
-      produtoIndex = index;
+  void trocarItemSelecionado(int novoProdutoIndex) {
+    if (novoProdutoIndex > produtoIndex.value) {
+      isLeftToRight = true;
+    } else {
+      isLeftToRight = false;
     }
+    produtoIndex.value = novoProdutoIndex;
+    int categoriaSelecionadaIndex = catalogoController.catalogoCategorias.indexOf(categorias_produtos_carregados[novoProdutoIndex].nome);
+    catalogoController.setCategoria(categoriaSelecionadaIndex);
   }
+
+
+
 }
 
 

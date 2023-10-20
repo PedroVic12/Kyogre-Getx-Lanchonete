@@ -31,6 +31,8 @@ class DataBaseController {
   final String sanduicheTradicionalFile = 'lib/repository/cardapio_1.json';
   final String acaiFile = 'lib/repository/cardapio_2.json';
   final String petiscosFile = 'lib/repository/cardapio_3.json';
+
+
   List<Produto> produtos_loja = [];
 
   Future<List<Produto>> getAllProducts() async {
@@ -48,8 +50,8 @@ class DataBaseController {
       List<dynamic> listaProdutos = jsonDecode(jsonDados);
 
       return listaProdutos.map((produtoJson) {
-        final String nome = produtoJson['Sanduíches Tradicionais'] ?? '';
-        final String tipo_produto = 'Sanduíches Tradicionais';
+        final String nome = produtoJson['Sanduíches'] ?? '';
+        final String tipo_produto = 'Sanduíches';
         final String igredientes = produtoJson['Igredientes'] ?? '';
         final Preco preco = Preco.fromJson({
           'preco1': produtoJson['Preço.4']?.toDouble(),

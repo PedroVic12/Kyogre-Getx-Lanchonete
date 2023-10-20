@@ -2,45 +2,56 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 
 
-
 class CatalogoProdutosController extends GetxController {
-  String categoria = 'Todos os Produtos';
+  String? categoria;  // Mudado para nullable já que não temos mais 'Todos os Produtos'
   final DataBaseController _dataBaseController = Get.find<DataBaseController>();
   Produto? selectedProduct;
-  RxList<Produto> allProdutos = RxList<Produto>();  // Mudamos o nome para 'allProdutos'
-  RxList<Produto> produtos = RxList<Produto>();  // Esta lista vai conter os produtos filtrados
+  RxList<Produto> allProdutos = RxList<Produto>();
+  RxList<Produto> produtos = RxList<Produto>();
 
-  final List<String> Catalogocategorias = [
-    'Todos os Produtos',
-    'Sanduíches Tradicionais',
-    'Açaí e Pitaya',
+  final List<String> catalogoCategorias = [
+    'Sanduíches',
     'Petiscos',
+    'Açaí e Pitaya',
   ];
-  var selectedCategoryIndex = 0.obs; // Observável para reagir na UI
 
-  void setCategory(int index) {
-    selectedCategoryIndex.value = index;
-  }
   @override
   void onInit() {
     super.onInit();
     _carregarProdutos();
   }
 
+  // MUDANDO DE PRODUTOS
+  var selectedCategoryIndex = 0.obs;
+
+  void setCategoria(int index) {
+    if (index >= 0 && index < catalogoCategorias.length) {
+      selectedCategoryIndex.value = index;
+      categoria = catalogoCategorias[index];
+      _atualizarProdutosFiltrados();
+    }
+  }
+  void setCategory(int index) {
+    selectedCategoryIndex.value = index;
+    categoria = catalogoCategorias[index];
+    _atualizarProdutosFiltrados();
+  }
+
+  // carregando os produtos
   Future<void> _carregarProdutos() async {
     print('Carregando produtos...');
     allProdutos.addAll(await _dataBaseController.getAllProducts());
     _atualizarProdutosFiltrados();
     selectedProduct = produtos.isNotEmpty ? produtos[0] : null;
     print('Produto selecionado: ${selectedProduct?.nome}');
-    update();
   }
 
+
   void _atualizarProdutosFiltrados() {
-    if (categoria == 'Todos os Produtos') {
-      produtos.assignAll(allProdutos);
-    } else {
+    if (categoria != null) {
       produtos.assignAll(allProdutos.where((produto) => produto.tipo_produto == categoria));
+    } else {
+      produtos.assignAll([]);  // Se a categoria for nula, a lista de produtos será vazia
     }
   }
 
@@ -48,14 +59,8 @@ class CatalogoProdutosController extends GetxController {
     if (index >= 0 && index < produtos.length) {
       selectedProduct = produtos[index];
       print('Produto selecionado: ${selectedProduct?.nome}');
-      update();
     }
   }
 
-  void setCategoria(String novaCategoria) {
-    print('Setando a categoria: $novaCategoria');
-    categoria = novaCategoria;
-    _atualizarProdutosFiltrados();
-  }
+// Método setCategoria já não é mais necessário, pois o setCategory agora faz o trabalho
 }
-

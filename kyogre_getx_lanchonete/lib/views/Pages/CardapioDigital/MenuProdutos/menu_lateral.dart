@@ -12,7 +12,7 @@ class MenuLateralCategoriasProdutos extends StatelessWidget {
   List<CategoriaModel> categorias_produtos = [];
 
   void _getCategorias(){
-    categorias_produtos = menuController.getCategorias();
+    categorias_produtos = menuController.fetchCategorias();
   }
 
   MenuLateralCategoriasProdutos({super.key});

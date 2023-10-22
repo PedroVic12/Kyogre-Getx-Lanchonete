@@ -9,6 +9,7 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/cards_produtos.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
@@ -16,7 +17,9 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/modalCarrinho.dart';
 
 import '../../../app/Teoria do Caos/CaosPage.dart';
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
-import 'MenuProdutos/WidgetCardapio.dart';
+import 'MenuProdutos/animation/animations_widgets.dart';
+import 'MenuProdutos/animation/page_flip.dart';
+import 'MenuProdutos/view/MenuCategoriasScroll.dart';
 import 'MenuProdutos/menu_lateral.dart';
 
 /*
@@ -40,7 +43,6 @@ class _DetailsPageState extends State<DetailsPage> {
   late String telefoneCliente = "";
   late String idPedido = "";
 
-
   //final DataBaseController _dataBaseController = DataBaseController();
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
   @override
@@ -49,32 +51,29 @@ class _DetailsPageState extends State<DetailsPage> {
     fetchClienteNome(widget.id);
   }
 
-  Widget pegarDadosCliente(){
+  Widget pegarDadosCliente() {
     return Column(
       children: [
         Text('Dados do Cliente: '),
         Text('ID do Pedido: ${idPedido}'),
         Text('Nome do Cliente: $nomeCliente'),
         Text('Telefone do Cliente: $telefoneCliente'),
-
       ],
     );
   }
 
   Future<String> fetchIdPedido() async {
-    final response_id = await http.get(Uri.parse('https://rayquaza-citta-server.onrender.com/receber-link'));
+    final response_id = await http.get(
+        Uri.parse('https://rayquaza-citta-server.onrender.com/receber-link'));
 
     if (response_id.statusCode == 200) {
       String id_data = response_id.body;
       print(id_data);
       return id_data;
-    }
-
-    else {
+    } else {
       throw Exception('Failed to fetch ID');
     }
   }
-
 
   Future<void> fetchClienteNome(String clienteId) async {
     final response = await http.get(Uri.parse(
@@ -93,37 +92,53 @@ class _DetailsPageState extends State<DetailsPage> {
     }
   }
 
-
-  List nomesLojas = ['Copacabana', 'Botafogo' , 'Ipanema', 'Castelo'];
+  List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
   @override
   Widget build(BuildContext context) {
+    final MenuProdutosController menuController =
+        Get.put(MenuProdutosController());
 
-    final MenuProdutosController menuController = Get.put(MenuProdutosController());
+    final CatalogoProdutosController _controller = CatalogoProdutosController();
+    var produtos = _controller.produtos;
 
     return Scaffold(
       backgroundColor: Colors.red,
       appBar: AppBar(
-        title: Center(child: Text('Citta RJ ${nomesLojas[1]} | Pedido: ${widget.id}')),
+        title: Center(
+            child: Text('Citta RJ ${nomesLojas[1]} | Pedido: ${widget.id}')),
         backgroundColor: Colors.black,
         automaticallyImplyLeading: false, // Hide the back button
       ),
       body: Center(
         child: ListView(children: [
-
           pegarDadosCliente(),
 
-          MenuCategoriasScrollGradientWidget(),
-          //DetalhesProdutosCard(key: ValueKey(menuController.produtoIndex.value)),
-
-       
-          AnimatedProduct(
-              leftToRight: menuController.isLeftToRight,
-              child: DetalhesProdutosCard(key: ValueKey(menuController.produtoIndex.value)),
-              keyValue: menuController.produtoIndex.value.toString()
+          MenuCategoriasScrollGradientWidget(
+            onCategorySelected: (index) {
+              setState(
+                  () {}); // Isso forçará a reconstrução do widget e atualizará os produtos exibidos.
+            },
           ),
 
-          //CatalogoProdutos(), // tinha um expanded aqui e faz sentido pelo tamanho do conteudo
+          ElevatedButton(
+              onPressed: () {
+                Get.to(VirarPaginaAnimationWidget());
+              },
+              child: Text('scrol')),
+          ElevatedButton(
+              onPressed: () {
+                Get.to(ScrolPageView());
+              },
+              child: Text('Page View')),
 
+          ElevatedButton(
+              onPressed: () {
+                Get.to(PageFlipExemplo());
+              },
+              child: Text('Page Flip')),
+
+          DetalhesProdutosCard(
+              key: ValueKey(menuController.produtoIndex.value)),
 
           //botao Carrinho
           Padding(
@@ -151,7 +166,6 @@ class _DetailsPageState extends State<DetailsPage> {
                       )))),
         ]),
       ),
-
       floatingActionButton: FloatingActionButton(
         child: Text('Abrir'),
         onPressed: () => Get.bottomSheet(
@@ -162,18 +176,6 @@ class _DetailsPageState extends State<DetailsPage> {
           ),
         ),
       ),
-
     );
   }
-
-
-
-
-
-
-
-
-
 }
-
-

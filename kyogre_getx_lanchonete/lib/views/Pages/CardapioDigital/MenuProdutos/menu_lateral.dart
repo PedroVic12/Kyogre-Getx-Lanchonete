@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_model.dart';
@@ -8,10 +5,11 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/
 import '../../../../app/widgets/Custom/CustomText.dart';
 
 class MenuLateralCategoriasProdutos extends StatelessWidget {
-  final MenuProdutosController menuController = Get.put(MenuProdutosController());
+  final MenuProdutosController menuController =
+      Get.put(MenuProdutosController());
   List<CategoriaModel> categorias_produtos = [];
 
-  void _getCategorias(){
+  void _getCategorias() {
     categorias_produtos = menuController.fetchCategorias();
   }
 
@@ -24,29 +22,32 @@ class MenuLateralCategoriasProdutos extends StatelessWidget {
       color: Colors.yellow,
       padding: EdgeInsets.all(12),
       child: Column(
-
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          CustomText(text: 'Categorias'),
-          SizedBox(height: 15,),
+          CustomText(
+            text: 'Categorias',
+            size: 18,
+          ),
+          SizedBox(
+            height: 15,
+          ),
           Container(
             height: 100,
             child: ListView.separated(
-                itemCount:categorias_produtos.length,
+                itemCount: categorias_produtos.length,
                 scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.only(
-                    left: 20,
-                    right: 20
-                ),
-                separatorBuilder: (context,index) => SizedBox(width: 16,),
-                itemBuilder: (context,index) {
+                padding: EdgeInsets.only(left: 20, right: 20),
+                separatorBuilder: (context, index) => SizedBox(
+                      width: 16,
+                    ),
+                itemBuilder: (context, index) {
                   return Container(
                     width: 100,
                     decoration: BoxDecoration(
-                        color: categorias_produtos[index].boxColor.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(16)
-                    ),
-
+                        color: categorias_produtos[index]
+                            .boxColor
+                            .withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(16)),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -54,18 +55,19 @@ class MenuLateralCategoriasProdutos extends StatelessWidget {
                             height: 50,
                             width: 50,
                             decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle
-                            ),
-                            child: categorias_produtos[index].iconPath, // passar uma imagem de icone
-
+                                color: Colors.white, shape: BoxShape.circle),
+                            child: categorias_produtos[index]
+                                .iconPath, // passar uma imagem de icone
                           ),
-
-                          SizedBox(height: 8,),
-
-                          CustomText(text: categorias_produtos[index].nome , weight: FontWeight.bold,size: 14,)
-                        ]
-                    ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          CustomText(
+                            text: categorias_produtos[index].nome,
+                            weight: FontWeight.bold,
+                            size: 14,
+                          )
+                        ]),
                   );
                 }),
           ),
@@ -77,5 +79,3 @@ class MenuLateralCategoriasProdutos extends StatelessWidget {
     );
   }
 }
-
-

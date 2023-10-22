@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,8 +30,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -44,16 +41,20 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => Layout()),
         GetPage(name: '/dash', page: () => DashboardPage()),
         GetPage(name: '/layoutDesign', page: () => const CartaoGridView()),
-        GetPage(name: '/details/:id', page: () {
-          final id = Get.parameters['id']!;
-          return DetailsPage(id: id);
-        }),
+        GetPage(
+            name: '/details/:id',
+            page: () {
+              final id = Get.parameters['id']!;
+              return DetailsPage(id: id);
+            }),
       ],
 
       debugShowCheckedModeBanner: true,
+
       title: 'Dashboard',
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.blueAccent,
+        scaffoldBackgroundColor: Colors.indigo,
+        useMaterial3: true,
         textTheme: GoogleFonts.mulishTextTheme(Theme.of(context).textTheme)
             .apply(bodyColor: Colors.black),
         pageTransitionsTheme: const PageTransitionsTheme(builders: {

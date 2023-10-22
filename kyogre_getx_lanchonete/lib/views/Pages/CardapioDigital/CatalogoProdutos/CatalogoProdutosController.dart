@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 
-
 class CatalogoProdutosController extends GetxController {
-  String? categoria;  // Mudado para nullable já que não temos mais 'Todos os Produtos'
+  String?
+      categoria; // Mudado para nullable já que não temos mais 'Todos os Produtos'
   final DataBaseController _dataBaseController = Get.find<DataBaseController>();
   Produto? selectedProduct;
   RxList<Produto> allProdutos = RxList<Produto>();
@@ -31,6 +31,7 @@ class CatalogoProdutosController extends GetxController {
       _atualizarProdutosFiltrados();
     }
   }
+
   void setCategory(int index) {
     selectedCategoryIndex.value = index;
     categoria = catalogoCategorias[index];
@@ -46,12 +47,13 @@ class CatalogoProdutosController extends GetxController {
     print('Produto selecionado: ${selectedProduct?.nome}');
   }
 
-
   void _atualizarProdutosFiltrados() {
     if (categoria != null) {
-      produtos.assignAll(allProdutos.where((produto) => produto.tipo_produto == categoria));
+      produtos.assignAll(
+          allProdutos.where((produto) => produto.tipo_produto == categoria));
     } else {
-      produtos.assignAll([]);  // Se a categoria for nula, a lista de produtos será vazia
+      produtos.assignAll(
+          []); // Se a categoria for nula, a lista de produtos será vazia
     }
   }
 

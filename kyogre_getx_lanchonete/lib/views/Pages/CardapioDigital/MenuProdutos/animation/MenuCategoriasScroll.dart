@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/display_products.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_model.dart';
 import '../../../../../app/widgets/Custom/CustomText.dart';
 import '../produtos_controller.dart';
@@ -45,6 +46,7 @@ class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrol
           children: [
             _buildHeader(),
             isLoading ? const CircularProgressIndicator() : _buildMenuCategorias(),
+
           ],
         ),
       ),
@@ -67,7 +69,7 @@ class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrol
             size: 24,
             weight: FontWeight.bold,
           ),
-          const Divider()
+
         ],
       ),
     );

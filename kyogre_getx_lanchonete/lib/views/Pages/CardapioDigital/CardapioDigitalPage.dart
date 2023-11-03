@@ -9,7 +9,9 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuCardapioScroll/CardapioProdutosView.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/cards_produtos.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
@@ -17,9 +19,8 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/modalCarrinho.dart';
 
 import '../../../app/Teoria do Caos/CaosPage.dart';
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
-import 'MenuProdutos/animation/animations_widgets.dart';
-import 'MenuProdutos/animation/page_flip.dart';
-import 'MenuProdutos/view/MenuCategoriasScroll.dart';
+import 'MenuProdutos/animation/cardapio_page.dart';
+import 'MenuProdutos/animation/MenuCategoriasScroll.dart';
 import 'MenuProdutos/menu_lateral.dart';
 
 /*
@@ -119,26 +120,20 @@ class _DetailsPageState extends State<DetailsPage> {
                   () {}); // Isso forçará a reconstrução do widget e atualizará os produtos exibidos.
             },
           ),
+          ElevatedButton(
+              onPressed: () {
+                Get.to(CardapioProdutosWidget());
+              },
+              child: Text(' View')),
+
 
           ElevatedButton(
               onPressed: () {
-                Get.to(VirarPaginaAnimationWidget());
+                Get.to(MenuCardapioScollPage());
               },
-              child: Text('scrol')),
-          ElevatedButton(
-              onPressed: () {
-                Get.to(ScrolPageView());
-              },
-              child: Text('Page View')),
+              child: Text('Menu Page View')),
 
-          ElevatedButton(
-              onPressed: () {
-                Get.to(PageFlipExemplo());
-              },
-              child: Text('Page Flip')),
-
-          DetalhesProdutosCard(
-              key: ValueKey(menuController.produtoIndex.value)),
+          DetalhesProdutosCard( key: ValueKey(menuController.produtoIndex.value)),
 
           //botao Carrinho
           Padding(

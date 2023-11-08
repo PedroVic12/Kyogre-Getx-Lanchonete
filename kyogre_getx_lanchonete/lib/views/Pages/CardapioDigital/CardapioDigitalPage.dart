@@ -9,10 +9,10 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuCardapioScroll/CardapioProdutosView.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/cards_produtos.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/display_products.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_model.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/modalCarrinho.dart';
@@ -21,7 +21,6 @@ import '../../../app/Teoria do Caos/CaosPage.dart';
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
 import 'MenuProdutos/animation/cardapio_page.dart';
 import 'MenuProdutos/animation/MenuCategoriasScroll.dart';
-import 'MenuProdutos/menu_lateral.dart';
 
 /*
 * Paleta de Cores : #ff8c00 , #f2ff00, # ff0d00
@@ -96,11 +95,14 @@ class _DetailsPageState extends State<DetailsPage> {
   List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
   @override
   Widget build(BuildContext context) {
-    final MenuProdutosController menuController =
-        Get.put(MenuProdutosController());
 
+    //controllers
+    final MenuProdutosController menuController =   Get.put(MenuProdutosController());
     final CatalogoProdutosController _controller = CatalogoProdutosController();
+
+    //variaveis de acesso
     var produtos = _controller.produtos;
+    final itemSelecionado = menuController.produtoIndex.value;
 
     return Scaffold(
       backgroundColor: Colors.red,
@@ -115,23 +117,14 @@ class _DetailsPageState extends State<DetailsPage> {
           pegarDadosCliente(),
 
           MenuCategoriasScrollGradientWidget(
+            //itemSelected: itemSelecionado,
             onCategorySelected: (index) {
               setState(
                   () {}); // Isso forçará a reconstrução do widget e atualizará os produtos exibidos.
             },
           ),
-          ElevatedButton(
-              onPressed: () {
-                Get.to(CardapioProdutosWidget());
-              },
-              child: Text(' View')),
 
-
-          ElevatedButton(
-              onPressed: () {
-                Get.to(MenuCardapioScollPage());
-              },
-              child: Text('Menu Page View')),
+          DisplayCardItensCardapio( ),
 
           DetalhesProdutosCard( key: ValueKey(menuController.produtoIndex.value)),
 

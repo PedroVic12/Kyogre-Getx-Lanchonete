@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../app/widgets/Custom/CustomText.dart';
-import '../../../../models/DataBaseController/DataBaseController.dart';
-import '../CatalogoProdutos/CatalogoProdutosController.dart';
+import '../../../../../app/widgets/Custom/CustomText.dart';
+import '../../../../../models/DataBaseController/DataBaseController.dart';
+import '../../CatalogoProdutos/CatalogoProdutosController.dart';
 class ItemModel {
   final String label;
 

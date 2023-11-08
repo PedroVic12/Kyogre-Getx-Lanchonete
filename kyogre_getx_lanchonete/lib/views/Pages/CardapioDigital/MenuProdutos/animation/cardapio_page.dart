@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../CatalogoProdutos/CatalogoProdutosController.dart';
-import '../../MenuCardapioScroll/CardapioProdutosView.dart';
-import '../produtos_model.dart';
+import '../repository/produtos_model.dart';
 import 'MenuCategoriasScroll.dart';
 
 class MenuCardapioScollPage extends StatefulWidget {

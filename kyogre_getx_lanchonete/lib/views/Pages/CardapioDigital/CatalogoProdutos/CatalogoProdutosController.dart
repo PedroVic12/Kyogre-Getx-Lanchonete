@@ -1,13 +1,24 @@
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 
 class CatalogoProdutosController extends GetxController {
   String?
       categoria; // Mudado para nullable já que não temos mais 'Todos os Produtos'
   final DataBaseController _dataBaseController = Get.find<DataBaseController>();
+  final MenuProdutosRepository repository = Get.put(MenuProdutosRepository());
+
   Produto? selectedProduct;
   RxList<Produto> allProdutos = RxList<Produto>();
   RxList<Produto> produtos = RxList<Produto>();
+
+
+  var categorias;
+  void getCategorias(){
+    repository.fetchCategorias();
+    print(categorias);
+  }
+
 
   final List<String> catalogoCategorias = [
     'Sanduíches',

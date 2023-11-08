@@ -4,25 +4,32 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 
-import 'produtos_model.dart';
+import 'repository/produtos_model.dart';
 
 class MenuProdutosController extends GetxController {
+  //controladores
   final CatalogoProdutosController catalogoController =
   Get.put(CatalogoProdutosController());
+  final MenuProdutosRepository repository = MenuProdutosRepository(); // Usando o repository
 
+  //variaveis
   List<CategoriaModel> categorias_produtos_carregados = [];
-  List<CategoriaModel> categorias = [];
+  List<CategoriaModel> categoriasProdutosMenu = [];
   var produtos = <CategoriaModel>[].obs;
   var produtoIndex = 0.obs;
   var produtosWidgets = <Widget>[].obs;
+  var isLoading = true.obs;
 
-  // Carregamento
-  var isLoading = true.obs; // Para rastrear o estado de carregamento.
-
-  // Obtém as categorias do controlador de catálogo de produtos
-  List get categoriasCatalogoProdutos => catalogoController.catalogoCategorias;
-
+  //metodos
+  void setProdutoIndex(int index) {
+    produtoIndex.value = index;
+  }
+  void getCategoriasRepository() {
+    categoriasProdutosMenu = repository.fetchCategorias();
+    isLoading.value = false;
+  }
 
   @override
   void onInit() {
@@ -39,37 +46,6 @@ class MenuProdutosController extends GetxController {
     update();
   }
 
-  //Pega os Dados do Menu
-  List<CategoriaModel> fetchCategorias() {
-    categorias.add(CategoriaModel(
-        nome: 'Sanduíches',
-        iconPath: Icon(Icons.fastfood_rounded),
-        boxColor: Colors.purple.shade300));
-
-    categorias.add(CategoriaModel(
-        nome: 'Petiscos',
-        iconPath: Icon(Icons.fastfood_rounded),
-        boxColor: Colors.purple.shade300));
-
-    categorias.add(CategoriaModel(
-        nome: 'Açaí e Pitaya',
-        iconPath: Icon(Icons.fastfood_rounded),
-        boxColor: Colors.purple.shade300));
-
-    categorias.add(CategoriaModel(
-        nome: 'Salada',
-        iconPath: Icon(Icons.fastfood_rounded),
-        boxColor: Colors.purple.shade100));
-
-    categorias.add(CategoriaModel(
-        nome: 'Pizza',
-        iconPath: Icon(Icons.fastfood_rounded),
-        boxColor: Colors.purple.shade300));
-
-    return categorias;
-  }
-
-  bool isLeftToRight = true; // Adicione esta variável
 
   trocarItemSelecionado(int novoProdutoIndex) {
 
@@ -78,37 +54,60 @@ class MenuProdutosController extends GetxController {
         .indexOf(categorias_produtos_carregados[novoProdutoIndex].nome);
     catalogoController.setCategoria(categoriaSelecionadaIndex);
   }
+
+  //Pega os Dados do Menu
+  List<CategoriaModel> fetchCategorias() {
+    categoriasProdutosMenu.add(CategoriaModel(
+        nome: 'Sanduíches',
+        iconPath: Icon(Icons.fastfood_rounded),
+        boxColor: Colors.purple.shade300));
+
+    categoriasProdutosMenu.add(CategoriaModel(
+        nome: 'Petiscos',
+        iconPath: Icon(Icons.fastfood_rounded),
+        boxColor: Colors.purple.shade300));
+
+    categoriasProdutosMenu.add(CategoriaModel(
+        nome: 'Açaí e Pitaya',
+        iconPath: Icon(Icons.fastfood_rounded),
+        boxColor: Colors.purple.shade300));
+
+    categoriasProdutosMenu.add(CategoriaModel(
+        nome: 'Salada',
+        iconPath: Icon(Icons.fastfood_rounded),
+        boxColor: Colors.purple.shade100));
+
+    categoriasProdutosMenu.add(CategoriaModel(
+        nome: 'Pizza',
+        iconPath: Icon(Icons.fastfood_rounded),
+        boxColor: Colors.purple.shade300));
+
+    return categoriasProdutosMenu;
+  }
+
+
 }
-
 class ProdutosDetails extends StatelessWidget {
-  String nome;
-  Icon imagem_produto;
+  final String nome;
+  final Icon imagem_produto;
 
-  ProdutosDetails(
-      {super.key, required this.nome, required this.imagem_produto});
+  const ProdutosDetails({
+    Key? key,
+    required this.nome,
+    required this.imagem_produto,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          child: CircleAvatar(
-            child: imagem_produto,
-          ),
-          height: 50,
-          width:50,
-        ),
-        SizedBox(
-          height: 12,
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          child: CustomText(
-            text: nome,
-            size: 14,
-            weight: FontWeight.bold,
-          ),
+        CircleAvatar(child: imagem_produto),
+        const SizedBox(height: 12),
+        CustomText(
+          text: nome,
+          size: 14,
+          weight: FontWeight.bold,
         ),
       ],
     );

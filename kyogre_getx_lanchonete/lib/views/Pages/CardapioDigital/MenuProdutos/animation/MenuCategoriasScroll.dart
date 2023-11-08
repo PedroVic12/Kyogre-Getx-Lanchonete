@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/display_products.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_model.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import '../../../../../app/widgets/Custom/CustomText.dart';
 import '../produtos_controller.dart';
 
 class MenuCategoriasScrollGradientWidget extends StatefulWidget {
   final Function(int) onCategorySelected;
 
-  const MenuCategoriasScrollGradientWidget({super.key, required this.onCategorySelected});
+  const MenuCategoriasScrollGradientWidget({super.key, required this.onCategorySelected,});
 
   @override
   State<MenuCategoriasScrollGradientWidget> createState() => _MenuCategoriasScrollGradientWidgetState();
@@ -17,16 +17,19 @@ class MenuCategoriasScrollGradientWidget extends StatefulWidget {
 
 class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrollGradientWidget> {
 
-  //variaveis
-  late List<CategoriaModel> categoriasProdutos;
-  bool isLoading = true;  // Inicializando diretamente
 
   //controllers
   final MenuProdutosController menuController = Get.put(MenuProdutosController());
   late PageController pc;
 
+  //variaveis
+  late List<CategoriaModel> categoriasProdutos;
+  bool isLoading = true;  // Inicializando diretamente
+
+
   @override
   void initState() {
+
     super.initState();
     _getCategorias();
   }
@@ -38,15 +41,17 @@ class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrol
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+
+    final itemSelecionado = menuController.produtoIndex.value;
+
+  return Padding(
       padding: const EdgeInsets.all(8),
       child: Container(
-        color: CupertinoColors.systemYellow,
+        color: CupertinoColors.systemYellow.darkElevatedColor,
         child: Column(
           children: [
             _buildHeader(),
             isLoading ? const CircularProgressIndicator() : _buildMenuCategorias(),
-
           ],
         ),
       ),
@@ -77,8 +82,8 @@ class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrol
 
   Widget _buildMenuCategorias() {
     return Container(
-      height: 120,
-      padding: const EdgeInsets.all(10),
+      height: 130,
+      padding: const EdgeInsets.all(12),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: categoriasProdutos.length,
@@ -95,21 +100,21 @@ class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrol
       onTap: () => _onCategoriaTap(index),
       child: Container(
         width: 110,
-        height: 60,
+        height: 100,
         margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.white),
-          borderRadius: BorderRadius.circular(50),
+          border: Border.all(color: Colors.white,width: 1),
+          borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
-              offset: const Offset(0.7, 0),
-              blurRadius: 32,
-              spreadRadius: 1,
-              color: Colors.white,
+              offset: const Offset(0.5, 1),
+              blurRadius: 50,
+              spreadRadius: 3,
+              color: Colors.yellow.shade300,
             ),
           ],
           gradient: isSelected
-              ? LinearGradient(colors: [Colors.blue, Colors.purpleAccent.shade400])
+              ? LinearGradient(colors: [Colors.deepPurple.shade100, CupertinoColors.activeBlue.highContrastElevatedColor])
               : null,
         ),
         child: Center(
@@ -120,13 +125,14 @@ class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrol
         ),
       ),
     );
+
+
   }
 
   void _onCategoriaTap(int index) {
     setState(() {
-      menuController.produtoIndex.value = index;
+      menuController.setProdutoIndex(index); // Atualiza o índice no controller
     });
-    menuController.trocarItemSelecionado(index);
-    pc.jumpToPage(index);
   }
 }
+

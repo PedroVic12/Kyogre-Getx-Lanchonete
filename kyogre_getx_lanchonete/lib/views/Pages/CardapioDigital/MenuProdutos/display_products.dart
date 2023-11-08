@@ -21,6 +21,9 @@ class DisplayCardItensCardapio extends StatelessWidget {
     return Obx(() { // Observe mudanças no índice do produto
       final categoriaProduto = menuController.categorias_produtos_carregados[menuController.produtoIndex.value]; // Use o índice observável para obter o produto atual
 
+      final indexSelecionado = menuController.produtoIndex.value;
+
+
       return Column(
       children: [
 
@@ -31,13 +34,15 @@ class DisplayCardItensCardapio extends StatelessWidget {
 
         Container(
           color: Colors.blue,
-          child: cardProduto(),
+          padding: EdgeInsets.all(16),
+          child: Center(child: card4(),)
         ),
 
         Container(
-          color: Colors.red,
-          child: Text('ola mundo'),
+          color: Colors.lime,
+          child: cardProduto(),
         )
+
       ],
       );
     });
@@ -123,12 +128,13 @@ class DisplayCardItensCardapio extends StatelessWidget {
     final CarrinhoController carrinhoController = Get.put(CarrinhoController());
     final catalogoProdutosController = Get.put(CatalogoProdutosController());
     var produtos = catalogoProdutosController.produtos;
+    final menuController = MenuProdutosController();
 
+    var indexProdutoSelecionado = menuController.produtoIndex.value;
 
     return  Obx(() => ListView.builder(
       shrinkWrap: true,
-      physics:
-      BouncingScrollPhysics(),
+
       scrollDirection: Axis.vertical,
       itemCount: produtos.length,
       itemBuilder: (context, index) {
@@ -140,9 +146,12 @@ class DisplayCardItensCardapio extends StatelessWidget {
               .blueGrey.shade100,
           child: ListTile(
             title: CustomText(
-              text: produto.nome,
+              text: "${produto.nome} | ${indexProdutoSelecionado} | ",
               size: 20,
+
             ),
+
+
             subtitle: Column(
               crossAxisAlignment:
               CrossAxisAlignment
@@ -190,5 +199,154 @@ class DisplayCardItensCardapio extends StatelessWidget {
         );
       },
     ));
+  }
+
+
+
+
+
+  Widget card4() {
+    // Obtenha a instância existente dos controladores
+    final MenuProdutosController menuController = Get.find<MenuProdutosController>();
+    final CarrinhoController carrinhoController = Get.find<CarrinhoController>();
+    final CatalogoProdutosController catalogoProdutosController = Get.find<CatalogoProdutosController>();
+
+    // Retorne um Obx para escutar as mudanças
+    return Obx(() {
+      // Obtenha o índice do produto selecionado
+      var indexProdutoSelecionado = menuController.produtoIndex.value;
+
+      // Obtenha a lista de produtos
+      final produtos = catalogoProdutosController.produtos;
+
+      // Retorne o ListView com os produtos
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+        itemCount: produtos.length,
+        itemBuilder: (context, index) {
+          // Verifique se é o produto selecionado
+          if (index == indexProdutoSelecionado) {
+            Produto produto = produtos[index];
+
+            // Retorne o Card com as informações do produto
+            return Card(
+              margin: EdgeInsets.only(bottom: 20),
+              color: Colors.blueGrey.shade100,
+              child: ListTile(
+                title: CustomText(
+                  text: "${produto.nome} | Selecionado = ${indexProdutoSelecionado}",
+                  size: 20,
+                ),
+
+                subtitle: Column(
+                  crossAxisAlignment:
+                  CrossAxisAlignment
+                      .start,
+                  children: [
+                    if (produto.preco !=
+                        null) ...[
+                      if (produto.preco!
+                          .preco1 !=
+                          null)
+                        CustomText(
+                          text:
+                          'R\$ ${produto.preco!.preco1}',
+                          color: Colors
+                              .green,
+                          weight:
+                          FontWeight
+                              .bold,
+                          size: 18,
+                        ),
+                      if (produto.preco!
+                          .preco2 !=
+                          null)
+                        Text(
+                            'Preço 2: R\$ ${produto.preco!.preco2}'),
+                    ],
+                    // Adicione mais detalhes sobre o produto aqui
+                  ],
+                ),
+                trailing: IconButton(
+                  icon: Icon(Icons.add_box_sharp, color: Colors.blue, size: 36),
+                  onPressed: () {
+                    carrinhoController.adicionarProduto(produto);
+                  },
+                ),
+              ),
+            );
+          } else {
+            // Para produtos não selecionados, pode-se retornar um Container vazio
+            // ou ajustar de acordo com a necessidade.
+            return Container();
+          }
+        },
+      );
+    });
+  }
+
+}
+
+
+class Card4 extends StatefulWidget {
+  @override
+  _Card4State createState() => _Card4State();
+}
+
+class _Card4State extends State<Card4> {
+  late PageController pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    final menuController = Get.find<MenuProdutosController>();
+    pageController = PageController(
+      initialPage: menuController.produtoIndex.value,
+    );
+
+    // Se o índice do produto for atualizado externamente, atualize a página do PageView
+    ever(menuController.produtoIndex, (int index) {
+      if (pageController.hasClients && pageController.page!.round() != index) {
+        pageController.animateToPage(
+          index,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final menuController = Get.find<MenuProdutosController>();
+    final catalogoProdutosController = Get.find<CatalogoProdutosController>();
+
+    return Obx(() {
+      final produtos = catalogoProdutosController.produtos;
+
+      return PageView.builder(
+        controller: pageController,
+        onPageChanged: (index) {
+          menuController.produtoIndex.value = index;
+        },
+        itemCount: produtos.length,
+        itemBuilder: (context, index) {
+          final produto = produtos[index];
+          return Center(
+            child: Text(
+              '${produto.nome} | Índice Selecionado: ${menuController.produtoIndex}',
+              style: TextStyle(fontSize: 24),
+            ),
+          );
+        },
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
   }
 }

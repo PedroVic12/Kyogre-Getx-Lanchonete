@@ -87,6 +87,8 @@ class MenuProdutosController extends GetxController {
 
 
 }
+
+
 class ProdutosDetails extends StatelessWidget {
   final String nome;
   final Icon imagem_produto;

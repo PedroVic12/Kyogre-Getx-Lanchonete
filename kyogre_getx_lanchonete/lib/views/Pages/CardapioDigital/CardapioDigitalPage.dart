@@ -4,10 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
-
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
+
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/animation/cardapio_pageView_scroll.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/cards_produtos.dart';
@@ -44,8 +42,9 @@ class _DetailsPageState extends State<DetailsPage> {
   late String telefoneCliente = "";
   late String idPedido = "";
 
-  //final DataBaseController _dataBaseController = DataBaseController();
+  final DataBaseController _dataBaseController = DataBaseController();
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
+
   @override
   void initState() {
     super.initState();
@@ -122,35 +121,14 @@ class _DetailsPageState extends State<DetailsPage> {
             },
           ),
 
-          //CardDisplayProdutos(),
-          DisplayCardItensCardapio( ),
+          //CardDisplayProdutos(), //todo card PageView
 
-          DetalhesProdutosCard( key: ValueKey(menuController.produtoIndex.value)),
 
-          //botao Carrinho
-          Padding(
-              padding: EdgeInsets.all(8),
-              child: SizedBox(
-                  height: 50,
-                  width: 200,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        carrinhoController.setClienteDetails(
-                            nomeCliente, telefoneCliente, widget.id);
-                        Get.to(CarrinhoPage(), arguments: [
-                          nomeCliente,
-                          telefoneCliente,
-                          widget.id
-                        ]);
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: CupertinoColors.activeBlue,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20))),
-                      child: const Text(
-                        'Ver o Carrinho',
-                        style: TextStyle(fontSize: 22),
-                      )))),
+          DisplayCardItensCardapio( ), // todo card 3
+
+          //DetalhesProdutosCard( key: ValueKey(menuController.produtoIndex.value)), //TODO ANTIGO CARD 2
+
+          botaoVerCarrinho()
         ]),
       ),
       floatingActionButton: FloatingActionButton(
@@ -164,5 +142,31 @@ class _DetailsPageState extends State<DetailsPage> {
         ),
       ),
     );
+  }
+
+  Widget botaoVerCarrinho(){
+    return  Padding(
+        padding: EdgeInsets.all(8),
+        child: SizedBox(
+            height: 50,
+            width: 200,
+            child: ElevatedButton(
+                onPressed: () {
+                  carrinhoController.setClienteDetails(
+                      nomeCliente, telefoneCliente, widget.id);
+                  Get.to(CarrinhoPage(), arguments: [
+                    nomeCliente,
+                    telefoneCliente,
+                    widget.id
+                  ]);
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: CupertinoColors.activeBlue,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20))),
+                child: const Text(
+                  'Ver o Carrinho',
+                  style: TextStyle(fontSize: 22),
+                ))));
   }
 }

@@ -25,7 +25,7 @@ class LargePage extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(child: MenuLateral()),
+              Expanded(child: MenuLateralNavegacaoDash()),
 
               Expanded(
                   flex: 4,
@@ -51,7 +51,7 @@ class LargeScreen extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(child: MenuLateral()),
+        Expanded(child: MenuLateralNavegacaoDash()),
 
         Expanded(
             flex: 4,

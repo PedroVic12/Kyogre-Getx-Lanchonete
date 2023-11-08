@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kyogre_getx_lanchonete/app/Teoria%20do%20Caos/CaosPage.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Design/CartaoGridView.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CardapioDigitalPage.dart';
@@ -10,6 +11,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart'
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Layout/Layout.dart';
 
+import 'views/Pages/Caos/caos_page.dart';
 import 'views/Pages/DashBoard/Pedido/PedidoController.dart';
 
 //TODO -> Menu controller 1:08
@@ -41,6 +43,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => Layout()),
         GetPage(name: '/dash', page: () => DashboardPage()),
         GetPage(name: '/layoutDesign', page: () => const CartaoGridView()),
+        GetPage(name: '/caosPage', page: ()=> CaosPageWidget()),
         GetPage(
             name: '/details/:id',
             page: () {

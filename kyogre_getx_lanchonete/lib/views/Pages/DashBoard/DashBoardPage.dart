@@ -21,9 +21,11 @@ class DashboardPage extends StatelessWidget {
         children: [
 
           //PesquisarDadosWidet(),
+
           Expanded(child: Row(
             children: [
               //PedidosServer(),
+
               ColunaPedidosParaAceitar(pedidoController: pedidoController),
               ColunaPedidosProcessados(),
               ColunaInfoPedidos(),

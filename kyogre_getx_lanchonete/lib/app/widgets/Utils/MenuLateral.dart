@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // TODO -> Navigator Getx
-// TODO -> CRUD with listview (Contact List APP)
 // TODO -> Backend and database Usage
-// TODO -> Layouts in Flutter
 
-// TODO -> Gestao de Pedidos com Tabelas
 class ItemMenuLateral {
   final String title;
   final IconData icon;
@@ -27,7 +24,7 @@ class MenuLateralController extends GetxController {
   }
 }
 
-class MenuLateral extends StatelessWidget {
+class MenuLateralNavegacaoDash extends StatelessWidget {
   final MenuLateralController _controller = Get.put(MenuLateralController());
 
   final List<ItemMenuLateral> _menuItems = [
@@ -39,8 +36,8 @@ class MenuLateral extends StatelessWidget {
     ItemMenuLateral(
         title: 'Grid Style', icon: Icons.abc_outlined, route: '/layoutDesign'),
     ItemMenuLateral(
-        title: 'Cardapio Digital', icon: Icons.link, route: '/details/:id')
-
+        title: 'Cardapio Digital', icon: Icons.fastfood_rounded, route: '/details/:id'),
+    ItemMenuLateral(title: 'Caos Page', icon: Icons.ac_unit_sharp, route: '/caosPage')
     //TODO Adicione mais itens de menu conforme necessário
   ];
 

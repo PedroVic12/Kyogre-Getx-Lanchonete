@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../../models/DataBaseController/DataBaseController.dart';
 import '../../CatalogoProdutos/CatalogoProdutosController.dart';
 import '../repository/produtos_model.dart';
 import 'MenuCategoriasScroll.dart';
@@ -18,6 +19,15 @@ class _MenuCardapioScollPageState extends State<MenuCardapioScollPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
+    final List<Produto> produtos = [
+      Produto('nome', 'tipo_produto', igredientes: 'igredientes'),
+      Produto('nome', 'tipo_produto', igredientes: 'igredientes'),
+      Produto('nome', 'tipo_produto', igredientes: 'igredientes')
+
+      // Adicione mais produtos conforme necessário
+    ];
+
+
     return Scaffold(
       appBar: AppBar(title: Text('Cardapio 1')),
       body: Column(
@@ -30,6 +40,12 @@ class _MenuCardapioScollPageState extends State<MenuCardapioScollPage> {
           ),
 
           //topNavigator(size),
+          Container(
+            color: Colors.purpleAccent,
+            child: _ProdutoPageView(
+                produtos: produtos
+            ),
+          ),
 
           Expanded(
             child: Container(
@@ -82,6 +98,28 @@ class _MenuCardapioScollPageState extends State<MenuCardapioScollPage> {
         itemBuilder: (context, index) {
           return menuButton(items[index]);
         },
+      ),
+    );
+  }
+
+  // Widget privado para o PageView
+  Widget _ProdutoPageView({required List<Produto> produtos}) {
+    return PageView.builder(
+      itemCount: produtos.length,
+      itemBuilder: (context, index) {
+        final produto = produtos[index];
+        return _buildProdutoPage(produto);
+      },
+    );
+  }
+
+  // Método para construir a página do produto
+  Widget _buildProdutoPage(Produto produto) {
+    return Center(
+      child: Card(
+        child: ListTile(
+          title: Text(produto.nome),
+        ),
       ),
     );
   }

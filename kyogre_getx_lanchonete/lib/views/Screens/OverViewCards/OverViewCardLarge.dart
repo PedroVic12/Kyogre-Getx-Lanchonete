@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'dart:io';
 import 'dart:convert';
 
 import 'package:kyogre_getx_lanchonete/app/widgets/InfoCards/InfoCard.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/CardPedido.dart';
+
+import '../../Pages/CardapioDigital/MenuProdutos/animation/cardapio_page.dart';
 
 
 Future<dynamic> readJsonFile(String filePath) async {
@@ -62,6 +65,12 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(height: _cardWidth / 64),
+
+                          ElevatedButton(
+                              onPressed: () {
+                                Get.to(MenuCardapioScollPage());
+                              },
+                              child: Text('Menu Page View')),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

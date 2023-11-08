@@ -24,7 +24,6 @@ class SideMenu extends StatelessWidget {
                   Row(
 
                     children: [
-                      Text('Print'),
 
                       SizedBox(
                         width: _width /48,

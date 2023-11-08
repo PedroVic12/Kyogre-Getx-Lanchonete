@@ -9,6 +9,7 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutos.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/animation/cardapio_pageView_scroll.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/cards_produtos.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/display_products.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
@@ -100,9 +101,6 @@ class _DetailsPageState extends State<DetailsPage> {
     final MenuProdutosController menuController =   Get.put(MenuProdutosController());
     final CatalogoProdutosController _controller = CatalogoProdutosController();
 
-    //variaveis de acesso
-    var produtos = _controller.produtos;
-    final itemSelecionado = menuController.produtoIndex.value;
 
     return Scaffold(
       backgroundColor: Colors.red,
@@ -124,6 +122,7 @@ class _DetailsPageState extends State<DetailsPage> {
             },
           ),
 
+          //CardDisplayProdutos(),
           DisplayCardItensCardapio( ),
 
           DetalhesProdutosCard( key: ValueKey(menuController.produtoIndex.value)),

@@ -10,27 +10,24 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 
 
+
+
 class DisplayCardItensCardapio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MenuProdutosController menuController = Get.put(MenuProdutosController()); // Encontre o controller já existente
 
-    final List<Produto> produtos = [
-      Produto('nome', 'tipo_produto', igredientes: 'igredientes')
-      // Adicione mais produtos conforme necessário
-    ];
+
     return Obx(() { // Observe mudanças no índice do produto
       final categoriaProduto = menuController.categorias_produtos_carregados[menuController.produtoIndex.value]; // Use o índice observável para obter o produto atual
 
       return Column(
       children: [
-          Card(
-        child: CupertinoListTile(
-        title: Text('Selecionado = ${categoriaProduto.nome}'),
-        trailing: Text('Índice = ${menuController.produtoIndex}'),
-        ),
-      ),
 
+      Container(
+        color: Colors.white,
+        child: cardDisplayProdutos(),
+      ),
 
         Container(
           color: Colors.blue,
@@ -44,6 +41,19 @@ class DisplayCardItensCardapio extends StatelessWidget {
       ],
       );
     });
+  }
+
+  Widget cardDisplayProdutos(){
+    final MenuProdutosController menuController = Get.put(MenuProdutosController()); // Encontre o controller já existente
+
+    final categoriaProduto = menuController.categorias_produtos_carregados[menuController.produtoIndex.value]; // Use o índice observável para obter o produto atual
+
+    return Card(
+      child: CupertinoListTile(
+        title: Text('Selecionado = ${categoriaProduto.nome}'),
+        trailing: Text('Índice = ${menuController.produtoIndex}'),
+      ),
+    );
   }
 
   Widget pageView() {

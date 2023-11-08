@@ -30,7 +30,7 @@ class DisplayCardItensCardapio extends StatelessWidget {
             onPressed: () {
               Get.to(PageViewScrolCardapio());
             },
-            child: Text('Menu Page View')),
+            child: Text('Menu Tab View Scrol')),
       Container(
         color: Colors.white,
         child: cardDisplayProdutos(),

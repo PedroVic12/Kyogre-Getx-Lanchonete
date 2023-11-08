@@ -18,7 +18,6 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/modalCarrinho.dart';
 
 import '../../../app/Teoria do Caos/CaosPage.dart';
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
-import 'MenuProdutos/animation/cardapio_page.dart';
 import 'MenuProdutos/animation/MenuCategoriasScroll.dart';
 
 /*

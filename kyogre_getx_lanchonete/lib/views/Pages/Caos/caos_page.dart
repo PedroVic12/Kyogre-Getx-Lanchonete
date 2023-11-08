@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/animation/cardapio_page.dart';
 
 class CaosPageWidget extends StatefulWidget {
   const CaosPageWidget({super.key});
@@ -21,7 +20,7 @@ class _CaosPageWidgetState extends State<CaosPageWidget> {
 
           ElevatedButton(
               onPressed: () {
-                Get.to(MenuCardapioScollPage());
+                //Get.to(MenuCardapioScollPage());
               },
               child: Text('Menu Page View')),
 

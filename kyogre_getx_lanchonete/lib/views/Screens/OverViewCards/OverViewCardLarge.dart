@@ -66,11 +66,7 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
                         children: [
                           SizedBox(height: _cardWidth / 64),
 
-                          ElevatedButton(
-                              onPressed: () {
-                                Get.to(MenuCardapioScollPage());
-                              },
-                              child: Text('Menu Page View')),
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

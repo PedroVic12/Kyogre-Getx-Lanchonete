@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import '../../../../../models/DataBaseController/DataBaseController.dart';
 import '../../CatalogoProdutos/CatalogoProdutosController.dart';
 import '../repository/produtos_model.dart';

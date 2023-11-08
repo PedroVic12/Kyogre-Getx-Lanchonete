@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/animation/cardapio_pageView_scroll.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 
@@ -26,7 +26,11 @@ class DisplayCardItensCardapio extends StatelessWidget {
 
       return Column(
       children: [
-
+        ElevatedButton(
+            onPressed: () {
+              Get.to(PageViewScrolCardapio());
+            },
+            child: Text('Menu Page View')),
       Container(
         color: Colors.white,
         child: cardDisplayProdutos(),
@@ -289,64 +293,3 @@ class DisplayCardItensCardapio extends StatelessWidget {
 }
 
 
-class Card4 extends StatefulWidget {
-  @override
-  _Card4State createState() => _Card4State();
-}
-
-class _Card4State extends State<Card4> {
-  late PageController pageController;
-
-  @override
-  void initState() {
-    super.initState();
-    final menuController = Get.find<MenuProdutosController>();
-    pageController = PageController(
-      initialPage: menuController.produtoIndex.value,
-    );
-
-    // Se o índice do produto for atualizado externamente, atualize a página do PageView
-    ever(menuController.produtoIndex, (int index) {
-      if (pageController.hasClients && pageController.page!.round() != index) {
-        pageController.animateToPage(
-          index,
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final menuController = Get.find<MenuProdutosController>();
-    final catalogoProdutosController = Get.find<CatalogoProdutosController>();
-
-    return Obx(() {
-      final produtos = catalogoProdutosController.produtos;
-
-      return PageView.builder(
-        controller: pageController,
-        onPageChanged: (index) {
-          menuController.produtoIndex.value = index;
-        },
-        itemCount: produtos.length,
-        itemBuilder: (context, index) {
-          final produto = produtos[index];
-          return Center(
-            child: Text(
-              '${produto.nome} | Índice Selecionado: ${menuController.produtoIndex}',
-              style: TextStyle(fontSize: 24),
-            ),
-          );
-        },
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
-}

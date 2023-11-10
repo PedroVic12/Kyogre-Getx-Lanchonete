@@ -52,12 +52,14 @@ class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrol
           children: [
             _buildHeader(),
             isLoading ? const CircularProgressIndicator() : _buildMenuCategorias(),
+
           ],
         ),
       ),
     );
   }
 
+  //MENU GRADIENTE
   Widget _buildHeader() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
@@ -128,6 +130,10 @@ class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrol
 
 
   }
+
+
+
+
 
   void _onCategoriaTap(int index) {
     setState(() {

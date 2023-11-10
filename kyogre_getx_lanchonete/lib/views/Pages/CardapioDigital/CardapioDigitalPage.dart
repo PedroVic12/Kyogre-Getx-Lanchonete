@@ -19,6 +19,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/modalCarrinho.dart';
 import '../../../app/Teoria do Caos/CaosPage.dart';
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
 import 'MenuProdutos/animation/MenuCategoriasScroll.dart';
+import 'MenuProdutos/animation/views/custom_tab_bar.dart';
 
 /*
 * Paleta de Cores : #ff8c00 , #f2ff00, # ff0d00
@@ -120,10 +121,9 @@ class _DetailsPageState extends State<DetailsPage> {
             },
           ),
 
-          //CardDisplayProdutos(), //todo card PageView
 
+         // Container(  color: Colors.lime,       height: 100,      child: TabBarScrollCardapioWidget()),
 
-          DisplayCardItensCardapio( ), // todo card 3
 
           //DetalhesProdutosCard( key: ValueKey(menuController.produtoIndex.value)), //TODO ANTIGO CARD 2
 
@@ -142,6 +142,8 @@ class _DetailsPageState extends State<DetailsPage> {
       ),
     );
   }
+  
+
 
   Widget botaoVerCarrinho(){
     return  Padding(

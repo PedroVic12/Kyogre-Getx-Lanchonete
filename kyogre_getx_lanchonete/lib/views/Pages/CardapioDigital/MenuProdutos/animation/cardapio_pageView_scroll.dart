@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/animation/MenuCategoriasScroll.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/animation/cardapio_scroll_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 
 import '../../../../../models/DataBaseController/DataBaseController.dart';
 
@@ -25,6 +27,8 @@ class _PageViewScrolCardapioState extends State<PageViewScrolCardapio> {
   void initState() {
     super.initState();
 
+    pageController.loadTabs();
+
   }
 
   @override
@@ -33,7 +37,7 @@ class _PageViewScrolCardapioState extends State<PageViewScrolCardapio> {
     final produtos = catalogoProdutosController.produtos;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Cardapio Digital')),
+      appBar: AppBar(title: Text('Cardapio Digital 3')),
       body: Column(
         children: [
 
@@ -49,6 +53,18 @@ class _PageViewScrolCardapioState extends State<PageViewScrolCardapio> {
           Obx(() => CustomText(text: 'Index = ${menuController.produtoIndex.value}'),),
 
           Container(
+            color: Colors.redAccent,
+            child: ListView.builder(itemCount: pageController.myTabs_array.length,itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  CustomText(text: pageController.myTabs_array.length.toString(),),
+                  CustomText(text: '${pageController.myTabs_array[index]}')  
+                ],
+              );
+            }),
+          ),
+          
+          Container(
             color: Colors.greenAccent,
             child:    SizedBox(
               height: 200,
@@ -57,6 +73,8 @@ class _PageViewScrolCardapioState extends State<PageViewScrolCardapio> {
               ),
             ),
           ),
+          
+     
 
 
 
@@ -72,93 +90,4 @@ class _PageViewScrolCardapioState extends State<PageViewScrolCardapio> {
   }
 }
 
-class PageViewController extends GetxController with SingleGetTickerProviderMixin {
-  late TabController tabController;
-  var myTabs = <Tab>[].obs;
-  final MenuProdutosController menuController = Get.find<MenuProdutosController>();
 
-  @override
-  void onInit() {
-    super.onInit();
-    loadTabs();
-  }
-
-  void loadTabs() {
-    // Obtenha as categorias de produtos
-    var categoriasProdutos = menuController.fetchCategorias();
-
-    // Limpa a lista de abas para evitar duplicatas
-    myTabs.clear();
-
-    // Cria as abas baseadas nas categorias de produtos
-    myTabs.addAll(categoriasProdutos.map((categoria) => Tab(text: categoria.nome)).toList());
-
-    // Inclui outras abas que são fixas
-    myTabs.addAll([
-      Tab(text: 'Status'),
-      Tab(text: 'Calls'),
-    ]);
-
-    // Inicializa o TabController com o número correto de abas
-    tabController = TabController(vsync: this, length: myTabs.length);
-  }
-
-  @override
-  void onClose() {
-    tabController.dispose();
-    super.onClose();
-  }
-}
-
-
-class CustomTabBarWidget extends StatelessWidget {
-  final PageViewController pageController;
-
-  CustomTabBarWidget({required this.pageController});
-
-  @override
-  Widget build(BuildContext context) {
-    // Use Obx para escutar mudanças na lista de abas
-    return Obx(() {
-      // Certifique-se de que o TabController foi inicializado
-      if (pageController.myTabs.isEmpty) {
-        return Container(); // Ou algum widget de carregamento
-      }
-
-      return Column(
-        children: <Widget>[
-          TabBar(
-            controller: pageController.tabController,
-            tabs: pageController.myTabs,
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: pageController.tabController,
-              children: pageController.myTabs.map((tab) {
-                // Aqui você criaria uma visualização para cada aba baseada em seu índice
-                return Center(child: Column(children: [
-                  Text('Conteúdo para ${tab.text}'),
-                  cardDisplayProdutos()
-                ],));
-              }).toList(),
-            ),
-          ),
-        ],
-      );
-    });
-  }
-
-  Widget cardDisplayProdutos(){
-    final MenuProdutosController menuController = Get.find<MenuProdutosController>(); // Encontre o controller já existente
-
-    final categoriaProduto = menuController.categorias_produtos_carregados[menuController.produtoIndex.value]; // Use o índice observável para obter o produto atual
-
-    return Card(
-      color: Colors.blueAccent,
-      child: CupertinoListTile(
-        title: Text('Selecionado = ${categoriaProduto.nome}'),
-        trailing: Text('Índice = ${menuController.produtoIndex}'),
-      ),
-    );
-  }
-}

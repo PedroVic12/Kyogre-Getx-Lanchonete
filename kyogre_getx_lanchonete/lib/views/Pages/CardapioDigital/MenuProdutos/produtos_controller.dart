@@ -25,6 +25,10 @@ class MenuProdutosController extends GetxController {
   //metodos
   void setProdutoIndex(int index) {
     produtoIndex.value = index;
+
+    update(); // Notifica os ouvintes de que o estado foi atualizado
+
+    print('Produto atualizado!');
   }
   void getCategoriasRepository() {
     categoriasProdutosMenu = repository.fetchCategorias();

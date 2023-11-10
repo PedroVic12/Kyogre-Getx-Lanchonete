@@ -4,62 +4,7 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 
 import '../produtos_controller.dart';
-
-class PageViewController extends GetxController with SingleGetTickerProviderMixin {
-  late TabController tabController;
-  var myTabs_array = <Tab>[].obs;
-  final MenuProdutosController menuController = Get.find<MenuProdutosController>();
-  late final categoriasProdutos;
-
-
-  @override
-  void onInit() {
-    super.onInit();
-    loadTabs();
-  }
-
-
-  void cout(msg){
-    print('\n\n======================================================');
-    print(msg);
-    print('======================================================');
-
-  }
-
-  void loadTabs() async {
-    // Obtenha as categorias de produtos
-    categoriasProdutos = await menuController.fetchCategorias();
-
-
-    cout('Produtos = ${categoriasProdutos.length}');
-    cout(categoriasProdutos);
-
-    // Limpa a lista de abas para evitar duplicatas
-    myTabs_array.clear();
-
-    // Cria as abas baseadas nas categorias de produtos
-    myTabs_array.addAll(categoriasProdutos.map((categoria) => Tab(text: categoria.nome)).toList());
-
-    // Inclui outras abas que são fixas
-    myTabs_array.addAll([
-      Tab(text: 'Status'),
-      Tab(text: 'Calls'),
-    ]);
-
-    print(myTabs_array);
-    print('Array = ${myTabs_array.length}');
-
-    // Inicializa o TabController com o número correto de abas
-    tabController = TabController(vsync: this, length: myTabs_array.length);
-  }
-
-  @override
-  void onClose() {
-    tabController.dispose();
-    super.onClose();
-  }
-}
-
+import 'controllers/page_view_controller.dart';
 
 class CustomTabBarWidget extends StatelessWidget {
   final PageViewController pageController;

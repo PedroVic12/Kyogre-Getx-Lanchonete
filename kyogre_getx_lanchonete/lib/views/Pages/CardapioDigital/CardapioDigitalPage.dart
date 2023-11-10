@@ -116,7 +116,7 @@ class _DetailsPageState extends State<DetailsPage> {
             //itemSelected: itemSelecionado,
             onCategorySelected: (index) {
               setState(
-                  () {}); // Isso forçará a reconstrução do widget e atualizará os produtos exibidos.
+                  () {});
             },
           ),
 

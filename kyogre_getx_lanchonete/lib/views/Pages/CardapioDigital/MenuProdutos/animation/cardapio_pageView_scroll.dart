@@ -5,10 +5,12 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/animation/MenuCategoriasScroll.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/animation/cardapio_scroll_controller.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/animation/tab_view_scroll_cardapio.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 
 import '../../../../../models/DataBaseController/DataBaseController.dart';
+import 'controllers/page_view_controller.dart';
 
 
 class PageViewScrolCardapio extends StatefulWidget {
@@ -47,23 +49,18 @@ class _PageViewScrolCardapioState extends State<PageViewScrolCardapio> {
               menuController.produtoIndex.value = index;
             },
           ),
+          //_buildListViewProdutos(),
 
+          Obx(() => CustomText(text: 'Index = ${menuController.produtoIndex.value}',size: 20,),),
 
-
-          Obx(() => CustomText(text: 'Index = ${menuController.produtoIndex.value}'),),
-
-          Container(
-            color: Colors.redAccent,
-            child: ListView.builder(itemCount: pageController.myTabs_array.length,itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  CustomText(text: pageController.myTabs_array.length.toString(),),
-                  CustomText(text: '${pageController.myTabs_array[index]}')  
-                ],
-              );
-            }),
+          buildCategoriaCard(
+              CategoriaModel(nome: 'Pizza', iconPath: Icon(Icons.add), boxColor: Colors.black12)
           ),
-          
+
+
+         // Container(  color: Colors.redAccent,    child: const TabViewScrollCardapio1(),    ),
+
+
           Container(
             color: Colors.greenAccent,
             child:    SizedBox(
@@ -73,8 +70,7 @@ class _PageViewScrolCardapioState extends State<PageViewScrolCardapio> {
               ),
             ),
           ),
-          
-     
+
 
 
 
@@ -87,6 +83,61 @@ class _PageViewScrolCardapioState extends State<PageViewScrolCardapio> {
   void dispose() {
     pageController.dispose();
     super.dispose();
+  }
+
+
+
+
+
+  Widget buildCategoriasList() {
+    return ListView.builder(
+      itemCount: pageController.categoriasProdutos.length,
+      itemBuilder: (context, index) {
+        return buildCategoriaCard(pageController.categoriasProdutos[index]);
+      },
+    );
+  }
+
+  Widget buildCategoriaCard(CategoriaModel categoria) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: <Widget>[
+            categoria.iconPath, // Ícone da categoria
+            SizedBox(width: 10), // Espaço entre o ícone e o texto
+            Text(categoria.nome), // Nome da categoria
+          ],
+        ),
+      ),
+      color: categoria.boxColor, // Cor de fundo do card
+    );
+  }
+
+
+  Widget _buildListViewProdutos(){
+    return
+      Container(
+        color: Colors.redAccent,
+        height: 100, // Defina uma altura adequada
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: pageController.myTabs_array.length,
+          itemBuilder: (context, index) {
+            // Acessando o texto de cada aba
+            var tabText = pageController.myTabs_array[index].text;
+
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: 10), // Espaçamento entre itens
+              child: Center(
+                child: Text(tabText ?? 'Tab ${index + 1}'), // Texto da aba ou um valor padrão
+              ),
+            );
+          },
+        ),
+      );
+
+
   }
 }
 

@@ -15,8 +15,10 @@ class MenuProdutosController extends GetxController {
   final MenuProdutosRepository repository = MenuProdutosRepository(); // Usando o repository
 
   //variaveis
-  List<CategoriaModel> categorias_produtos_carregados = [];
-  List<CategoriaModel> categoriasProdutosMenu = [];
+  List<CategoriaModel> categorias_produtos_carregados = []; // metodo pardrao
+  List<CategoriaModel> categoriasProdutosMenu = []; // pegando os produtos do databse
+
+
   var produtos = <CategoriaModel>[].obs;
   var produtoIndex = 0.obs;
   var produtosWidgets = <Widget>[].obs;
@@ -30,25 +32,6 @@ class MenuProdutosController extends GetxController {
 
     print('Produto atualizado!');
   }
-  void getCategoriasRepository() {
-    categoriasProdutosMenu = repository.fetchCategorias();
-    isLoading.value = false;
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    getCategorias();
-  }
-
-  void getCategorias() {
-    categorias_produtos_carregados = fetchCategorias();
-    isLoading.value = false;
-    produtoIndex.value = 0; // Definir "Sanduíche" como selecionado.
-    trocarItemSelecionado(
-        0); // Isso garante que o produto seja selecionado corretamente ao iniciar
-    update();
-  }
 
 
   trocarItemSelecionado(int novoProdutoIndex) {
@@ -59,34 +42,48 @@ class MenuProdutosController extends GetxController {
     catalogoController.setCategoria(categoriaSelecionadaIndex);
   }
 
+
+  Future getCategoriasRepository() async {
+    categoriasProdutosMenu = await repository.fetchCategorias();
+    isLoading.value = false;
+    return categoriasProdutosMenu;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    //getCategorias();
+  }
+
+  void getCategorias() {
+    categorias_produtos_carregados = fetchCategorias();
+    isLoading.value = false;
+    produtoIndex.value = 0; // Definir "Sanduíche" como selecionado.
+    trocarItemSelecionado(0); // Isso garante que o produto seja selecionado corretamente ao iniciar
+    update();
+  }
+
+
   //Pega os Dados do Menu
   List<CategoriaModel> fetchCategorias() {
-    categoriasProdutosMenu.add(CategoriaModel(
+    categorias_produtos_carregados.clear();
+
+    categorias_produtos_carregados.add(CategoriaModel(
         nome: 'Sanduíches',
         iconPath: Icon(Icons.fastfood_rounded),
         boxColor: Colors.purple.shade300));
 
-    categoriasProdutosMenu.add(CategoriaModel(
+    categorias_produtos_carregados.add(CategoriaModel(
         nome: 'Petiscos',
         iconPath: Icon(Icons.fastfood_rounded),
         boxColor: Colors.purple.shade300));
 
-    categoriasProdutosMenu.add(CategoriaModel(
+    categorias_produtos_carregados.add(CategoriaModel(
         nome: 'Açaí e Pitaya',
         iconPath: Icon(Icons.fastfood_rounded),
         boxColor: Colors.purple.shade300));
 
-    categoriasProdutosMenu.add(CategoriaModel(
-        nome: 'Salada',
-        iconPath: Icon(Icons.fastfood_rounded),
-        boxColor: Colors.purple.shade100));
-
-    categoriasProdutosMenu.add(CategoriaModel(
-        nome: 'Pizza',
-        iconPath: Icon(Icons.fastfood_rounded),
-        boxColor: Colors.purple.shade300));
-
-    return categoriasProdutosMenu;
+    return categorias_produtos_carregados;
   }
 
 

@@ -7,9 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/animation/cardapio_pageView_scroll.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/Tab%20Bar/tab_bar_widget.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/cards_produtos.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/display_products.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
@@ -19,7 +18,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/modalCarrinho.dart';
 import '../../../app/Teoria do Caos/CaosPage.dart';
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
 import 'MenuProdutos/animation/MenuCategoriasScroll.dart';
-import 'MenuProdutos/animation/views/custom_tab_bar.dart';
+import 'MenuProdutos/Tab Bar/views/custom_tab_bar.dart';
 
 /*
 * Paleta de Cores : #ff8c00 , #f2ff00, # ff0d00
@@ -121,11 +120,9 @@ class _DetailsPageState extends State<DetailsPage> {
             },
           ),
 
+          TabBarWidget(),
 
-         // Container(  color: Colors.lime,       height: 100,      child: TabBarScrollCardapioWidget()),
-
-
-          //DetalhesProdutosCard( key: ValueKey(menuController.produtoIndex.value)), //TODO ANTIGO CARD 2
+          DetalhesProdutosCard( key: ValueKey(menuController.produtoIndex.value)), //TODO ANTIGO CARD 2
 
           botaoVerCarrinho()
         ]),
@@ -171,3 +168,8 @@ class _DetailsPageState extends State<DetailsPage> {
                 ))));
   }
 }
+
+
+
+
+

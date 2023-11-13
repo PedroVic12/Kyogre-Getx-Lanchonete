@@ -5,7 +5,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/
 class CatalogoProdutosController extends GetxController {
   String?
       categoria; // Mudado para nullable já que não temos mais 'Todos os Produtos'
-  final DataBaseController _dataBaseController = Get.find<DataBaseController>();
+  final DataBaseController _dataBaseController = Get.put(DataBaseController());
   final MenuProdutosRepository repository = Get.put(MenuProdutosRepository());
 
   Produto? selectedProduct;
@@ -13,10 +13,8 @@ class CatalogoProdutosController extends GetxController {
   RxList<Produto> produtos = RxList<Produto>();
 
 
-  var categorias;
   void getCategorias(){
     repository.fetchCategorias();
-    print(categorias);
   }
 
 

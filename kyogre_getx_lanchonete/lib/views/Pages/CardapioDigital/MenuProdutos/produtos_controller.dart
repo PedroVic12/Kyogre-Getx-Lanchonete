@@ -10,8 +10,7 @@ import 'repository/produtos_model.dart';
 
 class MenuProdutosController extends GetxController {
   //controladores
-  final CatalogoProdutosController catalogoController =
-  Get.put(CatalogoProdutosController());
+  final CatalogoProdutosController catalogoController = Get.put(CatalogoProdutosController());
   final MenuProdutosRepository repository = MenuProdutosRepository(); // Usando o repository
 
   //variaveis
@@ -105,13 +104,15 @@ class ProdutosDetails extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        const SizedBox(height: 8),
         CircleAvatar(child: imagem_produto),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
         CustomText(
           text: nome,
           size: 14,
           weight: FontWeight.bold,
         ),
+        const SizedBox(height: 8),
       ],
     );
   }

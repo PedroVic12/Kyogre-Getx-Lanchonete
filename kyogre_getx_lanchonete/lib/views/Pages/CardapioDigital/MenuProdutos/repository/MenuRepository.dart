@@ -18,17 +18,17 @@ class MenuProdutosRepository {
 
         CategoriaModel(
         nome: 'Petiscos',
-        iconPath: Icon(Icons.fastfood_rounded),
+        iconPath: Icon(Icons.star),
         boxColor: Colors.purple.shade300),
 
         CategoriaModel(
             nome: 'Açai e Pitaya',
-            iconPath: Icon(Icons.fastfood_rounded),
+            iconPath: Icon(Icons.local_drink_sharp),
             boxColor: Colors.purple.shade300),
 
         CategoriaModel(
             nome: 'Pìzzas',
-            iconPath: Icon(Icons.fastfood_rounded),
+            iconPath: Icon(Icons.local_pizza_rounded),
             boxColor: Colors.purple.shade300),
 
         CategoriaModel(

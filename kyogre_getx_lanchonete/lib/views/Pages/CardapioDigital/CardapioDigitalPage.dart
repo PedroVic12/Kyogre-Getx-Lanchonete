@@ -19,6 +19,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/modalCarrinho.dart';
 import '../../../app/widgets/Custom/CustomText.dart';
 import '../../../models/DataBaseController/repository_db_controller.dart';
 import '../../../models/DataBaseController/template/produtos_model.dart';
+import 'MenuProdutos/Cards/card_produto_selecionado.dart';
 import 'MenuProdutos/animation/simple_tab_bar_example.dart';
 
 /*
@@ -139,6 +140,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
           Container(height: 200,child:  ProdutosListWidget(produtos: produtos),),
 
+
           botaoVerCarrinho()
           
         ]),
@@ -185,21 +187,35 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
 
-  Widget displayProdutosFiltradosCategoria(_categoria){
-    return  FutureBuilder<String>(
-      future: _repositoryController.filtrarCategoria(_categoria),
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+
+  Widget displayProdutosFiltradosCategoria(String categoria) {
+    final RepositoryDataBaseController _repositoryController = Get.find<RepositoryDataBaseController>();
+
+    return FutureBuilder<List<ProdutoModel>>(
+      future: _repositoryController.filtrarCategoria(categoria),
+      builder: (BuildContext context, AsyncSnapshot<List<ProdutoModel>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return Text('Erro: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              var produto = snapshot.data![index];
+              return ListTile(
+                title: Text(produto.nome),
+                subtitle: Text('Ingredientes: ${produto.ingredientes?.join(', ')}'),
+                trailing: Text('Preços: ${produto.precos.map((p) => p['preco']).join(', ')}'),
+              );
+            },
+          );
         } else {
-          return Text(snapshot.data ?? 'Nenhum dado disponível');
+          return Text('Nenhum dado disponível');
         }
       },
     );
   }
-
 
 
   Widget _carregandoProdutos(){
@@ -239,55 +255,3 @@ class _DetailsPageState extends State<DetailsPage> {
       ],))));
   }
 }
-
-class CardProdutoCardapioSelecionado extends StatelessWidget {
-  final String produtoSelecionado;
-
-  const CardProdutoCardapioSelecionado({super.key, required this.produtoSelecionado});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Colors.blue,
-      child: CupertinoListTile(
-          title: Column(
-            children: [
-              CustomText(text: 'Exibindo: $produtoSelecionado',),
-              displayProdutosFiltradosCategoria(produtoSelecionado),
-            ],
-          )
-      ),
-    );
-  }
-
-  Widget displayProdutosFiltradosCategoria(String categoria) {
-    final RepositoryDataBaseController _repositoryController = Get.find<RepositoryDataBaseController>();
-
-    return FutureBuilder<List<ProdutoModel>>(
-      future: _repositoryController.filtrarCategoria(categoria),
-      builder: (BuildContext context, AsyncSnapshot<List<ProdutoModel>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Erro: ${snapshot.error}');
-        } else if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              var produto = snapshot.data![index];
-              return ListTile(
-                title: Text(produto.nome),
-                subtitle: Text('Ingredientes: ${produto.ingredientes?.join(', ')}'),
-                trailing: Text('Preços: ${produto.precos.map((p) => p['preco']).join(', ')}'),
-              );
-            },
-          );
-        } else {
-          return Text('Nenhum dado disponível');
-        }
-      },
-    );
-  }
-}
-
-

@@ -76,13 +76,6 @@ class _DetalhesProdutosCardState extends State<DetalhesProdutosCard> {
                           (produto) => GestureDetector(
                               child: Column(
                                 children: [
-                                  //Obx(() => CustomText(text: itemProduto[menuController.produtoIndex.value].nome,)),  // Obx aqui
-                                  //CustomText(text: categoria[menuController.produtoIndex.value]),
-                                  //CustomText(text: '${menuController.produtoIndex}'),
-
-                                  
-
-
                                   GetBuilder<CatalogoProdutosController>(
                                     builder: (controller) {
                                       return Column(

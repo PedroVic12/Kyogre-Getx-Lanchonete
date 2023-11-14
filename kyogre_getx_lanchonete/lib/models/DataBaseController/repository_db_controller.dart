@@ -50,18 +50,21 @@ class RepositoryDataBaseController {
     return jsonEncode(dataBase_Array.map((lista) => lista.map((produto) => produto.toJson()).toList()).toList());
   }
 
-  Future <String> filtrarCategoria( String categoriaDesejada ) async {
+  Future<List<ProdutoModel>> filtrarCategoria(String categoriaDesejada) async {
+    // Garantir que os produtos estão carregados
+    if (!isLoading) {
+      await fetchAllProducts();
+    }
 
-    // Filtrar todos os produtos da categoria 'Pizza'
+
+    // Filtrar todos os produtos da categoria desejada
     List<ProdutoModel> produtosFiltrados = dataBase_Array
-        .expand((x) => x)
+        .expand((lista) => lista)
         .where((produto) => produto.categoria == categoriaDesejada)
         .toList();
 
-    // Converter a lista filtrada para uma string
-    return jsonEncode(produtosFiltrados.map((produto) => produto.toJson()).toList());
+    return produtosFiltrados;
   }
-
 
 
   void ordenarPorNome(List<ProdutoModel> produtos) {

@@ -7,6 +7,8 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.d
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/ItemPage/itemPage.dart';
 
+import '../../../../models/DataBaseController/template/produtos_model.dart';
+
 class CatalogoProdutosCard extends StatelessWidget {
 
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());

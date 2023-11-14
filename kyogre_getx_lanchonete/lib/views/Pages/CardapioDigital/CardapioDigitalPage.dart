@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
+import 'package:kyogre_getx_lanchonete/models/DataBaseController/Views/produtos_display_listview.dart';
+import 'package:kyogre_getx_lanchonete/models/DataBaseController/models/pizza.dart';
 
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/Tab%20Bar/tab_bar_widget.dart';
@@ -17,6 +19,9 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/modalCarrinho.dart';
 
 import '../../../app/Teoria do Caos/CaosPage.dart';
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
+import '../../../models/DataBaseController/models/hamburguer.dart';
+import '../../../models/DataBaseController/repository_db_controller.dart';
+import '../../../models/DataBaseController/template/produtos_model.dart';
 import 'MenuProdutos/animation/MenuCategoriasScroll.dart';
 import 'MenuProdutos/Tab Bar/views/custom_tab_bar.dart';
 
@@ -37,18 +42,36 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+
+  //variaveis dinamicas
   late String nomeCliente = "";
   late String telefoneCliente = "";
   late String idPedido = "";
 
+  //controllers
   final DataBaseController _dataBaseController = DataBaseController();
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
+  final RepositoryDataBaseController _repositoryController = RepositoryDataBaseController();
+
+
+  //arrays
+  List array_products = [];
+
+  List array =[];
 
   @override
   void initState() {
     super.initState();
     fetchClienteNome(widget.id);
+
+    getProdutosCardapio();
+
+    print(array_products);
+
+    _repositoryController.fetchAllProducts();
+
   }
+
 
   Widget pegarDadosCliente() {
     return Column(
@@ -91,7 +114,16 @@ class _DetailsPageState extends State<DetailsPage> {
     }
   }
 
-  List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
+  getProdutosCardapio(){
+    array_products.add(HAMBURGUER_ARRAY);
+    array_products.add(PIZZA_OBJECT);
+
+
+
+    return array_products;
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -99,6 +131,9 @@ class _DetailsPageState extends State<DetailsPage> {
     final MenuProdutosController menuController =   Get.put(MenuProdutosController());
     final CatalogoProdutosController _controller = CatalogoProdutosController();
 
+    // Variaveis
+    List<ProdutoModel> produtos = PIZZA_OBJECT.map((json) => ProdutoModel.fromJson(json)).toList();
+    List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
 
     return Scaffold(
       backgroundColor: Colors.red,
@@ -112,15 +147,16 @@ class _DetailsPageState extends State<DetailsPage> {
         child: ListView(children: [
           pegarDadosCliente(),
 
-          MenuCategoriasScrollGradientWidget(
-            //itemSelected: itemSelecionado,
-            onCategorySelected: (index) {
-              setState(
-                  () {});
-            },
-          ),
-
           TabBarWidget(),
+
+          //Container(color: Colors.grey,child: Text('Produtos Objetos = ${array_products}'),),
+
+          Container(color: Colors.blueGrey,child: Text('Produtos JSON = ${_repositoryController.dataBaseArrayJson}'),),
+
+          displayProdutosFiltradosCategoria('Pizza'),
+
+
+          Container(height: 200,child:  ProdutosListWidget(produtos: produtos),),
 
           DetalhesProdutosCard( key: ValueKey(menuController.produtoIndex.value)), //TODO ANTIGO CARD 2
 
@@ -166,6 +202,22 @@ class _DetailsPageState extends State<DetailsPage> {
                   'Ver o Carrinho',
                   style: TextStyle(fontSize: 22),
                 ))));
+  }
+
+
+  Widget displayProdutosFiltradosCategoria(_categoria){
+    return  FutureBuilder<String>(
+      future: _repositoryController.filtrarCategoria(_categoria),
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Erro: ${snapshot.error}');
+        } else {
+          return Text(snapshot.data ?? 'Nenhum dado disponível');
+        }
+      },
+    );
   }
 }
 

@@ -8,6 +8,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 
+import '../../../../models/DataBaseController/template/produtos_model.dart';
 import '../CatalogoProdutos/CatalogoProdutosController.dart';
 import '../ItemPage/itemPage.dart';
 

@@ -6,8 +6,10 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdu
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/Tab%20Bar/widgets.dart';
 import 'package:turn_page_transition/turn_page_transition.dart';
 import '../../../../../models/DataBaseController/DataBaseController.dart';
+import '../../../../../models/DataBaseController/template/produtos_model.dart';
 import '../Cards/glass_card_widget.dart';
 import '../repository/MenuRepository.dart';
+import '../repository/produtos_model.dart';
 import 'models_tabBar.dart';
 import 'views/folear_cardapio_produtos.dart';
 import '../produtos_controller.dart';
@@ -90,6 +92,7 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
   Widget build(BuildContext context) {
     return Column(
       children: [
+        _buildHeader(),
         TabBarScrollCardapioCategorias(),
         TabBarViewCardapioProdutosDetails(),
 
@@ -133,6 +136,7 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
         controller: _tabController,
         labelColor: Colors.white,
         labelPadding: const EdgeInsets.all(16),
+        isScrollable: true,
         unselectedLabelColor: Colors.black,
         indicator: CircleTabIndicator(color: Colors.purpleAccent.shade700, radius: 64),
         tabs: [
@@ -184,6 +188,28 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
         ),
       );
     });
+  }
+
+  Widget _buildHeader() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          IconButton(
+            onPressed: () {},
+            icon:  IconePersonalizado(tipo: Icons.menu),
+          ),
+          const SizedBox(width: 16),
+          const CustomText(
+            text: 'Categorias de Lanches',
+            size: 24,
+            weight: FontWeight.bold,
+          ),
+
+        ],
+      ),
+    );
   }
 
 

@@ -12,6 +12,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart'; // Usado para formatar a hora
 import 'package:http/http.dart' as http;
 
+import '../../../models/DataBaseController/template/produtos_model.dart';
+
 class CarrinhoController extends GetxController {
   late final CatalogoProdutosController produtosController;
   // Converta as variáveis para

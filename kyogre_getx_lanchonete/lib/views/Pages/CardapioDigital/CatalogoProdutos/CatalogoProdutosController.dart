@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 
+import '../../../../models/DataBaseController/template/produtos_model.dart';
+
 class CatalogoProdutosController extends GetxController {
   String?
       categoria; // Mudado para nullable já que não temos mais 'Todos os Produtos'

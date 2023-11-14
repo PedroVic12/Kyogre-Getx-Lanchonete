@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 
+import '../../models/DataBaseController/template/produtos_model.dart';
+
 class LoadingWidget extends StatefulWidget {
   final Widget content;
   final Duration duration;

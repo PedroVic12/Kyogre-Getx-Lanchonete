@@ -1,31 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produtos_model.dart';
 
-class Preco {
-  final double? preco1;
-  final double? preco2;
 
-  Preco({this.preco1, this.preco2});
-
-  factory Preco.fromJson(Map<String, dynamic> json) {
-    return Preco(
-      preco1: json['preco1']?.toDouble(),
-      preco2: json['preco2']?.toDouble(),
-    );
-  }
-}
-
-class Produto {
-  final String nome;
-  final String tipo_produto;
-  Preco? preco;
-  late final String igredientes;
-  late final String image_url;
-
-  Produto(this.nome, this.tipo_produto, {this.preco, required this.igredientes});
-
-}
 
 class DataBaseController {
   final String sanduicheTradicionalFile = 'lib/repository/cardapio_1.json';

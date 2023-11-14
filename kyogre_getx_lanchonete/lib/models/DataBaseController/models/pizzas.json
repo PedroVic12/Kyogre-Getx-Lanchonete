@@ -1,0 +1,22 @@
+[
+  {
+    "nome": "Pizza Calabresa",
+    "categoria": "Pizza",
+    "precos": [
+      {"preco_1": 40.0, "descricao": "P"},
+      {"preco_2": 55.0, "descricao": "M"}
+    ],
+    "ingredientes": ["queijo", "calabresa", "cebola", "molho de tomate"],
+    "imagem": "img_url_calabresa.jpg"
+  },
+  {
+    "nome": "Pizza Portuguesa",
+    "categoria": "Pizza",
+    "precos": [
+      {"preco_1": 40.0, "descricao": "P"},
+      {"preco_2": 55.0, "descricao": "M"}
+    ],
+    "ingredientes": ["queijo", "presunto", "ovo", "cebola", "molho de tomate"],
+    "imagem": "img_url_portuguesa.jpg"
+  }
+]

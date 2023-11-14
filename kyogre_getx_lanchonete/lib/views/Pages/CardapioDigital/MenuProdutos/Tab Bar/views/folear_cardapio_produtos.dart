@@ -11,15 +11,21 @@ class FolearCardapioDigital extends StatelessWidget {
   final Widget content;
   final Function(int) onPageChanged;
 
-  const FolearCardapioDigital({
-    super.key,
+  FolearCardapioDigital({
+    Key? key,
     required this.content,
     required this.onPageChanged,
-  });
+  }) : super(key: key);
+
+  final menuController = Get.find<MenuProdutosController>();
 
   @override
   Widget build(BuildContext context) {
     final controller = TurnPageController();
+    controller.addListener(() {
+      onPageChanged(controller.animateToPage(menuController.produtoIndex.value) as int);
+    });
+
     return TurnPageView.builder(
       controller: controller,
       itemCount: 2,

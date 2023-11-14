@@ -50,7 +50,7 @@ class RepositoryDataBaseController {
     return jsonEncode(dataBase_Array.map((lista) => lista.map((produto) => produto.toJson()).toList()).toList());
   }
 
-  Future<String> filtrarCategoria( String categoriaDesejada ) async {
+  Future <String> filtrarCategoria( String categoriaDesejada ) async {
 
     // Filtrar todos os produtos da categoria 'Pizza'
     List<ProdutoModel> produtosFiltrados = dataBase_Array

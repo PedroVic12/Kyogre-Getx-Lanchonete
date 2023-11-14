@@ -196,7 +196,7 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
         child: Container(
         margin: const EdgeInsets.all(6),
           width: double.maxFinite,
-          height: 200,
+          height: 300,
           color: Colors.white70,
           child: TabBarView(
           controller: _tabController,

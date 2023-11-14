@@ -10,7 +10,6 @@ import 'repository/produtos_model.dart';
 
 class MenuProdutosController extends GetxController {
   //controladores
-  final CatalogoProdutosController catalogoController = Get.put(CatalogoProdutosController());
   final MenuProdutosRepository repository = MenuProdutosRepository(); // Usando o repository
 
   //variaveis
@@ -28,15 +27,6 @@ class MenuProdutosController extends GetxController {
     produtoIndex.value = index;
     update(); // Notifica os ouvintes de que o estado foi atualizado
     print('Produto atualizado!');
-  }
-
-
-  trocarItemSelecionado(int novoProdutoIndex) {
-
-    produtoIndex.value = novoProdutoIndex;
-    int categoriaSelecionadaIndex = catalogoController.catalogoCategorias
-        .indexOf(categorias_produtos_carregados[novoProdutoIndex].nome);
-    catalogoController.setCategoria(categoriaSelecionadaIndex);
   }
 
 

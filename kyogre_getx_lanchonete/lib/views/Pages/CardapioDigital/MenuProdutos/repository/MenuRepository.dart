@@ -27,7 +27,7 @@ class MenuProdutosRepository {
             boxColor: Colors.purple.shade300),
 
         CategoriaModel(
-            nome: 'Pìzzas',
+            nome: 'Pizzas',
             iconPath: Icon(Icons.local_pizza_rounded),
             boxColor: Colors.purple.shade300),
 

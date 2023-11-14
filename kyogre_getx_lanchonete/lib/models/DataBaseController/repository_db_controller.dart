@@ -14,6 +14,7 @@ class RepositoryDataBaseController {
   final String pizzasFile = 'lib/models/DataBaseController/models/pizzas.json';
 
   List<List<ProdutoModel>> dataBase_Array = [];
+  bool isLoading = false;
 
   // Metodos JSON
   Future<List<ProdutoModel>> lerArquivoJson(String filePath) async {
@@ -40,6 +41,8 @@ class RepositoryDataBaseController {
     // dataBase_Array.add(await lerArquivoJson(acaiFile));
     // dataBase_Array.add(await lerArquivoJson(petiscosFile));
 
+    isLoading = true;
+    print('database carregado!');
     return dataBase_Array;
   }
 

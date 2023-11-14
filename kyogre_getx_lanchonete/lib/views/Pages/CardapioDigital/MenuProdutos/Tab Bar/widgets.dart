@@ -23,7 +23,7 @@ class CustomTab extends StatelessWidget {
 
     return Container(
       child: Tab(
-        icon: CircleAvatar(child: Icon(iconPath.icon, color: isSelected ? Colors.black : Colors.cyanAccent)),
+        icon: CircleAvatar(child: Icon(iconPath.icon, color: isSelected ? CupertinoColors.systemBlue : Colors.black)),
         text: text,
         iconMargin: const EdgeInsets.all(6),
       ),

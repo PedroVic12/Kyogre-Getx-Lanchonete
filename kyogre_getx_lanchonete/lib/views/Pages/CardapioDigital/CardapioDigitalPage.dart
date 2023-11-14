@@ -16,14 +16,9 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/modalCarrinho.dart';
-
-import '../../../app/Teoria do Caos/CaosPage.dart';
-import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
-import '../../../models/DataBaseController/models/hamburguer.dart';
+import '../../../app/widgets/Custom/CustomText.dart';
 import '../../../models/DataBaseController/repository_db_controller.dart';
 import '../../../models/DataBaseController/template/produtos_model.dart';
-import 'MenuProdutos/animation/MenuCategoriasScroll.dart';
-import 'MenuProdutos/Tab Bar/views/custom_tab_bar.dart';
 
 /*
 * Paleta de Cores : #ff8c00 , #f2ff00, # ff0d00
@@ -51,25 +46,14 @@ class _DetailsPageState extends State<DetailsPage> {
   //controllers
   final DataBaseController _dataBaseController = DataBaseController();
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
-  final RepositoryDataBaseController _repositoryController = RepositoryDataBaseController();
+  final RepositoryDataBaseController _repositoryController = Get.put(RepositoryDataBaseController());
 
 
-  //arrays
-  List array_products = [];
-
-  List array =[];
 
   @override
   void initState() {
     super.initState();
     fetchClienteNome(widget.id);
-
-    getProdutosCardapio();
-
-    print(array_products);
-
-    _repositoryController.fetchAllProducts();
-
   }
 
 
@@ -114,15 +98,6 @@ class _DetailsPageState extends State<DetailsPage> {
     }
   }
 
-  getProdutosCardapio(){
-    array_products.add(HAMBURGUER_ARRAY);
-    array_products.add(PIZZA_OBJECT);
-
-
-
-    return array_products;
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -147,20 +122,19 @@ class _DetailsPageState extends State<DetailsPage> {
         child: ListView(children: [
           pegarDadosCliente(),
 
+          //_carregandoProdutos(),
+
           TabBarWidget(),
 
-          //Container(color: Colors.grey,child: Text('Produtos Objetos = ${array_products}'),),
-
-          Container(color: Colors.blueGrey,child: Text('Produtos JSON = ${_repositoryController.dataBaseArrayJson}'),),
-
-          displayProdutosFiltradosCategoria('Pizza'),
-
+          _indexProdutoSelecionado(),
+          
+          Obx(() => CardProdutoCardapioSelecionado(produtoSelecionado: menuController.categoriasProdutosMenu[menuController.produtoIndex.value].nome),
+          ),
 
           Container(height: 200,child:  ProdutosListWidget(produtos: produtos),),
 
-          DetalhesProdutosCard( key: ValueKey(menuController.produtoIndex.value)), //TODO ANTIGO CARD 2
-
           botaoVerCarrinho()
+          
         ]),
       ),
       floatingActionButton: FloatingActionButton(
@@ -206,6 +180,88 @@ class _DetailsPageState extends State<DetailsPage> {
 
 
   Widget displayProdutosFiltradosCategoria(_categoria){
+    return  FutureBuilder<String>(
+      future: _repositoryController.filtrarCategoria(_categoria),
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Erro: ${snapshot.error}');
+        } else {
+          return Text(snapshot.data ?? 'Nenhum dado disponível');
+        }
+      },
+    );
+  }
+
+
+
+  Widget _carregandoProdutos(){
+    return  FutureBuilder<List<List<ProdutoModel>>>(
+      future: _repositoryController.fetchAllProducts(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Ocorreu um erro ao carregar os produtos.'));
+        } else {
+          return Container(
+            height: 200,
+            color: Colors.purpleAccent,
+            child: ListView(
+              children: [
+                Container(color: Colors.blueGrey, child: Text('Produtos JSON = ${_repositoryController.dataBaseArrayJson}')),
+                displayProdutosFiltradosCategoria('Pizzas'),
+              ],
+            ),
+          );
+        }
+      },
+    );
+  }
+
+
+  Widget _indexProdutoSelecionado(){
+
+    final MenuProdutosController menuController = Get.find<MenuProdutosController>();
+
+    return Container(
+      color: Colors.black,
+      child: Obx(() => Center(child: Column(children: [
+        CustomText(text: 'item selecionado = ${menuController.produtoIndex}',color: Colors.white,),
+        CustomText(text: 'item selecionado = ${menuController.categoriasProdutosMenu[menuController.produtoIndex.value].nome}',color: Colors.white,),
+      ],))));
+  }
+}
+
+
+
+class CardProdutoCardapioSelecionado extends StatelessWidget {
+
+  final String produtoSelecionado;
+
+  const CardProdutoCardapioSelecionado({super.key, required this.produtoSelecionado});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.blue,
+      child: CupertinoListTile(
+        title: Column(
+          children: [
+            CustomText(text: 'Exibindo: ${produtoSelecionado}',),
+            displayProdutosFiltradosCategoria(produtoSelecionado),
+
+          ],
+        )
+      ),
+    );
+  }
+
+  Widget displayProdutosFiltradosCategoria(_categoria){
+
+    final RepositoryDataBaseController _repositoryController = Get.find<RepositoryDataBaseController>();
+
     return  FutureBuilder<String>(
       future: _repositoryController.filtrarCategoria(_categoria),
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {

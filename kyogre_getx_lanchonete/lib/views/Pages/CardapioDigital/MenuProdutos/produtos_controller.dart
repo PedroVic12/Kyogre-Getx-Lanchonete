@@ -20,15 +20,13 @@ class MenuProdutosController extends GetxController {
 
   var produtos = <CategoriaModel>[].obs;
   var produtoIndex = 0.obs;
-  var produtosWidgets = <Widget>[].obs;
+  //var produtosWidgets = <Widget>[].obs;
   var isLoading = true.obs;
 
   //metodos
   void setProdutoIndex(int index) {
     produtoIndex.value = index;
-
     update(); // Notifica os ouvintes de que o estado foi atualizado
-
     print('Produto atualizado!');
   }
 
@@ -51,16 +49,10 @@ class MenuProdutosController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    //getCategorias();
+    getCategoriasRepository();
   }
 
-  void getCategorias() {
-    categorias_produtos_carregados = fetchCategorias();
-    isLoading.value = false;
-    produtoIndex.value = 0; // Definir "Sanduíche" como selecionado.
-    trocarItemSelecionado(0); // Isso garante que o produto seja selecionado corretamente ao iniciar
-    update();
-  }
+
 
 
   //Pega os Dados do Menu

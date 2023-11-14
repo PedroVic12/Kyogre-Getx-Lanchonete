@@ -1,7 +1,7 @@
 [
   {
     "nome": "Pizza Calabresa",
-    "categoria": "Pizza",
+    "categoria": "Pizzas",
     "precos": [
       {"preco_1": 40.0, "descricao": "P"},
       {"preco_2": 55.0, "descricao": "M"}
@@ -11,7 +11,7 @@
   },
   {
     "nome": "Pizza Portuguesa",
-    "categoria": "Pizza",
+    "categoria": "Pizzas",
     "precos": [
       {"preco_1": 40.0, "descricao": "P"},
       {"preco_2": 55.0, "descricao": "M"}

@@ -115,7 +115,7 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [CupertinoColors.activeOrange, Colors.yellowAccent],
+          colors: [CupertinoColors.activeOrange, CupertinoColors.systemYellow.darkHighContrastElevatedColor],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -131,13 +131,13 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
       ),
       child: TabBar(
         controller: _tabController,
-        labelColor: Colors.black,
-        labelPadding: const EdgeInsets.all(12),
-        unselectedLabelColor: Colors.grey.shade300,
-        indicator: CircleTabIndicator(color: Colors.greenAccent, radius: 64),
+        labelColor: Colors.white,
+        labelPadding: const EdgeInsets.all(16),
+        unselectedLabelColor: Colors.black,
+        indicator: CircleTabIndicator(color: Colors.purpleAccent.shade700, radius: 64),
         tabs: [
-          for (var categoria in categoriasProdutos)
-         _buildTabBarMenuGradiente(categoria.nome, categoria.iconPath)
+          for (var index = 0; index < categoriasProdutos.length; index++)
+         _buildTabBarMenuGradiente(categoriasProdutos[index].nome, categoriasProdutos[index].iconPath,index)
 
         ],
       ),
@@ -145,37 +145,46 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
   }
 
 
-  Widget _buildTabBarMenuGradiente (nome,iconPath ){
+  Widget _buildTabBarMenuGradiente(String nome, Icon iconPath, int index) {
+    final menuController = Get.find<MenuProdutosController>();
 
-    return Container(
-      width: 120,
-      height: 100,
-      margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.white,width: 1),
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: [
-            BoxShadow(
-              offset: const Offset(0.5, 1),
-              blurRadius: 70,
-              spreadRadius: 3,
-              color: Colors.yellow.shade300,
+    return Obx(() {
+      bool isSelected = menuController.produtoIndex.value == index;
+
+      return GestureDetector(
+        onTap: () {
+          menuController.setProdutoIndex(index);
+        },
+        child: Container(
+          width: 120,
+          height: 100,
+          margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white, width: 1),
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                offset: const Offset(0.5, 1),
+                blurRadius: 3,
+                spreadRadius: 2,
+                color: Colors.yellow.shade300,
+              ),
+            ],
+            gradient: isSelected
+                ? LinearGradient(colors: [Colors.greenAccent, Colors.green])
+                : LinearGradient(colors: [Colors.deepPurple.shade100, CupertinoColors.activeBlue.highContrastElevatedColor]),
+          ),
+          child: Center(
+            child: CustomTab(
+              text: nome,
+              iconPath: iconPath,
+              isSelected: isSelected,
             ),
-          ],
-          gradient: LinearGradient(colors: [Colors.deepPurple.shade100, CupertinoColors.activeBlue.highContrastElevatedColor])
-
-      ),
-      child: Center(
-          child: CustomTab(
-            text: nome,
-            iconPath: iconPath,
-            isSelected: false,
-          )
-      ),
-    );
+          ),
+        ),
+      );
+    });
   }
-
-
 
 
 
@@ -205,8 +214,6 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
     );
   }
 
-
-
   Widget _listViewProdutos(){
     return ListView.builder(
 
@@ -228,9 +235,6 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
       );
     });
   }
-
-
-
 
   Widget _cardProdutos()  {
 
@@ -263,7 +267,6 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
     );
 
   }
-
 
   Widget _buildMenuCategorias() {
     final cp = getCategorias();

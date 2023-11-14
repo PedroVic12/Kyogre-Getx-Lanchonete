@@ -2,6 +2,9 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../produtos_controller.dart';
 
 
 class CustomTab extends StatelessWidget {
@@ -17,23 +20,17 @@ class CustomTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
-      decoration: BoxDecoration(
-        gradient: isSelected
-            ? LinearGradient(
-          colors: [Colors.deepPurple.shade100, CupertinoColors.activeBlue.highContrastElevatedColor],
-        )
-            : null,
-        borderRadius: BorderRadius.circular(30),
-      ),
       child: Tab(
-        icon: Icon(Icons.star, color: isSelected ? Colors.white : Colors.black),
+        icon: CircleAvatar(child: Icon(iconPath.icon, color: isSelected ? Colors.black : Colors.cyanAccent)),
         text: text,
-        iconMargin: const EdgeInsets.all(2),
+        iconMargin: const EdgeInsets.all(6),
       ),
     );
   }
 }
+
 
 
 class CircleTabIndicator extends Decoration {

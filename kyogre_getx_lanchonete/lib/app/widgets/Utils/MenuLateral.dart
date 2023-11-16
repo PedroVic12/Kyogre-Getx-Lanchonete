@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -33,8 +34,10 @@ class MenuLateralNavegacaoDash extends StatelessWidget {
         title: 'DashBoard Page',
         icon: Icons.account_balance_wallet_sharp,
         route: '/dash'),
-    ItemMenuLateral(
-        title: 'Grid Style', icon: Icons.abc_outlined, route: '/layoutDesign'),
+
+    ItemMenuLateral(title: 'NEW Cardapio Digital', icon: CupertinoIcons.shopping_cart, route: '/pedido/:id'),
+
+    ItemMenuLateral( title: 'Grid Style', icon: Icons.abc_outlined, route: '/layoutDesign'),
     ItemMenuLateral(
         title: 'Cardapio Digital', icon: Icons.fastfood_rounded, route: '/details/:id'),
     ItemMenuLateral(title: 'Caos Page', icon: Icons.ac_unit_sharp, route: '/caosPage')

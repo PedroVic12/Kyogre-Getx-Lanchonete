@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Botoes/float_custom_button.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/Tab%20Bar/widgets.dart';
@@ -67,14 +68,12 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
         _buildHeader(),
         TabBarScrollCardapioCategorias(),
         TabBarViewCardapioProdutosDetails(),
-
-
-
-
       ],
     );
   }
 
+
+  // MENU LATERAL SCROL GRADIENTE COM AS CATEGORIAS
   Widget TabBarScrollCardapioCategorias() {
     final menuController = Get.find<MenuProdutosController>();
     final MenuProdutosRepository repository = Get.put(MenuProdutosRepository());
@@ -118,7 +117,6 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
       ),
     );
   }
-
 
   Widget _buildTabBarMenuGradiente(String nome, Icon iconPath, int index) {
     final menuController = Get.find<MenuProdutosController>();
@@ -196,59 +194,85 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
 
     var categoriaSelecionada = menuController.categoriasProdutosMenu[menuController.produtoIndex.value];
 
-    return Center(
-        child: Container(
-        margin: const EdgeInsets.all(6),
-          width: double.maxFinite,
-          height: 600,
-          color: Colors.white70,
-          child: TabBarView(
-          controller: _tabController,
+    return  Container(
+      margin: const EdgeInsets.all(6),
+      width: double.maxFinite,
+      height: 300,
+      color: Colors.white,
+      child: TabBarView(
+        controller: _tabController,
+        children: [
+          FolearCardapioDigital(
+            content: Text('hello'),
+            onPageChanged: (int index) {
+              final menuController = Get.find<MenuProdutosController>();
+              menuController.setProdutoIndex(index);
+              _tabController.animateTo(index);
+            },),
+
+          FolearCardapioDigital(
+            content: Container(color: Colors.greenAccent,child: _cardProduto()   ,),
+            onPageChanged: (int index) {
+              final menuController = Get.find<MenuProdutosController>();
+              menuController.setProdutoIndex(index);
+              _tabController.animateTo(index);
+            },),
+
+          FolearCardapioDigital(
+            content: Container(color: Colors.blue,child: const Center(child: Text('Anakin Skywalker'),),),
+            onPageChanged: (int index) {
+              final menuController = Get.find<MenuProdutosController>();
+              menuController.setProdutoIndex(index);
+              _tabController.animateTo(index);
+            },),
+
+
+          FolearCardapioDigital(
+            content: _indexProdutoSelecionado(),
+            onPageChanged: (int index) {
+              final menuController = Get.find<MenuProdutosController>();
+              menuController.setProdutoIndex(index);
+              _tabController.animateTo(index);
+            },),
+
+          FolearCardapioDigital(
+            content: CardProdutoCardapioSelecionado(
+              produtoSelecionado: categoriaSelecionada.nome,
+            ),
+            onPageChanged: (int index) {
+              final menuController = Get.find<MenuProdutosController>();
+              menuController.setProdutoIndex(index);
+              _tabController.animateTo(index);
+            },),
+        ],),
+    );
+  }
+
+  Widget _headerProdutos(){
+    return    // Header
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        color: Colors.blue,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-              FolearCardapioDigital(
-              content: _listViewProdutos(),
-                onPageChanged: (int index) {
-                  final menuController = Get.find<MenuProdutosController>();
-                  menuController.setProdutoIndex(index);
-                  _tabController.animateTo(index);
-                },),
 
-            FolearCardapioDigital(
-              content: Container(color: Colors.greenAccent,child: Center(child: _cardProduto(),),),
-              onPageChanged: (int index) {
-                final menuController = Get.find<MenuProdutosController>();
-                menuController.setProdutoIndex(index);
-                _tabController.animateTo(index);
-              },),
+            Icon(
+              CupertinoIcons.search,
+              color: Colors.white,
+            ),
 
-            FolearCardapioDigital(
-              content: Container(color: Colors.blue,child: const Center(child: Text('Skywalker'),),),
-              onPageChanged: (int index) {
-                final menuController = Get.find<MenuProdutosController>();
-                menuController.setProdutoIndex(index);
-                _tabController.animateTo(index);
-              },),
-
-
-            FolearCardapioDigital(
-              content: _indexProdutoSelecionado(),
-              onPageChanged: (int index) {
-                final menuController = Get.find<MenuProdutosController>();
-                menuController.setProdutoIndex(index);
-                _tabController.animateTo(index);
-              },),
-
-            FolearCardapioDigital(
-              content: CardProdutoCardapioSelecionado(
-                produtoSelecionado: categoriaSelecionada.nome,
+            Text(
+              'Brahma Cardápio',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
               ),
-              onPageChanged: (int index) {
-                final menuController = Get.find<MenuProdutosController>();
-                menuController.setProdutoIndex(index);
-                _tabController.animateTo(index);
-              },),
-           ],),
-        ));
+            ),
+          ],
+        ),
+      );
+
   }
 
 Widget _cardProduto(){
@@ -256,33 +280,10 @@ Widget _cardProduto(){
     margin: EdgeInsets.all(8),
     child: Column(
       children: [
-        // Header
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          color: Colors.blue,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Brahma Cardápio',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
-              ),
-              Icon(
-                CupertinoIcons.search,
-                color: Colors.white,
-              ),
-            ],
-          ),
-        ),
 
-        // Divider
-        Container(
-          height: 1,
-          color: Colors.grey[300],
-        ),
+      _headerProdutos(),
+
+        Divider(   height: 1,           color: Colors.grey[300],         ),
 
         // Card content
         CupertinoListTile(
@@ -290,54 +291,19 @@ Widget _cardProduto(){
             CupertinoIcons.news,
             color: Colors.grey[700],
           ),
-          title: Text(
-            'Titulo da Notícia',
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.grey[700],
-            ),
+          title: CustomText(text: 'Produto:',),
+
+          subtitle: Column(
+            children: [CustomText(text: 'Preco 1:'),CustomText(text: 'Preco 2:'),],
           ),
-          subtitle: Text(
-            'Descrição da Notícia',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey[700],
-            ),
-          ),
-          trailing: Text(
-            '03/04/2022',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[700],
-            ),
-          ),
+
+          trailing: BotaoFloatArredondado(icone: Icons.add_circle,)
         ),
       ],
     ),
   );
 }
 
-  Widget _listViewProdutos(){
-    return ListView.builder(
-
-        itemCount: 3,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (_,index){
-      return Center(
-        child: Container(
-          height: 300,
-          width: 200,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: Colors.brown
-
-            //image: DecorationImage(image: "plano de fundo de mesa de bar madeirada", fit: Boxfit)
-          ),
-          child: Text('Index = ${index}'),
-        ),
-      );
-    });
-  }
 
 
   Widget _indexProdutoSelecionado(){

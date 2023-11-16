@@ -10,6 +10,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdu
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Layout/Layout.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/TelaCardapioDigital.dart';
 
 import 'views/Pages/Caos/caos_page.dart';
 import 'views/Pages/DashBoard/Pedido/PedidoController.dart';
@@ -44,11 +45,17 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/dash', page: () => DashboardPage()),
         GetPage(name: '/layoutDesign', page: () => const CartaoGridView()),
         GetPage(name: '/caosPage', page: ()=> CaosPageWidget()),
-        GetPage(
-            name: '/details/:id',
+        GetPage( name: '/details/:id',
             page: () {
               final id = Get.parameters['id']!;
               return DetailsPage(id: id);
+            }),
+
+        GetPage(
+            name: '/pedido/:id',
+            page: () {
+              final id = Get.parameters['id']!;
+              return TelaCardapioDigital(id: id);
             }),
       ],
 

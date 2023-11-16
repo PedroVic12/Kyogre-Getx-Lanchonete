@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/Tab%20Bar/widgets.dart';
+import '../Cards/card_produto_selecionado.dart';
 import '../Cards/glass_card_widget.dart';
 import '../repository/MenuRepository.dart';
 import '../repository/produtos_model.dart';
@@ -192,11 +193,14 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
 
   // TODO CARDS PRODUTOS
   Widget TabBarViewCardapioProdutosDetails() {
+
+    var categoriaSelecionada = menuController.categoriasProdutosMenu[menuController.produtoIndex.value];
+
     return Center(
         child: Container(
         margin: const EdgeInsets.all(6),
           width: double.maxFinite,
-          height: 300,
+          height: 600,
           color: Colors.white70,
           child: TabBarView(
           controller: _tabController,
@@ -210,7 +214,7 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
                 },),
 
             FolearCardapioDigital(
-              content: Container(color: Colors.greenAccent,child:const Center(child: Text('Hello'),),),
+              content: Container(color: Colors.greenAccent,child: Center(child: _cardProduto(),),),
               onPageChanged: (int index) {
                 final menuController = Get.find<MenuProdutosController>();
                 menuController.setProdutoIndex(index);
@@ -235,7 +239,9 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
               },),
 
             FolearCardapioDigital(
-              content: Container(color: Colors.blue,child: const Center(child: Icon(Icons.skateboarding_outlined),),),
+              content: CardProdutoCardapioSelecionado(
+                produtoSelecionado: categoriaSelecionada.nome,
+              ),
               onPageChanged: (int index) {
                 final menuController = Get.find<MenuProdutosController>();
                 menuController.setProdutoIndex(index);
@@ -245,7 +251,71 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
         ));
   }
 
+Widget _cardProduto(){
+  return Container(
+    margin: EdgeInsets.all(8),
+    child: Column(
+      children: [
+        // Header
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          color: Colors.blue,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Brahma Cardápio',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
+              Icon(
+                CupertinoIcons.search,
+                color: Colors.white,
+              ),
+            ],
+          ),
+        ),
 
+        // Divider
+        Container(
+          height: 1,
+          color: Colors.grey[300],
+        ),
+
+        // Card content
+        CupertinoListTile(
+          leading: Icon(
+            CupertinoIcons.news,
+            color: Colors.grey[700],
+          ),
+          title: Text(
+            'Titulo da Notícia',
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.grey[700],
+            ),
+          ),
+          subtitle: Text(
+            'Descrição da Notícia',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey[700],
+            ),
+          ),
+          trailing: Text(
+            '03/04/2022',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[700],
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
 
   Widget _listViewProdutos(){
     return ListView.builder(

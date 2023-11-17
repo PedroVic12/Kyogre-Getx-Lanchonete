@@ -13,10 +13,10 @@ class CardProdutoCardapioSelecionado extends StatelessWidget {
 
   const CardProdutoCardapioSelecionado({super.key, required this.produtoSelecionado});
 
+
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.blue,
       child: CupertinoListTile(
           title: Column(
             children: [
@@ -40,9 +40,10 @@ class CardProdutoCardapioSelecionado extends StatelessWidget {
         } else if (snapshot.hasError) {
           return Text('Erro: ${snapshot.error}');
         } else if (snapshot.hasData) {
+
           return Container(
             color: Colors.grey,
-            height: 150,
+            height: 400,
             child: ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {

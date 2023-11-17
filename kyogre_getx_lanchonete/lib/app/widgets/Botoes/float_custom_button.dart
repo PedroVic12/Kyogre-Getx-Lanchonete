@@ -10,15 +10,18 @@ class BotaoFloatArredondado extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
+      hoverColor: Colors.lightBlueAccent,
       onPressed: (){},
-      child: Icon(icone),
-      elevation: 7.0,
+      child: Icon(icone, size: 48,),
+      elevation: 25.0,
       constraints: BoxConstraints(
-        maxHeight: 50,
-        maxWidth: 50
+        maxHeight: 100,
+        maxWidth: 100
       ),
       shape: CircleBorder(),
-      fillColor: Colors.indigo,
+      fillColor: Colors.white,
+      focusColor: Colors.blue,
+
     );
   }
 }

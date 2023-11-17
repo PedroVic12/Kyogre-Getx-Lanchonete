@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomAppBar.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Design/rounded_appbar.dart';
 
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
@@ -111,12 +112,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
 
     return Scaffold(
         backgroundColor: Colors.red,
-        appBar: AppBar(
-          title: Center(
-              child: Text('Citta RJ ${nomesLojas[1]} | Pedido: ${widget.id}')),
-          backgroundColor: Colors.black,
-          automaticallyImplyLeading: false, // Hide the back button
-        ),
+        appBar: CustomAppBar(),
         body: Center(
         child: ListView(children: [
 
@@ -128,8 +124,6 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
 
 
 
-
-          Obx(() => CardProdutoCardapioSelecionado(produtoSelecionado: menuController.categoriasProdutosMenu[menuController.produtoIndex.value].nome),          ),
 
           botaoVerCarrinho(),
 

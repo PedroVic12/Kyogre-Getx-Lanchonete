@@ -28,30 +28,19 @@ class FolearCardapioDigital extends StatelessWidget {
 
     return TurnPageView.builder(
       controller: controller,
-      itemCount: 2,
+      itemCount: 5,
       itemBuilder: (context, index) {
         return Container(
-          height: 120,
-          color: CupertinoColors.systemCyan,
+          color: CupertinoColors.systemGrey2,
           child: content,
         );
+
       },
       overleafColorBuilder: (index) => index == 0 ? Colors.blue : Colors.green,
       animationTransitionPoint: 0.7,
     );
   }
 
-  Widget displayProdutos(int index) {
-    final menuController = Get.find<MenuProdutosController>();
-    var produto = menuController.categoriasProdutosMenu[index];
-
-    return Center(
-      child: Text(
-        'Produto: ${produto.nome}',
-        style: TextStyle(fontSize: 24, color: Colors.white),
-      ),
-    );
-  }
 
 
   Widget _indexProdutoSelecionado(){

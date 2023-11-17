@@ -5,6 +5,10 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Botoes/float_custom_button.da
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/Tab%20Bar/widgets.dart';
+import '../../../../../models/DataBaseController/repository_db_controller.dart';
+import '../../../../../models/DataBaseController/template/produtos_model.dart';
+import '../../../Carrinho/CarrinhoController.dart';
+import '../../../Tela Cardapio Digital/views/CardProdutosFiltrados.dart';
 import '../Cards/card_produto_selecionado.dart';
 import '../Cards/glass_card_widget.dart';
 import '../repository/MenuRepository.dart';
@@ -66,8 +70,11 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
     return Column(
       children: [
         _buildHeader(),
+
         TabBarScrollCardapioCategorias(),
+
         TabBarViewCardapioProdutosDetails(),
+
       ],
     );
   }
@@ -196,14 +203,14 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
 
     return  Container(
       margin: const EdgeInsets.all(6),
-      width: double.maxFinite,
-      height: 300,
+      height: 800,
       color: Colors.white,
       child: TabBarView(
         controller: _tabController,
         children: [
           FolearCardapioDigital(
-            content: Text('hello'),
+
+            content: displayProdutosFiltradosCategoria('Pizzas'),
             onPageChanged: (int index) {
               final menuController = Get.find<MenuProdutosController>();
               menuController.setProdutoIndex(index);
@@ -211,24 +218,18 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
             },),
 
           FolearCardapioDigital(
-            content: Container(color: Colors.greenAccent,child: _cardProduto()   ,),
+            content: Container(color: Colors.greenAccent,child: CardProdutosFiltrados()  ,),
             onPageChanged: (int index) {
               final menuController = Get.find<MenuProdutosController>();
               menuController.setProdutoIndex(index);
               _tabController.animateTo(index);
             },),
 
-          FolearCardapioDigital(
-            content: Container(color: Colors.blue,child: const Center(child: Text('Anakin Skywalker'),),),
-            onPageChanged: (int index) {
-              final menuController = Get.find<MenuProdutosController>();
-              menuController.setProdutoIndex(index);
-              _tabController.animateTo(index);
-            },),
+        Obx(() => CardProdutoCardapioSelecionado(produtoSelecionado: menuController.categoriasProdutosMenu[menuController.produtoIndex.value].nome)),
 
 
           FolearCardapioDigital(
-            content: _indexProdutoSelecionado(),
+            content: displayProdutos(menuController.produtoIndex.value),
             onPageChanged: (int index) {
               final menuController = Get.find<MenuProdutosController>();
               menuController.setProdutoIndex(index);
@@ -248,61 +249,48 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
     );
   }
 
-  Widget _headerProdutos(){
-    return    // Header
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        color: Colors.blue,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+  Widget displayProdutosFiltradosCategoria(String categoria) {
+    final RepositoryDataBaseController _repositoryController = Get.find<RepositoryDataBaseController>();
 
-            Icon(
-              CupertinoIcons.search,
-              color: Colors.white,
-            ),
-
-            Text(
-              'Brahma Cardápio',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-              ),
-            ),
-          ],
-        ),
-      );
-
+    return FutureBuilder<List<ProdutoModel>>(
+      future: _repositoryController.filtrarCategoria(categoria),
+      builder: (BuildContext context, AsyncSnapshot<List<ProdutoModel>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Erro: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              var produto = snapshot.data![index];
+              return ListTile(
+                title: Text(produto.nome),
+                subtitle: Text('Ingredientes: ${produto.ingredientes?.join(', ')}'),
+                trailing: Text('Preços: ${produto.precos.map((p) => p['preco']).join(', ')}'),
+              );
+            },
+          );
+        } else {
+          return Text('Nenhum dado disponível');
+        }
+      },
+    );
   }
 
-Widget _cardProduto(){
-  return Container(
-    margin: EdgeInsets.all(8),
-    child: Column(
-      children: [
 
-      _headerProdutos(),
 
-        Divider(   height: 1,           color: Colors.grey[300],         ),
+  Widget displayProdutos(int index) {
+    final menuController = Get.find<MenuProdutosController>();
+    var produto = menuController.categoriasProdutosMenu[index];
 
-        // Card content
-        CupertinoListTile(
-          leading: Icon(
-            CupertinoIcons.news,
-            color: Colors.grey[700],
-          ),
-          title: CustomText(text: 'Produto:',),
-
-          subtitle: Column(
-            children: [CustomText(text: 'Preco 1:'),CustomText(text: 'Preco 2:'),],
-          ),
-
-          trailing: BotaoFloatArredondado(icone: Icons.add_circle,)
-        ),
-      ],
-    ),
-  );
-}
+    return Center(
+      child: Text(
+        'Produto: ${produto.nome}',
+        style: TextStyle(fontSize: 24, color: Colors.white),
+      ),
+    );
+  }
 
 
 

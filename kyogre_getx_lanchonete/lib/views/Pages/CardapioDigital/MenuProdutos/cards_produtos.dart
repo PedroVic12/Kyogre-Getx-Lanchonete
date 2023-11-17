@@ -56,8 +56,6 @@ class _DetalhesProdutosCardState extends State<DetalhesProdutosCard> {
     var categoria_selecionada =
         catalogoProdutosController.selectedCategoryIndex.value;
     var categoria = catalogoProdutosController.catalogoCategorias;
-    var itemProduto = menuController.categorias_produtos_carregados;
-    var produtoSelecionado = itemProduto[menuController.produtoIndex.value];
     var produtos = catalogoProdutosController.produtos;
 
     // UI

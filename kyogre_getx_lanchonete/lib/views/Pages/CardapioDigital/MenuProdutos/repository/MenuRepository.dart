@@ -4,14 +4,16 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/
 class MenuProdutosRepository {
   final List<CategoriaModel> categoriasCardapioProdutos = [];
 
-  // Este método simula a busca de dados, que poderia ser de uma API ou banco de dados
-  List<CategoriaModel> fetchCategorias() {
+  List<CategoriaModel> fetchCategorias()  {
+
+    categoriasCardapioProdutos.clear();
+
     if (categoriasCardapioProdutos.isEmpty) {
       // Adicione itens apenas se a lista estiver vazia para evitar duplicatas
       categoriasCardapioProdutos.addAll([
 
         CategoriaModel(
-            nome: 'Sanduíches',
+            nome: 'Sanduiches',
             iconPath: Icon(Icons.fastfood_rounded),
             boxColor: Colors.purple.shade300),
 

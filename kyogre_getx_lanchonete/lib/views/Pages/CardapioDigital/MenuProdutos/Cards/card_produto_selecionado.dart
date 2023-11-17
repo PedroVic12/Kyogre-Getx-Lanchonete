@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Botoes/float_custom_button.dart';
 
 import '../../../../../app/widgets/Custom/CustomText.dart';
 import '../../../../../models/DataBaseController/repository_db_controller.dart';
@@ -20,7 +21,7 @@ class CardProdutoCardapioSelecionado extends StatelessWidget {
       child: CupertinoListTile(
           title: Column(
             children: [
-              CustomText(text: 'Exibindo: $produtoSelecionado',),
+              CustomText(text: 'Exibindo: $produtoSelecionado',size: 18,),
               displayProdutosFiltradosCategoria(produtoSelecionado),
             ],
           )
@@ -63,13 +64,10 @@ class CardProdutoCardapioSelecionado extends StatelessWidget {
                       ],
                     ),
                     leading: CircleAvatar(radius: 32,child: Icon(Icons.fastfood),),
-                    trailing: IconButton(
-                      icon: Icon( Icons.add_box_sharp, color: Colors.blue, size: 48), // Um botão para adicionar o produto ao carrinho
-                      onPressed: () {
-                        carrinhoController
-                            .adicionarProduto(
-                            produto as Produto);
-                      },
+                    trailing: BotaoFloatArredondado(
+                      icone: Icons.add_circle_rounded,
+                      //carrinhoController.adicionarProduto(produto as Produto);
+
                     ),
                   ),
                 );

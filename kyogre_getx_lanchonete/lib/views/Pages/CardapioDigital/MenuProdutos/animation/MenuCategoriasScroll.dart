@@ -30,13 +30,10 @@ class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrol
   void initState() {
 
     super.initState();
-    _getCategorias();
   }
 
-  void _getCategorias() async {
-    categoriasProdutos = await menuController.fetchCategorias();
-    setState(() => isLoading = false);
-  }
+
+
 
   @override
   Widget build(BuildContext context) {

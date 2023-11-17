@@ -4,13 +4,16 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kyogre_getx_lanchonete/app/Teoria%20do%20Caos/CaosPage.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Design/CartaoGridView.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Utils/MenuLateral.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CardapioDigitalPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Layout/Layout.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/SplashScreen/splash_screen_page.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/TelaCardapioDigital.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/menu_tab_bar_widget.dart';
 
 import 'views/Pages/Caos/caos_page.dart';
 import 'views/Pages/DashBoard/Pedido/PedidoController.dart';
@@ -20,7 +23,7 @@ import 'views/Pages/DashBoard/Pedido/PedidoController.dart';
 // TODO -> Apresentar pedido na tela quando receber o pedido
 
 void main() {
-  Get.put(MenuController());
+  Get.put(MenuLateralController());
 
   Get.put(PedidoController());
   Get.put(FilaDeliveryController());
@@ -28,7 +31,6 @@ void main() {
   Get.put(DataBaseController());
   Get.put(CatalogoProdutosController());
 
-  //Get.put(NavigationController());
   runApp(MyApp());
 }
 
@@ -36,15 +38,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      //initialRoute: authenticationPageRoute,
-      //unknownRoute: GetPage(name: '/not-found', page: () => PageNotFound(), transition: Transition.fadeIn),
+      //initialRoute: '/splash',
 
       // TODO Navegação Padrão
       getPages: [
         GetPage(name: '/', page: () => Layout()),
+        GetPage(name: '/splash', page: () => SplashScreen()),
         GetPage(name: '/dash', page: () => DashboardPage()),
         GetPage(name: '/layoutDesign', page: () => const CartaoGridView()),
         GetPage(name: '/caosPage', page: ()=> CaosPageWidget()),
+
+
+        GetPage(name: '/cardapio', page: ()=> MenuTabBarCardapio()),
+
+
         GetPage( name: '/details/:id',
             page: () {
               final id = Get.parameters['id']!;

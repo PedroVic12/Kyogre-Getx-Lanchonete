@@ -42,7 +42,7 @@ class RepositoryDataBaseController {
     // dataBase_Array.add(await lerArquivoJson(petiscosFile));
 
     isLoading = true;
-    print('database carregado!');
+    print('Database carregado!');
     return dataBase_Array;
   }
 

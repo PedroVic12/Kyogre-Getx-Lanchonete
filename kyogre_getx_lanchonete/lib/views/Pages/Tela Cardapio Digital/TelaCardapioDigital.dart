@@ -44,6 +44,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   late String telefoneCliente = "";
   late String idPedido = "";
 
+
   //controllers
   final DataBaseController _dataBaseController = DataBaseController();
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
@@ -75,7 +76,6 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
 
     if (response_id.statusCode == 200) {
       String id_data = response_id.body;
-      print(id_data);
       return id_data;
     } else {
       throw Exception('Failed to fetch ID');
@@ -112,24 +112,19 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
 
     return Scaffold(
         backgroundColor: Colors.red,
-        appBar: CustomAppBar(),
+        appBar: CustomAppBar(
+          id: widget.id,
+        ),
         body: Center(
-        child: ListView(children: [
+        child: Column(children: [
 
         pegarDadosCliente(),
 
-
           TabBarWidget(),
-
-
-
-
 
           botaoVerCarrinho(),
 
           //Container(            height: 150,            child: BarraInferiorPedido(),          )
-
-
         ]
 
     ),),

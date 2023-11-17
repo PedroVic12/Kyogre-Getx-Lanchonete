@@ -1,94 +1,90 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kyogre_getx_lanchonete/app/widgets/Botoes/float_custom_button.dart';
-import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/Tab%20Bar/widgets.dart';
-import '../../../../../models/DataBaseController/repository_db_controller.dart';
-import '../../../../../models/DataBaseController/template/produtos_model.dart';
-import '../../../Carrinho/CarrinhoController.dart';
-import '../../../Tela Cardapio Digital/views/CardProdutosFiltrados.dart';
-import '../Cards/card_produto_selecionado.dart';
-import '../Cards/glass_card_widget.dart';
-import '../repository/MenuRepository.dart';
-import '../repository/produtos_model.dart';
-import 'models_tabBar.dart';
-import 'views/folear_cardapio_produtos.dart';
-import '../produtos_controller.dart';
 
-class TabBarWidget extends StatefulWidget {
+import '../../../../app/widgets/Custom/CustomText.dart';
+import '../../../../models/DataBaseController/repository_db_controller.dart';
+import '../../../../models/DataBaseController/template/produtos_model.dart';
+import '../../CardapioDigital/MenuProdutos/Cards/card_produto_selecionado.dart';
+import '../../CardapioDigital/MenuProdutos/Tab Bar/views/folear_cardapio_produtos.dart';
+import '../../CardapioDigital/MenuProdutos/Tab Bar/widgets.dart';
+import '../../CardapioDigital/MenuProdutos/produtos_controller.dart';
+import '../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
+import '../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
+import 'CardProdutosFiltrados.dart';
+
+
+class MenuTabBarCardapio extends StatefulWidget {
+  const MenuTabBarCardapio({super.key});
+
   @override
-  _TabBarWidgetState createState() => _TabBarWidgetState();
+  State<MenuTabBarCardapio> createState() => _MenuTabBarCardapioState();
 }
 
-class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMixin {
+class _MenuTabBarCardapioState extends State<MenuTabBarCardapio> with TickerProviderStateMixin{
   late TabController _tabController;
-  final MenuProdutosController menuController = Get.find<MenuProdutosController>();
-  final CatalogoProdutosController catalogoController = Get.find<CatalogoProdutosController>();
-
-
-  void cout(msg){
-    print('\n\n======================================================');
-    print(msg);
-    print('======================================================');
-
-  }
-
-  void carregarProdutos() async {
-    //categoriaSelecionada = await menuController.categoriasProdutosMenu[menuController.produtoIndex.value];
-  }
-
-  void _handlePageChange(int index) {
-    if (_tabController.index != index) {
-      _tabController.animateTo(index);
-    }
-  }
-
+  final MenuProdutosController menuController = Get.put(MenuProdutosController());
 
   @override
-  void initState() async {
-
-    //carregarProdutos();
-
+  void initState() {
     super.initState();
     _tabController = TabController(length: 5, vsync: this);
-    _tabController.addListener(() {
-      if (!_tabController.indexIsChanging) {
-        menuController.setProdutoIndex(_tabController.index);
-        _tabController.animateTo(_tabController.index);  // Adicione isso para sincronizar com TabController
-
-      }
-
-    });
-
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+    // Assuma que o carregamento dos dados é iniciado em MenuProdutosController.onInit
   }
 
   @override
   Widget build(BuildContext context) {
 
+    return Obx(() {
+      if (menuController.isLoading.value) {
+        return Center(child: CircularProgressIndicator());
+      } else {
+        return buildTabBarLayout();
+      }
+    });
+  }
 
-
+  Widget buildTabBarLayout() {
     return Column(
       children: [
+
+        CustomText(text: 'MENU REFATORADO!'),
+
         _buildHeader(),
-
         TabBarScrollCardapioCategorias(),
-
         TabBarViewCardapioProdutosDetails(),
-
       ],
     );
   }
 
+  Widget _buildHeader() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          IconButton(
+            onPressed: () {
+              CupertinoAlertDialog(
+                title: Text('ola'),
+              );
+            },
+            icon:  IconePersonalizado(tipo: Icons.menu),
+          ),
+          const SizedBox(width: 16),
+          const CustomText(
+            text: 'Categorias de Lanches',
+            size: 24,
+            weight: FontWeight.bold,
+          ),
+          Divider(color: Colors.black,)
 
-  // MENU LATERAL SCROL GRADIENTE COM AS CATEGORIAS
+        ],
+      ),
+    );
+  }
+
+
   Widget TabBarScrollCardapioCategorias()  {
     final menuController = Get.find<MenuProdutosController>();
     final MenuProdutosRepository repository = Get.put(MenuProdutosRepository());
@@ -125,7 +121,7 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
         indicator: CircleTabIndicator(color: Colors.purpleAccent.shade700, radius: 64),
         tabs: [
           for (var index = 0; index < menuController.categoriasProdutosMenu.length; index++)
-         _buildTabBarMenuGradiente( menuController.categoriasProdutosMenu[index].nome,  menuController.categoriasProdutosMenu[index].iconPath,index)
+            _buildTabBarMenuGradiente( menuController.categoriasProdutosMenu[index].nome,  menuController.categoriasProdutosMenu[index].iconPath,index)
 
         ],
       ),
@@ -174,34 +170,6 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
     });
   }
 
-  Widget _buildHeader() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          IconButton(
-            onPressed: () {
-             CupertinoAlertDialog(
-               title: Text('ola'),
-             );
-            },
-            icon:  IconePersonalizado(tipo: Icons.menu),
-          ),
-          const SizedBox(width: 16),
-          const CustomText(
-            text: 'Categorias de Lanches',
-            size: 24,
-            weight: FontWeight.bold,
-          ),
-          Divider(color: Colors.black,)
-
-        ],
-      ),
-    );
-  }
-
-
 
   // TODO CARDS PRODUTOS
   Widget TabBarViewCardapioProdutosDetails() {
@@ -236,8 +204,8 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
               _tabController.animateTo(index);
             },),
 
-        //3
-        Obx(() => CardProdutoCardapioSelecionado(produtoSelecionado: menuController.categoriasProdutosMenu[menuController.produtoIndex.value].nome)),
+          //3
+          Obx(() => CardProdutoCardapioSelecionado(produtoSelecionado: menuController.categoriasProdutosMenu[menuController.produtoIndex.value].nome)),
 
 
           //4
@@ -312,17 +280,15 @@ class _TabBarWidgetState extends State<TabBarWidget> with TickerProviderStateMix
 
 
 
-  Widget _indexProdutoSelecionado(){
-
-    final MenuProdutosController menuController = Get.find<MenuProdutosController>();
-
-    return Container(
-        color: Colors.black,
-        child: Obx(() => Center(child: Column(children: [
-          CustomText(text: 'item selecionado = ${menuController.produtoIndex}',color: Colors.white,),
-          CustomText(text: 'item selecionado = ${menuController.categoriasProdutosMenu[menuController.produtoIndex.value].nome}',color: Colors.white,),
-        ],))));
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
+
+
+
+
 }
 
 

@@ -10,17 +10,15 @@ import 'repository/produtos_model.dart';
 
 class MenuProdutosController extends GetxController {
   //controladores
-  final MenuProdutosRepository repository = MenuProdutosRepository(); // Usando o repository
+  final MenuProdutosRepository repository = Get.put(MenuProdutosRepository()); // Usando o repository
 
   //variaveis
-  List<CategoriaModel> categorias_produtos_carregados = []; // metodo pardrao
   List<CategoriaModel> categoriasProdutosMenu = []; // pegando os produtos do databse
-
 
   var produtos = <CategoriaModel>[].obs;
   var produtoIndex = 0.obs;
   //var produtosWidgets = <Widget>[].obs;
-  var isLoading = true.obs;
+  var isLoading = false.obs;
 
   //metodos
   void setProdutoIndex(int index) {
@@ -31,9 +29,18 @@ class MenuProdutosController extends GetxController {
 
 
   Future getCategoriasRepository() async {
+    isLoading.value = true;
     categoriasProdutosMenu = await repository.fetchCategorias();
     isLoading.value = false;
-    return categoriasProdutosMenu;
+  }
+
+
+  Future initPage() async {
+    if (isLoading.value){
+      print('Carregou!');
+    } else {
+      print('\nainda carregando......');
+    }
   }
 
   @override
@@ -45,27 +52,6 @@ class MenuProdutosController extends GetxController {
 
 
 
-  //Pega os Dados do Menu
-  List<CategoriaModel> fetchCategorias() {
-    categorias_produtos_carregados.clear();
-
-    categorias_produtos_carregados.add(CategoriaModel(
-        nome: 'Sanduíches',
-        iconPath: Icon(Icons.fastfood_rounded),
-        boxColor: Colors.purple.shade300));
-
-    categorias_produtos_carregados.add(CategoriaModel(
-        nome: 'Petiscos',
-        iconPath: Icon(Icons.fastfood_rounded),
-        boxColor: Colors.purple.shade300));
-
-    categorias_produtos_carregados.add(CategoriaModel(
-        nome: 'Açaí e Pitaya',
-        iconPath: Icon(Icons.fastfood_rounded),
-        boxColor: Colors.purple.shade300));
-
-    return categorias_produtos_carregados;
-  }
 
 
 }

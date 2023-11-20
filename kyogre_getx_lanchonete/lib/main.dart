@@ -43,21 +43,21 @@ class MyApp extends StatelessWidget {
       // TODO Navegação Padrão
       getPages: [
         GetPage(name: '/', page: () => Layout()),
-        GetPage(name: '/splash', page: () => SplashScreen()),
+        GetPage(name: '/splash', page: () => const SplashScreen()),
         GetPage(name: '/dash', page: () => DashboardPage()),
         GetPage(name: '/layoutDesign', page: () => const CartaoGridView()),
-        GetPage(name: '/caosPage', page: ()=> CaosPageWidget()),
-
-
-        GetPage(name: '/cardapio', page: ()=> MenuTabBarCardapio()),
-
-
-        GetPage( name: '/details/:id',
+        GetPage(name: '/caosPage', page: () => const CaosPageWidget()),
+        GetPage(
+            name: '/cardapio',
+            page: () => const TelaCardapioDigital(
+                  id: '1998',
+                )),
+        GetPage(
+            name: '/details/:id',
             page: () {
               final id = Get.parameters['id']!;
               return DetailsPage(id: id);
             }),
-
         GetPage(
             name: '/pedido/:id',
             page: () {

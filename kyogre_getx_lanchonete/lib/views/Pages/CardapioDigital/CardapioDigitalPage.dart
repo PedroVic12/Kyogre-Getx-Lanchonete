@@ -39,7 +39,6 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-
   //variaveis dinamicas
   late String nomeCliente = "";
   late String telefoneCliente = "";
@@ -48,16 +47,14 @@ class _DetailsPageState extends State<DetailsPage> {
   //controllers
   final DataBaseController _dataBaseController = DataBaseController();
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
-  final RepositoryDataBaseController _repositoryController = Get.put(RepositoryDataBaseController());
-
-
+  final RepositoryDataBaseController _repositoryController =
+      Get.put(RepositoryDataBaseController());
 
   @override
   void initState() {
     super.initState();
     fetchClienteNome(widget.id);
   }
-
 
   Widget pegarDadosCliente() {
     return Column(
@@ -100,16 +97,16 @@ class _DetailsPageState extends State<DetailsPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     //controllers
-    final MenuProdutosController menuController =   Get.put(MenuProdutosController());
+    final MenuProdutosController menuController =
+        Get.put(MenuProdutosController());
     final CatalogoProdutosController _controller = CatalogoProdutosController();
 
     // Variaveis
-    List<ProdutoModel> produtos = PIZZA_OBJECT.map((json) => ProdutoModel.fromJson(json)).toList();
+    List<ProdutoModel> produtos =
+        PIZZA_OBJECT.map((json) => ProdutoModel.fromJson(json)).toList();
     List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
 
     return Scaffold(
@@ -121,28 +118,34 @@ class _DetailsPageState extends State<DetailsPage> {
         automaticallyImplyLeading: false, // Hide the back button
       ),
       body: Center(
-        child: ListView(children: [
+        child: Column(children: [
           pegarDadosCliente(),
 
           //_carregandoProdutos(),
 
-          ElevatedButton(onPressed: (){
-            Get.to(MySimpleTabBarWidget());
-          }, child: Text('Tab Bar')),
-
+          ElevatedButton(
+              onPressed: () {
+                Get.to(MySimpleTabBarWidget());
+              },
+              child: Text('Tab Bar')),
 
           TabBarWidget(),
 
           _indexProdutoSelecionado(),
-          
-          Obx(() => CardProdutoCardapioSelecionado(produtoSelecionado: menuController.categoriasProdutosMenu[menuController.produtoIndex.value].nome),
+
+          Obx(
+            () => CardProdutoCardapioSelecionado(
+                produtoSelecionado: menuController
+                    .categoriasProdutosMenu[menuController.produtoIndex.value]
+                    .nome),
           ),
 
-          Container(height: 200,child:  ProdutosListWidget(produtos: produtos),),
-
+          Container(
+            height: 200,
+            child: ProdutosListWidget(produtos: produtos),
+          ),
 
           botaoVerCarrinho()
-          
         ]),
       ),
       floatingActionButton: FloatingActionButton(
@@ -157,11 +160,9 @@ class _DetailsPageState extends State<DetailsPage> {
       ),
     );
   }
-  
 
-
-  Widget botaoVerCarrinho(){
-    return  Padding(
+  Widget botaoVerCarrinho() {
+    return Padding(
         padding: EdgeInsets.all(8),
         child: SizedBox(
             height: 50,
@@ -170,11 +171,8 @@ class _DetailsPageState extends State<DetailsPage> {
                 onPressed: () {
                   carrinhoController.setClienteDetails(
                       nomeCliente, telefoneCliente, widget.id);
-                  Get.to(CarrinhoPage(), arguments: [
-                    nomeCliente,
-                    telefoneCliente,
-                    widget.id
-                  ]);
+                  Get.to(CarrinhoPage(),
+                      arguments: [nomeCliente, telefoneCliente, widget.id]);
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: CupertinoColors.activeBlue,
@@ -186,14 +184,14 @@ class _DetailsPageState extends State<DetailsPage> {
                 ))));
   }
 
-
-
   Widget displayProdutosFiltradosCategoria(String categoria) {
-    final RepositoryDataBaseController _repositoryController = Get.find<RepositoryDataBaseController>();
+    final RepositoryDataBaseController _repositoryController =
+        Get.find<RepositoryDataBaseController>();
 
     return FutureBuilder<List<ProdutoModel>>(
       future: _repositoryController.filtrarCategoria(categoria),
-      builder: (BuildContext context, AsyncSnapshot<List<ProdutoModel>> snapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<List<ProdutoModel>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         } else if (snapshot.hasError) {
@@ -205,8 +203,10 @@ class _DetailsPageState extends State<DetailsPage> {
               var produto = snapshot.data![index];
               return ListTile(
                 title: Text(produto.nome),
-                subtitle: Text('Ingredientes: ${produto.ingredientes?.join(', ')}'),
-                trailing: Text('Preços: ${produto.precos.map((p) => p['preco']).join(', ')}'),
+                subtitle:
+                    Text('Ingredientes: ${produto.ingredientes?.join(', ')}'),
+                trailing: Text(
+                    'Preços: ${produto.precos.map((p) => p['preco']).join(', ')}'),
               );
             },
           );
@@ -217,22 +217,25 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
-
-  Widget _carregandoProdutos(){
-    return  FutureBuilder<List<List<ProdutoModel>>>(
+  Widget _carregandoProdutos() {
+    return FutureBuilder<List<List<ProdutoModel>>>(
       future: _repositoryController.fetchAllProducts(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Ocorreu um erro ao carregar os produtos.'));
+          return Center(
+              child: Text('Ocorreu um erro ao carregar os produtos.'));
         } else {
           return Container(
             height: 200,
             color: Colors.purpleAccent,
             child: ListView(
               children: [
-                Container(color: Colors.blueGrey, child: Text('Produtos JSON = ${_repositoryController.dataBaseArrayJson}')),
+                Container(
+                    color: Colors.blueGrey,
+                    child: Text(
+                        'Produtos JSON = ${_repositoryController.dataBaseArrayJson}')),
                 displayProdutosFiltradosCategoria('Pizzas'),
               ],
             ),
@@ -242,16 +245,25 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
-
-  Widget _indexProdutoSelecionado(){
-
-    final MenuProdutosController menuController = Get.find<MenuProdutosController>();
+  Widget _indexProdutoSelecionado() {
+    final MenuProdutosController menuController =
+        Get.find<MenuProdutosController>();
 
     return Container(
-      color: Colors.black,
-      child: Obx(() => Center(child: Column(children: [
-        CustomText(text: 'item selecionado = ${menuController.produtoIndex}',color: Colors.white,),
-        CustomText(text: 'item selecionado = ${menuController.categoriasProdutosMenu[menuController.produtoIndex.value].nome}',color: Colors.white,),
-      ],))));
+        color: Colors.black,
+        child: Obx(() => Center(
+                child: Column(
+              children: [
+                CustomText(
+                  text: 'item selecionado = ${menuController.produtoIndex}',
+                  color: Colors.white,
+                ),
+                CustomText(
+                  text:
+                      'item selecionado = ${menuController.categoriasProdutosMenu[menuController.produtoIndex.value].nome}',
+                  color: Colors.white,
+                ),
+              ],
+            ))));
   }
 }

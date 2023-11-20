@@ -1,4 +1,6 @@
 //Controller
+// ignore_for_file: avoid_print
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,15 +12,16 @@ import 'repository/produtos_model.dart';
 
 class MenuProdutosController extends GetxController {
   //controladores
-  final MenuProdutosRepository repository = Get.put(MenuProdutosRepository()); // Usando o repository
+  final MenuProdutosRepository repository =
+      Get.put(MenuProdutosRepository()); // Usando o repository
 
   //variaveis
-  List<CategoriaModel> categoriasProdutosMenu = []; // pegando os produtos do databse
+  List<CategoriaModel> categoriasProdutosMenu =
+      []; // pegando os produtos do databse
 
   var produtos = <CategoriaModel>[].obs;
   var produtoIndex = 0.obs;
-  //var produtosWidgets = <Widget>[].obs;
-  var isLoading = false.obs;
+  var isLoading = true.obs;
 
   //metodos
   void setProdutoIndex(int index) {
@@ -27,16 +30,15 @@ class MenuProdutosController extends GetxController {
     print('Produto atualizado!');
   }
 
-
   Future getCategoriasRepository() async {
     isLoading.value = true;
     categoriasProdutosMenu = await repository.fetchCategorias();
     isLoading.value = false;
+    print(categoriasProdutosMenu);
   }
 
-
   Future initPage() async {
-    if (isLoading.value){
+    if (isLoading.value) {
       print('Carregou!');
     } else {
       print('\nainda carregando......');
@@ -48,14 +50,7 @@ class MenuProdutosController extends GetxController {
     super.onInit();
     getCategoriasRepository();
   }
-
-
-
-
-
-
 }
-
 
 class ProdutosDetails extends StatelessWidget {
   final String nome;

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,6 +15,15 @@ import '../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import 'CardProdutosFiltrados.dart';
 
+//TODO SPLASH PAGE CARREGANDO
+
+// TODO CARDAPIO FIX
+
+// TODO CARDAPIO DEPLOY QRCODE
+
+//TODO BOTTOM SHEET
+
+// TODO ITEM PAGE DETAILS
 
 class MenuTabBarCardapio extends StatefulWidget {
   const MenuTabBarCardapio({super.key});
@@ -21,9 +32,11 @@ class MenuTabBarCardapio extends StatefulWidget {
   State<MenuTabBarCardapio> createState() => _MenuTabBarCardapioState();
 }
 
-class _MenuTabBarCardapioState extends State<MenuTabBarCardapio> with TickerProviderStateMixin{
+class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
+    with TickerProviderStateMixin {
   late TabController _tabController;
-  final MenuProdutosController menuController = Get.put(MenuProdutosController());
+  final MenuProdutosController menuController =
+      Get.put(MenuProdutosController());
 
   @override
   void initState() {
@@ -34,29 +47,37 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio> with TickerProv
 
   @override
   Widget build(BuildContext context) {
-
     return Obx(() {
       if (menuController.isLoading.value) {
-        return Center(child: CircularProgressIndicator());
+        return Center(
+            child: Column(
+          children: [
+            CircularProgressIndicator(),
+            CustomText(
+                text: 'Carregou? = ${menuController.isLoading.value}',
+                size: 16),
+          ],
+        ));
       } else {
         return buildTabBarLayout();
       }
     });
   }
 
+  //! Layout
   Widget buildTabBarLayout() {
     return Column(
       children: [
-
-        CustomText(text: 'MENU REFATORADO!'),
-
         _buildHeader(),
         TabBarScrollCardapioCategorias(),
-        TabBarViewCardapioProdutosDetails(),
+        CustomText(text: 'Escolha entre os produtos: {produto.nome}'),
+        displayProdutos(2),
+        //Expanded(          child: TabBarViewCardapioProdutosDetails(),        )
       ],
     );
   }
 
+  //! Menu Scroll Lateral
   Widget _buildHeader() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
@@ -69,7 +90,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio> with TickerProv
                 title: Text('ola'),
               );
             },
-            icon:  IconePersonalizado(tipo: Icons.menu),
+            icon: IconePersonalizado(tipo: Icons.menu),
           ),
           const SizedBox(width: 16),
           const CustomText(
@@ -77,35 +98,36 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio> with TickerProv
             size: 24,
             weight: FontWeight.bold,
           ),
-          Divider(color: Colors.black,)
-
+          Divider(
+            color: Colors.black,
+          )
         ],
       ),
     );
   }
 
-
-  Widget TabBarScrollCardapioCategorias()  {
+  Widget TabBarScrollCardapioCategorias() {
     final menuController = Get.find<MenuProdutosController>();
     final MenuProdutosRepository repository = Get.put(MenuProdutosRepository());
 
     //var categoriasProdutos =  repository.fetchCategorias();
 
-
     return Container(
-      margin: const EdgeInsets.all(6),
-      height: 130,
+      margin: EdgeInsets.all(6),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [CupertinoColors.activeOrange, CupertinoColors.systemYellow.darkHighContrastElevatedColor],
+          colors: [
+            CupertinoColors.activeOrange,
+            CupertinoColors.systemYellow.darkHighContrastElevatedColor
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            offset: const Offset(0.7, 1),
+            offset: Offset(0.7, 1),
             blurRadius: 50,
             spreadRadius: 3,
             color: Colors.yellow,
@@ -118,11 +140,16 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio> with TickerProv
         labelPadding: const EdgeInsets.all(16),
         isScrollable: true,
         unselectedLabelColor: Colors.black,
-        indicator: CircleTabIndicator(color: Colors.purpleAccent.shade700, radius: 64),
+        indicator:
+            CircleTabIndicator(color: Colors.purpleAccent.shade700, radius: 64),
         tabs: [
-          for (var index = 0; index < menuController.categoriasProdutosMenu.length; index++)
-            _buildTabBarMenuGradiente( menuController.categoriasProdutosMenu[index].nome,  menuController.categoriasProdutosMenu[index].iconPath,index)
-
+          for (var index = 0;
+              index < menuController.categoriasProdutosMenu.length;
+              index++)
+            _buildTabBarMenuGradiente(
+                menuController.categoriasProdutosMenu[index].nome,
+                menuController.categoriasProdutosMenu[index].iconPath,
+                index)
         ],
       ),
     );
@@ -137,26 +164,30 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio> with TickerProv
       return GestureDetector(
         onTap: () {
           menuController.setProdutoIndex(index);
-          _tabController.animateTo(index);  // Adicione isso para sincronizar com TabController
+          _tabController.animateTo(
+              index); // Adicione isso para sincronizar com TabController
         },
         child: Container(
           width: 120,
           height: 100,
-          margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
+          margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 5),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.white, width: 1),
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
                 offset: const Offset(0.5, 1),
-                blurRadius: 3,
+                blurRadius: 5,
                 spreadRadius: 2,
-                color: Colors.yellow.shade300,
+                color: Colors.yellow,
               ),
             ],
             gradient: isSelected
                 ? LinearGradient(colors: [Colors.greenAccent, Colors.green])
-                : LinearGradient(colors: [Colors.deepPurple.shade100, CupertinoColors.activeBlue.highContrastElevatedColor]),
+                : LinearGradient(colors: [
+                    Colors.deepPurple.shade100,
+                    CupertinoColors.activeBlue.highContrastElevatedColor
+                  ]),
           ),
           child: Center(
             child: CustomTab(
@@ -170,43 +201,46 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio> with TickerProv
     });
   }
 
-
-  // TODO CARDS PRODUTOS
+  //! CARDS PRODUTOS
   Widget TabBarViewCardapioProdutosDetails() {
+    var categoriaSelecionada = menuController
+        .categoriasProdutosMenu[menuController.produtoIndex.value];
 
-    var categoriaSelecionada =  menuController.categoriasProdutosMenu[menuController.produtoIndex.value];
-
-    return  Container(
+    return Container(
       margin: const EdgeInsets.all(6),
-      height: 800,
-      color: Colors.white,
+      height: 500,
+      width: 500,
       child: TabBarView(
-
         controller: _tabController,
         children: [
-
           //1
           FolearCardapioDigital(
-
             content: displayProdutosFiltradosCategoria('Pizzas'),
             onPageChanged: (int index) {
               final menuController = Get.find<MenuProdutosController>();
               menuController.setProdutoIndex(index);
               _tabController.animateTo(index);
-            },),
+            },
+          ),
 
           //2
           FolearCardapioDigital(
-            content: Container(color: Colors.greenAccent,child: CardProdutosFiltrados()  ,),
+            content: Container(
+              color: Colors.greenAccent,
+              child: CardProdutosFiltrados(),
+            ),
             onPageChanged: (int index) {
               final menuController = Get.find<MenuProdutosController>();
               menuController.setProdutoIndex(index);
               _tabController.animateTo(index);
-            },),
+            },
+          ),
 
           //3
-          Obx(() => CardProdutoCardapioSelecionado(produtoSelecionado: menuController.categoriasProdutosMenu[menuController.produtoIndex.value].nome)),
-
+          Obx(() => CardProdutoCardapioSelecionado(
+              produtoSelecionado: menuController
+                  .categoriasProdutosMenu[menuController.produtoIndex.value]
+                  .nome)),
 
           //4
           FolearCardapioDigital(
@@ -217,8 +251,8 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio> with TickerProv
               final menuController = Get.find<MenuProdutosController>();
               menuController.setProdutoIndex(index);
               _tabController.animateTo(index);
-            },),
-
+            },
+          ),
 
           //5
           FolearCardapioDigital(
@@ -230,17 +264,20 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio> with TickerProv
               final menuController = Get.find<MenuProdutosController>();
               menuController.setProdutoIndex(index);
               _tabController.animateTo(index);
-            },),
-        ],),
+            },
+          ),
+        ],
+      ),
     );
   }
 
   Widget displayProdutosFiltradosCategoria(String categoria) {
-    final RepositoryDataBaseController _repositoryController = Get.find<RepositoryDataBaseController>();
-
+    final RepositoryDataBaseController _repositoryController =
+        Get.put(RepositoryDataBaseController());
     return FutureBuilder<List<ProdutoModel>>(
       future: _repositoryController.filtrarCategoria(categoria),
-      builder: (BuildContext context, AsyncSnapshot<List<ProdutoModel>> snapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<List<ProdutoModel>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         } else if (snapshot.hasError) {
@@ -252,8 +289,10 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio> with TickerProv
               var produto = snapshot.data![index];
               return ListTile(
                 title: Text(produto.nome),
-                subtitle: Text('Ingredientes: ${produto.ingredientes?.join(', ')}'),
-                trailing: Text('Preços: ${produto.precos.map((p) => p['preco']).join(', ')}'),
+                subtitle:
+                    Text('Ingredientes: ${produto.ingredientes?.join(', ')}'),
+                trailing: Text(
+                    'Preços: ${produto.precos.map((p) => p['preco']).join(', ')}'),
               );
             },
           );
@@ -263,8 +302,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio> with TickerProv
       },
     );
   }
-
-
 
   Widget displayProdutos(int index) {
     final menuController = Get.find<MenuProdutosController>();
@@ -278,17 +315,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio> with TickerProv
     );
   }
 
-
-
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
-
-
-
-
 }
-
-

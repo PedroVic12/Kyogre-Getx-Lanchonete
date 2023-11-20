@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomAppBar.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Design/rounded_appbar.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/menu_tab_bar_widget.dart';
 
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
 import '../../../models/DataBaseController/DataBaseController.dart';
@@ -27,8 +29,6 @@ import '../Carrinho/modalCarrinho.dart';
 * glass_kit
 * */
 
-
-
 class TelaCardapioDigital extends StatefulWidget {
   final String id;
   const TelaCardapioDigital({super.key, required this.id});
@@ -38,19 +38,16 @@ class TelaCardapioDigital extends StatefulWidget {
 }
 
 class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
-
   //variaveis dinamicas
   late String nomeCliente = "";
   late String telefoneCliente = "";
   late String idPedido = "";
 
-
   //controllers
   final DataBaseController _dataBaseController = DataBaseController();
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
-  final RepositoryDataBaseController _repositoryController = Get.put(RepositoryDataBaseController());
-
-
+  final RepositoryDataBaseController _repositoryController =
+      Get.put(RepositoryDataBaseController());
 
   @override
   void initState() {
@@ -58,11 +55,10 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
     fetchClienteNome(widget.id);
   }
 
-
   Widget pegarDadosCliente() {
     return Column(
       children: [
-        Text('Dados do Cliente: '),
+        const Text('Dados do Cliente: '),
         Text('ID do Pedido: ${idPedido}'),
         Text('Nome do Cliente: $nomeCliente'),
         Text('Telefone do Cliente: $telefoneCliente'),
@@ -99,12 +95,11 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     //controllers
-    final MenuProdutosController menuController =   Get.put(MenuProdutosController());
+    final MenuProdutosController menuController =
+        Get.put(MenuProdutosController());
     final CatalogoProdutosController _controller = CatalogoProdutosController();
 
     // Variaveis
@@ -116,32 +111,31 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
           id: widget.id,
         ),
         body: Center(
-        child: Column(children: [
+          child: Column(children: [
+            pegarDadosCliente(),
 
-        pegarDadosCliente(),
+            const MenuTabBarCardapio(),
 
-          TabBarWidget(),
+            botaoVerCarrinho(),
 
-          botaoVerCarrinho(),
-
-          //Container(            height: 150,            child: BarraInferiorPedido(),          )
-        ]
-
-    ),),
-          floatingActionButton: FloatingActionButton(
-          child: Text('Abrir'),
-    onPressed: () => Get.bottomSheet(
-    BottomSheetWidget(
-    nomeCliente: nomeCliente,
-    telefoneCliente: telefoneCliente,
-    id: widget.id,
-    ),
-    ),));
+            //Container(            height: 150,            child: BarraInferiorPedido(),          )
+          ]),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: const Text('Abrir'),
+          onPressed: () => Get.bottomSheet(
+            BottomSheetWidget(
+              nomeCliente: nomeCliente,
+              telefoneCliente: telefoneCliente,
+              id: widget.id,
+            ),
+          ),
+        ));
   }
 
-  Widget botaoVerCarrinho(){
-    return  Padding(
-        padding: EdgeInsets.all(8),
+  Widget botaoVerCarrinho() {
+    return Padding(
+        padding: const EdgeInsets.all(8),
         child: SizedBox(
             height: 50,
             width: 200,
@@ -149,11 +143,8 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
                 onPressed: () {
                   carrinhoController.setClienteDetails(
                       nomeCliente, telefoneCliente, widget.id);
-                  Get.to(CarrinhoPage(), arguments: [
-                    nomeCliente,
-                    telefoneCliente,
-                    widget.id
-                  ]);
+                  Get.to(CarrinhoPage(),
+                      arguments: [nomeCliente, telefoneCliente, widget.id]);
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: CupertinoColors.activeBlue,
@@ -164,7 +155,4 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
                   style: TextStyle(fontSize: 22),
                 ))));
   }
-
-
 }
-

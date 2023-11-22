@@ -2,6 +2,7 @@
   {
     "nome": "X - TUDO",
     "categoria": "Hamburguer",
+    "subCategoria": "Tradicional",
     "precos": [
       {"preco_1": 40.0, "descricao": "P"},
       {"preco_2": 55.0, "descricao": "M"}
@@ -13,6 +14,7 @@
   {
     "nome": "Double Cheese",
     "categoria": "Hamburguer",
+    "subCategoria": "Tradicional",
     "precos": [
       {"preco_1": 40.0, "descricao": "P"},
       {"preco_2": 75.0, "descricao": "M"}

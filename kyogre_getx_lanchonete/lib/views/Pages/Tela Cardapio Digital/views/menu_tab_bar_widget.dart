@@ -1,15 +1,16 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names
 
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/widget_tab.dart';
 
 import '../../../../app/widgets/Custom/CustomText.dart';
 import '../../../../models/DataBaseController/repository_db_controller.dart';
 import '../../../../models/DataBaseController/template/produtos_model.dart';
 import '../../CardapioDigital/MenuProdutos/Cards/card_produto_selecionado.dart';
-import '../../CardapioDigital/MenuProdutos/Tab Bar/views/folear_cardapio_produtos.dart';
-import '../../CardapioDigital/MenuProdutos/Tab Bar/widgets.dart';
 import '../../CardapioDigital/MenuProdutos/produtos_controller.dart';
 import '../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
@@ -35,47 +36,36 @@ class MenuTabBarCardapio extends StatefulWidget {
 class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  final MenuProdutosController menuController =
-      Get.put(MenuProdutosController());
 
   @override
   void initState() {
     super.initState();
+
     _tabController = TabController(length: 5, vsync: this);
     // Assuma que o carregamento dos dados é iniciado em MenuProdutosController.onInit
   }
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      if (menuController.isLoading.value) {
-        return Center(
-            child: Column(
-          children: [
-            CircularProgressIndicator(),
-            CustomText(
-                text: 'Carregou? = ${menuController.isLoading.value}',
-                size: 16),
-          ],
-        ));
-      } else {
-        return buildTabBarLayout();
-      }
-    });
-  }
 
-  //! Layout
-  Widget buildTabBarLayout() {
-    return Column(
+
+
+    return      Column(
       children: [
+
+        // Menu Tab Scrol Gradiente
         _buildHeader(),
         TabBarScrollCardapioCategorias(),
-        CustomText(text: 'Escolha entre os produtos: {produto.nome}'),
-        displayProdutos(2),
-        //Expanded(          child: TabBarViewCardapioProdutosDetails(),        )
+
+
+        // TabView
+        TabBarViewCardapioProdutosDetails(),
+
       ],
     );
+
   }
+
 
   //! Menu Scroll Lateral
   Widget _buildHeader() {
@@ -107,10 +97,10 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   }
 
   Widget TabBarScrollCardapioCategorias() {
-    final menuController = Get.find<MenuProdutosController>();
-    final MenuProdutosRepository repository = Get.put(MenuProdutosRepository());
+    
+    final menuRepositoryCategorias = Get.find<MenuProdutosRepository>();
 
-    //var categoriasProdutos =  repository.fetchCategorias();
+   var categorias_array =  menuRepositoryCategorias.MenuCategorias_Array;
 
     return Container(
       margin: EdgeInsets.all(6),
@@ -140,15 +130,12 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         labelPadding: const EdgeInsets.all(16),
         isScrollable: true,
         unselectedLabelColor: Colors.black,
-        indicator:
-            CircleTabIndicator(color: Colors.purpleAccent.shade700, radius: 64),
+        indicator: CircleTabIndicator(color: Colors.purpleAccent,radius: 72.0),
         tabs: [
-          for (var index = 0;
-              index < menuController.categoriasProdutosMenu.length;
-              index++)
+          for (var index = 0;  index < categorias_array.length; index++)
             _buildTabBarMenuGradiente(
-                menuController.categoriasProdutosMenu[index].nome,
-                menuController.categoriasProdutosMenu[index].iconPath,
+                categorias_array[index].nome,
+                categorias_array[index].iconPath,
                 index)
         ],
       ),
@@ -203,115 +190,34 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
   //! CARDS PRODUTOS
   Widget TabBarViewCardapioProdutosDetails() {
-    var categoriaSelecionada = menuController
-        .categoriasProdutosMenu[menuController.produtoIndex.value];
+
+    final MenuProdutosController menuController =Get.find<MenuProdutosController>();
+    final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
+
+
+    // Use MediaQuery para obter o tamanho da tela
+    final screenSize = MediaQuery.of(context).size;
+
+    var categoria = menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome;
 
     return Container(
-      margin: const EdgeInsets.all(6),
-      height: 500,
-      width: 500,
-      child: TabBarView(
+      padding: EdgeInsets.all(screenSize.height * 0.02), // Exemplo de uso de tamanho relativo
+      width: screenSize.width,
+      height: screenSize.height,
+
+      child:   TabBarView(
         controller: _tabController,
         children: [
-          //1
-          FolearCardapioDigital(
-            content: displayProdutosFiltradosCategoria('Pizzas'),
-            onPageChanged: (int index) {
-              final menuController = Get.find<MenuProdutosController>();
-              menuController.setProdutoIndex(index);
-              _tabController.animateTo(index);
-            },
-          ),
 
-          //2
-          FolearCardapioDigital(
-            content: Container(
-              color: Colors.greenAccent,
-              child: CardProdutosFiltrados(),
-            ),
-            onPageChanged: (int index) {
-              final menuController = Get.find<MenuProdutosController>();
-              menuController.setProdutoIndex(index);
-              _tabController.animateTo(index);
-            },
-          ),
+          CardProdutoCardapioSelecionado(produtoSelecionado: 'Hamburguer'),
+          CardProdutosFiltrados(categoria_selecionada: 'Hamburguer'),
+          CardProdutoCardapioSelecionado(produtoSelecionado: 'Pizzas'),
+          CardProdutosFiltrados(categoria_selecionada: categoria),
+          CardProdutosFiltrados(categoria_selecionada: categoria),
 
-          //3
-          Obx(() => CardProdutoCardapioSelecionado(
-              produtoSelecionado: menuController
-                  .categoriasProdutosMenu[menuController.produtoIndex.value]
-                  .nome)),
-
-          //4
-          FolearCardapioDigital(
-            content: CardProdutoCardapioSelecionado(
-              produtoSelecionado: categoriaSelecionada.nome,
-            ),
-            onPageChanged: (int index) {
-              final menuController = Get.find<MenuProdutosController>();
-              menuController.setProdutoIndex(index);
-              _tabController.animateTo(index);
-            },
-          ),
-
-          //5
-          FolearCardapioDigital(
-            content: CardProdutoCardapioSelecionado(
-              produtoSelecionado: 'Hamburguer',
-              //produtoSelecionado: categoriaSelecionada.nome,
-            ),
-            onPageChanged: (int index) {
-              final menuController = Get.find<MenuProdutosController>();
-              menuController.setProdutoIndex(index);
-              _tabController.animateTo(index);
-            },
-          ),
         ],
       ),
-    );
-  }
 
-  Widget displayProdutosFiltradosCategoria(String categoria) {
-    final RepositoryDataBaseController _repositoryController =
-        Get.put(RepositoryDataBaseController());
-    return FutureBuilder<List<ProdutoModel>>(
-      future: _repositoryController.filtrarCategoria(categoria),
-      builder:
-          (BuildContext context, AsyncSnapshot<List<ProdutoModel>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Erro: ${snapshot.error}');
-        } else if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              var produto = snapshot.data![index];
-              return ListTile(
-                title: Text(produto.nome),
-                subtitle:
-                    Text('Ingredientes: ${produto.ingredientes?.join(', ')}'),
-                trailing: Text(
-                    'Preços: ${produto.precos.map((p) => p['preco']).join(', ')}'),
-              );
-            },
-          );
-        } else {
-          return Text('Nenhum dado disponível');
-        }
-      },
-    );
-  }
-
-  Widget displayProdutos(int index) {
-    final menuController = Get.find<MenuProdutosController>();
-    var produto = menuController.categoriasProdutosMenu[index];
-
-    return Center(
-      child: Text(
-        'Produto: ${produto.nome}',
-        style: TextStyle(fontSize: 24, color: Colors.white),
-      ),
     );
   }
 

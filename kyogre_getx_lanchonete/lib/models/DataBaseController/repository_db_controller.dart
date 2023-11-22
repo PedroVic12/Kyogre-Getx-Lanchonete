@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produtos_model.dart';
 
-class RepositoryDataBaseController {
-
+class RepositoryDataBaseController extends GetxController {
   // Variaveis
   final String sanduicheTradicionalFile = 'lib/repository/cardapio_1.json';
   final String acaiFile = 'lib/repository/cardapio_2.json';
@@ -14,7 +14,17 @@ class RepositoryDataBaseController {
   final String pizzasFile = 'lib/models/DataBaseController/models/pizzas.json';
 
   List<List<ProdutoModel>> dataBase_Array = [];
-  bool isLoading = false;
+  bool isLoading = true; // <---- Change this to false after loading data
+  List<ProdutoModel> produtosFiltrados = [];
+
+  Future loadData() async {
+    // Garantir que os produtos estão carregados
+    if (isLoading == true) {
+      await fetchAllProducts();
+      isLoading = false;
+    }
+    update();
+  }
 
   // Metodos JSON
   Future<List<ProdutoModel>> lerArquivoJson(String filePath) async {
@@ -41,24 +51,14 @@ class RepositoryDataBaseController {
     // dataBase_Array.add(await lerArquivoJson(acaiFile));
     // dataBase_Array.add(await lerArquivoJson(petiscosFile));
 
-    isLoading = true;
     print('Database carregado!');
+    isLoading = false;
     return dataBase_Array;
   }
 
-  String get dataBaseArrayJson {
-    return jsonEncode(dataBase_Array.map((lista) => lista.map((produto) => produto.toJson()).toList()).toList());
-  }
-
   Future<List<ProdutoModel>> filtrarCategoria(String categoriaDesejada) async {
-    // Garantir que os produtos estão carregados
-    if (!isLoading) {
-      await fetchAllProducts();
-    }
-
-
     // Filtrar todos os produtos da categoria desejada
-    List<ProdutoModel> produtosFiltrados = dataBase_Array
+    produtosFiltrados = await dataBase_Array
         .expand((lista) => lista)
         .where((produto) => produto.categoria == categoriaDesejada)
         .toList();
@@ -66,23 +66,13 @@ class RepositoryDataBaseController {
     return produtosFiltrados;
   }
 
-
   void ordenarPorNome(List<ProdutoModel> produtos) {
     produtos.sort((a, b) => a.nome.compareTo(b.nome));
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
+  String get dataBaseArrayJson {
+    return jsonEncode(dataBase_Array.map((lista) => lista.map((produto) => produto.toJson()).toList()).toList());
+  }
 
   String formatarProdutosArray(List<List<ProdutoModel>> dataBase_Array) {
     return dataBase_Array.expand((lista) => lista).map((produto) {
@@ -93,6 +83,4 @@ class RepositoryDataBaseController {
   String formatarProduto(ProdutoModel produto) {
     return 'Produto: ${produto.nome}, Categoria: ${produto.categoria}, Preços: ${produto.precos.map((p) => '${p['descricao']}: ${p['preco']}').join(', ')}, Ingredientes: ${produto.ingredientes?.join(', ') ?? 'N/A'}, Imagem: ${produto.imagem ?? 'N/A'}';
   }
-
-
 }

@@ -1,22 +1,15 @@
+import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomAppBar.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
-import 'package:kyogre_getx_lanchonete/app/widgets/Design/rounded_appbar.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/menu_tab_bar_widget.dart';
-
-import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
 import '../../../models/DataBaseController/DataBaseController.dart';
-import '../../../models/DataBaseController/models/pizza.dart';
 import '../../../models/DataBaseController/repository_db_controller.dart';
-import '../../../models/DataBaseController/template/produtos_model.dart';
-import '../CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
-import '../CardapioDigital/MenuProdutos/Cards/card_produto_selecionado.dart';
-import '../CardapioDigital/MenuProdutos/Tab Bar/tab_bar_widget.dart';
 import '../CardapioDigital/MenuProdutos/produtos_controller.dart';
 import '../Carrinho/CarrinhoController.dart';
 import '../Carrinho/CarrinhoPage.dart';
@@ -43,16 +36,35 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   late String telefoneCliente = "";
   late String idPedido = "";
 
-  //controllers
   final DataBaseController _dataBaseController = DataBaseController();
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
-  final RepositoryDataBaseController _repositoryController =
-      Get.put(RepositoryDataBaseController());
+
+  //controllers
+  final MenuProdutosController menuController =Get.put(MenuProdutosController());
+  final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
+  final RepositoryDataBaseController _repositoryController =Get.put(RepositoryDataBaseController());
+
+
+  final _productsLoader = Completer<void>();
+
+  // funcoes
+
+  Future<void> loadProducts() async {
+
+    await menuCategorias.getCategoriasRepository();
+    await _repositoryController.loadData();
+
+    await Future.delayed(Duration(seconds: 3));
+    _productsLoader.complete(); // Complete o completer após o carregamento.
+
+  }
 
   @override
   void initState() {
     super.initState();
+
     fetchClienteNome(widget.id);
+    loadProducts();
   }
 
   Widget pegarDadosCliente() {
@@ -97,29 +109,32 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
 
   @override
   Widget build(BuildContext context) {
-    //controllers
-    final MenuProdutosController menuController =
-        Get.put(MenuProdutosController());
-    final CatalogoProdutosController _controller = CatalogoProdutosController();
 
     // Variaveis
     List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
+
+
 
     return Scaffold(
         backgroundColor: Colors.red,
         appBar: CustomAppBar(
           id: widget.id,
         ),
-        body: Center(
-          child: Column(children: [
+        body:Center(
+
+          child: ListView(children: [
             pegarDadosCliente(),
 
-            const MenuTabBarCardapio(),
-
-            botaoVerCarrinho(),
+            Obx(() => menuCategorias.isLoading.value ? const Card(
+              child:  Column(children: [
+                CustomText(text: 'Carregando...'),
+                CircularProgressIndicator()
+              ],),) : const MenuTabBarCardapio(),),
 
             //Container(            height: 150,            child: BarraInferiorPedido(),          )
+            botaoVerCarrinho(),
           ]),
+
         ),
         floatingActionButton: FloatingActionButton(
           child: const Text('Abrir'),
@@ -131,6 +146,25 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
             ),
           ),
         ));
+  }
+
+
+  Widget _indexProdutoSelecionado() {
+    final MenuProdutosController menuController =Get.find<MenuProdutosController>();
+
+    return Container(
+        color: Colors.black,
+        child: Obx(() => Center(
+            child: Column(
+              children: [
+                CustomText(
+                  text: 'item selecionado = ${menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome}',
+                  color: Colors.white,
+                  size: 18,
+                ),
+
+              ],
+            ))));
   }
 
   Widget botaoVerCarrinho() {

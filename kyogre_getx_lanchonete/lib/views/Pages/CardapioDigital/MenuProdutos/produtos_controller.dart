@@ -11,17 +11,13 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/
 import 'repository/produtos_model.dart';
 
 class MenuProdutosController extends GetxController {
-  //controladores
-  final MenuProdutosRepository repository =
-      Get.put(MenuProdutosRepository()); // Usando o repository
 
   //variaveis
-  List<CategoriaModel> categoriasProdutosMenu =
-      []; // pegando os produtos do databse
+  List<CategoriaModel> categorias =[]; // pegando os produtos do databse
 
   var produtos = <CategoriaModel>[].obs;
   var produtoIndex = 0.obs;
-  var isLoading = true.obs;
+
 
   //metodos
   void setProdutoIndex(int index) {
@@ -30,25 +26,11 @@ class MenuProdutosController extends GetxController {
     print('Produto atualizado!');
   }
 
-  Future getCategoriasRepository() async {
-    isLoading.value = true;
-    categoriasProdutosMenu = await repository.fetchCategorias();
-    isLoading.value = false;
-    print(categoriasProdutosMenu);
-  }
 
-  Future initPage() async {
-    if (isLoading.value) {
-      print('Carregou!');
-    } else {
-      print('\nainda carregando......');
-    }
-  }
 
   @override
   void onInit() {
     super.onInit();
-    getCategoriasRepository();
   }
 }
 

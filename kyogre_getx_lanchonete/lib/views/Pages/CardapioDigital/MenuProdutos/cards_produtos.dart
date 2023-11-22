@@ -35,7 +35,6 @@ class _DetalhesProdutosCardState extends State<DetalhesProdutosCard> {
 
   Future<void> loadProducts() async {
     await Future.delayed(Duration(seconds: 1));
-    menuController.isLoading.value = false;
     _productsLoader.complete(); // Complete o completer após o carregamento.
   }
 

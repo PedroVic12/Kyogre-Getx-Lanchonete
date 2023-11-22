@@ -1,16 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 
-class MenuProdutosRepository {
-  final List<CategoriaModel> categoriasCardapioProdutos = [];
+class MenuProdutosRepository extends GetxController{
+  final List<CategoriaModel> MenuCategorias_Array = [];
+  
+  //define oc carregamneto
+  var isLoading = true.obs;
 
+  Future getCategoriasRepository() async {
+    isLoading.value = true;
+    await fetchCategorias();
+
+    if (MenuCategorias_Array.isNotEmpty){
+      MenuCategorias_Array.forEach((element) {
+        print('Categoria = ${element.nome}');
+      });
+
+      isLoading.value = false;
+    }
+
+    update();
+    return isLoading;
+  }
+  
+  
   List<CategoriaModel> fetchCategorias()  {
 
-    categoriasCardapioProdutos.clear();
+    MenuCategorias_Array.clear();
 
-    if (categoriasCardapioProdutos.isEmpty) {
+    if (MenuCategorias_Array.isEmpty) {
       // Adicione itens apenas se a lista estiver vazia para evitar duplicatas
-      categoriasCardapioProdutos.addAll([
+      MenuCategorias_Array.addAll([
 
         CategoriaModel(
             nome: 'Sanduiches',
@@ -39,6 +60,6 @@ class MenuProdutosRepository {
             boxColor: Colors.purple.shade300),
       ]);
     }
-    return categoriasCardapioProdutos;
+    return MenuCategorias_Array;
   }
 }

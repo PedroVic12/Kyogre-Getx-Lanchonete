@@ -59,8 +59,7 @@ class CardProdutoCardapioSelecionado extends StatelessWidget {
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomText(
-                            text:'Preços: ${produto.precos.map((p) => p['preco']).join(', ')}', size: 16,color: Colors.green,weight: FontWeight.bold,),
+                        CustomText(text:'Preços: ${produto.precos.map((p) => p['preco']).join(', ')}', size: 16,color: Colors.green,weight: FontWeight.bold,),
                       ],
                     ),
                     leading: CircleAvatar(radius: 32,child: Icon(Icons.fastfood),),

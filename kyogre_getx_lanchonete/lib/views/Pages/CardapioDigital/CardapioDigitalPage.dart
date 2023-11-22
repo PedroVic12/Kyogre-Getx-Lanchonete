@@ -9,7 +9,6 @@ import 'package:kyogre_getx_lanchonete/models/DataBaseController/Views/produtos_
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/models/pizza.dart';
 
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/Tab%20Bar/tab_bar_widget.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/cards_produtos.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
@@ -20,7 +19,6 @@ import '../../../app/widgets/Custom/CustomText.dart';
 import '../../../models/DataBaseController/repository_db_controller.dart';
 import '../../../models/DataBaseController/template/produtos_model.dart';
 import 'MenuProdutos/Cards/card_produto_selecionado.dart';
-import 'MenuProdutos/animation/simple_tab_bar_example.dart';
 
 /*
 * Paleta de Cores : #ff8c00 , #f2ff00, # ff0d00
@@ -123,22 +121,9 @@ class _DetailsPageState extends State<DetailsPage> {
 
           //_carregandoProdutos(),
 
-          ElevatedButton(
-              onPressed: () {
-                Get.to(MySimpleTabBarWidget());
-              },
-              child: Text('Tab Bar')),
-
-          TabBarWidget(),
 
           _indexProdutoSelecionado(),
 
-          Obx(
-            () => CardProdutoCardapioSelecionado(
-                produtoSelecionado: menuController
-                    .categoriasProdutosMenu[menuController.produtoIndex.value]
-                    .nome),
-          ),
 
           Container(
             height: 200,
@@ -246,8 +231,7 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
   Widget _indexProdutoSelecionado() {
-    final MenuProdutosController menuController =
-        Get.find<MenuProdutosController>();
+    final MenuProdutosController menuController =Get.find<MenuProdutosController>();
 
     return Container(
         color: Colors.black,
@@ -258,11 +242,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   text: 'item selecionado = ${menuController.produtoIndex}',
                   color: Colors.white,
                 ),
-                CustomText(
-                  text:
-                      'item selecionado = ${menuController.categoriasProdutosMenu[menuController.produtoIndex.value].nome}',
-                  color: Colors.white,
-                ),
+
               ],
             ))));
   }

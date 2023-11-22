@@ -117,8 +117,7 @@ class SplashController extends GetxController {
   }
 
   void carregarDadosDoCardapio() async {
-    MenuProdutosController menuProdutosController =
-        Get.put(MenuProdutosController());
+    final MenuProdutosRepository repository = Get.put(MenuProdutosRepository());
 
     try {
       // pega ID
@@ -131,14 +130,14 @@ class SplashController extends GetxController {
     }
 
     try {
-      await menuProdutosController.getCategoriasRepository();
+      await repository.getCategoriasRepository();
 
       // Após o carregamento, navegar para a tela do cardápio
-      if (menuProdutosController.isLoading.value) {
+      if (repository.isLoading.value) {
         navegarSemDelay();
 
-        print('Navegou = ${menuProdutosController.isLoading.value}');
-        print(menuProdutosController.categoriasProdutosMenu);
+        print('Navegou = ${repository.isLoading.value}');
+        print(repository.MenuCategorias_Array);
       } else {
         print('\n\n\n Carregando os dados....');
       }

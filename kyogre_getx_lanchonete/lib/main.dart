@@ -15,6 +15,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/SplashScreen/splash_screen_pa
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/TelaCardapioDigital.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/menu_tab_bar_widget.dart';
 
+import 'controllers/binding.dart';
 import 'views/Pages/Caos/caos_page.dart';
 import 'views/Pages/DashBoard/Pedido/PedidoController.dart';
 
@@ -39,6 +40,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       //initialRoute: '/splash',
+
+      initialBinding: GlobalBindings(),
 
       // TODO Navegação Padrão
       getPages: [

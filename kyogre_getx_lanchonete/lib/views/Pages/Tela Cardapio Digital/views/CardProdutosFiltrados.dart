@@ -26,7 +26,6 @@ class CardProdutosFiltrados extends StatelessWidget {
     final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
     final MenuProdutosController menuController =Get.find<MenuProdutosController>();
 
-    // Certifique-se de que repositoryController.dataBase_Array contém os dados desejados
     var produtos = repositoryController.dataBase_Array;
     var nome_categoria_selecionada = menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome;
     final screenSize = MediaQuery.of(context).size;
@@ -72,7 +71,15 @@ class CardProdutosFiltrados extends StatelessWidget {
   Widget displayProdutosFiltradosCategoria(String categoria) {
     final RepositoryDataBaseController repositoryController =Get.find<RepositoryDataBaseController>();
 
+
+    //TODO ESPERAR TUDO CARREGAR AQUI TAMBEM
+
+
+
     var produtosFiltrados =  repositoryController.filtrarCategoria(categoria);
+
+
+      print('DEBUB = ${produtosFiltrados[2].categoria}');
 
 
     // Exibir um indicador de carregamento enquanto os produtos estão sendo filtrados

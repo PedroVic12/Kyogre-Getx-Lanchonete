@@ -50,7 +50,7 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
           double _cardWidth = constraints.maxWidth / 4;
 
           return FutureBuilder<dynamic>(
-            future: readJsonFile('lib/repository/db_template.json'),
+            future: readJsonFile('lib/repository/pedido_template.json'),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {

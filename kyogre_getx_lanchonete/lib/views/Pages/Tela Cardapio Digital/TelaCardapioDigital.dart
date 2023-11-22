@@ -10,11 +10,13 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/menu_tab_bar_widget.dart';
 import '../../../models/DataBaseController/DataBaseController.dart';
+import '../../../models/DataBaseController/Views/repositoryView.dart';
 import '../../../models/DataBaseController/repository_db_controller.dart';
 import '../CardapioDigital/MenuProdutos/produtos_controller.dart';
 import '../Carrinho/CarrinhoController.dart';
 import '../Carrinho/CarrinhoPage.dart';
 import '../Carrinho/modalCarrinho.dart';
+import '../SplashScreen/splash_screen_page.dart';
 
 /*
 * Paleta de Cores : #ff8c00 , #f2ff00, # ff0d00
@@ -73,6 +75,11 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
       children: [
         const Text('Dados do Cliente: '),
         Text('ID do Pedido: ${idPedido}'),
+
+        ElevatedButton(onPressed: (){
+          Get.to(RepositoryListView());
+        }, child: Text('produdutos')),
+
         Text('Nome do Cliente: $nomeCliente'),
         Text('Telefone do Cliente: $telefoneCliente'),
       ],
@@ -109,54 +116,62 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
-
 
     // Variaveis
     List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
 
 
-
     if (kIsWeb) {
       // Comportamento específico para a Web
-      return   Scaffold(
-          backgroundColor: Colors.red,
-          appBar: CustomAppBar(
-            id: widget.id,
-          ),
-          body:Center(
-
-            child: ListView(children: [
-              pegarDadosCliente(),
-
-              Obx(() => menuCategorias.isLoading.value ? const Card(
-                child:  Column(children: [
-                  CustomText(text: 'Carregando menu Scrol...'),
-                  CircularProgressIndicator()
-                ],),) : const MenuTabBarCardapio(),),
-
-              //Container(            height: 150,            child: BarraInferiorPedido(),          )
-              botaoVerCarrinho(),
-            ]),
-
-          ),
-          floatingActionButton: FloatingActionButton(
-            child: const Text('Abrir'),
-            onPressed: () => Get.bottomSheet(
-              BottomSheetWidget(
-                nomeCliente: nomeCliente,
-                telefoneCliente: telefoneCliente,
-                id: widget.id,
-              ),
-            ),
-          ));
+      return buildWebPage();
     } else {
       // Comportamento para outras plataformas (móveis)
-      return Scaffold(
-        appBar: AppBar(title: Text("Cardapio QR Code.key Digital App"),
+      return buildAppVersion();
+    }
 
+
+  }
+
+Widget buildWebPage(){
+    return Scaffold(
+        backgroundColor: Colors.red,
+        appBar: CustomAppBar(
+          id: widget.id,
+        ),
+        body:Center(
+
+          child: ListView(children: [
+            pegarDadosCliente(),
+            Text('Visualizando em uma pagina WEB'),
+
+            Obx(() => menuCategorias.isLoading.value ? const Card(
+              child:  Column(children: [
+                CustomText(text: 'Carregando Menu Scroll Gradiente...'),
+                CircularProgressIndicator()
+              ],),) : const MenuTabBarCardapio(),),
+
+            //Container(            height: 150,            child: BarraInferiorPedido(),          )
+            botaoVerCarrinho(),
+          ]),
+
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: const Text('Abrir'),
+          onPressed: () => Get.bottomSheet(
+            BottomSheetWidget(
+              nomeCliente: nomeCliente,
+              telefoneCliente: telefoneCliente,
+              id: widget.id,
+            ),
+          ),
+        ));
+}
+
+  Widget buildAppVersion(){
+    return Scaffold(
+        appBar: AppBar(title: Text("Cardapio QR Code.key Digital App"),
         ),
 
         body: Center(
@@ -166,10 +181,8 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
             ],
           ),
         )
-      );
-    }
+    );
   }
-
 
 
   Widget _indexProdutoSelecionado() {

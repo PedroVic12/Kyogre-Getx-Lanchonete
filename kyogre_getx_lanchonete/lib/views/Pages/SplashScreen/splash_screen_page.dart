@@ -3,12 +3,11 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 
 import '../../../models/DataBaseController/repository_db_controller.dart';
-import '../CardapioDigital/MenuProdutos/produtos_controller.dart';
-import '../Tela Cardapio Digital/TelaCardapioDigital.dart';
-import '../Tela Cardapio Digital/controllers/cardapio_controller.dart';
+import '../../../models/DataBaseController/template/produtos_model.dart';
 import '../Tela Cardapio Digital/controllers/pikachu_controller.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -17,6 +16,9 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SplashController _controller = Get.put(SplashController());
+
+
+
 
     return Scaffold(
       backgroundColor: Colors.indigoAccent,
@@ -65,6 +67,12 @@ class SplashScreen extends StatelessWidget {
       ),
     );
   }
+  void _loadDataSuceess(titulo, msg){
+    Get.snackbar(titulo, msg,
+        showProgressIndicator: true,
+        isDismissible: true,
+        backgroundColor: Colors.cyan);
+  }
 
   Widget _buildLinhaDeIcones() {
     return Center(
@@ -73,18 +81,18 @@ class SplashScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomIcone(Icons.access_time),
-          CustomIcone(Icons.settings),
           CustomIcone(Icons.account_balance),
           CustomIcone(Icons.edit),
           CustomIcone(Icons.directions_bike),
+          CustomIcone(Icons.settings),
+          CustomIcone(Icons.wifi),
 
           buildSetupPage(),
 
-          CustomIcone(Icons.directions_boat),
-          CustomIcone(Icons.wifi),
           CustomIcone(Icons.restaurant),
+          CustomIcone(Icons.directions_boat),
+          CustomIcone(Icons.no_food),
           CustomIcone(Icons.table_restaurant_sharp),
-          CustomIcone(Icons.adb_rounded),
         ],
       ),
     );
@@ -99,29 +107,41 @@ class SplashScreen extends StatelessWidget {
   }
 
   Widget _buildAfterAnimation() {
-    return Text(
-      'OLA MUNDO',
-      style: TextStyle(fontSize: 32),
+
+    return Column(
+      children: [
+        CustomText(text: 'Dados Carregados', size: 32,)
+      ],
     );
   }
+
+
+
+
 
   Widget buildSetupPage(){
 
     final PikachuController controller = Get.put(PikachuController());
+    final SplashController splashController = Get.put(SplashController());
+    final RepositoryDataBaseController repository = Get.find<RepositoryDataBaseController>();
+
+
 
     return FutureBuilder(
       //future: controller.carregarPaginaWeb(),
-      future: controller.carregandoDados(),
+      future: splashController.carregandoDados(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return Obx(() => controller.pikachuInfo.isNotEmpty
+
+          return Obx(() => repository.dataBase_Array.isNotEmpty
               ? Column(
             children: [
-                  _buildAfterAnimation(),
+                    _buildAfterAnimation(),
+                    Text('ARRAY = ${repository.dataBase_Array}'),
                     Text('Pikachu: ${controller.pikachuInfo.value}'),
             ],
           )
-              : Text('Nenhum dado de Pikachu disponível.'));
+              : Text('Nenhum dado disponível.'));
         } else {
           return CircularProgressIndicator();
         }
@@ -130,49 +150,123 @@ class SplashScreen extends StatelessWidget {
   }
 }
 
+
+
+
 class SplashController extends GetxController {
   double marginAnimada = 0.0;
   bool isVisivel = false;
-  bool dadosCarregados = false;
+  var isLoadingData = false.obs;
   String id_cliente = '';
-
   final _productsLoader = Completer<void>();
 
   //controllers
-  final MenuProdutosController menuController =Get.put(MenuProdutosController());
   final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
   final RepositoryDataBaseController _repositoryController =Get.put(RepositoryDataBaseController());
 
+
+  void cout(msg){
+    print('\n\nDEBUG');
+    print('==================================================================================');
+    print(msg);
+    print('==================================================================================\n');
+  }
 
   @override
   void onReady() {
     super.onReady();
     isVisivel = true;
     marginAnimada = 250.0;
-    carregarDadosDoCardapio();
+    carregandoDados();
     update();
   }
 
-  Future<void> carregarDadosDoCardapio() async {
+  void loadDataSuccess(String title, String message) {
+    if (Get.isSnackbarOpen) {
+      Get.closeCurrentSnackbar();
+    }
+    Get.snackbar(
+      title,
+      message,
+      backgroundColor: Colors.cyan,
+      snackPosition: SnackPosition.TOP,
+    );
+  }
 
+
+  void loadingData() async {
+    //carregando
     await menuCategorias.getCategoriasRepository();
     await _repositoryController.loadData();
+    update();
 
-    await Future.delayed(const Duration(seconds: 3));
-    _productsLoader.complete(); // Complete o completer após o carregamento.
+    cout('Categorias = ${menuCategorias.MenuCategorias_Array}');
+    cout('Repository = ${_repositoryController.dataBase_Array}');
 
-    if (menuCategorias.isLoading.value){
+    //teste
+    var products =  _repositoryController.filtrarCategoria('Pizzas');
+
+    //debug
+    cout(products[0].categoria);
 
 
-      //await snackbar de boas vindas
+  }
+
+  Future<void> carregandoDados() async {
+    isLoadingData.value = true;
+    try {
+      loadingData();
+
+      var array_db = _repositoryController.dataBase_Array;
+
+      await Future.delayed(Duration(seconds: 2)); // Simulação de chamada de rede
+      _productsLoader.complete(); // Complete o completer após o carregamento.
+
+      // Simulando dados recebidos
+      if(array_db.isNotEmpty){
+        Future.delayed(Duration(seconds: 1), () {
+          loadDataSuccess('Repository Carregado com sucesso', '${array_db.length}');
+        });
+
+        isLoadingData.value = false;
+      }
+
+    } catch (e) {
+      print('\n\nErro ao carregar dados: $e');
+    } finally {
+
+      if(isLoadingData.value = false) {
+        navegarParaTelaCardapio();
+      }
 
 
-      navegarParaTelaCardapio();
     }
   }
+
+
 
   void navegarParaTelaCardapio() async {
     String id ='2023';
     Get.offNamed('/pedido/$id');
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

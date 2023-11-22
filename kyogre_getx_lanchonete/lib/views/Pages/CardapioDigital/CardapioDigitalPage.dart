@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/Views/produtos_display_listview.dart';
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/models/pizza.dart';
+import 'package:kyogre_getx_lanchonete/repository/models/pizza.dart';
 
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/cards_produtos.dart';
@@ -120,7 +120,6 @@ class _DetailsPageState extends State<DetailsPage> {
 
           //_carregandoProdutos(),
 
-
           _indexProdutoSelecionado(),
 
           botaoVerCarrinho()
@@ -180,7 +179,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 Container(
                     color: Colors.blueGrey,
                     child: Text(
-                        'Produtos JSON = ${_repositoryController.dataBaseArrayJson}')),
+                        'Produtos JSON = ${_repositoryController.dataBase_Array}')),
               ],
             ),
           );
@@ -190,7 +189,8 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
   Widget _indexProdutoSelecionado() {
-    final MenuProdutosController menuController =Get.find<MenuProdutosController>();
+    final MenuProdutosController menuController =
+        Get.find<MenuProdutosController>();
 
     return Container(
         color: Colors.black,
@@ -201,7 +201,6 @@ class _DetailsPageState extends State<DetailsPage> {
                   text: 'item selecionado = ${menuController.produtoIndex}',
                   color: Colors.white,
                 ),
-
               ],
             ))));
   }

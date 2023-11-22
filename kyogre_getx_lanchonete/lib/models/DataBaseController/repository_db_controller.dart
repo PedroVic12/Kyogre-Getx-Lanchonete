@@ -1,26 +1,41 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produtos_model.dart';
 
 class RepositoryDataBaseController extends GetxController {
-  // Variaveis
-  final String acaiFile = 'lib/repository/cardapio_2.json';
-  final String petiscosFile = 'lib/repository/cardapio_3.json';
-
-  final String sanduicheFile ='lib/models/DataBaseController/models/sanduiches.json';
-  final String hamburguersFile = 'lib/models/DataBaseController/models/hamburguer.json';
-  final String pizzasFile = 'lib/models/DataBaseController/models/pizzas.json';
+  final String sanduicheFile = 'lib/repository/models/sanduiches.json';
+  final String hamburguersFile = 'lib/repository/models/hamburguer.json';
+  final String pizzasFile = 'lib/repository/models/pizzas.json';
 
   List<List<ProdutoModel>> dataBase_Array = [];
   bool isLoading = true; // <---- Change this to false after loading data
 
   Future loadData() async {
-    // Garantir que os produtos estão carregados
     if (isLoading == true) {
       await fetchAllProducts();
       isLoading = false;
+
+      // array 1
+      if (dataBase_Array.isNotEmpty) {
+        Get.snackbar(
+          'Sucesso',
+          'Dados REPOSTITORY carregados com sucesso!',
+          
+          snackPosition: SnackPosition.TOP,
+          isDismissible: true
+        );
+      }
+
+      //array2
+
+      print('\n\n\n DEBUB 7');
+      print(dataBase_Array);
     }
     update();
   }
@@ -28,13 +43,45 @@ class RepositoryDataBaseController extends GetxController {
   // Metodos JSON
   Future<List<ProdutoModel>> lerArquivoJson(String filePath) async {
     try {
-      final file = File(filePath);
-      final jsonString = await file.readAsString();
-      final List<dynamic> jsonData = json.decode(jsonString);
+      if (kIsWeb) {
+        // Carregando o JSON a partir do caminho do asset
+        String jsonString = await rootBundle.loadString(filePath);
+        List<dynamic> jsonData = json.decode(jsonString);
 
-      return jsonData.map((jsonItem) => ProdutoModel.fromJson(jsonItem)).toList();
+        // Convertendo o JSON para uma lista de objetos ProdutoModel
+        print('\n\nArquivo JSON lido com Sucesso na WEB!');
+        return jsonData
+            .map((jsonItem) => ProdutoModel.fromJson(jsonItem))
+            .toList();
+      } else {
+        final file = File(filePath);
+        final jsonString = await file.readAsString();
+        final List<dynamic> jsonData = json.decode(jsonString);
+
+        // Convertendo o JSON para uma lista de objetos ProdutoModel
+        return jsonData
+            .map((jsonItem) => ProdutoModel.fromJson(jsonItem))
+            .toList();
+      }
     } catch (e) {
-      print('Erro ao ler o arquivo JSON: $e');
+      print('\n\nErro ao carregar Produtos JSON do DataBase: $e');
+      return [];
+    }
+  }
+
+  Future<List<ProdutoModel>> readJson(String filePath) async {
+    try {
+      // Carregando o JSON a partir do caminho do asset
+      String jsonString = await rootBundle.loadString(filePath);
+      List<dynamic> jsonData = json.decode(jsonString);
+
+      // Convertendo o JSON para uma lista de objetos ProdutoModel
+      print('\n\nArquivo JSON lido com Sucesso na WEB!');
+      return jsonData
+          .map((jsonItem) => ProdutoModel.fromJson(jsonItem))
+          .toList();
+    } catch (e) {
+      print('\n\nErro ao carregar Produtos JSON do DataBase: $e');
       return [];
     }
   }
@@ -47,18 +94,17 @@ class RepositoryDataBaseController extends GetxController {
     dataBase_Array.add(await lerArquivoJson(hamburguersFile));
     dataBase_Array.add(await lerArquivoJson(sanduicheFile));
 
-
     // dataBase_Array.add(await lerArquivoJson(acaiFile));
     // dataBase_Array.add(await lerArquivoJson(petiscosFile));
 
-    print('Database carregado!');
+    print('\nDatabase Carregado!');
     isLoading = false;
     return dataBase_Array;
   }
 
-  List<ProdutoModel> filtrarCategoria(String categoriaDesejada)  {
+  List<ProdutoModel> filtrarCategoria(String categoriaDesejada) {
     // Filtrar todos os produtos da categoria desejada
-    List<ProdutoModel> _produtosFiltrados =  [];
+    List<ProdutoModel> _produtosFiltrados = [];
 
     _produtosFiltrados = dataBase_Array
         .expand((lista) => lista)
@@ -72,9 +118,6 @@ class RepositoryDataBaseController extends GetxController {
     produtos.sort((a, b) => a.nome.compareTo(b.nome));
   }
 
-  String get dataBaseArrayJson {
-    return jsonEncode(dataBase_Array.map((lista) => lista.map((produto) => produto.toJson()).toList()).toList());
-  }
 
   String formatarProdutosArray(List<List<ProdutoModel>> dataBase_Array) {
     return dataBase_Array.expand((lista) => lista).map((produto) {
@@ -85,4 +128,18 @@ class RepositoryDataBaseController extends GetxController {
   String formatarProduto(ProdutoModel produto) {
     return 'Produto: ${produto.nome}, Categoria: ${produto.categoria}, Preços: ${produto.precos.map((p) => '${p['descricao']}: ${p['preco']}').join(', ')}, Ingredientes: ${produto.ingredientes?.join(', ') ?? 'N/A'}, Imagem: ${produto.imagem ?? 'N/A'}';
   }
+}
+
+void main() async {
+  final controller = RepositoryDataBaseController();
+
+  print(controller.isLoading);
+
+  await controller.loadData();
+
+  print(controller.isLoading);
+
+  controller.dataBase_Array.forEach((element) {
+    print(element);
+  });
 }

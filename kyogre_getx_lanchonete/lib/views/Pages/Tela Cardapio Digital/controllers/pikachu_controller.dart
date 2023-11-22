@@ -6,7 +6,14 @@ class PikachuController extends GetxController {
   var pikachuInfo = {}.obs;
   var isLoading = true.obs; // Para controle do estado de carregamento
 
-  // Método para carregar dados do Pikachu
+
+  void cout(msg){
+    print('\n\nDEBUG');
+    print('==================================================================================');
+    print(msg);
+    print('==================================================================================\n');
+  }
+
   Future<void> carregandoDados() async {
     isLoading.value = true;
     try {
@@ -17,7 +24,9 @@ class PikachuController extends GetxController {
       pikachuInfo.value = {
         'nome': 'Pikachu',
         'tipo': 'Elétrico',
-        // Outros dados relevantes
+
+
+
       };
     } catch (e) {
       // Trate erros aqui
@@ -47,7 +56,8 @@ class PikachuController extends GetxController {
   void loadingData(){
     Get.snackbar('Rotinas Resetadas!', 'Tenha um otimo inicio de semana',
         showProgressIndicator: true,
-        backgroundColor: Colors.redAccent.shade200);
+        isDismissible: true,
+        backgroundColor: Colors.cyan);
   }
 
 }

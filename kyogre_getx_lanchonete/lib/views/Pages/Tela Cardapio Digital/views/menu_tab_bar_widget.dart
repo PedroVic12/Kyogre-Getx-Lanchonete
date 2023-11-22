@@ -48,8 +48,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   @override
   Widget build(BuildContext context) {
 
-
-
     return      Column(
       children: [
 
@@ -217,6 +215,19 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         ],
       ),
 
+    );
+  }
+
+
+
+  Widget _buildListViewProdutos(){
+    return Container(
+      color: Colors.pinkAccent,
+      child: ListView(
+        children: [
+          Text('ola')
+        ],
+      ),
     );
   }
 

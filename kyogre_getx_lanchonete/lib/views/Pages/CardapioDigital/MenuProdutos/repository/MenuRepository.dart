@@ -2,11 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 
+
+//MENU DE CATEGORIAS
 class MenuProdutosRepository extends GetxController{
   final List<CategoriaModel> MenuCategorias_Array = [];
   
   //define oc carregamneto
   var isLoading = true.obs;
+  var produtos = <CategoriaModel>[].obs;
+  var produtoIndex = 0.obs;
+
+
+  //metodos
+  void setProdutoIndex(int index) {
+    produtoIndex.value = index;
+    update(); // Notifica os ouvintes de que o estado foi atualizado
+    print('Produto atualizado!');
+  }
 
   Future getCategoriasRepository() async {
     isLoading.value = true;
@@ -14,7 +26,7 @@ class MenuProdutosRepository extends GetxController{
 
     if (MenuCategorias_Array.isNotEmpty){
       MenuCategorias_Array.forEach((element) {
-        print('Categoria = ${element.nome}');
+        print('Item Categoria MENU = ${element.nome}');
       });
 
       isLoading.value = false;
@@ -61,5 +73,11 @@ class MenuProdutosRepository extends GetxController{
       ]);
     }
     return MenuCategorias_Array;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    //getCategoriasRepository();
   }
 }

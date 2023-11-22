@@ -19,5 +19,6 @@
     "totalPrecoPedido": 100.0
   },
   "forma_pagamento": "Dinheiro",
+  "desconto": false,
   "endereco_cliente": "Niteroi"
 }

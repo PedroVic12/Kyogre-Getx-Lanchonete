@@ -12,8 +12,6 @@ import 'repository/produtos_model.dart';
 
 class MenuProdutosController extends GetxController {
 
-  //variaveis
-  List<CategoriaModel> categorias =[]; // pegando os produtos do databse
 
   var produtos = <CategoriaModel>[].obs;
   var produtoIndex = 0.obs;

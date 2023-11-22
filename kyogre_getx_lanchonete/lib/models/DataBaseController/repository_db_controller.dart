@@ -6,16 +6,15 @@ import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produt
 
 class RepositoryDataBaseController extends GetxController {
   // Variaveis
-  final String sanduicheTradicionalFile = 'lib/repository/cardapio_1.json';
   final String acaiFile = 'lib/repository/cardapio_2.json';
   final String petiscosFile = 'lib/repository/cardapio_3.json';
 
+  final String sanduicheFile ='lib/models/DataBaseController/models/sanduiches.json';
   final String hamburguersFile = 'lib/models/DataBaseController/models/hamburguer.json';
   final String pizzasFile = 'lib/models/DataBaseController/models/pizzas.json';
 
   List<List<ProdutoModel>> dataBase_Array = [];
   bool isLoading = true; // <---- Change this to false after loading data
-  List<ProdutoModel> produtosFiltrados = [];
 
   Future loadData() async {
     // Garantir que os produtos estão carregados
@@ -44,10 +43,11 @@ class RepositoryDataBaseController extends GetxController {
   Future<List<List<ProdutoModel>>> fetchAllProducts() async {
     dataBase_Array.clear();
 
-    dataBase_Array.add(await lerArquivoJson(hamburguersFile));
     dataBase_Array.add(await lerArquivoJson(pizzasFile));
+    dataBase_Array.add(await lerArquivoJson(hamburguersFile));
+    dataBase_Array.add(await lerArquivoJson(sanduicheFile));
 
-    // dataBase_Array.add(await lerArquivoJson(sanduicheTradicionalFile));
+
     // dataBase_Array.add(await lerArquivoJson(acaiFile));
     // dataBase_Array.add(await lerArquivoJson(petiscosFile));
 
@@ -56,14 +56,16 @@ class RepositoryDataBaseController extends GetxController {
     return dataBase_Array;
   }
 
-  Future<List<ProdutoModel>> filtrarCategoria(String categoriaDesejada) async {
+  List<ProdutoModel> filtrarCategoria(String categoriaDesejada)  {
     // Filtrar todos os produtos da categoria desejada
-    produtosFiltrados = await dataBase_Array
+    List<ProdutoModel> _produtosFiltrados =  [];
+
+    _produtosFiltrados = dataBase_Array
         .expand((lista) => lista)
         .where((produto) => produto.categoria == categoriaDesejada)
         .toList();
 
-    return produtosFiltrados;
+    return _produtosFiltrados;
   }
 
   void ordenarPorNome(List<ProdutoModel> produtos) {

@@ -1,0 +1,89 @@
+[
+  {
+    "nome": "Americano",
+    "categoria": "Sanduiches",
+    "precos": [
+      {"preco_1": 17, "descricao": "1"},
+      {"preco_2": 0.0, "descricao": "2"}
+    ],
+    "ingredientes": ["Pão", "Queijo Presunto", "Ovo", "Tomate", "Alface"],
+    "imagem": "img_url_calabresa.jpg"
+  },
+
+  {
+    "nome": "Bauru",
+    "categoria": "Sanduiches",
+    "precos": [
+      {"preco_1": 30, "descricao": "1"},
+      {"preco_2": 0.0, "descricao": "2"}
+    ],
+    "ingredientes": ["Pão", "Queijo", "Filé", "Ovo", "Tomate", "Alface", "Fritas"],
+    "imagem": "url"
+  },
+
+  {
+    "nome": "Filé de Carne",
+    "categoria": "Sanduiches",
+    "precos": [
+      {"preco_1": 21, "descricao": "1"},
+      {"preco_2": 0.0, "descricao": "2"}
+    ],
+    "ingredientes": ["Pão Francês", "Filé de Carne"],
+    "imagem": "url"
+  },
+
+  {
+    "nome": "Filé de Frango",
+    "categoria": "Sanduiches",
+    "precos": [
+      {"preco_1": 19, "descricao": "1"},
+      {"preco_2": 0.0, "descricao": "2"}
+    ],
+    "ingredientes": ["Pão Francês", "Filé de Frango"],
+    "imagem": "url"
+  },
+
+  {
+    "nome": "Misto Quente",
+    "categoria": "Sanduiches",
+    "precos": [
+      {"preco_1": 12, "descricao": "1"},
+      {"preco_2": 0.0, "descricao": "2"}
+    ],
+    "ingredientes": ["Pão de forma", "Queijo", "Presunto"],
+    "imagem": "url"
+  },
+
+  {
+    "nome": "Peito de Peru",
+    "categoria": "Sanduiches",
+    "precos": [
+      {"preco_1": 18, "descricao": "1"},
+      {"preco_2": 0.0, "descricao": "2"}
+    ],
+    "ingredientes": ["Pão árabe", "Peito de Peru"],
+    "imagem": "url"
+  },
+
+  {
+    "nome": "Queijo Quente",
+    "categoria": "Sanduiches",
+    "precos": [
+      {"preco_1": 12, "descricao": "1"},
+      {"preco_2": 0.0, "descricao": "2"}
+    ],
+    "ingredientes": ["Pão de Forma", "Queijo"],
+    "imagem": "url"
+  },
+
+  {
+    "nome": "Queijo Quente com Banana",
+    "categoria": "Sanduiches",
+    "precos": [
+      {"preco_1": 14, "descricao": "1"},
+      {"preco_2": 0.0, "descricao": "2"}
+    ],
+    "ingredientes": ["Pão de forma", "Queijo", "Banana", "Canela", "Açúcar"],
+    "imagem": "url"
+  }
+]

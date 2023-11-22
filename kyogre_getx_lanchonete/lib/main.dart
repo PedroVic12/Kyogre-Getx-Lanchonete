@@ -61,6 +61,9 @@ class MyApp extends StatelessWidget {
               final id = Get.parameters['id']!;
               return DetailsPage(id: id);
             }),
+
+
+
         GetPage(
             name: '/pedido/:id',
             page: () {

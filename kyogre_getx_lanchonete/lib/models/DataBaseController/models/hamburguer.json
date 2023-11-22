@@ -2,9 +2,8 @@
   {
     "nome": "X - TUDO",
     "categoria": "Hamburguer",
-    "subCategoria": "Tradicional",
     "precos": [
-      {"preco_1": 40.0, "descricao": "P"},
+      {"preco_1": 30.0, "descricao": "P"},
       {"preco_2": 55.0, "descricao": "M"}
     ],
     "ingredientes": ["Pão", "carne", "cebola", "molho de tomate"],
@@ -14,12 +13,22 @@
   {
     "nome": "Double Cheese",
     "categoria": "Hamburguer",
-    "subCategoria": "Tradicional",
     "precos": [
       {"preco_1": 40.0, "descricao": "P"},
       {"preco_2": 75.0, "descricao": "M"}
     ],
     "ingredientes": ["Pão", " 2 carnes", "cebola", "molho de tomate"],
+    "imagem": "img_url.jpg"
+  },
+
+  {
+    "nome": "David Guetta",
+    "categoria": "Hamburguer",
+    "precos": [
+      {"preco_1": 35.90, "descricao": "P"},
+      {"preco_2": 45.0, "descricao": "M"}
+    ],
+    "ingredientes": ["Pão", " 2 carnes", "cebola", "molho de tomate", "Queijo","Salada"],
     "imagem": "img_url.jpg"
   }
 ]

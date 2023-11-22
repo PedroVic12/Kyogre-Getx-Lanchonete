@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 
+import '../../../models/DataBaseController/repository_db_controller.dart';
 import '../CardapioDigital/MenuProdutos/produtos_controller.dart';
 import '../Tela Cardapio Digital/TelaCardapioDigital.dart';
 import '../Tela Cardapio Digital/controllers/cardapio_controller.dart';
@@ -43,7 +46,7 @@ class SplashScreen extends StatelessWidget {
                     ),
                     child: Padding(
                         padding: EdgeInsets.all(32),
-                        child: CircleAvatar(child: Icon(Icons.face)
+                        child: CircleAvatar(child: Icon(Icons.emoji_food_beverage_rounded,size: 36,)
                             // Image.asset(
                             //   'lib/repository/assets/citta_logo_light.png',
                             //   height: 400,
@@ -104,8 +107,14 @@ class SplashController extends GetxController {
   bool isVisivel = false;
   bool dadosCarregados = false;
   String id_cliente = '';
-  CardapioController cardapioController = Get.put(CardapioController());
-  final MenuProdutosRepository repository = Get.put(MenuProdutosRepository());
+
+  final _productsLoader = Completer<void>();
+
+  //controllers
+  final MenuProdutosController menuController =Get.put(MenuProdutosController());
+  final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
+  final RepositoryDataBaseController _repositoryController =Get.put(RepositoryDataBaseController());
+
 
   @override
   void onReady() {
@@ -116,46 +125,21 @@ class SplashController extends GetxController {
     update();
   }
 
-  void carregarDadosDoCardapio() async {
-    final MenuProdutosRepository repository = Get.put(MenuProdutosRepository());
+  Future<void> carregarDadosDoCardapio() async {
 
-    try {
-      // pega ID
-      id_cliente = await cardapioController.fetchIdPedido();
+    await menuCategorias.getCategoriasRepository();
+    await _repositoryController.loadData();
 
-      // pega dados do Groundon
-      await cardapioController.fetchClienteNome(id_cliente);
-    } catch (e) {
-      print('ERROR =  $e');
+    await Future.delayed(const Duration(seconds: 3));
+    _productsLoader.complete(); // Complete o completer após o carregamento.
+
+    if (menuCategorias.isLoading.value){
+      navegarParaTelaCardapio();
     }
-
-    try {
-      await repository.getCategoriasRepository();
-
-      // Após o carregamento, navegar para a tela do cardápio
-      if (repository.isLoading.value) {
-        navegarSemDelay();
-
-        print('Navegou = ${repository.isLoading.value}');
-        print(repository.MenuCategorias_Array);
-      } else {
-        print('\n\n\n Carregando os dados....');
-      }
-    } catch (e) {
-      print('ERROR =  $e');
-    }
-  }
-
-  void navegarSemDelay() async {
-    String id = '8739'; // Você pode obter esse ID de outra forma, se necessário
-    Get.offNamed('/pedido/$id'); // Usar 'off' para remover a splash da pilha
   }
 
   void navegarParaTelaCardapio() async {
-    await Future.delayed(const Duration(milliseconds: 3500), () {
-      String id =
-          '8739'; // Você pode obter esse ID de outra forma, se necessário
-      Get.offNamed('/pedido/$id'); // Usar 'off' para remover a splash da pilha
-    });
+    String id ='2023';
+    Get.offNamed('/pedido/$id');
   }
 }

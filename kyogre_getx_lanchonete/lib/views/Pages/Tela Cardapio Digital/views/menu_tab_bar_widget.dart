@@ -5,12 +5,12 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glass_kit/glass_kit.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/widget_tab.dart';
 
 import '../../../../app/widgets/Custom/CustomText.dart';
 import '../../../../models/DataBaseController/repository_db_controller.dart';
 import '../../../../models/DataBaseController/template/produtos_model.dart';
-import '../../CardapioDigital/MenuProdutos/Cards/card_produto_selecionado.dart';
 import '../../CardapioDigital/MenuProdutos/produtos_controller.dart';
 import '../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
@@ -127,10 +127,10 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
       child: TabBar(
         controller: _tabController,
         labelColor: Colors.white,
-        labelPadding: const EdgeInsets.all(16),
+        labelPadding: const EdgeInsets.all(4),
         isScrollable: true,
         unselectedLabelColor: Colors.black,
-        indicator: CircleTabIndicator(color: Colors.purpleAccent,radius: 72.0),
+        //indicator: CircleTabIndicator(color: Colors.purpleAccent,radius: 64.0),
         tabs: [
           for (var index = 0;  index < categorias_array.length; index++)
             _buildTabBarMenuGradiente(
@@ -155,9 +155,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
               index); // Adicione isso para sincronizar com TabController
         },
         child: Container(
-          width: 120,
+          width: 110,
           height: 100,
-          margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 5),
+          margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 6),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.white, width: 1),
             borderRadius: BorderRadius.circular(30),
@@ -198,8 +198,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
     // Use MediaQuery para obter o tamanho da tela
     final screenSize = MediaQuery.of(context).size;
 
-    var categoria = menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome;
-
     return Container(
       padding: EdgeInsets.all(screenSize.height * 0.02), // Exemplo de uso de tamanho relativo
       width: screenSize.width,
@@ -209,17 +207,53 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         controller: _tabController,
         children: [
 
-          CardProdutoCardapioSelecionado(produtoSelecionado: 'Hamburguer'),
-          CardProdutosFiltrados(categoria_selecionada: 'Hamburguer'),
-          CardProdutoCardapioSelecionado(produtoSelecionado: 'Pizzas'),
-          CardProdutosFiltrados(categoria_selecionada: categoria),
-          CardProdutosFiltrados(categoria_selecionada: categoria),
+          BlurCardWidget(CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome), screenSize.height, screenSize.width),
+          CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
+          CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
+          CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
+          CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
 
         ],
       ),
 
     );
   }
+
+
+
+
+  Widget BlurCardWidget(_child,size_h,size_w){
+
+
+    return GlassContainer(
+      height: size_h,
+      width: size_w,
+      gradient: LinearGradient(
+        colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      borderGradient: LinearGradient(
+        colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.lightBlueAccent.withOpacity(0.05), Colors.lightBlueAccent.withOpacity(0.6)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        stops: [0.0, 0.39, 0.40, 1.0],
+      ),
+      blur: 15.0,
+      borderWidth: 1.5,
+      elevation: 3.0,
+      isFrostedGlass: true,
+      shadowColor: Colors.black.withOpacity(0.20),
+      alignment: Alignment.center,
+      frostedOpacity: 0.12,
+      margin: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(8.0),
+      child: _child,
+    );
+  }
+
+
+
 
   @override
   void dispose() {

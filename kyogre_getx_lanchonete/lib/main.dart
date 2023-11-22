@@ -72,7 +72,6 @@ class MyApp extends StatelessWidget {
             }),
       ],
 
-      debugShowCheckedModeBanner: true,
 
       title: 'Dashboard',
       theme: ThemeData(

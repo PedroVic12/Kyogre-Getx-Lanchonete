@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -107,46 +108,68 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
 
     // Variaveis
     List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
 
 
 
-    return Scaffold(
-        backgroundColor: Colors.red,
-        appBar: CustomAppBar(
-          id: widget.id,
-        ),
-        body:Center(
-
-          child: ListView(children: [
-            pegarDadosCliente(),
-
-            Obx(() => menuCategorias.isLoading.value ? const Card(
-              child:  Column(children: [
-                CustomText(text: 'Carregando...'),
-                CircularProgressIndicator()
-              ],),) : const MenuTabBarCardapio(),),
-
-            //Container(            height: 150,            child: BarraInferiorPedido(),          )
-            botaoVerCarrinho(),
-          ]),
-
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: const Text('Abrir'),
-          onPressed: () => Get.bottomSheet(
-            BottomSheetWidget(
-              nomeCliente: nomeCliente,
-              telefoneCliente: telefoneCliente,
-              id: widget.id,
-            ),
+    if (kIsWeb) {
+      // Comportamento específico para a Web
+      return   Scaffold(
+          backgroundColor: Colors.red,
+          appBar: CustomAppBar(
+            id: widget.id,
           ),
-        ));
+          body:Center(
+
+            child: ListView(children: [
+              pegarDadosCliente(),
+
+              Obx(() => menuCategorias.isLoading.value ? const Card(
+                child:  Column(children: [
+                  CustomText(text: 'Carregando menu Scrol...'),
+                  CircularProgressIndicator()
+                ],),) : const MenuTabBarCardapio(),),
+
+              //Container(            height: 150,            child: BarraInferiorPedido(),          )
+              botaoVerCarrinho(),
+            ]),
+
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: const Text('Abrir'),
+            onPressed: () => Get.bottomSheet(
+              BottomSheetWidget(
+                nomeCliente: nomeCliente,
+                telefoneCliente: telefoneCliente,
+                id: widget.id,
+              ),
+            ),
+          ));
+    } else {
+      // Comportamento para outras plataformas (móveis)
+      return Scaffold(
+        appBar: AppBar(title: Text("Cardapio QR Code.key Digital App"),
+
+        ),
+
+        body: Center(
+          child: Column(
+            children: [
+              Text('Visualizando em um dispositivo móvel'),
+            ],
+          ),
+        )
+      );
+    }
   }
+
 
 
   Widget _indexProdutoSelecionado() {

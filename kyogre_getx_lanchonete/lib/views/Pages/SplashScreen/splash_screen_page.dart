@@ -9,6 +9,7 @@ import '../../../models/DataBaseController/repository_db_controller.dart';
 import '../CardapioDigital/MenuProdutos/produtos_controller.dart';
 import '../Tela Cardapio Digital/TelaCardapioDigital.dart';
 import '../Tela Cardapio Digital/controllers/cardapio_controller.dart';
+import '../Tela Cardapio Digital/controllers/pikachu_controller.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -26,11 +27,11 @@ class SplashScreen extends StatelessWidget {
             children: [
               AnimatedOpacity(
                 opacity: _.isVisivel ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 1500),
+                duration: const Duration(milliseconds: 3000),
                 child: _buildLinhaDeIcones(),
               ),
               AnimatedContainer(
-                duration: const Duration(milliseconds: 1500),
+                duration: const Duration(milliseconds: 7000),
                 onEnd: _controller.navegarParaTelaCardapio,
                 curve: Curves.fastLinearToSlowEaseIn,
                 alignment: Alignment.center,
@@ -46,7 +47,7 @@ class SplashScreen extends StatelessWidget {
                     ),
                     child: Padding(
                         padding: EdgeInsets.all(32),
-                        child: CircleAvatar(child: Icon(Icons.emoji_food_beverage_rounded,size: 36,)
+                        child: CircleAvatar(child: Icon(Icons.emoji_food_beverage_rounded,size: 48,)
                             // Image.asset(
                             //   'lib/repository/assets/citta_logo_light.png',
                             //   height: 400,
@@ -76,6 +77,9 @@ class SplashScreen extends StatelessWidget {
           CustomIcone(Icons.account_balance),
           CustomIcone(Icons.edit),
           CustomIcone(Icons.directions_bike),
+
+          buildSetupPage(),
+
           CustomIcone(Icons.directions_boat),
           CustomIcone(Icons.wifi),
           CustomIcone(Icons.restaurant),
@@ -98,6 +102,30 @@ class SplashScreen extends StatelessWidget {
     return Text(
       'OLA MUNDO',
       style: TextStyle(fontSize: 32),
+    );
+  }
+
+  Widget buildSetupPage(){
+
+    final PikachuController controller = Get.put(PikachuController());
+
+    return FutureBuilder(
+      //future: controller.carregarPaginaWeb(),
+      future: controller.carregandoDados(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Obx(() => controller.pikachuInfo.isNotEmpty
+              ? Column(
+            children: [
+                  _buildAfterAnimation(),
+                    Text('Pikachu: ${controller.pikachuInfo.value}'),
+            ],
+          )
+              : Text('Nenhum dado de Pikachu disponível.'));
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
     );
   }
 }
@@ -134,6 +162,11 @@ class SplashController extends GetxController {
     _productsLoader.complete(); // Complete o completer após o carregamento.
 
     if (menuCategorias.isLoading.value){
+
+
+      //await snackbar de boas vindas
+
+
       navegarParaTelaCardapio();
     }
   }

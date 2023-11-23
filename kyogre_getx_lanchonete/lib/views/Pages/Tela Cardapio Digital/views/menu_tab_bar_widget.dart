@@ -59,7 +59,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
         // TabView
         buildListRepository(),
-        //TabBarViewCardapioProdutosDetails(),
+        TabBarViewCardapioProdutosDetails(),
 
       ],
     );
@@ -229,6 +229,8 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 Widget buildListRepository(){
 
   final RepositoryDataBaseController repositoryController = Get.find<RepositoryDataBaseController>();
+
+
 
   return  Container(
         color: Colors.white,

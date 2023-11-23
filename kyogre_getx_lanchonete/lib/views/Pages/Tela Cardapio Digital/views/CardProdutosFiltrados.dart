@@ -42,9 +42,7 @@ class CardProdutosFiltrados extends StatelessWidget {
       child: Column(
         children: [
           _headerProdutos(nome_categoria_selecionada),
-
-          LoadingWidget(),
-
+          
           displayProdutosFiltradosCategoria(nome_categoria_selecionada)
         ],
       ),
@@ -67,7 +65,7 @@ class CardProdutosFiltrados extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       color: CupertinoColors.systemBlue,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Divider(height: 10, color: Colors.grey),
           Icon(CupertinoIcons.search, color: Colors.white),
@@ -92,7 +90,6 @@ class CardProdutosFiltrados extends StatelessWidget {
 
     //TODO ESPERAR TUDO CARREGAR AQUI TAMBEM
     var produtosFiltrados =  repositoryController.filtrarCategoria(categoria);
-    repositoryController.pikachu.cout(produtosFiltrados);
 
     // Exibir um indicador de carregamento enquanto os produtos estão sendo filtrados
     if (produtosFiltrados.isEmpty) {

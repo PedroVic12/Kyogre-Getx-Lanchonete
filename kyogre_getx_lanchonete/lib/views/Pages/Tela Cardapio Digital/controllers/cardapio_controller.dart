@@ -106,11 +106,11 @@ class CardapioController extends GetxController {
   Future setupCardapioDigitalWeb() async{
 
     await menuCategorias.getCategoriasRepository();
-    //await repositoryController.loadData();
+    await repositoryController.loadData();
     await fetchAllProdutos();
 
     pikachu.cout('Categorias = ${menuCategorias.MenuCategorias_Array}');
-    //pikachu.cout('Repository = ${repositoryController.dataBase_Array}');
+    pikachu.cout('Repository = ${repositoryController.dataBase_Array}');
     pikachu.cout('MY array = ${repositoryController.my_array}');
 
     if(isLoading.value = false){

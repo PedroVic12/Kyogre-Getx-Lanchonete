@@ -17,7 +17,6 @@ class RepositoryDataBaseController extends GetxController {
   final pikachu = PikachuController();
 
   final dataBase_Array = <List<ProdutoModel>>[].obs;
-
   final List my_array = [].obs;
 
   bool isLoading = true; // <---- Change this to false after loading data

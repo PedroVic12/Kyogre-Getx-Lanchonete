@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomAppBar.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/menu_tab_bar_widget.dart';
 import '../../../models/DataBaseController/DataBaseController.dart';
@@ -57,7 +58,10 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
     await menuCategorias.getCategoriasRepository();
     await _repositoryController.loadData();
 
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 2), () async =>  await _repositoryController.loadData() );
+
+    await Future.delayed(Duration(seconds: 2), () async =>     await menuCategorias.getCategoriasRepository());
+
     _productsLoader.complete(); // Complete o completer após o carregamento.
 
   }
@@ -146,11 +150,7 @@ Widget buildWebPage(){
             pegarDadosCliente(),
             Text('Visualizando em uma pagina WEB'),
 
-            Obx(() => menuCategorias.isLoading.value ? const Card(
-              child:  Column(children: [
-                CustomText(text: 'Carregando Menu Scroll Gradiente...'),
-                CircularProgressIndicator()
-              ],),) : const MenuTabBarCardapio(),),
+            Obx(() => menuCategorias.isLoading.value ? const LoadingWidget() : const MenuTabBarCardapio(),),
 
             //Container(            height: 150,            child: BarraInferiorPedido(),          )
             botaoVerCarrinho(),

@@ -16,7 +16,7 @@ class RepositoryDataBaseController extends GetxController {
   final String pizzasFile = 'lib/repository/models/pizzas.json';
   final pikachu = PikachuController();
 
-  List<List<ProdutoModel>> dataBase_Array = [];
+  final dataBase_Array = <List<ProdutoModel>>[].obs;
   bool isLoading = true; // <---- Change this to false after loading data
 
   Future loadData() async {
@@ -46,53 +46,17 @@ class RepositoryDataBaseController extends GetxController {
   // Metodos JSON
   Future<List<ProdutoModel>> lerArquivoJson(String filePath) async {
     try {
-      if (kIsWeb) {
-        // Carregando o JSON a partir do caminho do asset
-        final String jsonString = await rootBundle.loadString(filePath);
-        final jsonData = json.decode(jsonString);
 
-        // Convertendo o JSON para uma lista de objetos ProdutoModel
-        print('\n\nArquivo JSON lido com Sucesso na WEB!');
-
-
-        pikachu.cout(jsonData);
-
-
-        return jsonData
-            .map((jsonItem) => ProdutoModel.fromJson(jsonItem))
-            .toList();
-
-
-
-      } else {
-
-        final file = File(filePath);
-        final jsonString = await file.readAsString();
-        final List<dynamic> jsonData = json.decode(jsonString);
-
-        // Convertendo o JSON para uma lista de objetos ProdutoModel
-        return jsonData
-            .map((jsonItem) => ProdutoModel.fromJson(jsonItem))
-            .toList();
-      }
-    } catch (e) {
-      print('\n\nErro ao carregar Produtos JSON do DataBase: $e');
-      return [];
-    }
-  }
-
-  Future<List<ProdutoModel>> readJson(String filePath) async {
-    try {
-      // Carregando o JSON a partir do caminho do asset
-      String jsonString = await rootBundle.loadString(filePath);
-      List<dynamic> jsonData = json.decode(jsonString);
+      final file = File(filePath);
+      final jsonString = await file.readAsString();
+      final List<dynamic> jsonData = json.decode(jsonString);
 
       // Convertendo o JSON para uma lista de objetos ProdutoModel
-      print('\n\nArquivo JSON lido com Sucesso na WEB!');
-      pikachu.cout(jsonData);
       return jsonData
           .map((jsonItem) => ProdutoModel.fromJson(jsonItem))
           .toList();
+
+
     } catch (e) {
       print('\n\nErro ao carregar Produtos JSON do DataBase: $e');
       return [];

@@ -5,11 +5,10 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/
 
 //MENU DE CATEGORIAS
 class MenuProdutosRepository extends GetxController{
-  final List<CategoriaModel> MenuCategorias_Array = [];
+  final  MenuCategorias_Array =  <CategoriaModel>[].obs;
   
   //define oc carregamneto
   var isLoading = true.obs;
-  var produtos = <CategoriaModel>[].obs;
   var produtoIndex = 0.obs;
 
 

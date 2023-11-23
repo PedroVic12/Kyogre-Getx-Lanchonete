@@ -67,12 +67,7 @@ class SplashScreen extends StatelessWidget {
       ),
     );
   }
-  void _loadDataSuceess(titulo, msg){
-    Get.snackbar(titulo, msg,
-        showProgressIndicator: true,
-        isDismissible: true,
-        backgroundColor: Colors.cyan);
-  }
+
 
   Widget _buildLinhaDeIcones() {
     return Center(
@@ -191,8 +186,6 @@ class SplashController extends GetxController {
 
     //debug
     pikachu.cout(products[0].categoria);
-
-
   }
 
   Future<void> carregandoDados() async {
@@ -207,11 +200,13 @@ class SplashController extends GetxController {
 
       // Simulando dados recebidos
       if(array_db.isNotEmpty){
+
+        isLoadingData.value = false;
+
         Future.delayed(Duration(seconds: 1), () {
           //pikachu.loadDataSuccess('Repository Carregado com sucesso', '${array_db.length}');
         });
 
-        isLoadingData.value = false;
       }
 
     } catch (e) {

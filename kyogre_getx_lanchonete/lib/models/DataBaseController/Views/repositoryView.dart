@@ -13,6 +13,7 @@ import '../../../views/Pages/Tela Cardapio Digital/controllers/pikachu_controlle
 import '../repository_db_controller.dart';
 import '../template/produtos_model.dart';
 
+
 class RepositoryListView extends StatefulWidget {
   @override
   _RepositoryListViewState createState() => _RepositoryListViewState();
@@ -25,43 +26,8 @@ class _RepositoryListViewState extends State<RepositoryListView> {
   final String sanduicheFile = 'lib/repository/models/sanduiches.json';
   var ulr2 = 'https://www.npoint.io/docs/ae829694539a3375241e';
   var url1 = 'https://api.npoint.io/796847de75f3705645c2';
-  final List array = [];
+  final List array = [].obs;
   var products;
-
-  void _loadingData() async {
-    final MenuProdutosController menuController =Get.find<MenuProdutosController>();
-    final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
-    final RepositoryDataBaseController _repositoryController = Get.find<RepositoryDataBaseController>();
-    final pikachu = PikachuController();
-
-    var caregorias = menuCategorias.MenuCategorias_Array;
-    var nome_produto_selecionado = menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome;
-
-    //carregando
-    await menuCategorias.getCategoriasRepository();
-    await _repositoryController.loadData();
-    //update();
-
-    pikachu.cout('Categorias = ${menuCategorias.MenuCategorias_Array}');
-    pikachu.cout('Repository = ${_repositoryController.dataBase_Array}');
-
-    //teste
-    var products =  _repositoryController.filtrarCategoria('Pizzas');
-
-    //debug
-    pikachu.cout(products[0].categoria);
-
-
-    caregorias.forEach((item) {
-      print(item);
-    });
-
-    setState(() {
-      // Isto irá reconstruir a UI com os dados carregados
-    });
-
-  }
-
 
 
    readingDataJson(url) async {
@@ -150,21 +116,31 @@ class _RepositoryListViewState extends State<RepositoryListView> {
            Container(
           color: Colors.white,
           height: 500,
-          child:    ListView.builder(itemCount: 3,itemBuilder: (context, index) {
-            return ListTile(
-                title: CustomText(text: 'Array = ${array}',),
-                subtitle: Column(
-                  children: [
-                    CustomText(text: 'Produto: ${array[1].nome}',),
-                    CustomText(text: 'Categoria: ${array[1].categoria}'),
-                    CustomText(text: 'Precos: ${array[1].precos}')
+          child:   Obx(() {
+            if(array.isEmpty){
+              return LoadingWidget();
+          } else {
+              return ListView.builder(
+                itemCount: array.length, itemBuilder: (context, index) {
+                var item = array[index];
+                return ListTile(
+                    title: CustomText(text: 'Array = ${array}',),
+                    subtitle: Column(
+                      children: [
+                        CustomText(text: '\n\nProduto: ${item.nome}',),
+                        CustomText(text: 'Categoria: ${item.categoria}'),
+                        CustomText(text: 'Precos: ${item.precos}')
 
-                  ],
-                )
-            );
-          },)
+                      ],
+                    )
+                );
+              },);
+            }})
       ),
-         // _list()
+
+
+
+         // buildListViewProdutosRepository()
         ],
       )
     );
@@ -203,6 +179,7 @@ class _RepositoryListViewState extends State<RepositoryListView> {
         child: Column(
           children: [
 
+            _list(),
 
             _builderListView(),
 

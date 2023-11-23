@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/layoutDesign', page: () => const CartaoGridView()),
         GetPage(name: '/caosPage', page: () => const CaosPageWidget()),
         GetPage(
-            name: '/cardapio',
+            name: '/pedido/:id',
             page: () => const TelaCardapioDigital(
                   id: '1998',
                 )),

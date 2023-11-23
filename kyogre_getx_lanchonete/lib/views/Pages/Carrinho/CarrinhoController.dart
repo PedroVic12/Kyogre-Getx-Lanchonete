@@ -14,6 +14,9 @@ import 'package:http/http.dart' as http;
 
 import '../../../models/DataBaseController/template/produtos_model.dart';
 
+
+
+
 class CarrinhoController extends GetxController {
   late final CatalogoProdutosController produtosController;
   // Converta as variáveis para
@@ -22,14 +25,14 @@ class CarrinhoController extends GetxController {
   String? idPedido;
 
   @override
-  void onInit() {
-    super.onInit();
+  void onReady() {
+    super.onReady();
   }
 
 
 
 
-
+  // Pedido
   Map<String, dynamic> gerarPedidoInfo() {
     // Lista para armazenar os itens do pedido em formato JSON
     List<Map<String, dynamic>> pedidoJsonItems = [];
@@ -106,33 +109,6 @@ class CarrinhoController extends GetxController {
       );
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // Usando RxMap para tornar o mapa de produtos reativo
-  final _products = <Produto, int>{}.obs;
-
   // Método para definir os detalhes do cliente
   void setClienteDetails(String nome, String telefone, String id) {
     nomeCliente = nome;
@@ -141,6 +117,10 @@ class CarrinhoController extends GetxController {
 
     print('ID PEDIDO: $idPedido Cliente: $nomeCliente | Telefone: $telefoneCliente');
   }
+
+  // Usando RxMap para tornar o mapa de produtos reativo
+  final _products = <Produto, int>{}.obs;
+
 
   String gerarResumoPedidoCardapio() {
     final items = _products.entries.map((entry) {
@@ -344,35 +324,7 @@ class CarrinhoController extends GetxController {
       _products[produto] = 1;
     }
 
-    Get.snackbar(
-      'Produto adicionado!',
-      '', // Deixamos a mensagem vazia porque usaremos messageText para a formatação
-      titleText: const CustomText(
-        text: 'Produto adicionado!',
-        size: 18,
-        weight: FontWeight.bold,
-        color: Colors.black, // ou qualquer outra cor padrão que você esteja usando
-      ),
-      messageText: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: '${produto.nome} ',
-              style: TextStyle(color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-            TextSpan(
-              text: 'foi adicionado ao seu carrinho',
-              style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontSize: 18), // ou qualquer outra cor padrão que você esteja usando
-            ),
-          ],
-        ),
-      ),
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: CupertinoColors.activeGreen,
-      backgroundGradient: LinearGradient(colors: [CupertinoColors.systemGreen, Colors.blue]),
-      showProgressIndicator: true,
-      duration: const Duration(seconds: 1),
-    );
+
 
 
   }

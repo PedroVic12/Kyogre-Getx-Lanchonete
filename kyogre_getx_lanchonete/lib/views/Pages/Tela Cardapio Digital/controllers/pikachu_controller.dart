@@ -1,26 +1,53 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produtos_model.dart';
+
+import '../../../../app/widgets/Custom/CustomText.dart';
 
 
 class PikachuController extends GetxController {
   // Para controle do estado de carregamento
   var pikachuInfo = {}.obs;
   var isLoading = true.obs;
+  final Dio API = Dio();
 
-  //Estrutura de Dados
-  List <ProdutoModel> cartItens = [];
-  int get qntd => cartItens.length;
-  var preco = 0;
-  double get totalPrice {
-    return cartItens.fold(0, (previousValue, element) => previousValue++);
+
+
+  void snackBarCarrinho(produto){
+    Get.snackbar(
+      'Produto adicionado!',
+      '', // Deixamos a mensagem vazia porque usaremos messageText para a formatação
+      titleText: const CustomText(
+        text: 'Produto adicionado!',
+        size: 18,
+        weight: FontWeight.bold,
+        color: Colors.black, // ou qualquer outra cor padrão que você esteja usando
+      ),
+      messageText: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: '${produto.nome} ',
+              style: TextStyle(color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            TextSpan(
+              text: 'foi adicionado ao seu carrinho',
+              style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontSize: 18), // ou qualquer outra cor padrão que você esteja usando
+            ),
+          ],
+        ),
+      ),
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: CupertinoColors.activeGreen,
+      backgroundGradient: LinearGradient(colors: [CupertinoColors.systemGreen, Colors.blue]),
+      showProgressIndicator: true,
+      duration: const Duration(seconds: 1),
+    );
   }
 
-  void adicionarCarrinho(ProdutoModel produto){
-    cartItens.add(produto);
-    preco++;
-  }
 
 
   void cout(msg){

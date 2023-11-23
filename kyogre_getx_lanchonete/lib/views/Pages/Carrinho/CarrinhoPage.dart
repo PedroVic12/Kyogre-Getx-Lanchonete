@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Barra%20Inferior/BarraInferior.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoCard.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/controller/sacola_controller.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/views/CarrinhoCard.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 
 class CarrinhoPage extends StatelessWidget {
 
-  final CarrinhoController carrinhoController = Get.put(CarrinhoController());
+  final CarrinhoPedidoController carrinho = Get.put(CarrinhoPedidoController());
 
   CarrinhoPage({Key? key}) : super(key: key);
 
@@ -21,22 +22,25 @@ class CarrinhoPage extends StatelessWidget {
       ),
 
       body: Obx(() {
-        if (carrinhoController.produtosCarrinho.isEmpty) {
+        if (carrinho.cartItens.isEmpty) {
           return const Center(
             child:  CustomText(text: 'Você não tem nenhum produto na sacola ainda', size: 25),
           );
         } else {
           return Column(
             children: [
+
+                // CustomText(text: 'Carrinho = ${carrinho.cartItens}'),
+
               Expanded(
                 child: ListView.builder(
-                  itemCount: carrinhoController.produtosCarrinho.length,
+                  itemCount: carrinho.cartItens.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final produto = carrinhoController.produtosCarrinho.keys.toList()[index];
-                    final quantidade = carrinhoController.produtosCarrinho[produto] ?? 0;
+                    final produto = carrinho.products.keys.toList()[index];
+                    final quantidade = carrinho.products[produto] ?? 0;
 
                     return CardCarrinho(
-                      carrinhoController: carrinhoController,
+                      carrinhoController: carrinho,
                       produto: produto,
                       quantidade: quantidade,
                     );

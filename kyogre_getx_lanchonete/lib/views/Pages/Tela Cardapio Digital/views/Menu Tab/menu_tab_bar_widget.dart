@@ -7,16 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/widget_tab.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/widget_tab.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
 
-import '../../../../app/widgets/Custom/CustomText.dart';
-import '../../../../models/DataBaseController/repository_db_controller.dart';
-import '../../../../models/DataBaseController/template/produtos_model.dart';
-import '../../CardapioDigital/MenuProdutos/produtos_controller.dart';
-import '../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
-import '../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
-import 'CardProdutosFiltrados.dart';
+import '../../../../../app/widgets/Custom/CustomText.dart';
+import '../../../../../models/DataBaseController/repository_db_controller.dart';
+import '../../../../../models/DataBaseController/template/produtos_model.dart';
+import '../../../CardapioDigital/MenuProdutos/produtos_controller.dart';
+import '../../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
+import '../../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
+import '../cards/CardProdutosFiltrados.dart';
 
 
 
@@ -211,10 +211,10 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         children: [
 
           //BlurCardWidget(CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome), screenSize.height, screenSize.width),
+          CardsProdutosFIltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
           CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
           CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
-          CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
-          CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
+          CardsProdutosFIltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
           CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
 
         ],
@@ -235,6 +235,10 @@ Widget buildListRepository(){
           if(repositoryController.my_array.isEmpty){
             return LoadingWidget();
           } else {
+
+            setState(() {
+
+            });
             return ListView.builder(
               itemCount: repositoryController.my_array.length, itemBuilder: (context, index) {
               var item = repositoryController.my_array[index];

@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 class BotaoFloatArredondado extends StatelessWidget {
 
   final IconData icone;
+  final VoidCallback onPress;
 
-  const BotaoFloatArredondado({super.key, required this.icone});
+  const BotaoFloatArredondado({super.key, required this.icone, required this.onPress});
 
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
       hoverColor: Colors.greenAccent,
-      onPressed: (){},
+      onPressed: onPress,
       child: Icon(icone, size: 48, color: Colors.blueAccent,),
       elevation: 25.0,
       constraints: BoxConstraints(

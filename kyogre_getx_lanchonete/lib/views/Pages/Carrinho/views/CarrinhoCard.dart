@@ -5,13 +5,14 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Botoes/BotoesIcone.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/controller/sacola_controller.dart';
 
-import '../../../models/DataBaseController/template/produtos_model.dart';
+import '../../../../models/DataBaseController/template/produtos_model.dart';
 
 class CardCarrinho extends StatelessWidget {
   final int quantidade;
-  final CarrinhoController carrinhoController;
-  final Produto produto;
+  final CarrinhoPedidoController carrinhoController;
+  final ProdutoModel produto;
 
   CardCarrinho({Key? key, required this.produto, required this.quantidade, required this.carrinhoController}) : super(key: key);
 
@@ -37,7 +38,7 @@ class CardCarrinho extends StatelessWidget {
               CustomText(text: "$quantidade", size: 22),
               BotoesIcone(
                 onPressed: () {
-                  carrinhoController.adicionarProduto(produto);
+                  carrinhoController.adicionarCarrinho(produto);
                 },
                 cor: Colors.black,
                 iconData: CupertinoIcons.plus_circle_fill,
@@ -45,7 +46,7 @@ class CardCarrinho extends StatelessWidget {
             ],
           ),
         ),
-        subtitle: CustomText(text: 'R\$ ${produto.preco!.preco1}'),
+        subtitle: CustomText(text: 'R\$ ${produto.precos}'),
       ),
     );
   }

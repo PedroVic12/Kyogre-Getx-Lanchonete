@@ -227,9 +227,9 @@ class SplashController extends GetxController {
     Get.offNamed('/pedido/$id');
   }
 
-  initSplashScreen()async {
+  initSplashScreen() async {
 
-    await Future.delayed(Duration(seconds: 3), () async { cardapioController.setupCardapioDigitalWeb(); });
+    await Future.delayed(Duration(seconds: 5), () async { await cardapioController.setupCardapioDigitalWeb(); });
 
   }
 

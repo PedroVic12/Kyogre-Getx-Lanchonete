@@ -2,19 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
+import 'package:kyogre_getx_lanchonete/themes%20/cores.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 
 
 class BarraInferiorPedido extends StatelessWidget {
-  final CarrinhoController controller = Get.find<CarrinhoController>();
+  final CarrinhoController controller = Get.put(CarrinhoController());
 
   BarraInferiorPedido({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return  Container(
-        decoration: const BoxDecoration(
-            color: CupertinoColors.white,
+        decoration:  BoxDecoration(
+            color: cor_7,
             borderRadius: BorderRadius.vertical(
                 top: Radius.circular(30)
             ),
@@ -44,9 +45,7 @@ class BarraInferiorPedido extends StatelessWidget {
                         const Text('Total: ', style: TextStyle(
                             fontSize: 24,fontWeight: FontWeight.bold
                         )),
-                        Text('R\$ ${controller.total}', style: const TextStyle(
-                            fontSize: 24,fontWeight: FontWeight.bold
-                        )),
+                        Text('R\$ ${controller.total}', style: const TextStyle(fontSize: 24,fontWeight: FontWeight.bold    )),
 
                       ],
                     ),

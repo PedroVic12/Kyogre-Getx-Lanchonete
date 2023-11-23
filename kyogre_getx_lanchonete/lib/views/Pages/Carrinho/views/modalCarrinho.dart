@@ -8,10 +8,10 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
+import '../../../../app/widgets/Barra Inferior/BarraInferior.dart';
 
 class BottomSheetWidget extends StatelessWidget {
-  final CarrinhoController carrinhoController = Get.find<CarrinhoController>();
+  final CarrinhoController carrinhoController = Get.put(CarrinhoController());
   final String nomeCliente;
   final String telefoneCliente;
   final String id;
@@ -38,6 +38,7 @@ class BottomSheetWidget extends StatelessWidget {
 
                   barraLateral(),
 
+                  BotaoNavegacao1()
                 ],
               ),
             );
@@ -55,7 +56,7 @@ class BottomSheetWidget extends StatelessWidget {
             color: Colors.black,
             borderRadius: BorderRadius.circular(100),
           ),
-          child: Center(child: CustomText(text: 'Ola mundo'),)
+          child: Center(child: CustomText(text: 'Ola mundo',color: Colors.white),)
       );
   }
 

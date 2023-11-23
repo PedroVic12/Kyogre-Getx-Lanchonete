@@ -10,14 +10,14 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/menu_tab_bar_widget.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/menu_tab_bar_widget.dart';
 import '../../../models/DataBaseController/DataBaseController.dart';
 import '../../../models/DataBaseController/Views/repositoryView.dart';
 import '../../../models/DataBaseController/repository_db_controller.dart';
 import '../CardapioDigital/MenuProdutos/produtos_controller.dart';
 import '../Carrinho/CarrinhoController.dart';
 import '../Carrinho/CarrinhoPage.dart';
-import '../Carrinho/modalCarrinho.dart';
+import '../Carrinho/views/modalCarrinho.dart';
 import '../SplashScreen/splash_screen_page.dart';
 import 'controllers/pikachu_controller.dart';
 
@@ -180,7 +180,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
 
             Obx(() => menuCategorias.isLoading.value ? const LoadingWidget() : const MenuTabBarCardapio(),),
 
-            botaoVerCarrinho(),
+            BotaoNavegacao1(),
           ]),
 
         ),
@@ -230,26 +230,31 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
             ))));
   }
 
-  Widget botaoVerCarrinho() {
-    return Padding(
-        padding: const EdgeInsets.all(8),
-        child: SizedBox(
-            height: 50,
-            width: 200,
-            child: ElevatedButton(
-                onPressed: () {
-                  carrinhoController.setClienteDetails(
-                      nomeCliente, telefoneCliente, widget.id);
-                  Get.to(CarrinhoPage(),
-                      arguments: [nomeCliente, telefoneCliente, widget.id]);
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: CupertinoColors.activeBlue,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20))),
-                child: const Text(
-                  'Ver o Carrinho',
-                  style: TextStyle(fontSize: 22),
-                ))));
+  Widget BotaoNavegacao1(){
+    return  Padding(
+      padding: EdgeInsets.all(12),
+      child: SizedBox(
+        height: 50,
+        width: 200,
+        child: ElevatedButton(
+            onPressed: () {
+              carrinhoController.setClienteDetails(
+                  nomeCliente, telefoneCliente, widget.id);
+              Get.to(CarrinhoPage(),
+                  arguments: [nomeCliente, telefoneCliente, widget.id]);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: CupertinoColors.activeBlue,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+
+
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Icon(Icons.shopify_rounded),  CustomText(text: 'VER CARRINHO',color: Colors.white, size: 20,)],)
+        ),
+      ),
+    );
   }
+
 }

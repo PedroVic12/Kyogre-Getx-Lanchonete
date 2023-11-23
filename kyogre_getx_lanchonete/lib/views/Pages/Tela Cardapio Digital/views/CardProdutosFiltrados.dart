@@ -22,9 +22,6 @@ class CardProdutosFiltrados extends StatelessWidget {
    CardProdutosFiltrados({super.key, required this.categoria_selecionada});
 
 
-
-
-
   @override
   Widget build(BuildContext context) {
     // Acessando os controladores
@@ -38,46 +35,6 @@ class CardProdutosFiltrados extends StatelessWidget {
     var produtos = repositoryController.dataBase_Array;
     var nome_categoria_selecionada = menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome;
 
-
-     def_controller() async {
-
-      var array = [];
-
-
-      print(repositoryController.isLoading);
-
-      await repositoryController.loadData();
-
-      print(repositoryController.isLoading);
-
-      repositoryController.dataBase_Array.forEach((element)  {
-        print(element);
-         array.addAll(element);
-      });
-
-      return array;
-    }
-
-    @override
-    void loadingData() async {
-      //carregando
-      await menuCategorias.getCategoriasRepository();
-      await repositoryController.loadData();
-      //update();
-
-      pikachu.cout('Categorias = ${menuCategorias.MenuCategorias_Array}');
-      pikachu.cout('Repository = ${repositoryController.dataBase_Array}');
-
-      //teste
-      var products =  repositoryController.filtrarCategoria('Pizzas');
-
-      //debug
-      pikachu.cout(products[0].categoria);
-
-
-    }
-
-
     final screenSize = MediaQuery.of(context).size;
 
     return Container(
@@ -88,9 +45,7 @@ class CardProdutosFiltrados extends StatelessWidget {
 
           LoadingWidget(),
 
-
-
-          // displayProdutosFiltradosCategoria(nome_categoria_selecionada)
+          displayProdutosFiltradosCategoria(nome_categoria_selecionada)
         ],
       ),
     );
@@ -137,15 +92,12 @@ class CardProdutosFiltrados extends StatelessWidget {
 
     //TODO ESPERAR TUDO CARREGAR AQUI TAMBEM
     var produtosFiltrados =  repositoryController.filtrarCategoria(categoria);
-    print('DEBUB = ${produtosFiltrados[2].categoria}');
-
+    repositoryController.pikachu.cout(produtosFiltrados);
 
     // Exibir um indicador de carregamento enquanto os produtos estão sendo filtrados
     if (produtosFiltrados.isEmpty) {
       return LoadingWidget();
      } else {
-
-
 
       // Exibir a lista de produtos filtrados
       return Expanded(
@@ -278,6 +230,7 @@ class CardProdutosFiltrados extends StatelessWidget {
       },
     );
   }
+
 
 
 }

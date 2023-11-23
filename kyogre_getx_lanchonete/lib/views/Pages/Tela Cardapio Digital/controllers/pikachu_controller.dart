@@ -11,7 +11,7 @@ class PikachuController extends GetxController {
 
   //Estrutura de Dados
   List <ProdutoModel> cartItens = [];
-  int get count => cartItens.length;
+  int get qntd => cartItens.length;
   var preco = 0;
   double get totalPrice {
     return cartItens.fold(0, (previousValue, element) => previousValue++);

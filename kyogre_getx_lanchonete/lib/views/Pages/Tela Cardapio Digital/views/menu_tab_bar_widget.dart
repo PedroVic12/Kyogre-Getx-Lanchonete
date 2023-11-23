@@ -6,7 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glass_kit/glass_kit.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/widget_tab.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
 
 import '../../../../app/widgets/Custom/CustomText.dart';
 import '../../../../models/DataBaseController/repository_db_controller.dart';
@@ -40,7 +42,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   @override
   void initState() {
     super.initState();
-
     _tabController = TabController(length: 5, vsync: this);
     // Assuma que o carregamento dos dados é iniciado em MenuProdutosController.onInit
   }
@@ -57,7 +58,8 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
 
         // TabView
-        TabBarViewCardapioProdutosDetails(),
+        buildListRepository(),
+        //TabBarViewCardapioProdutosDetails(),
 
       ],
     );
@@ -191,6 +193,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
     final MenuProdutosController menuController =Get.find<MenuProdutosController>();
     final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
+
     var caregorias = menuCategorias.MenuCategorias_Array;
     var nome_produto_selecionado = menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome;
 
@@ -223,7 +226,33 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   }
 
 
+Widget buildListRepository(){
 
+  final RepositoryDataBaseController repositoryController = Get.find<RepositoryDataBaseController>();
+
+  return  Container(
+        color: Colors.white,
+        height: 500,
+        child:   Obx(() {
+          if(repositoryController.my_array.isEmpty){
+            return LoadingWidget();
+          } else {
+            return ListView.builder(
+              itemCount: repositoryController.my_array.length, itemBuilder: (context, index) {
+              var item = repositoryController.my_array[index];
+              return ListTile(
+                  subtitle: Column(
+                    children: [
+                      CustomText(text: '\n\nProduto: ${item.nome}',),
+                      CustomText(text: 'Categoria: ${item.categoria}'),
+                      CustomText(text: 'Precos: ${item.precos}')
+                    ],
+                  )
+              );
+            },);
+          }})
+    );
+}
 
   Widget BlurCardWidget(_child,size_h,size_w){
 

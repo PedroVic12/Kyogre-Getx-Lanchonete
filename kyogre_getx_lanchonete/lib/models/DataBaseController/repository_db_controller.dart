@@ -17,6 +17,9 @@ class RepositoryDataBaseController extends GetxController {
   final pikachu = PikachuController();
 
   final dataBase_Array = <List<ProdutoModel>>[].obs;
+
+  final List my_array = [].obs;
+
   bool isLoading = true; // <---- Change this to false after loading data
 
   Future loadData() async {
@@ -35,10 +38,6 @@ class RepositoryDataBaseController extends GetxController {
         );
       }
 
-      //array2
-
-      print('\n\n\n DEBUB 7');
-      print(dataBase_Array);
     }
     update();
   }
@@ -47,14 +46,17 @@ class RepositoryDataBaseController extends GetxController {
   Future<List<ProdutoModel>> lerArquivoJson(String filePath) async {
     try {
 
-      final file = File(filePath);
-      final jsonString = await file.readAsString();
-      final List<dynamic> jsonData = json.decode(jsonString);
+      final String response = await rootBundle.loadString(filePath);
+      final List<dynamic> jsonData = await json.decode(response);
 
       // Convertendo o JSON para uma lista de objetos ProdutoModel
-      return jsonData
+      var _produto = jsonData
           .map((jsonItem) => ProdutoModel.fromJson(jsonItem))
           .toList();
+
+      pikachu.cout(_produto);
+
+      return _produto;
 
 
     } catch (e) {
@@ -74,7 +76,6 @@ class RepositoryDataBaseController extends GetxController {
     // dataBase_Array.add(await lerArquivoJson(acaiFile));
     // dataBase_Array.add(await lerArquivoJson(petiscosFile));
 
-    print('\nDatabase Carregado!');
     isLoading = false;
     return dataBase_Array;
   }
@@ -83,6 +84,7 @@ class RepositoryDataBaseController extends GetxController {
     // Filtrar todos os produtos da categoria desejada
     List<ProdutoModel> _produtosFiltrados = [];
 
+    //TODO TROCAR PARA O ARRAY CORRETO
     _produtosFiltrados = dataBase_Array
         .expand((lista) => lista)
         .where((produto) => produto.categoria == categoriaDesejada)

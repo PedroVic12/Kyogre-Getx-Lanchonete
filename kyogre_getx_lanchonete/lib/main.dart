@@ -21,16 +21,14 @@ import 'views/Pages/DashBoard/Pedido/PedidoController.dart';
 
 //TODO -> Menu controller 1:08
 
-// TODO -> Apresentar pedido na tela quando receber o pedido
-
 void main() {
   Get.put(MenuLateralController());
 
   Get.put(PedidoController());
   Get.put(FilaDeliveryController());
 
-  Get.put(DataBaseController());
-  Get.put(CatalogoProdutosController());
+  //Get.put(DataBaseController());
+  //Get.put(CatalogoProdutosController());
 
   runApp(MyApp());
 }
@@ -75,7 +73,7 @@ class MyApp extends StatelessWidget {
 
       title: 'Dashboard',
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.indigo,
+        scaffoldBackgroundColor: Colors.indigo.shade700,
         useMaterial3: true,
         textTheme: GoogleFonts.mulishTextTheme(Theme.of(context).textTheme)
             .apply(bodyColor: Colors.black),

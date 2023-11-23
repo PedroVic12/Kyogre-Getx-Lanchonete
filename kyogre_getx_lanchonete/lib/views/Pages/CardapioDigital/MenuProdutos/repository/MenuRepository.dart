@@ -25,7 +25,7 @@ class MenuProdutosRepository extends GetxController{
 
     if (MenuCategorias_Array.isNotEmpty){
       MenuCategorias_Array.forEach((element) {
-        print('Item Categoria MENU = ${element.nome}');
+        print(' MENU = ${element.nome}');
       });
 
       isLoading.value = false;

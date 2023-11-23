@@ -110,6 +110,8 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   Widget pegarDadosCliente() {
     return Column(
       children: [
+        Text('Visualizando em uma pagina WEB'),
+
         const Text('Dados do Cliente: '),
         Text('ID do Pedido: ${idPedido}'),
         Text('Nome do Cliente: $nomeCliente'),
@@ -154,7 +156,6 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
     // Variaveis
     List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
 
-
     if (kIsWeb) {
       // Comportamento específico para a Web
       return buildWebPage();
@@ -176,12 +177,9 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
         body:Center(
 
           child: ListView(children: [
-            pegarDadosCliente(),
-            Text('Visualizando em uma pagina WEB'),
 
             Obx(() => menuCategorias.isLoading.value ? const LoadingWidget() : const MenuTabBarCardapio(),),
 
-            //Container(            height: 150,            child: BarraInferiorPedido(),          )
             botaoVerCarrinho(),
           ]),
 

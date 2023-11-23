@@ -41,6 +41,41 @@ class RepositoryDataBaseController extends GetxController {
     update();
   }
 
+
+  Future carregandoDadosRepository(file) async {
+    isLoading = true;
+
+    // Limpa o array existente
+    my_array.clear();
+
+    try {
+      // Simulando uma chamada de rede para buscar dados do Pikachu
+      await Future.delayed(Duration(seconds: 2));
+
+      // Le dados json file
+      final String response = await rootBundle.loadString(file);
+      final dados = await json.decode(response);
+
+      pikachu.cout(dados);
+      List produtos = dados.map((item) => ProdutoModel.fromJson(item)).toList();
+
+
+      for (var index = 0; index < produtos.length; index++){
+        //pikachu.cout('${index} = ${produtos[index].nome} | ${produtos[index].categoria}' );
+       my_array.add(produtos[index]);
+      }
+
+    } catch (e) {
+      pikachu.cout('ERRO ao carregar dados: $e');
+    } finally {
+      isLoading = false;
+    }
+    return  my_array;
+
+  }
+
+
+
   // Metodos JSON
   Future<List<ProdutoModel>> lerArquivoJson(String filePath) async {
     try {

@@ -18,9 +18,10 @@ import '../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import 'CardProdutosFiltrados.dart';
 
-//TODO SPLASH PAGE CARREGANDO
 
-// TODO CARDAPIO FIX
+
+
+//TODO ROLAR TAB E PROCURAR O INDICE PARA SELECIONAR NO MENU
 
 // TODO CARDAPIO DEPLOY QRCODE
 
@@ -54,10 +55,8 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
         // Menu Tab Scrol Gradiente
         _buildHeader(),
+        Divider(),
         TabBarScrollCardapioCategorias(),
-
-
-        buildListRepository(),
 
         // TabView
         TabBarViewCardapioProdutosDetails(),
@@ -196,10 +195,8 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
     final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
 
     var caregorias = menuCategorias.MenuCategorias_Array;
-    var nome_produto_selecionado = menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome;
-
-
-
+    final nome_produto_selecionado = menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome;
+    final indice = menuController.produtoIndex.value;
 
     // Use MediaQuery para obter o tamanho da tela
     final screenSize = MediaQuery.of(context).size;
@@ -230,8 +227,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 Widget buildListRepository(){
 
   final RepositoryDataBaseController repositoryController = Get.find<RepositoryDataBaseController>();
-
-
 
   return  Container(
         color: Colors.white,

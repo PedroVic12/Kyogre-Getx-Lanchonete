@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glass_kit/glass_kit.dart';
+import 'package:kyogre_getx_lanchonete/themes%20/cores.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/pikachu_controller.dart';
 
@@ -38,7 +39,7 @@ class CardProdutosFiltrados extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
 
     return Container(
-      color: Colors.deepOrangeAccent,
+      color: Colors.deepOrange,
       child: Column(
         children: [
           _headerProdutos(nome_categoria_selecionada),
@@ -58,7 +59,6 @@ class CardProdutosFiltrados extends StatelessWidget {
 
     final MenuProdutosController menuController =Get.find<MenuProdutosController>();
     final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
-    final RepositoryDataBaseController repositoryController =Get.find<RepositoryDataBaseController>();
 
 
 
@@ -66,11 +66,11 @@ class CardProdutosFiltrados extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       color: CupertinoColors.systemBlue,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Divider(height: 10, color: Colors.grey),
-          Icon(CupertinoIcons.search, color: Colors.white),
-          SizedBox(width: 16,),
+          const Divider(height: 5, color: Colors.black),
+          const Icon(CupertinoIcons.search, color: Colors.white),
+          const SizedBox(width: 16,),
           CustomText(
             text: 'Item selecionado = ${menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome}',
             color: Colors.white,
@@ -87,6 +87,13 @@ class CardProdutosFiltrados extends StatelessWidget {
 
   Widget displayProdutosFiltradosCategoria(String categoria) {
     final RepositoryDataBaseController repositoryController =Get.find<RepositoryDataBaseController>();
+    // Defina o tamanho do ícone e o espaçamento
+    double iconSize = 32;
+    double padding = 128;
+
+    // Calcule o raio do CircleAvatar
+    double radius = (iconSize / 2) + padding;
+
 
 
     //TODO ESPERAR TUDO CARREGAR AQUI TAMBEM
@@ -110,32 +117,35 @@ class CardProdutosFiltrados extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CupertinoListTile(
+                  padding: const EdgeInsets.all(8.0),
                   onTap: () {
                     print('OPA!!!!'); // Ação do onTap
                   },
                   leading: CircleAvatar(
-                    radius: 32,
-                    child: Icon(Icons.fastfood),
+                    backgroundColor: Colors.white,
+                    radius: radius,
+                    child: Center(
+                        child: Icon(Icons.fastfood, size: iconSize),
+                    )
                   ),
                   title: CustomText(
                     text: '${produto.nome}', // Use os dados reais do produto
                     size: 20,
+                    weight: FontWeight.bold,
                   ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomText(text: 'Preços: ${produto.precos}'),
                       CustomText(text: 'Ingredientes: ${produto.ingredientes?.join(', ')}'),
                       CustomText(
-                        text:
-                        'Preços: ${produto.precos.map((p) => p['preco']).join(' | ')}',
+                        text:'Preços: ${produto.precos.map((p) => p['preco']).join(' | ')}',
                         size: 16,
                         color: Colors.green,
                         weight: FontWeight.bold, // Exemplo de uso do preço
                       ),
                     ],
                   ),
-                  trailing: BotaoFloatArredondado(icone: Icons.add_circle),
+                  trailing: BotaoFloatArredondado(icone: Icons.add),
                 ),
               ),
             );

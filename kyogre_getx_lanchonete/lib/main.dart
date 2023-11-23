@@ -8,6 +8,7 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Utils/MenuLateral.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CardapioDigitalPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Layout/Layout.dart';
@@ -26,6 +27,8 @@ void main() {
 
   Get.put(PedidoController());
   Get.put(FilaDeliveryController());
+
+  Get.put(MenuProdutosController());
 
   //Get.put(DataBaseController());
   //Get.put(CatalogoProdutosController());

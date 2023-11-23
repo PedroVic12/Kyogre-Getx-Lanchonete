@@ -12,6 +12,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/con
 
 import '../../../models/DataBaseController/repository_db_controller.dart';
 import '../../../models/DataBaseController/template/produtos_model.dart';
+import '../CardapioDigital/MenuProdutos/produtos_controller.dart';
 import '../Tela Cardapio Digital/controllers/pikachu_controller.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -23,11 +24,10 @@ class SplashScreen extends StatelessWidget {
 
 
 
-
     return Scaffold(
       backgroundColor: Colors.indigoAccent,
       body: GetBuilder<SplashController>(
-        init: SplashController(),
+        init: _controller,
         builder: (_) {
           return Stack(
             children: [
@@ -143,7 +143,6 @@ class SplashScreen extends StatelessWidget {
                     subtitle: Column(
                       children: [
                         CustomText(text: '\n\nProduto: ${item[0].nome}',),
-
                       ],
                     )
                 );
@@ -167,10 +166,11 @@ class SplashController extends GetxController {
   bool isVisivel = false;
   var isLoadingData = false.obs;
   String id_cliente = '';
+
+
   final _productsLoader = Completer<void>();
 
   final String pizzasFile = 'lib/repository/models/pizzas.json';
-  var json_data = ''.obs;
 
 
   //controllers
@@ -183,15 +183,14 @@ class SplashController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    initSplashScreen();
     isVisivel = true;
     marginAnimada = 250.0;
-    //carregandoDados();
+    initSplashScreen();
     update();
   }
 
 
-  Future<void> carregandoDados() async {
+  Future<void> loadingData() async {
     isLoadingData.value = true;
     try {
 
@@ -226,72 +225,6 @@ class SplashController extends GetxController {
   void navegarParaTelaCardapio() async {
     String id ='2023';
     Get.offNamed('/pedido/$id');
-  }
-
-
-
-
-  Future<List<ProdutoModel>> lerArquivoJson(String filePath) async {
-    try {
-
-      final file = File(filePath);
-      final jsonString = await file.readAsString();
-      final List<dynamic> jsonData = json.decode(jsonString);
-      pikachu.cout(jsonData);
-
-      // Convertendo o JSON para uma lista de objetos ProdutoModel
-      var jsonItem =jsonData.map((jsonItem) => ProdutoModel.fromJson(jsonItem)).toList();
-      pikachu.cout(jsonItem);
-
-      return jsonItem;
-
-
-    } catch (e) {
-      print('\n\nErro ao carregar Produtos JSON do DataBase: $e');
-      return [];
-    }
-  }
-
-
-  Future loadinData() async {
-    isLoadingData.value = true;
-
-
-    // Limpa o array existente
-    _repositoryController.dataBase_Array.clear();
-
-    try {
-      // Simulando uma chamada de rede para buscar dados do Pikachu
-      await Future.delayed(Duration(seconds: 2));
-
-      // Lê os dados JSON
-      List itemsJson = await lerArquivoJson(pizzasFile);
-      pikachu.cout(itemsJson);
-
-      // Transforma em Objeto dart
-      itemsJson.forEach((element) {
-        List<ProdutoModel> products = ProdutoModel.fromJson(element) as List<ProdutoModel>;
-        pikachu.cout(products);
-
-        // Adiciona os objetos ao array do controlador
-        _repositoryController.dataBase_Array.add(products);
-
-      });
-
-    } catch (e) {
-      print('Erro ao carregar dados: $e');
-    } finally {
-      isLoadingData.value = false;
-    }
-
-    print('\n\n\nDatabase Carregado!');
-    pikachu.cout('Categorias = ${menuCategorias.MenuCategorias_Array}');
-    pikachu.cout('Repository = ${_repositoryController.dataBase_Array}');
-
-
-    return  _repositoryController.dataBase_Array;
-
-
   }
 
   initSplashScreen()async {

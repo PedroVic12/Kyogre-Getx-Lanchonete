@@ -30,6 +30,13 @@ class CardapioController extends GetxController {
   final MenuProdutosController menuController =Get.find<MenuProdutosController>();
   final pikachu = PikachuController();
 
+  @override
+  void onReady() {
+    super.onReady();
+
+    update();
+  }
+
 
 
  // metodos backend
@@ -132,10 +139,14 @@ class CardapioController extends GetxController {
 
       // Le dados json file
       var dados = await readJson(file);
-      pikachu.cout(dados);
+      //pikachu.cout(dados);
+
+
+      // Cria um Dart Object
       List produtos = dados.map((item) => ProdutoModel.fromJson(item)).toList();
 
 
+      // adiciona cara produto numa lista global
       for (var index = 0; index < produtos.length; index++){
         //pikachu.cout('${index} = ${produtos[index].nome} | ${produtos[index].categoria}' );
         repositoryController.my_array.add(produtos[index]);

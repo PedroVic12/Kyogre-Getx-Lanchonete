@@ -19,11 +19,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
       backgroundColor: CupertinoColors.black,
-      automaticallyImplyLeading: false,
+      automaticallyImplyLeading: true,
       centerTitle: true,
       elevation: 7.0,
       toolbarHeight: 72,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(48))),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(128))),
     );
   }
 

@@ -27,6 +27,9 @@ class CarrinhoController extends GetxController {
   }
 
 
+
+
+
   Map<String, dynamic> gerarPedidoInfo() {
     // Lista para armazenar os itens do pedido em formato JSON
     List<Map<String, dynamic>> pedidoJsonItems = [];

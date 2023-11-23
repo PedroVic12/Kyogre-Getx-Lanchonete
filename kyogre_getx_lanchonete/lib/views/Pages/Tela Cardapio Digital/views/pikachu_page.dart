@@ -14,7 +14,7 @@ class PikachuPage extends StatelessWidget {
         title: Text('Pikachu Info'),
       ),
       body: FutureBuilder(
-        future: controller.carregandoDados(),
+        future: controller.loadingData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Obx(() => controller.pikachuInfo.isNotEmpty

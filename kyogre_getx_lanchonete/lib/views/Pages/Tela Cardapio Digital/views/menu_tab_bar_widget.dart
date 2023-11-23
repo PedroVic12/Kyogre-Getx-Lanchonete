@@ -191,6 +191,10 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
     final MenuProdutosController menuController =Get.find<MenuProdutosController>();
     final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
+    var caregorias = menuCategorias.MenuCategorias_Array;
+    var nome_produto_selecionado = menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome;
+
+
 
 
     // Use MediaQuery para obter o tamanho da tela
@@ -215,19 +219,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         ],
       ),
 
-    );
-  }
-
-
-
-  Widget _buildListViewProdutos(){
-    return Container(
-      color: Colors.pinkAccent,
-      child: ListView(
-        children: [
-          Text('ola')
-        ],
-      ),
     );
   }
 

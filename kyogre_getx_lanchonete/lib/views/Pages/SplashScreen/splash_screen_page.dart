@@ -163,14 +163,7 @@ class SplashController extends GetxController {
   //controllers
   final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
   final RepositoryDataBaseController _repositoryController =Get.put(RepositoryDataBaseController());
-
-
-  void cout(msg){
-    print('\n\nDEBUG');
-    print('==================================================================================');
-    print(msg);
-    print('==================================================================================\n');
-  }
+  final pikachu = PikachuController();
 
   @override
   void onReady() {
@@ -181,17 +174,7 @@ class SplashController extends GetxController {
     update();
   }
 
-  void loadDataSuccess(String title, String message) {
-    if (Get.isSnackbarOpen) {
-      Get.closeCurrentSnackbar();
-    }
-    Get.snackbar(
-      title,
-      message,
-      backgroundColor: Colors.cyan,
-      snackPosition: SnackPosition.TOP,
-    );
-  }
+
 
 
   void loadingData() async {
@@ -200,14 +183,14 @@ class SplashController extends GetxController {
     await _repositoryController.loadData();
     update();
 
-    cout('Categorias = ${menuCategorias.MenuCategorias_Array}');
-    cout('Repository = ${_repositoryController.dataBase_Array}');
+    pikachu.cout('Categorias = ${menuCategorias.MenuCategorias_Array}');
+    pikachu.cout('Repository = ${_repositoryController.dataBase_Array}');
 
     //teste
     var products =  _repositoryController.filtrarCategoria('Pizzas');
 
     //debug
-    cout(products[0].categoria);
+    pikachu.cout(products[0].categoria);
 
 
   }
@@ -225,7 +208,7 @@ class SplashController extends GetxController {
       // Simulando dados recebidos
       if(array_db.isNotEmpty){
         Future.delayed(Duration(seconds: 1), () {
-          loadDataSuccess('Repository Carregado com sucesso', '${array_db.length}');
+          //pikachu.loadDataSuccess('Repository Carregado com sucesso', '${array_db.length}');
         });
 
         isLoadingData.value = false;

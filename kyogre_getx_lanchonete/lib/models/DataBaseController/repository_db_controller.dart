@@ -8,10 +8,13 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produtos_model.dart';
 
+import '../../views/Pages/Tela Cardapio Digital/controllers/pikachu_controller.dart';
+
 class RepositoryDataBaseController extends GetxController {
   final String sanduicheFile = 'lib/repository/models/sanduiches.json';
   final String hamburguersFile = 'lib/repository/models/hamburguer.json';
   final String pizzasFile = 'lib/repository/models/pizzas.json';
+  final pikachu = PikachuController();
 
   List<List<ProdutoModel>> dataBase_Array = [];
   bool isLoading = true; // <---- Change this to false after loading data
@@ -45,15 +48,24 @@ class RepositoryDataBaseController extends GetxController {
     try {
       if (kIsWeb) {
         // Carregando o JSON a partir do caminho do asset
-        String jsonString = await rootBundle.loadString(filePath);
-        List<dynamic> jsonData = json.decode(jsonString);
+        final String jsonString = await rootBundle.loadString(filePath);
+        final jsonData = json.decode(jsonString);
 
         // Convertendo o JSON para uma lista de objetos ProdutoModel
         print('\n\nArquivo JSON lido com Sucesso na WEB!');
+
+
+        pikachu.cout(jsonData);
+
+
         return jsonData
             .map((jsonItem) => ProdutoModel.fromJson(jsonItem))
             .toList();
+
+
+
       } else {
+
         final file = File(filePath);
         final jsonString = await file.readAsString();
         final List<dynamic> jsonData = json.decode(jsonString);
@@ -77,6 +89,7 @@ class RepositoryDataBaseController extends GetxController {
 
       // Convertendo o JSON para uma lista de objetos ProdutoModel
       print('\n\nArquivo JSON lido com Sucesso na WEB!');
+      pikachu.cout(jsonData);
       return jsonData
           .map((jsonItem) => ProdutoModel.fromJson(jsonItem))
           .toList();
@@ -130,16 +143,3 @@ class RepositoryDataBaseController extends GetxController {
   }
 }
 
-void main() async {
-  final controller = RepositoryDataBaseController();
-
-  print(controller.isLoading);
-
-  await controller.loadData();
-
-  print(controller.isLoading);
-
-  controller.dataBase_Array.forEach((element) {
-    print(element);
-  });
-}

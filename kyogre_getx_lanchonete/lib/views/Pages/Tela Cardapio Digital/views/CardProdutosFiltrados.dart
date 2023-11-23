@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/pikachu_controller.dart';
 
 import '../../../../app/widgets/Botoes/float_custom_button.dart';
 import '../../../../app/widgets/Custom/CustomText.dart';
+import '../../../../app/widgets/Utils/loading_widget.dart';
 import '../../../../models/DataBaseController/repository_db_controller.dart';
+import '../../../../models/DataBaseController/template/produtos_model.dart';
 import '../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../Carrinho/CarrinhoController.dart';
 
@@ -18,6 +21,10 @@ class CardProdutosFiltrados extends StatelessWidget {
 
    CardProdutosFiltrados({super.key, required this.categoria_selecionada});
 
+
+
+
+
   @override
   Widget build(BuildContext context) {
     // Acessando os controladores
@@ -25,21 +32,73 @@ class CardProdutosFiltrados extends StatelessWidget {
     final CarrinhoController carrinhoController = Get.find<CarrinhoController>();
     final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
     final MenuProdutosController menuController =Get.find<MenuProdutosController>();
+    final pikachu = PikachuController();
+
 
     var produtos = repositoryController.dataBase_Array;
     var nome_categoria_selecionada = menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome;
+
+
+     def_controller() async {
+
+      var array = [];
+
+
+      print(repositoryController.isLoading);
+
+      await repositoryController.loadData();
+
+      print(repositoryController.isLoading);
+
+      repositoryController.dataBase_Array.forEach((element)  {
+        print(element);
+         array.addAll(element);
+      });
+
+      return array;
+    }
+
+    @override
+    void loadingData() async {
+      //carregando
+      await menuCategorias.getCategoriasRepository();
+      await repositoryController.loadData();
+      //update();
+
+      pikachu.cout('Categorias = ${menuCategorias.MenuCategorias_Array}');
+      pikachu.cout('Repository = ${repositoryController.dataBase_Array}');
+
+      //teste
+      var products =  repositoryController.filtrarCategoria('Pizzas');
+
+      //debug
+      pikachu.cout(products[0].categoria);
+
+
+    }
+
+
     final screenSize = MediaQuery.of(context).size;
 
     return Container(
-      color: Colors.blueGrey.shade700,
+      color: Colors.deepOrangeAccent,
       child: Column(
         children: [
           _headerProdutos(nome_categoria_selecionada),
 
-         displayProdutosFiltradosCategoria(nome_categoria_selecionada)
+          LoadingWidget(),
+
+
+
+          // displayProdutosFiltradosCategoria(nome_categoria_selecionada)
         ],
       ),
     );
+
+
+
+
+
   }
 
   Widget _headerProdutos(categoria_selecionada) {
@@ -63,33 +122,31 @@ class CardProdutosFiltrados extends StatelessWidget {
             color: Colors.white,
             size: 18,
           ),
+
+          CustomText(text: 'Categoria = ${menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value]}',          color: Colors.white,         size: 18,         ),
         ],
       ),
     );
   }
+
+
 
   Widget displayProdutosFiltradosCategoria(String categoria) {
     final RepositoryDataBaseController repositoryController =Get.find<RepositoryDataBaseController>();
 
 
     //TODO ESPERAR TUDO CARREGAR AQUI TAMBEM
-
-
-
     var produtosFiltrados =  repositoryController.filtrarCategoria(categoria);
-
-
-      print('DEBUB = ${produtosFiltrados[2].categoria}');
+    print('DEBUB = ${produtosFiltrados[2].categoria}');
 
 
     // Exibir um indicador de carregamento enquanto os produtos estão sendo filtrados
     if (produtosFiltrados.isEmpty) {
-      return Card(
-        child: Column(
-          children: [CustomText(text: 'Carregando...'), CircularProgressIndicator()],
-        ),
-      );
+      return LoadingWidget();
      } else {
+
+
+
       // Exibir a lista de produtos filtrados
       return Expanded(
         child: ListView.builder(
@@ -168,6 +225,59 @@ class CardProdutosFiltrados extends StatelessWidget {
     );
   }
 
+
+
+
+  // Debug
+  Widget buildListViewProdutosRepository() {
+    final RepositoryDataBaseController repositoryController = Get.find<RepositoryDataBaseController>();
+
+    return ListView.builder(
+      itemCount: repositoryController.dataBase_Array
+          .expand((x) => x)
+          .length,
+      itemBuilder: (context, index) {
+        final produto = repositoryController.dataBase_Array.expand((x) => x).elementAt(
+            index);
+        return ListTile(
+          title: Text(produto.nome),
+          subtitle: Text('Categoria: ${produto.categoria}'),
+        );
+      },
+    );
+  }
+
+  Widget _carregandoProdutos() {
+
+    final RepositoryDataBaseController repositoryController = Get.find<RepositoryDataBaseController>();
+
+    return FutureBuilder<List<List<ProdutoModel>>>(
+      future: repositoryController.fetchAllProducts(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(
+              child: Text('Ocorreu um erro ao carregar os produtos.'));
+        } else {
+          return Container(
+            height: 500,
+            color: Colors.purpleAccent,
+            child: ListView(
+              children: [
+                Card(
+                    color: Colors.blueGrey,
+                    child: Text(
+                        'Produtos JSON = ${repositoryController.dataBase_Array}')),
+
+                buildListViewProdutosRepository()
+              ],
+            ),
+          );
+        }
+      },
+    );
+  }
 
 
 }

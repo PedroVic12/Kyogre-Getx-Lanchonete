@@ -57,8 +57,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         TabBarScrollCardapioCategorias(),
 
 
-        // TabView
         buildListRepository(),
+
+        // TabView
         TabBarViewCardapioProdutosDetails(),
 
       ],
@@ -234,7 +235,7 @@ Widget buildListRepository(){
 
   return  Container(
         color: Colors.white,
-        height: 500,
+        height: 300,
         child:   Obx(() {
           if(repositoryController.my_array.isEmpty){
             return LoadingWidget();

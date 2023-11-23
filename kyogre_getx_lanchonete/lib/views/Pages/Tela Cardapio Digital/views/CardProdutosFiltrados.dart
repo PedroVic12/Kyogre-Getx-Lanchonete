@@ -42,7 +42,7 @@ class CardProdutosFiltrados extends StatelessWidget {
       child: Column(
         children: [
           _headerProdutos(nome_categoria_selecionada),
-          
+
           displayProdutosFiltradosCategoria(nome_categoria_selecionada)
         ],
       ),
@@ -58,6 +58,7 @@ class CardProdutosFiltrados extends StatelessWidget {
 
     final MenuProdutosController menuController =Get.find<MenuProdutosController>();
     final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
+    final RepositoryDataBaseController repositoryController =Get.find<RepositoryDataBaseController>();
 
 
 
@@ -76,7 +77,7 @@ class CardProdutosFiltrados extends StatelessWidget {
             size: 18,
           ),
 
-          CustomText(text: 'Categoria = ${menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value]}',          color: Colors.white,         size: 18,         ),
+         // CustomText(text: 'Categoria = ${repositoryController.my_array[7].categoria}',          color: Colors.white,         size: 18,         ),
         ],
       ),
     );
@@ -90,6 +91,8 @@ class CardProdutosFiltrados extends StatelessWidget {
 
     //TODO ESPERAR TUDO CARREGAR AQUI TAMBEM
     var produtosFiltrados =  repositoryController.filtrarCategoria(categoria);
+
+    repositoryController.pikachu.cout(produtosFiltrados);
 
     // Exibir um indicador de carregamento enquanto os produtos estão sendo filtrados
     if (produtosFiltrados.isEmpty) {

@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 
 import '../../../models/DataBaseController/repository_db_controller.dart';
 import '../../../models/DataBaseController/template/produtos_model.dart';
@@ -134,7 +135,6 @@ class SplashScreen extends StatelessWidget {
               ? Column(
             children: [
                     _buildAfterAnimation(),
-                    Text('ARRAY = ${repository.dataBase_Array}'),
 
               ListView.builder(
                 itemCount: repository.dataBase_Array.length, itemBuilder: (context, index) {
@@ -177,6 +177,8 @@ class SplashController extends GetxController {
   final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
   final RepositoryDataBaseController _repositoryController =Get.put(RepositoryDataBaseController());
   final pikachu = PikachuController();
+
+  final cardapioController = CardapioController();
 
   @override
   void onReady() {
@@ -294,7 +296,7 @@ class SplashController extends GetxController {
 
   initSplashScreen()async {
 
-    await Future.delayed(Duration(seconds: 3), () async { loadinData(); });
+    await Future.delayed(Duration(seconds: 3), () async { cardapioController.setupCardapioDigitalWeb(); });
 
   }
 

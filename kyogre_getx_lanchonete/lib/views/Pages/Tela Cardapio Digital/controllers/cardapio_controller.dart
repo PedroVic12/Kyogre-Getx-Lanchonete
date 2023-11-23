@@ -137,7 +137,7 @@ class CardapioController extends GetxController {
 
 
       for (var index = 0; index < produtos.length; index++){
-        pikachu.cout('${index} = ${produtos[index].nome} | ${produtos[index].categoria}' );
+        //pikachu.cout('${index} = ${produtos[index].nome} | ${produtos[index].categoria}' );
         repositoryController.my_array.add(produtos[index]);
       }
 

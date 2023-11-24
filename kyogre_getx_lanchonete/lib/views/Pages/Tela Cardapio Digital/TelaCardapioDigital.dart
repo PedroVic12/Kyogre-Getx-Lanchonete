@@ -11,6 +11,7 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/menu_tab_bar_widget.dart';
+import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
 import '../../../models/DataBaseController/DataBaseController.dart';
 import '../../../models/DataBaseController/Views/repositoryView.dart';
 import '../../../models/DataBaseController/repository_db_controller.dart';
@@ -43,54 +44,17 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   late String idPedido = "";
 
   final DataBaseController _dataBaseController = DataBaseController();
+
+  //todo antigo
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
 
   //controllers
-  final MenuProdutosController menuController =Get.put(MenuProdutosController());
-  final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
-  final RepositoryDataBaseController repositoryController =Get.put(RepositoryDataBaseController());
+  final RepositoryDataBaseController repositoryController = Get.find<RepositoryDataBaseController>();
+  final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
+  final MenuProdutosController menuController =Get.find<MenuProdutosController>();
   final CardapioController controller = Get.put(CardapioController());
   final pikachu = PikachuController();
-
-
-  // variaveis
-  final _productsLoader = Completer<void>();
-
-  // metodos
-  Future<void> loadProducts() async {
-
-
-    await menuCategorias.getCategoriasRepository();
-    await repositoryController.loadData();
-
-    await Future.delayed(Duration(seconds: 2), () async =>  await repositoryController.loadData() );
-
-    await Future.delayed(Duration(seconds: 3), () async =>     await menuCategorias.getCategoriasRepository());
-
-    _productsLoader.complete(); // Complete o completer após o carregamento.
-    controller.update();
-
-  }
-
-  void loadingData() async {
-    //carregando
-    await menuCategorias.getCategoriasRepository();
-    await repositoryController.loadData();
-    //update();
-
-    pikachu.cout('Categorias = ${menuCategorias.MenuCategorias_Array}');
-    pikachu.cout('Repository = ${repositoryController.dataBase_Array}');
-
-    //teste
-    var products =  repositoryController.filtrarCategoria('Pizzas');
-
-    //debug
-    pikachu.cout(products[0].categoria);
-
-
-  }
-
-
+  
    initPage()async {
      await Future.delayed(Duration(seconds: 3), () async { controller.setupCardapioDigitalWeb(); });
   }
@@ -178,9 +142,10 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
 
           child: ListView(children: [
 
-            Obx(() => menuCategorias.isLoading.value ? const LoadingWidget() : const MenuTabBarCardapio(),),
+            Obx(() => menuCategorias.isLoading.value ? const LoadingWidget() : const Expanded(child: MenuTabBarCardapio()),),
 
             BotaoNavegacao1(),
+
           ]),
 
         ),

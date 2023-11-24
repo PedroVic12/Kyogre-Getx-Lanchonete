@@ -4,10 +4,15 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/themes%20/cores.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/controller/sacola_controller.dart';
+
+import '../../../views/Pages/Carrinho/controller/backend_wpp.dart';
 
 
 class BarraInferiorPedido extends StatelessWidget {
-  final CarrinhoController controller = Get.put(CarrinhoController());
+  final CarrinhoPedidoController carrinho = Get.put(CarrinhoPedidoController());
+  final backEndWhatsapp Groundon = Get.put(backEndWhatsapp());
+
 
   BarraInferiorPedido({Key? key}) : super(key: key);
 
@@ -31,7 +36,7 @@ class BarraInferiorPedido extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 20, top: 10, bottom: 20, right: 10),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
 
 
@@ -39,14 +44,11 @@ class BarraInferiorPedido extends StatelessWidget {
               Obx(
                       ()=> Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child:  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const Text('Total: ', style: TextStyle(
-                            fontSize: 24,fontWeight: FontWeight.bold
-                        )),
-                        Text('R\$ ${controller.total}', style: const TextStyle(fontSize: 24,fontWeight: FontWeight.bold    )),
-
+                        CustomText(text: 'Total:', size: 20),
+                        CustomText(text: 'R\$ ${carrinho.totalPrice.toStringAsFixed(2)}', size: 20),
                       ],
                     ),
                   )
@@ -66,9 +68,9 @@ class BarraInferiorPedido extends StatelessWidget {
                     if (result == true) { // Se o resultado for true, o usuário clicou em "Sim".
                       try {
                         const String groundon_number1 = '5521983524026';
-                        final String messagemWhatsappPedido = controller.gerarResumoPedidoCardapio();
+                        final String messagemWhatsappPedido = Groundon.gerarResumoPedidoCardapio();
                         print(messagemWhatsappPedido);
-                        controller.enviarPedidoWhatsapp(phone: groundon_number1, message: messagemWhatsappPedido);
+                        Groundon.enviarPedidoWhatsapp(phone: groundon_number1, message: messagemWhatsappPedido);
 
 
                       } catch (e) {

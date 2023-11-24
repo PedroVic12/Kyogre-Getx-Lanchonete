@@ -4,37 +4,48 @@ import '../../../../models/DataBaseController/template/produtos_model.dart';
 
 class CarrinhoPedidoController extends GetxController{
   // Para controle do estado de carregamento
-  var pikachuInfo = {}.obs;
   var isLoading = true.obs;
 
-
-  //Estrutura de Dados
-  List <ProdutoModel> cartItens = [];
-
   // Usando RxMap para tornar o mapa de produtos reativo
-  final products = <ProdutoModel, int>{}.obs;
-
-  int get qntd => cartItens.length;
+  final SACOLA = <ProdutoModel, int>{}.obs;
   var preco = 0;
+
+
   double get totalPrice {
-    return cartItens.fold(0, (previousValue, element) => previousValue++);
+    return SACOLA.entries
+        .map((product) => (product.key.precos.first['preco'] ?? 0.0) * product.value)
+        .fold(0.0, (previousValue, element) => previousValue + element);
   }
 
 
   void removerProduto(ProdutoModel produto) {
-    if (products.containsKey(produto)) {
-      if (products[produto] == 1) {
-        products.remove(produto);
+    if (SACOLA.containsKey(produto)) {
+      if (SACOLA[produto] == 1) {
+        SACOLA.remove(produto);
       } else {
-        products[produto] = (products[produto] ?? 0) - 1;
+        SACOLA[produto] = (SACOLA[produto] ?? 0) - 1;
       }
     }
   }
 
 
-  void adicionarCarrinho(ProdutoModel produto){
-    cartItens.add(produto);
-    preco++;
+  void adicionarCarrinho(ProdutoModel produto) {
+    if (SACOLA.containsKey(produto)) {
+      SACOLA[produto] = (SACOLA[produto] ?? 0) + 1;
+    } else {
+      SACOLA[produto] = 1;
+    }
+
+    // Atualize o preço total
+    updateTotalPrice();
+  }
+
+  double updateTotalPrice() {
+    var price = SACOLA.entries
+        .map((product) => (product.key.precos.first['preco'] ?? 0.0) * product.value)
+        .fold(0.0, (previousValue, element) => previousValue + element);
+
+    return price;
   }
 
 

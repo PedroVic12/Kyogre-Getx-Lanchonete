@@ -21,7 +21,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SplashController _controller = Get.put(SplashController());
-
+    final CardapioController controller = Get.put(CardapioController());
 
 
     return Scaffold(
@@ -163,31 +163,41 @@ class SplashController extends GetxController {
   final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
   final RepositoryDataBaseController _repositoryController =Get.put(RepositoryDataBaseController());
   final pikachu = PikachuController();
-  final cardapioController = CardapioController();
+  final CardapioController cardapioController = Get.put(CardapioController());
 
   @override
-  void onInit() {
-    super.onInit();
+  void onReady() {
+
 
     isVisivel = true;
-    marginAnimada = 250.0;
-    initSplashScreen();
+    marginAnimada = 300.0;
     update();
+
+    initSplashScreen();
+
   }
 
 
+  Future<void> initSplashScreen() async {
+    await Future.delayed(Duration(seconds: 5), () async {
+      await cardapioController.setupCardapioDigitalWeb();
+      verificarDadosCarregados();
+    });
+  }
+
+  void verificarDadosCarregados() {
+    if (!cardapioController.isLoading.value &&
+        _repositoryController.dataBase_Array.isNotEmpty) {
+      navegarParaTelaCardapio();
+    }
+  }
 
   void navegarParaTelaCardapio() async {
     String id ='2023';
     Get.offNamed('/pedido/$id');
   }
 
-  initSplashScreen() async {
 
-    await Future.delayed(Duration(seconds: 7), () async { await cardapioController.setupCardapioDigitalWeb(); });
-
-    navegarParaTelaCardapio();
-  }
 
 }
 

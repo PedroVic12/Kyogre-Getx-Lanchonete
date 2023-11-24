@@ -22,7 +22,7 @@ class CarrinhoPage extends StatelessWidget {
       ),
 
       body: Obx(() {
-        if (carrinho.cartItens.isEmpty) {
+        if (carrinho.SACOLA.isEmpty) {
           return const Center(
             child:  CustomText(text: 'Você não tem nenhum produto na sacola ainda', size: 25),
           );
@@ -30,14 +30,12 @@ class CarrinhoPage extends StatelessWidget {
           return Column(
             children: [
 
-                // CustomText(text: 'Carrinho = ${carrinho.cartItens}'),
-
               Expanded(
                 child: ListView.builder(
-                  itemCount: carrinho.cartItens.length,
+                  itemCount: carrinho.SACOLA.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final produto = carrinho.products.keys.toList()[index];
-                    final quantidade = carrinho.products[produto] ?? 0;
+                    final produto = carrinho.SACOLA.keys.toList()[index];
+                    final quantidade = carrinho.SACOLA[produto] ?? 0;
 
                     return CardCarrinho(
                       carrinhoController: carrinho,

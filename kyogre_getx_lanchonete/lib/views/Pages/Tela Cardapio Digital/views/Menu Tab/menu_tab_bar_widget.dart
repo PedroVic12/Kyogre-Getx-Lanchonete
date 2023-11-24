@@ -50,7 +50,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   @override
   Widget build(BuildContext context) {
 
-    return      Column(
+    return Column(
       children: [
 
         // Menu Tab Scrol Gradiente
@@ -212,10 +212,10 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
           //BlurCardWidget(CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome), screenSize.height, screenSize.width),
           CardsProdutosFIltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
-          CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
-          CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
           CardsProdutosFIltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
-          CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
+          CardsProdutosFIltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
+          CardsProdutosFIltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
+          CardsProdutosFIltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
 
         ],
       ),

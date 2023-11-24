@@ -29,16 +29,20 @@ class BottomSheetWidget extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24),
         child: DraggableScrollableSheet(
+          initialChildSize: 0.5, // Tamanho inicial mínimo da BottomSheet
+          minChildSize: 0.3, // Tamanho mínimo (quando fechado)
+          maxChildSize: 0.8,
           builder: (context, scrollController) {
             return Container(
               child: Column(
                 children: [
 
-                  BarraInferiorPedido(),
-
                   barraLateral(),
 
-                  BotaoNavegacao1()
+                  BotaoNavegacao1(),
+
+                  BarraInferiorPedido(),
+
                 ],
               ),
             );

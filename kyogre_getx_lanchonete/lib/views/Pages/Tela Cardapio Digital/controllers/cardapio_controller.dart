@@ -24,10 +24,13 @@ class CardapioController extends GetxController {
 
 
   // Acessando os controladores
-  final RepositoryDataBaseController repositoryController = Get.find<RepositoryDataBaseController>();
+  final MenuProdutosController menuController =Get.put(MenuProdutosController());
+  final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
+  final RepositoryDataBaseController repositoryController =Get.put(RepositoryDataBaseController());
+  final CardapioController controller = Get.put(CardapioController());
   final CarrinhoController carrinhoController = Get.find<CarrinhoController>();
-  final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
-  final MenuProdutosController menuController =Get.find<MenuProdutosController>();
+
+
   final pikachu = PikachuController();
 
   @override
@@ -108,32 +111,36 @@ class CardapioController extends GetxController {
     await carregandoDadosRepository(repositoryController.hamburguersFile);
   }
 
-  Future setupCardapioDigitalWeb() async{
-
+  Future setupCardapioDigitalWeb() async {
     isLoading.value = true;
 
-    try{
+    try {
       await menuCategorias.getCategoriasRepository();
       await repositoryController.loadData();
       await fetchAllProdutos();
 
+    } catch (e) {
+      // Lidar com possíveis erros aqui
+      print('Erro ao carregar dados: $e');
     } finally {
+      if (repositoryController.dataBase_Array.isNotEmpty &&
+          menuCategorias.MenuCategorias_Array.isNotEmpty) {
 
 
-      if(repositoryController.dataBase_Array.isNotEmpty){
         pikachu.cout('Categorias = ${menuCategorias.MenuCategorias_Array}');
         pikachu.cout('Repository = ${repositoryController.dataBase_Array}');
         pikachu.cout('MY array = ${repositoryController.my_array}');
 
+
+        // Só muda o estado para 'não carregando' se ambos os arrays estiverem carregados
         isLoading.value = false;
       }
-
-
     }
 
-    if(isLoading.value = false){
+    if (!isLoading.value) {
       pikachu.loadDataSuccess('Dados', 'Carregados');
       update();
+      return isLoading.value;
     }
   }
 

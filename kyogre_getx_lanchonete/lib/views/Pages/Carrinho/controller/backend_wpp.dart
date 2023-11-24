@@ -1,5 +1,7 @@
 
 import 'dart:convert';
+import 'package:intl/intl.dart';
+import 'package:universal_html/html.dart' as html;
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,10 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/controller/sacola_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/pikachu_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 
-class backEndWhatsapp extends GetxController{
+class backEndWhatsapp extends GetxController {
 
   final carrinho = CarrinhoPedidoController();
   final pikachu = PikachuController();
@@ -32,7 +35,8 @@ class backEndWhatsapp extends GetxController{
     telefoneCliente = telefone;
     idPedido = id;
 
-    print('ID PEDIDO: $idPedido Cliente: $nomeCliente | Telefone: $telefoneCliente');
+    print(
+        'ID PEDIDO: $idPedido Cliente: $nomeCliente | Telefone: $telefoneCliente');
   }
 
   // Pedido
@@ -41,7 +45,7 @@ class backEndWhatsapp extends GetxController{
     List<Map<String, dynamic>> pedidoJsonItems = [];
 
     // Itera sobre cada produto no carrinho e adiciona um objeto JSON à lista
-    carrinho.products.entries.forEach((entry) {
+    carrinho.SACOLA.entries.forEach((entry) {
       final produto = entry.key;
       final quantidade = entry.value;
 
@@ -56,9 +60,12 @@ class backEndWhatsapp extends GetxController{
     Map<String, dynamic> pedidoInfo = {
       "nome": nomeCliente,
       "telefone": telefoneCliente,
-      "endereco": "",  // Adicione um campo para endereço na sua UI e substitua aqui
-      "complemento": "",  // Adicione um campo para complemento na sua UI e substitua aqui
-      "formaPagamento": "",  // Adicione um campo para forma de pagamento na sua UI e substitua aqui
+      "endereco": "",
+      // Adicione um campo para endereço na sua UI e substitua aqui
+      "complemento": "",
+      // Adicione um campo para complemento na sua UI e substitua aqui
+      "formaPagamento": "",
+      // Adicione um campo para forma de pagamento na sua UI e substitua aqui
       "pedido": pedidoJsonItems,
       "totalPagar": carrinho.totalPrice,
     };
@@ -95,7 +102,8 @@ class backEndWhatsapp extends GetxController{
       } else {
         // Se o servidor responder com um código de status diferente de 200,
         // lançar um erro
-        throw 'O servidor respondeu com o código de status: ${response.statusCode}';
+        throw 'O servidor respondeu com o código de status: ${response
+            .statusCode}';
       }
     } catch (e) {
       // Algo deu errado ao enviar o pedido. Pode ser uma exceção de rede,
@@ -111,5 +119,77 @@ class backEndWhatsapp extends GetxController{
     }
   }
 
-}
 
+// Metodos do Pedido no whatsapp
+  Future<void> enviarPedidoWhatsapp(
+      {required String phone, required String message}) async {
+    String generateUrl(String type) {
+      switch (type) {
+        case "wa.me":
+          return "https://wa.me/$phone/?text=${Uri.encodeComponent(message)}";
+        case "api":
+          return "https://api.whatsapp.com/send?phone=$phone&text=${Uri
+              .encodeComponent(message)}";
+        case "whatsapp":
+        default:
+          return 'whatsapp://send?phone=${phone}&text=${message}';
+      }
+    }
+
+    Future<bool> canLaunchUrl(Uri uri) async {
+      return await canLaunch(uri.toString());
+    }
+
+    Future<bool> launchUrl(Uri uri) async {
+      return await launch(
+          uri.toString(), enableJavaScript: true, forceWebView: true);
+    }
+
+    List<String> determineUrlsToTry() {
+      if (html.window.navigator.userAgent.contains('Android')) {
+        return ["whatsapp", "wa.me", "api"];
+      } else if (html.window.navigator.userAgent.contains('iPhone') ||
+          html.window.navigator.userAgent.contains('iPad')) {
+        return ["wa.me", "api", "whatsapp"];
+      } else if (html.window.navigator.userAgent.contains('Web')) {
+        return ["wa.me", "api", "whatsapp"];
+      } else {
+        return ["wa.me", "whatsapp", "api"];
+      }
+    }
+  }
+
+  String gerarResumoPedidoCardapio() {
+    final items = carrinho.SACOLA.entries.map((entry) {
+      final produto = entry.key;
+      final quantidade = entry.value;
+      return "\n${quantidade}x ${produto.nome} (R\$ ${produto.precos})";
+    }).join('\n');
+
+    // Calcula o tempo de entrega
+    final agora = DateTime.now();
+    final inicioEntrega = agora.add(Duration(minutes: 15));
+    final fimEntrega = agora.add(Duration(minutes: 50));
+    final formatoHora = DateFormat('HH:mm');
+
+
+    // Acrescentando detalhes do cliente ao resumo
+    final clienteDetails = nomeCliente != null && telefoneCliente != null
+        ? "Cliente: $nomeCliente\n\n Pedido #${idPedido ?? 'N/A'}\n"
+        : "";
+
+    return """
+  ▶ *RESUMO DO PEDIDO* 
+   $clienteDetails
+  *🛒 Itens do Pedido*:
+   $items
+   -------------------------------------
+           ▶ TOTAL: R\$${carrinho.totalPrice}
+   -------------------------------------
+   🕙 Tempo de Entrega: aprox. ${formatoHora.format(inicioEntrega)} a ${formatoHora.format(fimEntrega)}
+    """;
+  }
+
+
+
+}

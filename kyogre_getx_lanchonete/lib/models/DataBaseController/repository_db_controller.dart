@@ -25,18 +25,6 @@ class RepositoryDataBaseController extends GetxController {
     if (isLoading == true) {
       await fetchAllProducts();
       isLoading = false;
-
-      // array 1
-      if (dataBase_Array.isNotEmpty) {
-        Get.snackbar(
-          'Sucesso',
-          'Dados REPOSTITORY carregados com sucesso!',
-          
-          snackPosition: SnackPosition.TOP,
-          isDismissible: true
-        );
-      }
-
     }
     update();
   }

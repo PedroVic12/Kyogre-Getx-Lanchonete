@@ -33,18 +33,18 @@ class SplashScreen extends StatelessWidget {
             children: [
               AnimatedOpacity(
                 opacity: _.isVisivel ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 3000),
+                duration: const Duration(milliseconds: 5000),
                 child: _buildLinhaDeIcones(),
               ),
               AnimatedContainer(
-                duration: const Duration(milliseconds: 7000),
-                onEnd: _controller.navegarParaTelaCardapio,
+                duration: const Duration(milliseconds: 12000),
+                onEnd: _controller.initSplashScreen,
                 curve: Curves.fastLinearToSlowEaseIn,
                 alignment: Alignment.center,
                 margin: EdgeInsets.only(bottom: _controller.marginAnimada),
                 child: Container(
-                  width: 220,
-                  height: 220,
+                  width: 250,
+                  height: 250,
                   child: Card(
                     color: Colors.indigo,
                     elevation: 8.0,
@@ -53,15 +53,13 @@ class SplashScreen extends StatelessWidget {
                     ),
                     child: Padding(
                         padding: EdgeInsets.all(32),
-                        child: CircleAvatar(child: Icon(Icons.emoji_food_beverage_rounded,size: 48,)
-                            // Image.asset(
-                            //   'lib/repository/assets/citta_logo_light.png',
-                            //   height: 400,
-                            //   width: 400,
-                            //   alignment: Alignment.center,
-                            //   fit: BoxFit.fitHeight,
-                            // ),
-                            )),
+                        //child: CircleAvatar(child: Icon(Icons.emoji_food_beverage_rounded,size: 48,)
+                         child: Image.asset('lib/repository/assets/citta_logo_light.png',
+                               height: 400,
+                               width: 400,
+                               alignment: Alignment.center,
+                               fit: BoxFit.fitHeight,
+                                                        )),
                   ),
                 ),
               )
@@ -109,7 +107,8 @@ class SplashScreen extends StatelessWidget {
 
     return Column(
       children: [
-        CustomText(text: 'Dados Carregados', size: 32,)
+
+        Center(child:         CustomText(text: 'Dados Carregados', size: 32,),)
       ],
     );
   }
@@ -127,7 +126,6 @@ class SplashScreen extends StatelessWidget {
 
 
     return FutureBuilder(
-      //future: controller.carregarPaginaWeb(),
       future: splashController.initSplashScreen(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
@@ -135,18 +133,6 @@ class SplashScreen extends StatelessWidget {
               ? Column(
             children: [
                     _buildAfterAnimation(),
-
-              ListView.builder(
-                itemCount: repository.dataBase_Array.length, itemBuilder: (context, index) {
-                var item = repository.dataBase_Array[index];
-                return ListTile(
-                    subtitle: Column(
-                      children: [
-                        CustomText(text: '\n\nProduto: ${item[0].nome}',),
-                      ],
-                    )
-                );
-              },)
             ],
           )
               : Text('Nenhum dado disponível.'));
@@ -177,12 +163,12 @@ class SplashController extends GetxController {
   final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
   final RepositoryDataBaseController _repositoryController =Get.put(RepositoryDataBaseController());
   final pikachu = PikachuController();
-
   final cardapioController = CardapioController();
 
   @override
-  void onReady() {
-    super.onReady();
+  void onInit() {
+    super.onInit();
+
     isVisivel = true;
     marginAnimada = 250.0;
     initSplashScreen();
@@ -190,37 +176,6 @@ class SplashController extends GetxController {
   }
 
 
-  Future<void> loadingData() async {
-    isLoadingData.value = true;
-    try {
-
-      var array_db = _repositoryController.dataBase_Array;
-
-      await Future.delayed(Duration(seconds: 2)); // Simulação de chamada de rede
-      _productsLoader.complete(); // Complete o completer após o carregamento.
-
-      // Simulando dados recebidos
-      if(array_db.isNotEmpty){
-
-        isLoadingData.value = false;
-
-        Future.delayed(Duration(seconds: 1), () {
-          //pikachu.loadDataSuccess('Repository Carregado com sucesso', '${array_db.length}');
-        });
-
-      }
-
-    } catch (e) {
-      print('\n\nErro ao carregar dados: $e');
-    } finally {
-
-      if(isLoadingData.value = false) {
-        navegarParaTelaCardapio();
-      }
-
-
-    }
-  }
 
   void navegarParaTelaCardapio() async {
     String id ='2023';
@@ -229,8 +184,9 @@ class SplashController extends GetxController {
 
   initSplashScreen() async {
 
-    await Future.delayed(Duration(seconds: 5), () async { await cardapioController.setupCardapioDigitalWeb(); });
+    await Future.delayed(Duration(seconds: 7), () async { await cardapioController.setupCardapioDigitalWeb(); });
 
+    navegarParaTelaCardapio();
   }
 
 }

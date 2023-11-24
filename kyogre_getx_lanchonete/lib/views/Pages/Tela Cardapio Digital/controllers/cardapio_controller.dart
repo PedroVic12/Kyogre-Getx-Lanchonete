@@ -105,26 +105,36 @@ class CardapioController extends GetxController {
   Future<void> fetchAllProdutos() async {
     await carregandoDadosRepository(repositoryController.pizzasFile);
     await carregandoDadosRepository(repositoryController.sanduicheFile);
-    //await carregandoDadosRepository(repositoryController.hamburguersFile);
-
-
+    await carregandoDadosRepository(repositoryController.hamburguersFile);
   }
 
   Future setupCardapioDigitalWeb() async{
 
-    await menuCategorias.getCategoriasRepository();
-    await repositoryController.loadData();
-    await fetchAllProdutos();
+    isLoading.value = true;
 
-    pikachu.cout('Categorias = ${menuCategorias.MenuCategorias_Array}');
-    pikachu.cout('Repository = ${repositoryController.dataBase_Array}');
-    pikachu.cout('MY array = ${repositoryController.my_array}');
+    try{
+      await menuCategorias.getCategoriasRepository();
+      await repositoryController.loadData();
+      await fetchAllProdutos();
 
-    if(isLoading.value = false){
-      print('\n\n\nDatabase Carregado!');
+    } finally {
+
+
+      if(repositoryController.dataBase_Array.isNotEmpty){
+        pikachu.cout('Categorias = ${menuCategorias.MenuCategorias_Array}');
+        pikachu.cout('Repository = ${repositoryController.dataBase_Array}');
+        pikachu.cout('MY array = ${repositoryController.my_array}');
+
+        isLoading.value = false;
+      }
+
+
     }
 
-    update();
+    if(isLoading.value = false){
+      pikachu.loadDataSuccess('Dados', 'Carregados');
+      update();
+    }
   }
 
   Future carregandoDadosRepository(file) async {

@@ -235,7 +235,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
       padding: EdgeInsets.all(12),
       child: SizedBox(
         height: 50,
-        width: 200,
+        width: 150,
         child: ElevatedButton(
             onPressed: () {
               carrinhoController.setClienteDetails(
@@ -251,7 +251,9 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
             ),
 
 
-            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [Icon(Icons.shopify_rounded),  CustomText(text: 'VER CARRINHO',color: Colors.white, size: 20,)],)
+            child: Center(
+              child:  Row(mainAxisAlignment: MainAxisAlignment.center,children: [Icon(Icons.shopify_rounded,size: 32,color: Colors.white,),SizedBox(width: 50) , CustomText(text: 'VER CARRINHO',color: Colors.white, size: 20,)],),
+            )
         ),
       ),
     );

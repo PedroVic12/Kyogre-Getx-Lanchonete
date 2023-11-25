@@ -15,6 +15,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/views/modalCarrinho.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/menu_tab_bar_widget.dart';
 import '../../../app/widgets/Custom/CustomText.dart';
 import '../../../models/DataBaseController/repository_db_controller.dart';
 import '../../../models/DataBaseController/template/produtos_model.dart';

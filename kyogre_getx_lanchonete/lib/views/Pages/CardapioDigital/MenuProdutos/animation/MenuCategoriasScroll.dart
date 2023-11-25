@@ -2,53 +2,53 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/menu_tab_bar_widget.dart';
 import '../../../../../app/widgets/Custom/CustomText.dart';
 import '../produtos_controller.dart';
 
 class MenuCategoriasScrollGradientWidget extends StatefulWidget {
   final Function(int) onCategorySelected;
 
-  const MenuCategoriasScrollGradientWidget({super.key, required this.onCategorySelected,});
+  const MenuCategoriasScrollGradientWidget({
+    super.key,
+    required this.onCategorySelected,
+  });
 
   @override
-  State<MenuCategoriasScrollGradientWidget> createState() => _MenuCategoriasScrollGradientWidgetState();
+  State<MenuCategoriasScrollGradientWidget> createState() =>
+      _MenuCategoriasScrollGradientWidgetState();
 }
 
-class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrollGradientWidget> {
-
-
+class _MenuCategoriasScrollGradientWidgetState
+    extends State<MenuCategoriasScrollGradientWidget> {
   //controllers
-  final MenuProdutosController menuController = Get.put(MenuProdutosController());
+  final MenuProdutosController menuController =
+      Get.put(MenuProdutosController());
   late PageController pc;
 
   //variaveis
   late List<CategoriaModel> categoriasProdutos;
-  bool isLoading = true;  // Inicializando diretamente
-
+  bool isLoading = true; // Inicializando diretamente
 
   @override
   void initState() {
-
     super.initState();
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
-
     final itemSelecionado = menuController.produtoIndex.value;
 
-  return Padding(
+    return Padding(
       padding: const EdgeInsets.all(8),
       child: Container(
         color: CupertinoColors.systemYellow.darkElevatedColor,
         child: Column(
           children: [
             _buildHeader(),
-            isLoading ? const CircularProgressIndicator() : _buildMenuCategorias(),
-
+            isLoading
+                ? const CircularProgressIndicator()
+                : _buildMenuCategorias(),
           ],
         ),
       ),
@@ -64,7 +64,7 @@ class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrol
         children: [
           IconButton(
             onPressed: () {},
-            icon:  IconePersonalizado(tipo: Icons.menu),
+            icon: IconePersonalizado(tipo: Icons.menu),
           ),
           const SizedBox(width: 16),
           const CustomText(
@@ -72,7 +72,6 @@ class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrol
             size: 24,
             weight: FontWeight.bold,
           ),
-
         ],
       ),
     );
@@ -101,7 +100,7 @@ class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrol
         height: 100,
         margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.white,width: 1),
+          border: Border.all(color: Colors.white, width: 1),
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
@@ -112,24 +111,20 @@ class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrol
             ),
           ],
           gradient: isSelected
-              ? LinearGradient(colors: [Colors.deepPurple.shade100, CupertinoColors.activeBlue.highContrastElevatedColor])
+              ? LinearGradient(colors: [
+                  Colors.deepPurple.shade100,
+                  CupertinoColors.activeBlue.highContrastElevatedColor
+                ])
               : null,
         ),
         child: Center(
-          child: ProdutosDetails(
-            nome: categoriasProdutos[index].nome,
-            imagem_produto: categoriasProdutos[index].iconPath,
-          )
-        ),
+            child: ProdutosDetails(
+          nome: categoriasProdutos[index].nome,
+          imagem_produto: categoriasProdutos[index].iconPath,
+        )),
       ),
     );
-
-
   }
-
-
-
-
 
   void _onCategoriaTap(int index) {
     setState(() {
@@ -137,4 +132,3 @@ class _MenuCategoriasScrollGradientWidgetState extends State<MenuCategoriasScrol
     });
   }
 }
-

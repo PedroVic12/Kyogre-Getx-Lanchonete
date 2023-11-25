@@ -16,6 +16,7 @@ import '../../../Carrinho/CarrinhoController.dart';
 import '../../../Carrinho/controller/sacola_controller.dart';
 import '../../../Carrinho/views/modalCarrinho.dart';
 import '../DetailsPage/details_page.dart';
+import '../Menu Tab/menu_tab_bar_widget.dart';
 
 
 class CardsProdutosFIltrados extends StatefulWidget {

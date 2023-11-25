@@ -10,28 +10,6 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/
 
 import 'repository/produtos_model.dart';
 
-class MenuProdutosController extends GetxController {
-
-
-  var produtos = <CategoriaModel>[].obs;
-  var produtoIndex = 0.obs;
-
-
-  //metodos
-  void setProdutoIndex(int index) {
-    produtoIndex.value = index;
-    update(); // Notifica os ouvintes de que o estado foi atualizado
-    print('Produto atualizado!');
-  }
-
-
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
-}
-
 class ProdutosDetails extends StatelessWidget {
   final String nome;
   final Icon imagem_produto;

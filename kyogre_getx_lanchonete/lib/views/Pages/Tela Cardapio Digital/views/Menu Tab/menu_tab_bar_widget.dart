@@ -18,9 +18,6 @@ import '../../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import '../cards/CardProdutosFiltrados.dart';
 
-
-
-
 //TODO ROLAR TAB E PROCURAR O INDICE PARA SELECIONAR NO MENU
 
 // TODO CARDAPIO DEPLOY QRCODE
@@ -28,6 +25,22 @@ import '../cards/CardProdutosFiltrados.dart';
 //TODO BOTTOM SHEET
 
 // TODO ITEM PAGE DETAILS
+
+class MenuProdutosController extends GetxController {
+  var produtoIndex = 0.obs;
+
+  //metodos
+  void setProdutoIndex(int index) {
+    produtoIndex.value = index;
+    update(); // Notifica os ouvintes de que o estado foi atualizado
+    print('Produto atualizado!');
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
+}
 
 class MenuTabBarCardapio extends StatefulWidget {
   const MenuTabBarCardapio({super.key});
@@ -49,10 +62,8 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
-
         // Menu Tab Scrol Gradiente
         _buildHeader(),
         Divider(),
@@ -60,12 +71,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
         // TabView
         TabBarViewCardapioProdutosDetails(),
-
       ],
     );
-
   }
-
 
   //! Menu Scroll Lateral
   Widget _buildHeader() {
@@ -97,10 +105,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   }
 
   Widget TabBarScrollCardapioCategorias() {
-    
     final menuRepositoryCategorias = Get.find<MenuProdutosRepository>();
 
-   var categorias_array =  menuRepositoryCategorias.MenuCategorias_Array;
+    var categorias_array = menuRepositoryCategorias.MenuCategorias_Array;
 
     return Container(
       margin: EdgeInsets.all(6),
@@ -132,11 +139,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         unselectedLabelColor: Colors.black,
         //indicator: CircleTabIndicator(color: Colors.purpleAccent,radius: 64.0),
         tabs: [
-          for (var index = 0;  index < categorias_array.length; index++)
-            _buildTabBarMenuGradiente(
-                categorias_array[index].nome,
-                categorias_array[index].iconPath,
-                index)
+          for (var index = 0; index < categorias_array.length; index++)
+            _buildTabBarMenuGradiente(categorias_array[index].nome,
+                categorias_array[index].iconPath, index)
         ],
       ),
     );
@@ -190,85 +195,105 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
   //! CARDS PRODUTOS
   Widget TabBarViewCardapioProdutosDetails() {
-
-    final MenuProdutosController menuController =Get.find<MenuProdutosController>();
-    final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
+    final MenuProdutosController menuController =
+        Get.find<MenuProdutosController>();
+    final MenuProdutosRepository menuCategorias =
+        Get.find<MenuProdutosRepository>();
 
     var caregorias = menuCategorias.MenuCategorias_Array;
-    final nome_produto_selecionado = menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome;
+    final nome_produto_selecionado = menuCategorias
+        .MenuCategorias_Array[menuController.produtoIndex.value].nome;
     final indice = menuController.produtoIndex.value;
 
     // Use MediaQuery para obter o tamanho da tela
     final screenSize = MediaQuery.of(context).size;
 
     return Container(
-      padding: EdgeInsets.all(screenSize.height * 0.02), // Exemplo de uso de tamanho relativo
+      padding: EdgeInsets.all(
+          screenSize.height * 0.02), // Exemplo de uso de tamanho relativo
       width: screenSize.width,
       height: screenSize.height,
 
-      child:   TabBarView(
+      child: TabBarView(
         controller: _tabController,
         children: [
-
           //BlurCardWidget(CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome), screenSize.height, screenSize.width),
-          CardsProdutosFIltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
-          CardsProdutosFIltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
-          CardsProdutosFIltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
-          CardsProdutosFIltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
-          CardsProdutosFIltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome),
-
+          CardsProdutosFIltrados(
+              categoria_selecionada: menuCategorias
+                  .MenuCategorias_Array[menuController.produtoIndex.value]
+                  .nome),
+          CardsProdutosFIltrados(
+              categoria_selecionada: menuCategorias
+                  .MenuCategorias_Array[menuController.produtoIndex.value]
+                  .nome),
+          CardsProdutosFIltrados(
+              categoria_selecionada: menuCategorias
+                  .MenuCategorias_Array[menuController.produtoIndex.value]
+                  .nome),
+          CardsProdutosFIltrados(
+              categoria_selecionada: menuCategorias
+                  .MenuCategorias_Array[menuController.produtoIndex.value]
+                  .nome),
+          CardsProdutosFIltrados(
+              categoria_selecionada: menuCategorias
+                  .MenuCategorias_Array[menuController.produtoIndex.value]
+                  .nome),
         ],
       ),
-
     );
   }
 
+  Widget buildListRepository() {
+    final RepositoryDataBaseController repositoryController =
+        Get.find<RepositoryDataBaseController>();
 
-Widget buildListRepository(){
-
-  final RepositoryDataBaseController repositoryController = Get.find<RepositoryDataBaseController>();
-
-  return  Container(
+    return Container(
         color: Colors.white,
         height: 300,
-        child:   Obx(() {
-          if(repositoryController.my_array.isEmpty){
+        child: Obx(() {
+          if (repositoryController.my_array.isEmpty) {
             return LoadingWidget();
           } else {
-
-            setState(() {
-
-            });
+            setState(() {});
             return ListView.builder(
-              itemCount: repositoryController.my_array.length, itemBuilder: (context, index) {
-              var item = repositoryController.my_array[index];
-              return ListTile(
-                  subtitle: Column(
-                    children: [
-                      CustomText(text: '\n\nProduto: ${item.nome}',),
-                      CustomText(text: 'Categoria: ${item.categoria}'),
-                      CustomText(text: 'Precos: ${item.precos}')
-                    ],
-                  )
-              );
-            },);
-          }})
-    );
-}
+              itemCount: repositoryController.my_array.length,
+              itemBuilder: (context, index) {
+                var item = repositoryController.my_array[index];
+                return ListTile(
+                    subtitle: Column(
+                  children: [
+                    CustomText(
+                      text: '\n\nProduto: ${item.nome}',
+                    ),
+                    CustomText(text: 'Categoria: ${item.categoria}'),
+                    CustomText(text: 'Precos: ${item.precos}')
+                  ],
+                ));
+              },
+            );
+          }
+        }));
+  }
 
-  Widget BlurCardWidget(_child,size_h,size_w){
-
-
+  Widget BlurCardWidget(_child, size_h, size_w) {
     return GlassContainer(
       height: size_h,
       width: size_w,
       gradient: LinearGradient(
-        colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
+        colors: [
+          Colors.white.withOpacity(0.40),
+          Colors.white.withOpacity(0.10)
+        ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
       borderGradient: LinearGradient(
-        colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.lightBlueAccent.withOpacity(0.05), Colors.lightBlueAccent.withOpacity(0.6)],
+        colors: [
+          Colors.white.withOpacity(0.60),
+          Colors.white.withOpacity(0.10),
+          Colors.lightBlueAccent.withOpacity(0.05),
+          Colors.lightBlueAccent.withOpacity(0.6)
+        ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         stops: [0.0, 0.39, 0.40, 1.0],
@@ -285,9 +310,6 @@ Widget buildListRepository(){
       child: _child,
     );
   }
-
-
-
 
   @override
   void dispose() {

@@ -49,17 +49,20 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
 
   //controllers
-  final RepositoryDataBaseController repositoryController = Get.find<RepositoryDataBaseController>();
-  final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
-  final MenuProdutosController menuController =Get.find<MenuProdutosController>();
+  final RepositoryDataBaseController repositoryController =
+      Get.find<RepositoryDataBaseController>();
+  final MenuProdutosRepository menuCategorias =
+      Get.find<MenuProdutosRepository>();
+  final MenuProdutosController menuController =
+      Get.find<MenuProdutosController>();
   final CardapioController controller = Get.put(CardapioController());
   final pikachu = PikachuController();
-  
-   initPage()async {
-     await Future.delayed(Duration(seconds: 3), () async { controller.setupCardapioDigitalWeb(); });
+
+  initPage() async {
+    await Future.delayed(Duration(seconds: 5), () async {
+      controller.setupCardapioDigitalWeb();
+    });
   }
-
-
 
   @override
   void initState() {
@@ -75,7 +78,6 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
     return Column(
       children: [
         Text('Visualizando em uma pagina WEB'),
-
         const Text('Dados do Cliente: '),
         Text('ID do Pedido: ${idPedido}'),
         Text('Nome do Cliente: $nomeCliente'),
@@ -113,10 +115,8 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     // Variaveis
     List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
 
@@ -127,27 +127,26 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
       // Comportamento para outras plataformas (móveis)
       return buildAppVersion();
     }
-
-
   }
 
-
-  Widget buildWebPage(){
+  Widget buildWebPage() {
     return Scaffold(
         backgroundColor: Colors.red,
         appBar: CustomAppBar(
           id: widget.id,
         ),
-        body:Center(
-
+        body: Center(
           child: ListView(children: [
-
-            Obx(() => menuCategorias.isLoading.value ? const LoadingWidget() : const Expanded(child: MenuTabBarCardapio()),),
-
+            GetBuilder<CardapioController>(
+              init: controller,
+              builder: (controller) {
+                return controller.isLoading.value
+                    ? const LoadingWidget()
+                    : const Expanded(child: MenuTabBarCardapio());
+              },
+            ),
             BotaoNavegacao1(),
-
           ]),
-
         ),
         floatingActionButton: FloatingActionButton(
           child: const Text('Abrir'),
@@ -159,44 +158,43 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
             ),
           ),
         ));
-}
+  }
 
-  Widget buildAppVersion(){
+  Widget buildAppVersion() {
     return Scaffold(
-        appBar: AppBar(title: Text("Cardapio QR Code.key Digital App"),
+        appBar: AppBar(
+          title: Text("Cardapio QR Code.key Digital App"),
         ),
-
         body: Center(
           child: Column(
             children: [
               Text('Visualizando em um dispositivo móvel'),
             ],
           ),
-        )
-    );
+        ));
   }
 
-
   Widget _indexProdutoSelecionado() {
-    final MenuProdutosController menuController =Get.find<MenuProdutosController>();
+    final MenuProdutosController menuController =
+        Get.find<MenuProdutosController>();
 
     return Container(
         color: Colors.black,
         child: Obx(() => Center(
-            child: Column(
+                child: Column(
               children: [
                 CustomText(
-                  text: 'item selecionado = ${menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome}',
+                  text:
+                      'item selecionado = ${menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome}',
                   color: Colors.white,
                   size: 18,
                 ),
-
               ],
             ))));
   }
 
-  Widget BotaoNavegacao1(){
-    return  Padding(
+  Widget BotaoNavegacao1() {
+    return Padding(
       padding: EdgeInsets.all(12),
       child: SizedBox(
         height: 50,
@@ -214,14 +212,25 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-
-
             child: Center(
-              child:  Row(mainAxisAlignment: MainAxisAlignment.center,children: [Icon(Icons.shopify_rounded,size: 32,color: Colors.white,),SizedBox(width: 50) , CustomText(text: 'VER CARRINHO',color: Colors.white, size: 20,)],),
-            )
-        ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.shopify_rounded,
+                    size: 32,
+                    color: Colors.white,
+                  ),
+                  SizedBox(width: 50),
+                  CustomText(
+                    text: 'VER CARRINHO',
+                    color: Colors.white,
+                    size: 20,
+                  )
+                ],
+              ),
+            )),
       ),
     );
   }
-
 }

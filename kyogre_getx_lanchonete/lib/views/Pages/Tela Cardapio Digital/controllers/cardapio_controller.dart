@@ -12,24 +12,23 @@ import '../../../../models/DataBaseController/template/produtos_model.dart';
 import '../../CardapioDigital/MenuProdutos/produtos_controller.dart';
 import '../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../Carrinho/CarrinhoController.dart';
+import '../views/Menu Tab/menu_tab_bar_widget.dart';
 
 class CardapioController extends GetxController {
   late String nomeCliente;
   late String telefoneCliente;
   late String idPedido;
 
-
-  var isLoading = false.obs;
-
-
+  var isLoading = true.obs;
 
   // Acessando os controladores
-  final MenuProdutosController menuController =Get.put(MenuProdutosController());
-  final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
-  final RepositoryDataBaseController repositoryController =Get.put(RepositoryDataBaseController());
-  final CardapioController controller = Get.put(CardapioController());
+  final MenuProdutosController menuController =
+      Get.put(MenuProdutosController());
+  final MenuProdutosRepository menuCategorias =
+      Get.put(MenuProdutosRepository());
+  final RepositoryDataBaseController repositoryController =
+      Get.put(RepositoryDataBaseController());
   final CarrinhoController carrinhoController = Get.find<CarrinhoController>();
-
 
   final pikachu = PikachuController();
 
@@ -40,9 +39,7 @@ class CardapioController extends GetxController {
     update();
   }
 
-
-
- // metodos backend
+  // metodos backend
   Future<void> fetchClienteNome(String clienteId) async {
     try {
       final response = await http.get(Uri.parse(
@@ -74,7 +71,6 @@ class CardapioController extends GetxController {
     }
   }
 
-
   // metodos JSON
   Future readingDataJson(url) async {
     Dio api = Dio();
@@ -83,26 +79,25 @@ class CardapioController extends GetxController {
     var _produtos = response.data;
     return _produtos;
   }
+
   Future readJson(file) async {
     final String response = await rootBundle.loadString(file);
     final data = await json.decode(response);
     return data;
   }
-  Future<List>  lerArquivoJson(String filePath) async {
-    try {
 
-      var data = await readingDataJson('https://api.npoint.io/796847de75f3705645c2');
+  Future<List> lerArquivoJson(String filePath) async {
+    try {
+      var data =
+          await readingDataJson('https://api.npoint.io/796847de75f3705645c2');
       pikachu.cout('JSON = ${data}');
 
       return data;
-
     } catch (e) {
       pikachu.cout('ERRO JSON = \n $e');
       return [];
     }
   }
-
-
 
   //setup
   Future<void> fetchAllProdutos() async {
@@ -118,19 +113,15 @@ class CardapioController extends GetxController {
       await menuCategorias.getCategoriasRepository();
       await repositoryController.loadData();
       await fetchAllProdutos();
-
     } catch (e) {
       // Lidar com possíveis erros aqui
       print('Erro ao carregar dados: $e');
     } finally {
       if (repositoryController.dataBase_Array.isNotEmpty &&
           menuCategorias.MenuCategorias_Array.isNotEmpty) {
-
-
         pikachu.cout('Categorias = ${menuCategorias.MenuCategorias_Array}');
         pikachu.cout('Repository = ${repositoryController.dataBase_Array}');
         pikachu.cout('MY array = ${repositoryController.my_array}');
-
 
         // Só muda o estado para 'não carregando' se ambos os arrays estiverem carregados
         isLoading.value = false;
@@ -145,7 +136,6 @@ class CardapioController extends GetxController {
   }
 
   Future carregandoDadosRepository(file) async {
-    isLoading.value = true;
 
     // Limpa o array existente
     repositoryController.my_array.clear();
@@ -158,26 +148,17 @@ class CardapioController extends GetxController {
       var dados = await readJson(file);
       //pikachu.cout(dados);
 
-
       // Cria um Dart Object
       List produtos = dados.map((item) => ProdutoModel.fromJson(item)).toList();
 
-
       // adiciona cara produto numa lista global
-      for (var index = 0; index < produtos.length; index++){
+      for (var index = 0; index < produtos.length; index++) {
         //pikachu.cout('${index} = ${produtos[index].nome} | ${produtos[index].categoria}' );
         repositoryController.my_array.add(produtos[index]);
       }
-
     } catch (e) {
       pikachu.cout('ERRO ao carregar dados: $e');
-    } finally {
-      isLoading.value = false;
-    }
-    return  repositoryController.my_array;
-
+    } 
+    return repositoryController.my_array;
   }
-
-
-
 }

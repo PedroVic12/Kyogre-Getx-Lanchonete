@@ -1,7 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,8 +8,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 
 import '../../../models/DataBaseController/repository_db_controller.dart';
-import '../../../models/DataBaseController/template/produtos_model.dart';
-import '../CardapioDigital/MenuProdutos/produtos_controller.dart';
+
 import '../Tela Cardapio Digital/controllers/pikachu_controller.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -22,7 +18,6 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final SplashController _controller = Get.put(SplashController());
     final CardapioController controller = Get.put(CardapioController());
-
 
     return Scaffold(
       backgroundColor: Colors.indigoAccent,
@@ -52,14 +47,15 @@ class SplashScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(32),
                     ),
                     child: Padding(
-                        padding: EdgeInsets.all(32),
+                        padding: const EdgeInsets.all(32),
                         //child: CircleAvatar(child: Icon(Icons.emoji_food_beverage_rounded,size: 48,)
-                         child: Image.asset('lib/repository/assets/citta_logo_light.png',
-                               height: 400,
-                               width: 400,
-                               alignment: Alignment.center,
-                               fit: BoxFit.fitHeight,
-                                                        )),
+                        child: Image.asset(
+                          'lib/repository/assets/citta_logo_light.png',
+                          height: 200,
+                          width: 200,
+                          alignment: Alignment.center,
+                          fit: BoxFit.fitHeight,
+                        )),
                   ),
                 ),
               )
@@ -69,7 +65,6 @@ class SplashScreen extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _buildLinhaDeIcones() {
     return Center(
@@ -83,9 +78,7 @@ class SplashScreen extends StatelessWidget {
           CustomIcone(Icons.directions_bike),
           CustomIcone(Icons.settings),
           CustomIcone(Icons.wifi),
-
           buildSetupPage(),
-
           CustomIcone(Icons.restaurant),
           CustomIcone(Icons.directions_boat),
           CustomIcone(Icons.no_food),
@@ -104,48 +97,42 @@ class SplashScreen extends StatelessWidget {
   }
 
   Widget _buildAfterAnimation() {
-
-    return Column(
+    return const Column(
       children: [
-
-        Center(child:         CustomText(text: 'Dados Carregados', size: 32,),)
+        Center(
+          child: CustomText(
+            text: 'Dados Carregados',
+            size: 32,
+          ),
+        )
       ],
     );
   }
 
-
-
-
-
-  Widget buildSetupPage(){
-
+  Widget buildSetupPage() {
     final PikachuController controller = Get.put(PikachuController());
     final SplashController splashController = Get.put(SplashController());
-    final RepositoryDataBaseController repository = Get.find<RepositoryDataBaseController>();
-
-
+    final RepositoryDataBaseController repository =
+        Get.find<RepositoryDataBaseController>();
 
     return FutureBuilder(
       future: splashController.initSplashScreen(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return Obx(() =>  repository.dataBase_Array.isNotEmpty
+          return Obx(() => repository.dataBase_Array.isNotEmpty
               ? Column(
-            children: [
+                  children: [
                     _buildAfterAnimation(),
-            ],
-          )
-              : Text('Nenhum dado disponível.'));
+                  ],
+                )
+              : const Text('Nenhum dado disponível.'));
         } else {
-          return LoadingWidget();
+          return const LoadingWidget();
         }
       },
     );
   }
 }
-
-
-
 
 class SplashController extends GetxController {
   double marginAnimada = 0.0;
@@ -153,33 +140,29 @@ class SplashController extends GetxController {
   var isLoadingData = false.obs;
   String id_cliente = '';
 
-
   final _productsLoader = Completer<void>();
 
   final String pizzasFile = 'lib/repository/models/pizzas.json';
 
-
   //controllers
-  final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
-  final RepositoryDataBaseController _repositoryController =Get.put(RepositoryDataBaseController());
+  final MenuProdutosRepository menuCategorias =
+      Get.put(MenuProdutosRepository());
+  final RepositoryDataBaseController _repositoryController =
+      Get.put(RepositoryDataBaseController());
   final pikachu = PikachuController();
   final CardapioController cardapioController = Get.put(CardapioController());
 
   @override
   void onReady() {
-
-
     isVisivel = true;
     marginAnimada = 300.0;
     update();
 
     initSplashScreen();
-
   }
 
-
   Future<void> initSplashScreen() async {
-    await Future.delayed(Duration(seconds: 5), () async {
+    await Future.delayed(const Duration(seconds: 5), () async {
       await cardapioController.setupCardapioDigitalWeb();
       verificarDadosCarregados();
     });
@@ -193,30 +176,7 @@ class SplashController extends GetxController {
   }
 
   void navegarParaTelaCardapio() async {
-    String id ='2023';
+    String id = '2023';
     Get.offNamed('/pedido/$id');
   }
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

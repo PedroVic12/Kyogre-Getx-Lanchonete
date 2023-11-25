@@ -14,7 +14,7 @@ class RepositoryDataBaseController extends GetxController {
   final String sanduicheFile = 'lib/repository/models/sanduiches.json';
   final String hamburguersFile = 'lib/repository/models/hamburguer.json';
   final String pizzasFile = 'lib/repository/models/pizzas.json';
-  final pikachu = PikachuController();
+  final PikachuController pikachu = Get.put(PikachuController());
 
   final dataBase_Array = <List<ProdutoModel>>[].obs;
   final List my_array = [].obs;
@@ -28,7 +28,6 @@ class RepositoryDataBaseController extends GetxController {
     }
     update();
   }
-
 
   Future carregandoDadosRepository(file) async {
     isLoading = true;
@@ -47,40 +46,31 @@ class RepositoryDataBaseController extends GetxController {
       pikachu.cout(dados);
       List produtos = dados.map((item) => ProdutoModel.fromJson(item)).toList();
 
-
-      for (var index = 0; index < produtos.length; index++){
+      for (var index = 0; index < produtos.length; index++) {
         //pikachu.cout('${index} = ${produtos[index].nome} | ${produtos[index].categoria}' );
-       my_array.add(produtos[index]);
+        my_array.add(produtos[index]);
       }
-
     } catch (e) {
       pikachu.cout('ERRO ao carregar dados: $e');
     } finally {
       isLoading = false;
     }
-    return  my_array;
-
+    return my_array;
   }
-
-
 
   // Metodos JSON
   Future<List<ProdutoModel>> lerArquivoJson(String filePath) async {
     try {
-
       final String response = await rootBundle.loadString(filePath);
       final List<dynamic> jsonData = await json.decode(response);
 
       // Convertendo o JSON para uma lista de objetos ProdutoModel
-      var _produto = jsonData
-          .map((jsonItem) => ProdutoModel.fromJson(jsonItem))
-          .toList();
+      var _produto =
+          jsonData.map((jsonItem) => ProdutoModel.fromJson(jsonItem)).toList();
 
       pikachu.cout(_produto);
 
       return _produto;
-
-
     } catch (e) {
       print('\n\nErro ao carregar Produtos JSON do DataBase: $e');
       return [];
@@ -119,7 +109,6 @@ class RepositoryDataBaseController extends GetxController {
     produtos.sort((a, b) => a.nome.compareTo(b.nome));
   }
 
-
   String formatarProdutosArray(List<List<ProdutoModel>> dataBase_Array) {
     return dataBase_Array.expand((lista) => lista).map((produto) {
       return 'Produto: ${produto.nome}, Categoria: ${produto.categoria}, Preços: ${produto.precos.map((p) => '${p['descricao']}: ${p['preco']}').join(', ')}, Ingredientes: ${produto.ingredientes?.join(', ') ?? 'N/A'}, Imagem: ${produto.imagem ?? 'N/A'}';
@@ -130,4 +119,3 @@ class RepositoryDataBaseController extends GetxController {
     return 'Produto: ${produto.nome}, Categoria: ${produto.categoria}, Preços: ${produto.precos.map((p) => '${p['descricao']}: ${p['preco']}').join(', ')}, Ingredientes: ${produto.ingredientes?.join(', ') ?? 'N/A'}, Imagem: ${produto.imagem ?? 'N/A'}';
   }
 }
-

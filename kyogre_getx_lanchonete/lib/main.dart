@@ -52,11 +52,6 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/layoutDesign', page: () => const CartaoGridView()),
         GetPage(name: '/caosPage', page: () => const CaosPageWidget()),
         GetPage(
-            name: '/pedido/:id',
-            page: () => const TelaCardapioDigital(
-                  id: '1998',
-                )),
-        GetPage(
             name: '/details/:id',
             page: () {
               final id = Get.parameters['id']!;
@@ -68,7 +63,9 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: '/pedido/:id',
             page: () {
-              final id = Get.parameters['id']!;
+              var id = Get.parameters['id']!;
+
+              id = '1998';
               return TelaCardapioDigital(id: id);
             }),
       ],

@@ -141,7 +141,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
               init: controller,
               builder: (controller) {
                 return controller.isLoading.value
-                    ? const LoadingWidget()
+                    ? const SplashScreen()
                     : const Expanded(child: MenuTabBarCardapio());
               },
             ),

@@ -56,8 +56,8 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
     super.initState();
 
     _tabController = TabController(
-        //length: Get.find<CardapioController>().menuCategorias.MenuCategorias_Array.length,
-        length: 5,
+        length: Get.find<CardapioController>().menuCategorias.MenuCategorias_Array.length,
+        //length: 5,
         vsync: this);
     // Assuma que o carregamento dos dados é iniciado em MenuProdutosController.onInit
   }
@@ -95,12 +95,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
           const SizedBox(width: 16),
           const CustomText(
             text: 'Categorias de Lanches',
-            size: 24,
+            size: 20,
             weight: FontWeight.bold,
           ),
-          Divider(
-            color: Colors.black,
-          )
         ],
       ),
     );
@@ -108,7 +105,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
   Widget TabBarScrollCardapioCategorias() {
     return Container(
-      margin: EdgeInsets.all(12),
+      margin: EdgeInsets.all(6),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         gradient: LinearGradient(

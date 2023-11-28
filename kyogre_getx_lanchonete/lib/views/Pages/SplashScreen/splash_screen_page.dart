@@ -130,17 +130,12 @@ class SplashScreen extends StatelessWidget {
                 )
               : const Text('Nenhum dado disponível. :('));
         } else {
-          return const LoadingWidget();
+          return  Container(); // TODO FIX HERE LOADING WIDGET
         }
       },
     );
   }
 }
-
-
-
-
-
 
 
 
@@ -171,7 +166,7 @@ class SplashController extends GetxController {
   }
 
   Future<void> initSplashScreen() async {
-    await Future.delayed(const Duration(seconds: 5), () async {
+    await Future.delayed(const Duration(seconds: 3), () async {
       await cardapioController.setupCardapioDigitalWeb();
       verificarDadosCarregados();
     });
@@ -180,7 +175,9 @@ class SplashController extends GetxController {
   void verificarDadosCarregados() {
     if (!cardapioController.isLoadingCardapio.value &&
         _repositoryController.dataBase_Array.isNotEmpty ) {
-      navegarParaTelaCardapio();
+      Timer(Duration(seconds: 3), () {
+        navegarParaTelaCardapio();
+      });
     }
   }
 

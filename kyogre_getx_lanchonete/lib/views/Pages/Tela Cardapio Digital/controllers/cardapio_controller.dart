@@ -37,6 +37,12 @@ class CardapioController extends GetxController {
   }
 
 
+  bool mostrarBarraInferior = false;
+  void toggleBarraInferior() {
+      mostrarBarraInferior = !mostrarBarraInferior;
+      update();
+  }
+
   // metodos backend
   Future<void> fetchClienteNome(String clienteId) async {
     try {

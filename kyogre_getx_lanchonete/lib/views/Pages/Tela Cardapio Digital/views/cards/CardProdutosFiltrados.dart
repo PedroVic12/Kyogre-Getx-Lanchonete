@@ -7,6 +7,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/pikachu_controller.dart';
 
+import '../../../../../app/widgets/Barra Inferior/BarraInferior.dart';
 import '../../../../../app/widgets/Botoes/float_custom_button.dart';
 import '../../../../../app/widgets/Custom/CustomText.dart';
 import '../../../../../app/widgets/Utils/loading_widget.dart';
@@ -33,6 +34,7 @@ class CardsProdutosFIltrados extends StatefulWidget {
 
 class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
 
+
   @override
   Widget build(BuildContext context) {
     // Acessando os controladores
@@ -41,6 +43,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
     final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
     final MenuProdutosController menuController =Get.find<MenuProdutosController>();
     final pikachu = PikachuController();
+    final CardapioController cardapioController =Get.find<CardapioController>();
 
 
 
@@ -50,7 +53,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
     final screenSize = MediaQuery.of(context).size;
 
     return Container(
-      color: Colors.deepOrange,
+      color: cor2,
       child: Column(
         children: [
           _headerProdutos(nome_categoria_selecionada),
@@ -126,7 +129,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
 
             var produto = produtosFiltrados[index];
             return Card(
-              margin: const EdgeInsets.all(12.0),
+              margin: const EdgeInsets.all(6.0),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CupertinoListTile(
@@ -160,10 +163,14 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
                   ),
                   trailing: BotaoFloatArredondado(icone: Icons.add,
                       onPress: (){
-                    carrinho.adicionarCarrinho(produto);
-                    cardapioController.repositoryController.pikachu.loadDataSuccess('Perfeito', 'Item ${produto.nome} adicionado! ${carrinho.SACOLA.length}');
+                        carrinho.adicionarCarrinho(produto);
 
-                  }),
+                        cardapioController.repositoryController.pikachu.loadDataSuccess('Perfeito', 'Item ${produto.nome} adicionado!');
+
+                       //todo here cardapioController.toggleBarraInferior();
+
+
+                      }),
                 ),
               ),
             );

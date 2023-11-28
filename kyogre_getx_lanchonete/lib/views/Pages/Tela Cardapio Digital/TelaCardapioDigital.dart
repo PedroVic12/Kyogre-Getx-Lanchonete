@@ -14,7 +14,6 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/vie
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
 import '../../../models/DataBaseController/repository_db_controller.dart';
 import '../Carrinho/CarrinhoController.dart';
-import '../Carrinho/CarrinhoPage.dart';
 import 'cardapio_Digital_webPage.dart';
 import 'controllers/pikachu_controller.dart';
 
@@ -38,24 +37,32 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   final CardapioController controller = Get.put(CardapioController());
   final pikachu = PikachuController();
   final CarrinhoPedidoController carrinhoController = Get.put(CarrinhoPedidoController());
-  final CarrinhoController carrinhoOld = Get.put(CarrinhoController());
+
+
 
 
   @override
   void initState() {
     super.initState();
     controller.fetchClienteNome(widget.id);
+    controller.initPage();
+  }
 
+
+  bool mostrarBarraInferior = false;
+
+  void toggleBarraInferior() {
     setState(() {
-      controller.initPage();
-
+      mostrarBarraInferior = !mostrarBarraInferior;
     });
   }
 
 
-
   @override
   Widget build(BuildContext context) {
+
+
+
     // Variaveis
     List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
 
@@ -88,12 +95,24 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
                 ),
               ),
             ),
-            BotaoNavegacao1(),
-            BarraInferiorPedido(),
+            // BarraInferiorPedido
+              AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              height: mostrarBarraInferior ? 150 : 0,  // Altura modificada pela variável
+              child: BarraInferiorPedido(),
+              )
           ],
         ),
       ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          toggleBarraInferior();
+        },
+      ),
     );
+
+
   }
 
 
@@ -150,45 +169,6 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   }
 
 
-  Widget BotaoNavegacao1() {
-    return Padding(
-      padding: EdgeInsets.all(12),
-      child: Padding(
-        padding: EdgeInsets.all(8),
-        child: ElevatedButton(
-            onPressed: () {
-              carrinhoOld.setClienteDetails(
-                  controller.nomeCliente, controller.telefoneCliente, widget.id);
-              Get.to(CarrinhoPage(),
-                  arguments: [controller.nomeCliente, controller.telefoneCliente, widget.id]);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: CupertinoColors.activeBlue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.shopify_rounded,
-                    size: 48,
-                    color: Colors.white,
-                  ),
-                  SizedBox(width: 60),
-                  CustomText(
-                    text: 'VER CARRINHO',
-                    color: Colors.white,
-                    size: 24,
-                  )
-                ],
-              ),
-            )),
-      ),
-    );
-  }
 
 
   Widget pegarDadosCliente() {

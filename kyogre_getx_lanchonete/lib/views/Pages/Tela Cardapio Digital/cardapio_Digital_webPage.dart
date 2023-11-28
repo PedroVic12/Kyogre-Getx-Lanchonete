@@ -1,5 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+
+class CardapioDigtalApp extends StatefulWidget {
+  const CardapioDigtalApp({super.key});
+
+  @override
+  State<CardapioDigtalApp> createState() => _CardapioDigtalAppState();
+}
+
+class _CardapioDigtalAppState extends State<CardapioDigtalApp> {
+  @override
+  Widget build(BuildContext context) {
+    return  Scaffold(
+        appBar: AppBar(
+          title: Text("Cardapio QR Code.key Digital App"),
+        ),
+        body: Center(
+          child: Column(
+            children: [
+              Text('Visualizando em um dispositivo móvel'),
+            ],
+          ),
+        ));
+  }
+  }
+
+
+
 
 class TelaCardapioDigitalWebPage extends StatelessWidget {
   const TelaCardapioDigitalWebPage({super.key});

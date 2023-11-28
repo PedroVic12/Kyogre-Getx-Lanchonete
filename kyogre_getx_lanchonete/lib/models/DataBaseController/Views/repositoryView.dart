@@ -233,7 +233,7 @@ class _RepositoryListViewState extends State<RepositoryListView> {
 
 
   Widget _carregandoProdutos() {
-    return FutureBuilder<List<List<ProdutoModel>>>(
+    return FutureBuilder (
       future: controller.fetchAllProducts(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

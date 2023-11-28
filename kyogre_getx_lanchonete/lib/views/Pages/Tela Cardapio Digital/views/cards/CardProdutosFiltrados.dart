@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:kyogre_getx_lanchonete/themes%20/cores.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/pikachu_controller.dart';
 
 import '../../../../../app/widgets/Botoes/float_custom_button.dart';
@@ -40,6 +41,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
     final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
     final MenuProdutosController menuController =Get.find<MenuProdutosController>();
     final pikachu = PikachuController();
+
 
 
     var produtos = repositoryController.dataBase_Array;
@@ -95,9 +97,9 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
 
 
   Widget displayProdutosFiltradosCategoria(String categoria) {
-    final RepositoryDataBaseController repositoryController =Get.find<RepositoryDataBaseController>();
 
     final CarrinhoPedidoController carrinho = Get.put(CarrinhoPedidoController());
+    final CardapioController cardapioController = Get.find<CardapioController>();
 
 
     // Defina o tamanho do ícone e o espaçamento
@@ -110,12 +112,12 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
 
 
     //TODO ESPERAR TUDO CARREGAR AQUI TAMBEM
-    var produtosFiltrados =  repositoryController.filtrarCategoria(categoria);
+    var produtosFiltrados =  cardapioController.repositoryController.filtrarCategoria(categoria);
 
-    repositoryController.pikachu.cout(produtosFiltrados);
+    cardapioController.repositoryController.pikachu.cout(produtosFiltrados);
 
     // Exibir um indicador de carregamento enquanto os produtos estão sendo filtrados
-    if (produtosFiltrados.isEmpty) {
+    if (produtosFiltrados.isNotEmpty) {
       return LoadingWidget();
     } else {
 
@@ -165,7 +167,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
                   ),
                   trailing: BotaoFloatArredondado(icone: Icons.add,onPress: (){
                     carrinho.adicionarCarrinho(produto);
-                    repositoryController.pikachu.loadDataSuccess('Perfeito', 'Item ${produto.nome} adicionado! ${carrinho.SACOLA}');
+                    cardapioController.repositoryController.pikachu.loadDataSuccess('Perfeito', 'Item ${produto.nome} adicionado! ${carrinho.SACOLA}');
                     Get.bottomSheet(
                       BottomSheetWidget(
                         nomeCliente: 'Pedro',
@@ -240,7 +242,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
 
     final RepositoryDataBaseController repositoryController = Get.find<RepositoryDataBaseController>();
 
-    return FutureBuilder<List<List<ProdutoModel>>>(
+    return FutureBuilder (
       future: repositoryController.fetchAllProducts(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

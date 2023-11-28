@@ -19,15 +19,12 @@ class CardapioController extends GetxController {
   late String telefoneCliente;
   late String idPedido;
 
-  var isLoading = true.obs;
+  var isLoadingCardapio = true.obs;
 
   // Acessando os controladores
-  final MenuProdutosController menuController =
-      Get.put(MenuProdutosController());
-  final MenuProdutosRepository menuCategorias =
-      Get.put(MenuProdutosRepository());
-  final RepositoryDataBaseController repositoryController =
-      Get.put(RepositoryDataBaseController());
+  final MenuProdutosController menuGradiente = Get.put(MenuProdutosController());
+  final MenuProdutosRepository menuCategorias =      Get.put(MenuProdutosRepository());
+  final RepositoryDataBaseController repositoryController =      Get.put(RepositoryDataBaseController());
   final CarrinhoController carrinhoController = Get.find<CarrinhoController>();
 
   final pikachu = PikachuController();
@@ -35,10 +32,25 @@ class CardapioController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-
     update();
   }
 
+
+   get menuCategoriasArray{
+    return menuCategorias.MenuCategorias_Array;
+  }
+
+
+  get produtosCarregadosArray{
+    return repositoryController.dataBase_Array;
+  }
+
+
+  initPage() async {
+    await Future.delayed(Duration(seconds: 5), () async {
+      setupCardapioDigitalWeb();
+    });
+  }
   // metodos backend
   Future<void> fetchClienteNome(String clienteId) async {
     try {
@@ -71,94 +83,34 @@ class CardapioController extends GetxController {
     }
   }
 
-  // metodos JSON
-  Future readingDataJson(url) async {
-    Dio api = Dio();
-
-    var response = await api.get(url);
-    var _produtos = response.data;
-    return _produtos;
-  }
-
-  Future readJson(file) async {
-    final String response = await rootBundle.loadString(file);
-    final data = await json.decode(response);
-    return data;
-  }
-
-  Future<List> lerArquivoJson(String filePath) async {
-    try {
-      var data =
-          await readingDataJson('https://api.npoint.io/796847de75f3705645c2');
-      pikachu.cout('JSON = ${data}');
-
-      return data;
-    } catch (e) {
-      pikachu.cout('ERRO JSON = \n $e');
-      return [];
-    }
-  }
-
   //setup
-  Future<void> fetchAllProdutos() async {
-    await carregandoDadosRepository(repositoryController.pizzasFile);
-    await carregandoDadosRepository(repositoryController.sanduicheFile);
-    await carregandoDadosRepository(repositoryController.hamburguersFile);
-  }
+
 
   Future setupCardapioDigitalWeb() async {
-    isLoading.value = true;
+    isLoadingCardapio.value = true;
 
     try {
       await menuCategorias.getCategoriasRepository();
-      await repositoryController.loadData();
-      await fetchAllProdutos();
+      await repositoryController.getProdutosDatabase();
     } catch (e) {
       // Lidar com possíveis erros aqui
       print('Erro ao carregar dados: $e');
     } finally {
       if (repositoryController.dataBase_Array.isNotEmpty &&
           menuCategorias.MenuCategorias_Array.isNotEmpty) {
-        pikachu.cout('Categorias = ${menuCategorias.MenuCategorias_Array}');
-        pikachu.cout('Repository = ${repositoryController.dataBase_Array}');
-        pikachu.cout('MY array = ${repositoryController.my_array}');
+        pikachu.cout('\nCategorias = ${menuCategorias.MenuCategorias_Array}');
+        pikachu.cout('\nRepository = ${repositoryController.dataBase_Array}');
 
         // Só muda o estado para 'não carregando' se ambos os arrays estiverem carregados
-        isLoading.value = false;
+        isLoadingCardapio.value = false;
       }
     }
 
-    if (!isLoading.value) {
-      pikachu.loadDataSuccess('Dados', 'Carregados');
+    if (!isLoadingCardapio.value) {
+      pikachu.loadDataSuccess('Dados', 'Carregados :) !!!!');
       update();
-      return isLoading.value;
+      return isLoadingCardapio.value;
     }
   }
 
-  Future carregandoDadosRepository(file) async {
-
-    // Limpa o array existente
-    repositoryController.my_array.clear();
-
-    try {
-      // Simulando uma chamada de rede para buscar dados do Pikachu
-      await Future.delayed(Duration(seconds: 2));
-
-      // Le dados json file
-      var dados = await readJson(file);
-      //pikachu.cout(dados);
-
-      // Cria um Dart Object
-      List produtos = dados.map((item) => ProdutoModel.fromJson(item)).toList();
-
-      // adiciona cara produto numa lista global
-      for (var index = 0; index < produtos.length; index++) {
-        //pikachu.cout('${index} = ${produtos[index].nome} | ${produtos[index].categoria}' );
-        repositoryController.my_array.add(produtos[index]);
-      }
-    } catch (e) {
-      pikachu.cout('ERRO ao carregar dados: $e');
-    } 
-    return repositoryController.my_array;
-  }
 }

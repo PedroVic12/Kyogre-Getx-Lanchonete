@@ -16,24 +16,35 @@ class RepositoryDataBaseController extends GetxController {
   final String pizzasFile = 'lib/repository/models/pizzas.json';
   final PikachuController pikachu = Get.put(PikachuController());
 
-  final dataBase_Array = <List<ProdutoModel>>[].obs;
+  final List dataBase_Array = [].obs;
   final List my_array = [].obs;
 
   bool isLoading = true; // <---- Change this to false after loading data
 
-  Future loadData() async {
-    if (isLoading == true) {
-      await fetchAllProducts();
-      isLoading = false;
-    }
-    update();
+  @override
+  void onReady() {
+    super.onReady();
+    //getProdutosDatabase();
   }
 
-  Future carregandoDadosRepository(file) async {
+
+
+  Future getProdutosDatabase() async {
+    if (isLoading == true) {
+      //await fetchAllProducts();
+      await carregandoDadosRepository(pizzasFile);
+      await carregandoDadosRepository(hamburguersFile);
+      await carregandoDadosRepository(sanduicheFile);
+      isLoading = false;
+      update();
+    }
+  }
+
+  Future<List> carregandoDadosRepository(file) async {
     isLoading = true;
 
     // Limpa o array existente
-    my_array.clear();
+    dataBase_Array.clear();
 
     try {
       // Simulando uma chamada de rede para buscar dados do Pikachu
@@ -47,15 +58,15 @@ class RepositoryDataBaseController extends GetxController {
       List produtos = dados.map((item) => ProdutoModel.fromJson(item)).toList();
 
       for (var index = 0; index < produtos.length; index++) {
-        //pikachu.cout('${index} = ${produtos[index].nome} | ${produtos[index].categoria}' );
-        my_array.add(produtos[index]);
+        pikachu.cout('${index} = ${produtos[index].nome} | ${produtos[index].categoria}' );
+        dataBase_Array.add(produtos[index]);
       }
     } catch (e) {
       pikachu.cout('ERRO ao carregar dados: $e');
     } finally {
       isLoading = false;
     }
-    return my_array;
+    return dataBase_Array;
   }
 
   // Metodos JSON
@@ -67,10 +78,8 @@ class RepositoryDataBaseController extends GetxController {
       // Convertendo o JSON para uma lista de objetos ProdutoModel
       var _produto =
           jsonData.map((jsonItem) => ProdutoModel.fromJson(jsonItem)).toList();
-
-      pikachu.cout(_produto);
-
       return _produto;
+
     } catch (e) {
       print('\n\nErro ao carregar Produtos JSON do DataBase: $e');
       return [];
@@ -78,7 +87,9 @@ class RepositoryDataBaseController extends GetxController {
   }
 
   // All Database
-  Future<List<List<ProdutoModel>>> fetchAllProducts() async {
+  Future fetchAllProducts() async {
+    isLoading == true;
+
     dataBase_Array.clear();
 
     dataBase_Array.add(await lerArquivoJson(pizzasFile));
@@ -92,9 +103,9 @@ class RepositoryDataBaseController extends GetxController {
     return dataBase_Array;
   }
 
-  List<ProdutoModel> filtrarCategoria(String categoriaDesejada) {
+  List<dynamic> filtrarCategoria(String categoriaDesejada) {
     // Filtrar todos os produtos da categoria desejada
-    List<ProdutoModel> _produtosFiltrados = [];
+    List<dynamic> _produtosFiltrados = [];
 
     //TODO TROCAR PARA O ARRAY CORRETO
     _produtosFiltrados = dataBase_Array

@@ -17,7 +17,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SplashController _controller = Get.put(SplashController());
-    final CardapioController controller = Get.put(CardapioController());
+    final CardapioController cardapioController = Get.put(CardapioController());
 
     return Scaffold(
       backgroundColor: Colors.indigoAccent,
@@ -101,8 +101,8 @@ class SplashScreen extends StatelessWidget {
       children: [
         Center(
           child: CustomText(
-            text: 'Dados Carregados',
-            size: 32,
+            text: 'Dados Carregados :) ',
+            size: 48,
           ),
         )
       ],
@@ -122,6 +122,7 @@ class SplashScreen extends StatelessWidget {
           return Obx(() => repository.dataBase_Array.isNotEmpty
               ? Column(
                   children: [
+
                     _buildAfterAnimation(),
                   ],
                 )
@@ -142,23 +143,20 @@ class SplashController extends GetxController {
 
   final _productsLoader = Completer<void>();
 
-  final String pizzasFile = 'lib/repository/models/pizzas.json';
-
   //controllers
-  final MenuProdutosRepository menuCategorias =
-      Get.put(MenuProdutosRepository());
-  final RepositoryDataBaseController _repositoryController =
-      Get.put(RepositoryDataBaseController());
-  final pikachu = PikachuController();
+  final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
+  final RepositoryDataBaseController _repositoryController = Get.put(RepositoryDataBaseController());
   final CardapioController cardapioController = Get.put(CardapioController());
 
   @override
   void onReady() {
     isVisivel = true;
-    marginAnimada = 300.0;
-    update();
+    marginAnimada = 240.0;
 
     initSplashScreen();
+
+    update();
+
   }
 
   Future<void> initSplashScreen() async {
@@ -169,14 +167,14 @@ class SplashController extends GetxController {
   }
 
   void verificarDadosCarregados() {
-    if (!cardapioController.isLoading.value &&
-        _repositoryController.dataBase_Array.isNotEmpty) {
+    if (!cardapioController.isLoadingCardapio.value &&
+        _repositoryController.dataBase_Array.isNotEmpty ) {
       navegarParaTelaCardapio();
     }
   }
 
   void navegarParaTelaCardapio() async {
-    String id = '2023';
+    String id = '2077';
     Get.offNamed('/pedido/$id');
   }
 }

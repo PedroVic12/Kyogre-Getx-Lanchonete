@@ -8,18 +8,14 @@ import 'package:http/http.dart' as http;
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomAppBar.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/controller/sacola_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/menu_tab_bar_widget.dart';
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
-import '../../../models/DataBaseController/DataBaseController.dart';
-import '../../../models/DataBaseController/Views/repositoryView.dart';
 import '../../../models/DataBaseController/repository_db_controller.dart';
-import '../CardapioDigital/MenuProdutos/produtos_controller.dart';
 import '../Carrinho/CarrinhoController.dart';
 import '../Carrinho/CarrinhoPage.dart';
-import '../Carrinho/views/modalCarrinho.dart';
-import '../SplashScreen/splash_screen_page.dart';
+import 'cardapio_Digital_webPage.dart';
 import 'controllers/pikachu_controller.dart';
 
 /*
@@ -38,82 +34,24 @@ class TelaCardapioDigital extends StatefulWidget {
 }
 
 class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
-  //variaveis dinamicas
-  late String nomeCliente = "";
-  late String telefoneCliente = "";
-  late String idPedido = "";
 
-  final DataBaseController _dataBaseController = DataBaseController();
-
-  //todo antigo
-  final CarrinhoController carrinhoController = Get.put(CarrinhoController());
-
-  //controllers
-  final RepositoryDataBaseController repositoryController =
-      Get.find<RepositoryDataBaseController>();
-  final MenuProdutosRepository menuCategorias =
-      Get.find<MenuProdutosRepository>();
-  final MenuProdutosController menuController =
-      Get.find<MenuProdutosController>();
   final CardapioController controller = Get.put(CardapioController());
   final pikachu = PikachuController();
+  final CarrinhoPedidoController carrinhoController = Get.put(CarrinhoPedidoController());
+  final CarrinhoController carrinhoOld = Get.put(CarrinhoController());
 
-  initPage() async {
-    await Future.delayed(Duration(seconds: 5), () async {
-      controller.setupCardapioDigitalWeb();
-    });
-  }
 
   @override
   void initState() {
     super.initState();
+    controller.fetchClienteNome(widget.id);
+    controller.initPage();
+    setState(() {
 
-    fetchClienteNome(widget.id);
-    //loadProducts();
-
-    initPage();
+    });
   }
 
-  Widget pegarDadosCliente() {
-    return Column(
-      children: [
-        Text('Visualizando em uma pagina WEB'),
-        const Text('Dados do Cliente: '),
-        Text('ID do Pedido: ${idPedido}'),
-        Text('Nome do Cliente: $nomeCliente'),
-        Text('Telefone do Cliente: $telefoneCliente'),
-      ],
-    );
-  }
 
-  Future<String> fetchIdPedido() async {
-    final response_id = await http.get(
-        Uri.parse('https://rayquaza-citta-server.onrender.com/receber-link'));
-
-    if (response_id.statusCode == 200) {
-      String id_data = response_id.body;
-      return id_data;
-    } else {
-      throw Exception('Failed to fetch ID');
-    }
-  }
-
-  Future<void> fetchClienteNome(String clienteId) async {
-    final response = await http.get(Uri.parse(
-        'https://rayquaza-citta-server.onrender.com/cliente/$clienteId'));
-
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      setState(() {
-        idPedido = data['id'];
-        nomeCliente = data['nome'];
-        telefoneCliente = data['telefone'];
-        super.initState();
-      });
-    } else {
-      print('Failed to fetch the client name.');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +63,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
       return buildWebPage();
     } else {
       // Comportamento para outras plataformas (móveis)
-      return buildAppVersion();
+      return CardapioDigtalApp();
     }
   }
 
@@ -136,75 +74,113 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
           id: widget.id,
         ),
         body: Center(
-          child: ListView(children: [
-            GetBuilder<CardapioController>(
-              init: controller,
-              builder: (controller) {
-                return controller.isLoading.value
-                    ? const SplashScreen()
-                    : const Expanded(child: MenuTabBarCardapio());
-              },
+          child: Column(
+              children: <Widget>[
+          Expanded(
+          child: SingleChildScrollView(
+              child: Column(
+              children: <Widget>[
+              // Seu conteúdo rolável aqui
+              //for (int i = 0; i < 100; i++)
+            //ListTile(title: Text('Item $i')),
+
+
+              Obx(() {
+            if( controller.isLoadingCardapio.value  &&
+                controller.menuCategoriasArray.isNotEmpty &&
+                controller.repositoryController.dataBase_Array.isNotEmpty){
+              return const LoadingWidget();
+            } else {
+              return  const MenuTabBarCardapio();
+            }
+              } ),
+
+
+              ],
             ),
-            BotaoNavegacao1(),
-          ]),
+            ),
+            ),
+
+
+                BotaoNavegacao1(),
+                BarraInferiorPedido(),
+        ])
         ),
         floatingActionButton: FloatingActionButton(
           child: const Text('Abrir'),
           onPressed: () => Get.bottomSheet(
-            BottomSheetWidget(
-              nomeCliente: nomeCliente,
-              telefoneCliente: telefoneCliente,
-              id: widget.id,
-            ),
+           Container(
+             child: Text('ola mundo'),
+           ),
           ),
         ));
   }
 
-  Widget buildAppVersion() {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Cardapio QR Code.key Digital App"),
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              Text('Visualizando em um dispositivo móvel'),
-            ],
-          ),
-        ));
+
+  Widget _list() {
+
+    return Obx(() {
+      if (controller.produtosCarregadosArray.isEmpty) {
+        return Center(child: LoadingWidget());
+      } else {
+        return ListView.builder(
+          itemCount: controller.produtosCarregadosArray.length,
+          itemBuilder: (context, index) {
+            var produto = controller.produtosCarregadosArray[index];
+            return ListTile(
+              title: Text(produto.nome),
+              subtitle: Text('Categoria: ${produto.categoria}'),
+            );
+          },
+        );
+      }
+    });
   }
 
-  Widget _indexProdutoSelecionado() {
-    final MenuProdutosController menuController =
-        Get.find<MenuProdutosController>();
+  Widget buildListRepository() {
+    final RepositoryDataBaseController repositoryController =
+    Get.find<RepositoryDataBaseController>();
 
     return Container(
-        color: Colors.black,
-        child: Obx(() => Center(
-                child: Column(
-              children: [
-                CustomText(
-                  text:
-                      'item selecionado = ${menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome}',
-                  color: Colors.white,
-                  size: 18,
-                ),
-              ],
-            ))));
+        color: Colors.white,
+        height: 300,
+        child: Obx(() {
+          if (repositoryController.dataBase_Array.isEmpty) {
+            return LoadingWidget();
+          } else {
+            setState(() {});
+            return ListView.builder(
+              itemCount: repositoryController.dataBase_Array.length,
+              itemBuilder: (context, index) {
+                var item = repositoryController.dataBase_Array[index];
+                return ListTile(
+                    subtitle: Column(
+                      children: [
+                        CustomText(
+                          text: '\n\nProduto: ${item.nome}',
+                        ),
+                        CustomText(text: 'Categoria: ${item.categoria}'),
+                        CustomText(text: 'Precos: ${item.precos}')
+                      ],
+                    ));
+              },
+            );
+          }
+        }));
   }
+
 
   Widget BotaoNavegacao1() {
     return Padding(
       padding: EdgeInsets.all(12),
-      child: SizedBox(
-        height: 50,
-        width: 150,
+      child: Padding(
+        padding: EdgeInsets.all(8),
         child: ElevatedButton(
             onPressed: () {
-              carrinhoController.setClienteDetails(
-                  nomeCliente, telefoneCliente, widget.id);
+              carrinhoOld.setClienteDetails(
+                  controller.nomeCliente, controller.telefoneCliente, widget.id);
               Get.to(CarrinhoPage(),
-                  arguments: [nomeCliente, telefoneCliente, widget.id]);
+                  arguments: [controller.nomeCliente, controller.telefoneCliente, widget.id]);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: CupertinoColors.activeBlue,
@@ -218,14 +194,14 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
                 children: [
                   Icon(
                     Icons.shopify_rounded,
-                    size: 32,
+                    size: 48,
                     color: Colors.white,
                   ),
-                  SizedBox(width: 50),
+                  SizedBox(width: 60),
                   CustomText(
                     text: 'VER CARRINHO',
                     color: Colors.white,
-                    size: 20,
+                    size: 24,
                   )
                 ],
               ),
@@ -233,4 +209,24 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
       ),
     );
   }
+
+
+  Widget pegarDadosCliente() {
+    return Column(
+      children: [
+        Text('Visualizando em uma pagina WEB'),
+        const Text('Dados do Cliente: '),
+        Text('ID do Pedido: ${controller.idPedido}'),
+        Text('Nome do Cliente: ${controller.nomeCliente}'),
+        Text('Telefone do Cliente: ${controller.telefoneCliente}'),
+      ],
+    );
+  }
 }
+
+
+
+
+
+
+

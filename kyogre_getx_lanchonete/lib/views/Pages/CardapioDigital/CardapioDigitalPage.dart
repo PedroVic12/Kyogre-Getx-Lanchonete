@@ -163,7 +163,9 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
   Widget _carregandoProdutos() {
-    return FutureBuilder<List<List<ProdutoModel>>>(
+
+
+    return FutureBuilder(
       future: _repositoryController.fetchAllProducts(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

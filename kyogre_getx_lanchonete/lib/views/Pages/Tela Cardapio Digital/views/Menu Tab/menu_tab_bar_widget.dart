@@ -53,6 +53,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
+  final MenuProdutosController menuGradiente = Get.put(MenuProdutosController());
+  final CardapioController controller = Get.put(CardapioController());
+
   @override
   void initState() {
     super.initState();
@@ -105,10 +108,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   }
 
   Widget TabBarScrollCardapioCategorias() {
-    final menuRepositoryCategorias = Get.find<MenuProdutosRepository>();
-
-    var categorias_array = menuRepositoryCategorias.MenuCategorias_Array;
-
     return Container(
       margin: EdgeInsets.all(6),
       alignment: Alignment.centerLeft,
@@ -139,9 +138,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         unselectedLabelColor: Colors.black,
         //indicator: CircleTabIndicator(color: Colors.purpleAccent,radius: 64.0),
         tabs: [
-          for (var index = 0; index < categorias_array.length; index++)
-            _buildTabBarMenuGradiente(categorias_array[index].nome,
-                categorias_array[index].iconPath, index)
+          for (var index = 0; index < controller.menuCategoriasArray.length; index++)
+            _buildTabBarMenuGradiente(controller.menuCategoriasArray[index].nome,
+                controller.menuCategoriasArray[index].iconPath, index)
         ],
       ),
     );
@@ -195,15 +194,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
   //! CARDS PRODUTOS
   Widget TabBarViewCardapioProdutosDetails() {
-    final MenuProdutosController menuController =
-        Get.find<MenuProdutosController>();
-    final MenuProdutosRepository menuCategorias =
-        Get.find<MenuProdutosRepository>();
-
-    var caregorias = menuCategorias.MenuCategorias_Array;
-    final nome_produto_selecionado = menuCategorias
-        .MenuCategorias_Array[menuController.produtoIndex.value].nome;
-    final indice = menuController.produtoIndex.value;
+    RxList <dynamic> produtosCarregados = controller.produtosCarregadosArray;
+    controller.pikachu.cout('Ola mundo 2 = ${produtosCarregados}!!!!!!!!!!!!!!!!');
+    final indice = menuGradiente.produtoIndex.value;
 
     // Use MediaQuery para obter o tamanho da tela
     final screenSize = MediaQuery.of(context).size;
@@ -219,61 +212,20 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         children: [
           //BlurCardWidget(CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome), screenSize.height, screenSize.width),
           CardsProdutosFIltrados(
-              categoria_selecionada: menuCategorias
-                  .MenuCategorias_Array[menuController.produtoIndex.value]
-                  .nome),
+              categoria_selecionada: produtosCarregados[indice].nome),
           CardsProdutosFIltrados(
-              categoria_selecionada: menuCategorias
-                  .MenuCategorias_Array[menuController.produtoIndex.value]
-                  .nome),
+              categoria_selecionada: produtosCarregados[indice].nome),
           CardsProdutosFIltrados(
-              categoria_selecionada: menuCategorias
-                  .MenuCategorias_Array[menuController.produtoIndex.value]
-                  .nome),
+              categoria_selecionada: produtosCarregados[indice].nome),
           CardsProdutosFIltrados(
-              categoria_selecionada: menuCategorias
-                  .MenuCategorias_Array[menuController.produtoIndex.value]
-                  .nome),
+              categoria_selecionada: produtosCarregados[indice].nome),
           CardsProdutosFIltrados(
-              categoria_selecionada: menuCategorias
-                  .MenuCategorias_Array[menuController.produtoIndex.value]
-                  .nome),
+              categoria_selecionada: produtosCarregados[indice].nome),
         ],
       ),
     );
   }
 
-  Widget buildListRepository() {
-    final RepositoryDataBaseController repositoryController =
-        Get.find<RepositoryDataBaseController>();
-
-    return Container(
-        color: Colors.white,
-        height: 300,
-        child: Obx(() {
-          if (repositoryController.my_array.isEmpty) {
-            return LoadingWidget();
-          } else {
-            setState(() {});
-            return ListView.builder(
-              itemCount: repositoryController.my_array.length,
-              itemBuilder: (context, index) {
-                var item = repositoryController.my_array[index];
-                return ListTile(
-                    subtitle: Column(
-                  children: [
-                    CustomText(
-                      text: '\n\nProduto: ${item.nome}',
-                    ),
-                    CustomText(text: 'Categoria: ${item.categoria}'),
-                    CustomText(text: 'Precos: ${item.precos}')
-                  ],
-                ));
-              },
-            );
-          }
-        }));
-  }
 
   Widget BlurCardWidget(_child, size_h, size_w) {
     return GlassContainer(

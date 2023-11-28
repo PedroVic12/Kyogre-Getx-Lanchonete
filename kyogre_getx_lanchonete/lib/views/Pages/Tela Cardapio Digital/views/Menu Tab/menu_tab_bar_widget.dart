@@ -60,6 +60,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   void initState() {
     super.initState();
     _tabController = TabController(length: 5, vsync: this);
+    controller.initPage();
     // Assuma que o carregamento dos dados é iniciado em MenuProdutosController.onInit
   }
 
@@ -73,6 +74,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         TabBarScrollCardapioCategorias(),
 
         // TabView
+        CustomText(text: 'Debug here'),
         TabBarViewCardapioProdutosDetails(),
       ],
     );
@@ -139,8 +141,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         //indicator: CircleTabIndicator(color: Colors.purpleAccent,radius: 64.0),
         tabs: [
           for (var index = 0; index < controller.menuCategoriasArray.length; index++)
-            _buildTabBarMenuGradiente(controller.menuCategoriasArray[index].nome,
-                controller.menuCategoriasArray[index].iconPath, index)
+            _buildTabBarMenuGradiente(controller.menuCategoriasArray[index].nome, controller.menuCategoriasArray[index].iconPath, index)
         ],
       ),
     );
@@ -201,29 +202,31 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
     // Use MediaQuery para obter o tamanho da tela
     final screenSize = MediaQuery.of(context).size;
 
-    return Container(
-      padding: EdgeInsets.all(
-          screenSize.height * 0.02), // Exemplo de uso de tamanho relativo
-      width: screenSize.width,
-      height: screenSize.height,
+    return Obx(() {
+      return Container(
+        padding: EdgeInsets.all(
+            screenSize.height * 0.02), // Exemplo de uso de tamanho relativo
+        width: screenSize.width,
+        height: screenSize.height,
 
-      child: TabBarView(
-        controller: _tabController,
-        children: [
-          //BlurCardWidget(CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome), screenSize.height, screenSize.width),
-          CardsProdutosFIltrados(
-              categoria_selecionada: produtosCarregados[indice].nome),
-          CardsProdutosFIltrados(
-              categoria_selecionada: produtosCarregados[indice].nome),
-          CardsProdutosFIltrados(
-              categoria_selecionada: produtosCarregados[indice].nome),
-          CardsProdutosFIltrados(
-              categoria_selecionada: produtosCarregados[indice].nome),
-          CardsProdutosFIltrados(
-              categoria_selecionada: produtosCarregados[indice].nome),
-        ],
-      ),
-    );
+        child: TabBarView(
+          controller: _tabController,
+          children: [
+            //BlurCardWidget(CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome), screenSize.height, screenSize.width),
+            CardsProdutosFIltrados(
+                categoria_selecionada: produtosCarregados[indice].nome),
+            CardsProdutosFIltrados(
+                categoria_selecionada: produtosCarregados[indice].nome),
+            CardsProdutosFIltrados(
+                categoria_selecionada: produtosCarregados[indice].nome),
+            CardsProdutosFIltrados(
+                categoria_selecionada: produtosCarregados[indice].nome),
+            CardsProdutosFIltrados(
+                categoria_selecionada: produtosCarregados[indice].nome),
+          ],
+        ),
+      );
+    });
   }
 
 

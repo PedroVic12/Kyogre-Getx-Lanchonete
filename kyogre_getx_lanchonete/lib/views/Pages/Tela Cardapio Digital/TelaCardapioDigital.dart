@@ -45,8 +45,9 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   void initState() {
     super.initState();
     controller.fetchClienteNome(widget.id);
-    controller.initPage();
+
     setState(() {
+      controller.initPage();
 
     });
   }
@@ -69,64 +70,43 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
 
   Widget buildWebPage() {
     return Scaffold(
-        backgroundColor: Colors.red,
-        appBar: CustomAppBar(
-          id: widget.id,
+      backgroundColor: Colors.red,
+      appBar: CustomAppBar(id: widget.id),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    GetBuilder<CardapioController>(
+                      builder: (controller) {
+                        return const MenuTabBarCardapio();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            BotaoNavegacao1(),
+            BarraInferiorPedido(),
+          ],
         ),
-        body: Center(
-          child: Column(
-              children: <Widget>[
-          Expanded(
-          child: SingleChildScrollView(
-              child: Column(
-              children: <Widget>[
-              // Seu conteúdo rolável aqui
-              //for (int i = 0; i < 100; i++)
-            //ListTile(title: Text('Item $i')),
-
-
-              Obx(() {
-            if( controller.isLoadingCardapio.value  &&
-                controller.menuCategoriasArray.isNotEmpty &&
-                controller.repositoryController.dataBase_Array.isNotEmpty){
-              return const LoadingWidget();
-            } else {
-              return  const MenuTabBarCardapio();
-            }
-              } ),
-
-
-              ],
-            ),
-            ),
-            ),
-
-
-                BotaoNavegacao1(),
-                BarraInferiorPedido(),
-        ])
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: const Text('Abrir'),
-          onPressed: () => Get.bottomSheet(
-           Container(
-             child: Text('ola mundo'),
-           ),
-          ),
-        ));
+      ),
+    );
   }
 
 
   Widget _list() {
 
     return Obx(() {
-      if (controller.produtosCarregadosArray.isEmpty) {
+      if (controller.repositoryController.dataBase_Array.isEmpty) {
         return Center(child: LoadingWidget());
       } else {
         return ListView.builder(
-          itemCount: controller.produtosCarregadosArray.length,
+          itemCount: controller.repositoryController.dataBase_Array.length,
           itemBuilder: (context, index) {
-            var produto = controller.produtosCarregadosArray[index];
+            var produto =controller.repositoryController.dataBase_Array[index];
             return ListTile(
               title: Text(produto.nome),
               subtitle: Text('Categoria: ${produto.categoria}'),

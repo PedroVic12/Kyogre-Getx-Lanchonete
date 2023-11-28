@@ -114,18 +114,10 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
     //TODO ESPERAR TUDO CARREGAR AQUI TAMBEM
     var produtosFiltrados =  cardapioController.repositoryController.filtrarCategoria(categoria);
 
-    cardapioController.repositoryController.pikachu.cout(produtosFiltrados);
-
     // Exibir um indicador de carregamento enquanto os produtos estão sendo filtrados
-    if (produtosFiltrados.isNotEmpty) {
+    if (produtosFiltrados.isEmpty) {
       return LoadingWidget();
     } else {
-
-
-      setState(() {
-
-      });
-
       // Exibir a lista de produtos filtrados
       return Expanded(
         child: ListView.builder(
@@ -151,29 +143,26 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
                   ),
                   title: CustomText(
                     text: '${produto.nome}', // Use os dados reais do produto
-                    size: 20,
+                    size: 22,
                     weight: FontWeight.bold,
                   ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        text:'Preços: ${produto.precos.map((p) => p['preco']).join(' | ')}',
+                        //text:'Preços: ${produto.precos.map((p) => p['preco']).join(' | ')}',
+                        text: 'Preço: R\$ ${produto.precos[0]['preco']} Reais',
                         size: 16,
                         color: Colors.green,
                         weight: FontWeight.bold, // Exemplo de uso do preço
                       ),
                     ],
                   ),
-                  trailing: BotaoFloatArredondado(icone: Icons.add,onPress: (){
+                  trailing: BotaoFloatArredondado(icone: Icons.add,
+                      onPress: (){
                     carrinho.adicionarCarrinho(produto);
-                    cardapioController.repositoryController.pikachu.loadDataSuccess('Perfeito', 'Item ${produto.nome} adicionado! ${carrinho.SACOLA}');
-                    Get.bottomSheet(
-                      BottomSheetWidget(
-                        nomeCliente: 'Pedro',
-                        telefoneCliente: '1998',
-                        id: '1234',
-                      ),);
+                    cardapioController.repositoryController.pikachu.loadDataSuccess('Perfeito', 'Item ${produto.nome} adicionado! ${carrinho.SACOLA.length}');
+
                   }),
                 ),
               ),
@@ -219,24 +208,6 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
 
 
 
-  // Debug
-  Widget buildListViewProdutosRepository() {
-    final RepositoryDataBaseController repositoryController = Get.find<RepositoryDataBaseController>();
-
-    return ListView.builder(
-      itemCount: repositoryController.dataBase_Array
-          .expand((x) => x)
-          .length,
-      itemBuilder: (context, index) {
-        final produto = repositoryController.dataBase_Array.expand((x) => x).elementAt(
-            index);
-        return ListTile(
-          title: Text(produto.nome),
-          subtitle: Text('Categoria: ${produto.categoria}'),
-        );
-      },
-    );
-  }
 
   Widget _carregandoProdutos() {
 
@@ -261,7 +232,6 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
                     child: Text(
                         'Produtos JSON = ${repositoryController.dataBase_Array}')),
 
-                buildListViewProdutosRepository()
               ],
             ),
           );

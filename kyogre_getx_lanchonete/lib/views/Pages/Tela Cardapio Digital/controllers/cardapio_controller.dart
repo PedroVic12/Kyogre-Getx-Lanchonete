@@ -1,15 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
-import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/pikachu_controller.dart';
 
 import '../../../../models/DataBaseController/repository_db_controller.dart';
-import '../../../../models/DataBaseController/template/produtos_model.dart';
-import '../../CardapioDigital/MenuProdutos/produtos_controller.dart';
 import '../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../Carrinho/CarrinhoController.dart';
 import '../views/Menu Tab/menu_tab_bar_widget.dart';
@@ -36,21 +30,13 @@ class CardapioController extends GetxController {
   }
 
 
-   get menuCategoriasArray{
-    return menuCategorias.MenuCategorias_Array;
-  }
-
-
-  get produtosCarregadosArray{
-    return repositoryController.dataBase_Array;
-  }
-
-
   initPage() async {
     await Future.delayed(Duration(seconds: 5), () async {
-      setupCardapioDigitalWeb();
+     await setupCardapioDigitalWeb();
     });
   }
+
+
   // metodos backend
   Future<void> fetchClienteNome(String clienteId) async {
     try {
@@ -84,18 +70,17 @@ class CardapioController extends GetxController {
   }
 
   //setup
-
-
   Future setupCardapioDigitalWeb() async {
     isLoadingCardapio.value = true;
 
     try {
       await menuCategorias.getCategoriasRepository();
       await repositoryController.getProdutosDatabase();
+
     } catch (e) {
-      // Lidar com possíveis erros aqui
-      print('Erro ao carregar dados: $e');
-    } finally {
+      print('---> Erro ao carregar dados: $e');
+    }
+    finally {
       if (repositoryController.dataBase_Array.isNotEmpty &&
           menuCategorias.MenuCategorias_Array.isNotEmpty) {
         pikachu.cout('\nCategorias = ${menuCategorias.MenuCategorias_Array}');
@@ -103,14 +88,17 @@ class CardapioController extends GetxController {
 
         // Só muda o estado para 'não carregando' se ambos os arrays estiverem carregados
         isLoadingCardapio.value = false;
+
+
+        if (!isLoadingCardapio.value) {
+          pikachu.loadDataSuccess('','Conteudos carregados? ${!isLoadingCardapio.value}');
+          update();
+          return isLoadingCardapio.value;
+        }
       }
     }
 
-    if (!isLoadingCardapio.value) {
-      pikachu.loadDataSuccess('Dados', 'Carregados :) !!!!');
-      update();
-      return isLoadingCardapio.value;
-    }
+
   }
 
 }

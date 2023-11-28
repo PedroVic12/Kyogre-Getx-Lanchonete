@@ -1,20 +1,14 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names
 
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:glass_kit/glass_kit.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
+import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produtos_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/widget_tab.dart';
-import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
-
 import '../../../../../app/widgets/Custom/CustomText.dart';
-import '../../../../../models/DataBaseController/repository_db_controller.dart';
-import '../../../../../models/DataBaseController/template/produtos_model.dart';
-import '../../../CardapioDigital/MenuProdutos/produtos_controller.dart';
-import '../../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import '../cards/CardProdutosFiltrados.dart';
 
@@ -56,11 +50,15 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   final MenuProdutosController menuGradiente = Get.put(MenuProdutosController());
   final CardapioController controller = Get.put(CardapioController());
 
+
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
-    controller.initPage();
+
+    _tabController = TabController(
+        //length: Get.find<CardapioController>().menuCategorias.MenuCategorias_Array.length,
+        length: 5,
+        vsync: this);
     // Assuma que o carregamento dos dados é iniciado em MenuProdutosController.onInit
   }
 
@@ -74,8 +72,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         TabBarScrollCardapioCategorias(),
 
         // TabView
-        CustomText(text: 'Debug here'),
-        TabBarViewCardapioProdutosDetails(),
+        TabBarViewCardapioProdutosDetails()
       ],
     );
   }
@@ -111,7 +108,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
   Widget TabBarScrollCardapioCategorias() {
     return Container(
-      margin: EdgeInsets.all(6),
+      margin: EdgeInsets.all(12),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -140,8 +137,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         unselectedLabelColor: Colors.black,
         //indicator: CircleTabIndicator(color: Colors.purpleAccent,radius: 64.0),
         tabs: [
-          for (var index = 0; index < controller.menuCategoriasArray.length; index++)
-            _buildTabBarMenuGradiente(controller.menuCategoriasArray[index].nome, controller.menuCategoriasArray[index].iconPath, index)
+          for (var index = 0; index <     controller.menuCategorias.MenuCategorias_Array.length; index++)
+            _buildTabBarMenuGradiente( controller.menuCategorias.MenuCategorias_Array[index].nome,
+                controller.menuCategorias.MenuCategorias_Array[index].iconPath, index)
         ],
       ),
     );
@@ -195,8 +193,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
   //! CARDS PRODUTOS
   Widget TabBarViewCardapioProdutosDetails() {
-    RxList <dynamic> produtosCarregados = controller.produtosCarregadosArray;
-    controller.pikachu.cout('Ola mundo 2 = ${produtosCarregados}!!!!!!!!!!!!!!!!');
+    List<ProdutoModel> produtosCarregados = controller.repositoryController.dataBase_Array;
     final indice = menuGradiente.produtoIndex.value;
 
     // Use MediaQuery para obter o tamanho da tela
@@ -213,16 +210,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
           controller: _tabController,
           children: [
             //BlurCardWidget(CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome), screenSize.height, screenSize.width),
-            CardsProdutosFIltrados(
-                categoria_selecionada: produtosCarregados[indice].nome),
-            CardsProdutosFIltrados(
-                categoria_selecionada: produtosCarregados[indice].nome),
-            CardsProdutosFIltrados(
-                categoria_selecionada: produtosCarregados[indice].nome),
-            CardsProdutosFIltrados(
-                categoria_selecionada: produtosCarregados[indice].nome),
-            CardsProdutosFIltrados(
-                categoria_selecionada: produtosCarregados[indice].nome),
+            for (var index = 0; index < produtosCarregados.length; index++)
+            CardsProdutosFIltrados(categoria_selecionada: produtosCarregados[index].nome),
+
           ],
         ),
       );
@@ -230,41 +220,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   }
 
 
-  Widget BlurCardWidget(_child, size_h, size_w) {
-    return GlassContainer(
-      height: size_h,
-      width: size_w,
-      gradient: LinearGradient(
-        colors: [
-          Colors.white.withOpacity(0.40),
-          Colors.white.withOpacity(0.10)
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
-      borderGradient: LinearGradient(
-        colors: [
-          Colors.white.withOpacity(0.60),
-          Colors.white.withOpacity(0.10),
-          Colors.lightBlueAccent.withOpacity(0.05),
-          Colors.lightBlueAccent.withOpacity(0.6)
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        stops: [0.0, 0.39, 0.40, 1.0],
-      ),
-      blur: 15.0,
-      borderWidth: 1.5,
-      elevation: 3.0,
-      isFrostedGlass: true,
-      shadowColor: Colors.black.withOpacity(0.20),
-      alignment: Alignment.center,
-      frostedOpacity: 0.12,
-      margin: EdgeInsets.all(8.0),
-      padding: EdgeInsets.all(8.0),
-      child: _child,
-    );
-  }
 
   @override
   void dispose() {

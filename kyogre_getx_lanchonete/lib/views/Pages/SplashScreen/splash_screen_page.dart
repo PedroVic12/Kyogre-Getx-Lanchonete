@@ -97,14 +97,18 @@ class SplashScreen extends StatelessWidget {
   }
 
   Widget _buildAfterAnimation() {
-    return const Column(
+    final CardapioController cardapioController = Get.find<CardapioController>();
+
+    return  Column(
       children: [
         Center(
           child: CustomText(
             text: 'Dados Carregados :) ',
             size: 48,
           ),
-        )
+        ),
+
+
       ],
     );
   }
@@ -112,8 +116,7 @@ class SplashScreen extends StatelessWidget {
   Widget buildSetupPage() {
     final PikachuController controller = Get.put(PikachuController());
     final SplashController splashController = Get.put(SplashController());
-    final RepositoryDataBaseController repository =
-        Get.find<RepositoryDataBaseController>();
+    final RepositoryDataBaseController repository =   Get.find<RepositoryDataBaseController>();
 
     return FutureBuilder(
       future: splashController.initSplashScreen(),
@@ -122,11 +125,10 @@ class SplashScreen extends StatelessWidget {
           return Obx(() => repository.dataBase_Array.isNotEmpty
               ? Column(
                   children: [
-
                     _buildAfterAnimation(),
                   ],
                 )
-              : const Text('Nenhum dado disponível.'));
+              : const Text('Nenhum dado disponível. :('));
         } else {
           return const LoadingWidget();
         }
@@ -134,6 +136,15 @@ class SplashScreen extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
+
+
 
 class SplashController extends GetxController {
   double marginAnimada = 0.0;

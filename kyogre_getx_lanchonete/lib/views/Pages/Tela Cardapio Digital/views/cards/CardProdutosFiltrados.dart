@@ -53,7 +53,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
     final screenSize = MediaQuery.of(context).size;
 
     return Container(
-      color: cor2,
+      color: cor3,
       child: Column(
         children: [
           _headerProdutos(nome_categoria_selecionada),

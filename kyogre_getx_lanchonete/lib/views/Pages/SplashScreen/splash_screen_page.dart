@@ -78,8 +78,8 @@ class SplashScreen extends StatelessWidget {
           CustomIcone(Icons.directions_bike),
           CustomIcone(Icons.settings),
           CustomIcone(Icons.wifi),
-          buildSetupPage(),
           CustomIcone(Icons.restaurant),
+          buildSetupPage(),
           CustomIcone(Icons.directions_boat),
           CustomIcone(Icons.no_food),
           CustomIcone(Icons.table_restaurant_sharp),
@@ -104,7 +104,7 @@ class SplashScreen extends StatelessWidget {
         Center(
           child: CustomText(
             text: 'Dados Carregados :) ',
-            size: 48,
+            size: 32,
           ),
         ),
 

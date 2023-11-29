@@ -9,6 +9,7 @@ import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produt
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/widget_tab.dart';
 import '../../../../../app/widgets/Custom/CustomText.dart';
+import '../../../../../themes /cores.dart';
 import '../../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import '../cards/CardProdutosFiltrados.dart';
 
@@ -68,7 +69,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
       children: [
         // Menu Tab Scrol Gradiente
         _buildHeader(),
-        Divider(),
+        //Divider(),
         TabBarScrollCardapioCategorias(),
 
         // TabView
@@ -80,15 +81,13 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   //! Menu Scroll Lateral
   Widget _buildHeader() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+      padding: const EdgeInsets.symmetric( horizontal: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           IconButton(
             onPressed: () {
-              CupertinoAlertDialog(
-                title: Text('ola'),
-              );
+
             },
             icon: IconePersonalizado(tipo: Icons.menu),
           ),
@@ -104,42 +103,49 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   }
 
   Widget TabBarScrollCardapioCategorias() {
-    return Container(
-      margin: EdgeInsets.all(6),
-      alignment: Alignment.centerLeft,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            CupertinoColors.activeOrange,
-            CupertinoColors.systemYellow.darkHighContrastElevatedColor
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
-          BoxShadow(
-            offset: Offset(0.7, 1),
-            blurRadius: 50,
-            spreadRadius: 3,
-            color: Colors.yellow,
+    return Obx(() {
+      if(controller.menuCategorias.MenuCategorias_Array.isEmpty){
+        return LoadingWidget();
+      }
+      else {
+        return  Container(
+          margin: EdgeInsets.all(6),
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                CupertinoColors.activeOrange,
+                cor2
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: const [
+              BoxShadow(
+                offset: Offset(0.7, 1),
+                blurRadius: 50,
+                spreadRadius: 3,
+                color: Colors.yellow,
+              ),
+            ],
           ),
-        ],
-      ),
-      child: TabBar(
-        controller: _tabController,
-        labelColor: Colors.white,
-        labelPadding: const EdgeInsets.all(4),
-        isScrollable: true,
-        unselectedLabelColor: Colors.black,
-        //indicator: CircleTabIndicator(color: Colors.purpleAccent,radius: 64.0),
-        tabs: [
-          for (var index = 0; index <     controller.menuCategorias.MenuCategorias_Array.length; index++)
-            _buildTabBarMenuGradiente( controller.menuCategorias.MenuCategorias_Array[index].nome,
-                controller.menuCategorias.MenuCategorias_Array[index].iconPath, index)
-        ],
-      ),
-    );
+          child: TabBar(
+            controller: _tabController,
+            labelColor: Colors.white,
+            labelPadding: const EdgeInsets.all(4),
+            isScrollable: true,
+            unselectedLabelColor: Colors.black,
+            //indicator: CircleTabIndicator(color: Colors.purpleAccent,radius: 64.0),
+            tabs: [
+              for (var index = 0; index <     controller.menuCategorias.MenuCategorias_Array.length; index++)
+                _buildTabBarMenuGradiente( controller.menuCategorias.MenuCategorias_Array[index].nome,
+                    controller.menuCategorias.MenuCategorias_Array[index].iconPath, index)
+            ],
+          ),
+        );
+      }
+    });
   }
 
   Widget _buildTabBarMenuGradiente(String nome, Icon iconPath, int index) {

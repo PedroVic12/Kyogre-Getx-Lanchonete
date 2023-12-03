@@ -45,6 +45,12 @@ class CarrinhoPage extends StatelessWidget {
                   },
                 ),
               ),
+
+
+              CustomText(text: 'Digite seu Endereço de Entrega'),
+
+              CustomText(text: 'Digite a forma de pagamento'),
+
               BarraInferiorPedido(),
             ],
           );

@@ -135,6 +135,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
                 child: CupertinoListTile(
                   padding: const EdgeInsets.all(8.0),
                   onTap: () {
+                    //GetPage(name: '/NomeProduto', page: ()=> ItemDetailsPage( produto_selecionado: produto));
                     Get.to(ItemDetailsPage( produto_selecionado: produto,));
                   },
                   leading: CircleAvatar(

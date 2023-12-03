@@ -19,7 +19,7 @@ class CardapioController extends GetxController {
   final MenuProdutosController menuGradiente = Get.put(MenuProdutosController());
   final MenuProdutosRepository menuCategorias =      Get.put(MenuProdutosRepository());
   final RepositoryDataBaseController repositoryController =      Get.put(RepositoryDataBaseController());
-  final CarrinhoController carrinhoController = Get.find<CarrinhoController>();
+  final CarrinhoController carrinhoController = Get.put(CarrinhoController());
 
   final pikachu = PikachuController();
 
@@ -34,6 +34,8 @@ class CardapioController extends GetxController {
     await Future.delayed(Duration(seconds: 5), () async {
      await setupCardapioDigitalWeb();
     });
+
+    update();
   }
 
 
@@ -82,19 +84,20 @@ class CardapioController extends GetxController {
     try {
       await menuCategorias.getCategoriasRepository();
       await repositoryController.getProdutosDatabase();
-
+      update();
     } catch (e) {
       print('---> Erro ao carregar dados: $e');
     }
     finally {
       if (repositoryController.dataBase_Array.isNotEmpty &&
-          menuCategorias.MenuCategorias_Array.isNotEmpty) {
+          menuCategorias.MenuCategorias_Array.isNotEmpty
+      ) {
         pikachu.cout('\nCategorias = ${menuCategorias.MenuCategorias_Array}');
         pikachu.cout('\nRepository = ${repositoryController.dataBase_Array}');
 
         // Só muda o estado para 'não carregando' se ambos os arrays estiverem carregados
         isLoadingCardapio.value = false;
-
+        update();
 
         if (!isLoadingCardapio.value) {
           pikachu.loadDataSuccess('','Conteudos carregados? ${!isLoadingCardapio.value}');

@@ -18,10 +18,10 @@ class IconePersonalizado extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
-      width: 50,
+      height: 32,
+      width: 32,
       child: CircleAvatar(
-        child: Icon(tipo, size: 24),
+        child: Icon(tipo, size: 16),
       ),
     );
   }

@@ -11,6 +11,92 @@ import '../../../views/Pages/Carrinho/controller/backend_wpp.dart';
 import '../../../views/Pages/Tela Cardapio Digital/controllers/cardapio_controller.dart';
 
 
+class ModalInferior extends StatelessWidget {
+   ModalInferior({super.key});
+  final CarrinhoPedidoController carrinho = Get.put(CarrinhoPedidoController());
+  final backEndWhatsapp Groundon = Get.put(backEndWhatsapp());
+
+  @override
+  Widget build(BuildContext context) {
+    return  Container(
+        decoration:  BoxDecoration(
+            color: Colors.blueGrey.shade200,
+            borderRadius: BorderRadius.vertical(
+                top: Radius.circular(50)
+            ),
+            boxShadow:[
+              BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 3,
+                  spreadRadius: 2
+              )
+            ]
+        ),
+
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
+          child:    Obx(
+                  ()=> Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Center(
+                  child:  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(height: 10,),
+                          CustomText(text: 'Total: R\$ ${carrinho.totalPrice.toStringAsFixed(2)}', size: 20),
+                          CustomText(text: 'Itens no carrinho ${carrinho.SACOLA.length}'),
+                        ],
+                      ),
+                      BotaoNavegacao1(),
+                    ],
+                  ),
+                )
+              )
+          ),
+        )
+    );
+  }
+
+
+   Widget BotaoNavegacao1() {
+     final CarrinhoController carrinhoOld = Get.put(CarrinhoController());
+     final CardapioController controller = Get.find<CardapioController>();
+
+     return ElevatedButton(
+         onPressed: () {
+           Get.to(CarrinhoPage());
+         },
+         style: ElevatedButton.styleFrom(
+           backgroundColor: CupertinoColors.activeBlue,
+           shape: RoundedRectangleBorder(
+             borderRadius: BorderRadius.circular(30),
+           ),
+         ),
+         child: Center(
+           child: Row(
+             children: [
+               Icon(
+                 Icons.shopify_rounded,
+                 size: 20,
+                 color: Colors.white,
+               ),
+               CustomText(
+                 text: 'VER CARRINHO',
+                 color: Colors.white,
+                 size: 20,
+               )
+             ],
+           ),
+         ));
+   }
+
+}
+
+
+
 class BarraInferiorPedido extends StatelessWidget {
   final CarrinhoPedidoController carrinho = Get.put(CarrinhoPedidoController());
   final backEndWhatsapp Groundon = Get.put(backEndWhatsapp());
@@ -54,53 +140,13 @@ class BarraInferiorPedido extends StatelessWidget {
                   )
               ),
 
-
-              BotaoNavegacao1(),
-
+              BotaoWpp(context)
 
             ],
           ),
         )
     );
   }
-
-  Widget BotaoNavegacao1() {
-    final CarrinhoController carrinhoOld = Get.put(CarrinhoController());
-    final CardapioController controller = Get.find<CardapioController>();
-
-    return Padding(
-      padding: EdgeInsets.all(12),
-        child: ElevatedButton(
-            onPressed: () {
-              Get.to(CarrinhoPage());
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: CupertinoColors.activeBlue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.shopify_rounded,
-                    size: 32,
-                    color: Colors.white,
-                  ),
-                  SizedBox(width: 100),
-                  CustomText(
-                    text: 'VER CARRINHO',
-                    color: Colors.white,
-                    size: 20,
-                  )
-                ],
-              ),
-            )),
-    );
-  }
-
 
   Widget BotaoWpp(context){
     return    Padding(padding: const EdgeInsets.all(8),child:
@@ -168,3 +214,5 @@ Widget createDialog(BuildContext context) => CupertinoAlertDialog(
     )
   ],
 );
+
+

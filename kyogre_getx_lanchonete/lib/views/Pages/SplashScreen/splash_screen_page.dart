@@ -48,7 +48,6 @@ class SplashScreen extends StatelessWidget {
                     ),
                     child: Padding(
                         padding: const EdgeInsets.all(32),
-                        //child: CircleAvatar(child: Icon(Icons.emoji_food_beverage_rounded,size: 48,)
                         child: Image.asset(
                           'lib/repository/assets/citta_logo_light.png',
                           height: 200,
@@ -97,9 +96,7 @@ class SplashScreen extends StatelessWidget {
   }
 
   Widget _buildAfterAnimation() {
-    final CardapioController cardapioController = Get.find<CardapioController>();
-
-    return  Column(
+    return Column(
       children: [
         Center(
           child: CustomText(
@@ -107,39 +104,29 @@ class SplashScreen extends StatelessWidget {
             size: 32,
           ),
         ),
-
-
       ],
     );
   }
 
   Widget buildSetupPage() {
-    final PikachuController controller = Get.put(PikachuController());
     final SplashController splashController = Get.put(SplashController());
-    final RepositoryDataBaseController repository =   Get.find<RepositoryDataBaseController>();
+    final CardapioController controller = Get.find<CardapioController>();
 
     return FutureBuilder(
       future: splashController.initSplashScreen(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Obx(() => repository.dataBase_Array.isNotEmpty
-              ? Column(
-                  children: [
-                    _buildAfterAnimation(),
-                  ],
-                )
-              : const Text('Nenhum dado disponível. :('));
+        // Caso os dados estejam carregados, mostra a mensagem por 2 segundos
+        if (controller.menuCategorias.MenuCategorias_Array.isNotEmpty &&
+            controller.repositoryController.dataBase_Array.isNotEmpty) {
+          return _buildAfterAnimation();
         } else {
-          return  Container(); // TODO FIX HERE LOADING WIDGET
+          // Caso contrário, mostra um widget de carregamento
+          return LoadingWidget();
         }
       },
     );
   }
 }
-
-
-
-
 
 class SplashController extends GetxController {
   double marginAnimada = 0.0;
@@ -150,8 +137,10 @@ class SplashController extends GetxController {
   final _productsLoader = Completer<void>();
 
   //controllers
-  final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
-  final RepositoryDataBaseController _repositoryController = Get.put(RepositoryDataBaseController());
+  final MenuProdutosRepository menuCategorias =
+      Get.put(MenuProdutosRepository());
+  final RepositoryDataBaseController _repositoryController =
+      Get.put(RepositoryDataBaseController());
   final CardapioController cardapioController = Get.put(CardapioController());
 
   @override
@@ -162,26 +151,35 @@ class SplashController extends GetxController {
     initSplashScreen();
 
     update();
-
   }
 
   Future<void> initSplashScreen() async {
-    await Future.delayed(const Duration(seconds: 3), () async {
-      await cardapioController.setupCardapioDigitalWeb();
-      verificarDadosCarregados();
-    });
-  }
+    // Carrega os dados
+    await cardapioController.setupCardapioDigitalWeb();
 
-  void verificarDadosCarregados() {
+    // Verifica se os dados estão carregados
     if (!cardapioController.isLoadingCardapio.value &&
-        _repositoryController.dataBase_Array.isNotEmpty ) {
-      Timer(Duration(seconds: 3), () {
-        navegarParaTelaCardapio();
-      });
+        _repositoryController.dataBase_Array.isNotEmpty &&
+        cardapioController.menuCategorias.MenuCategorias_Array.isNotEmpty) {
+      // Atualiza a UI para mostrar "Dados Carregados"
+      update();
+
+      // Espera por 2 segundos
+      await Future.delayed(Duration(seconds: 2));
+
+      // Navega para a próxima tela
+      navegarParaTelaCardapio();
+      //verificarDadosCarregados();
     }
   }
 
-  void navegarParaTelaCardapio() async {
+  Future<void> verificarDadosCarregados() async {
+    Timer(Duration(seconds: 3), () async {
+      await navegarParaTelaCardapio();
+    });
+  }
+
+  Future<void> navegarParaTelaCardapio() async {
     String id = '2077';
     Get.offNamed('/pedido/$id');
   }

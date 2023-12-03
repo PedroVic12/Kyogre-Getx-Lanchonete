@@ -46,7 +46,7 @@ class CardCarrinho extends StatelessWidget {
             ],
           ),
         ),
-        subtitle: CustomText(text: 'R\$ ${produto.precos}'),
+        //subtitle: CustomText(text: 'R\$ ${produto.precos}'), //TODO
       ),
     );
   }

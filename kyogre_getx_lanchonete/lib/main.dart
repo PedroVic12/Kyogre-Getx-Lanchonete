@@ -14,6 +14,8 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDelivery
 import 'package:kyogre_getx_lanchonete/views/Pages/Layout/Layout.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/SplashScreen/splash_screen_page.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/TelaCardapioDigital.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/DetailsPage/details_page.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/menu_tab_bar_widget.dart';
 
 import 'controllers/binding.dart';
@@ -28,10 +30,9 @@ void main() {
   Get.put(PedidoController());
   Get.put(FilaDeliveryController());
 
+  //Get.put(MenuProdutosController());
   Get.put(MenuProdutosController());
-
-  //Get.put(DataBaseController());
-  //Get.put(CatalogoProdutosController());
+  Get.put(CardapioController());
 
   runApp(MyApp());
 }
@@ -39,6 +40,8 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+
     return GetMaterialApp(
       //initialRoute: '/splash',
 
@@ -57,6 +60,8 @@ class MyApp extends StatelessWidget {
               final id = Get.parameters['id']!;
               return DetailsPage(id: id);
             }),
+
+
 
 
 

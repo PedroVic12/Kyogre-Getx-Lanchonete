@@ -67,8 +67,12 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
     List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
 
     if (kIsWeb) {
+      setState(() {
+
+    });
       // Comportamento específico para a Web
       return buildWebPage();
+
     } else {
       // Comportamento para outras plataformas (móveis)
       return CardapioDigtalApp();
@@ -76,6 +80,8 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   }
 
   Widget buildWebPage() {
+
+
     return Scaffold(
       backgroundColor: Colors.red,
       appBar: CustomAppBar(id: widget.id),
@@ -83,23 +89,23 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    GetBuilder<CardapioController>(
-                      builder: (controller) {
-                        return const MenuTabBarCardapio();
-                      },
+                  child:  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        GetBuilder<CardapioController>(
+                          builder: (controller) {
+                            return const MenuTabBarCardapio();
+                          },
+                        ),
+                      ],
                     ),
-                  ],
+                  )
                 ),
-              ),
-            ),
-            // BarraInferiorPedido
+
               AnimatedContainer(
               duration: Duration(milliseconds: 500),
-              height: mostrarBarraInferior ? 150 : 0,  // Altura modificada pela variável
-              child: BarraInferiorPedido(),
+              height: mostrarBarraInferior ? 80 : 0,  // Altura modificada pela variável
+              child: ModalInferior(),
               )
           ],
         ),

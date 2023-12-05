@@ -25,12 +25,11 @@ class SingleItemNavBar extends StatelessWidget {
             Obx(() =>      Column(
 
               children: [
-                SizedBox(height: 10,),
+                SizedBox(height: 15,),
                 CustomText(text: 'Total: R\$ ${carrinho.totalPrice.toStringAsFixed(2)}', size: 18, color: Colors.black,),
-                SizedBox(width: 15,),
               ],
             ),),
-
+            SizedBox(width: 15,),
             BotaoCarrinho2(produto: produto),
           ],
         ),

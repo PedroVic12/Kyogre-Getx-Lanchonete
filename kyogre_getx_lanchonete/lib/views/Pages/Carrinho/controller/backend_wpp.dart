@@ -1,6 +1,8 @@
 
 import 'dart:convert';
+import 'dart:math';
 import 'package:intl/intl.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:http/http.dart' as http;
 
@@ -18,6 +20,7 @@ class backEndWhatsapp extends GetxController {
 
   final carrinho = Get.find<CarrinhoPedidoController>();
   final pikachu = PikachuController();
+  final CardapioController controller = Get.find<CardapioController>();
 
   // Converta as variáveis para
   String? nomeCliente;
@@ -35,48 +38,53 @@ class backEndWhatsapp extends GetxController {
 
 
 
-  Future<Map<String, dynamic>>  salvarDadosCarrinho()async {
-    // Lista para armazenar os itens do pedido em formato JSON
-    List<Map<String, dynamic>> pedidoJsonItems = [];
+  Future<Map<String, dynamic>> salvarDadosCarrinho(id_cliente) async {
 
-    // Itera sobre cada produto no carrinho e adiciona um objeto JSON à lista
+    var dados = getInfoPedidosGroundon(id_cliente);
+    pikachu.cout('DADOS GROUNDON = $dados');
+
+    List<Map<String, dynamic>> itensPedido = [];
+
+    // Adicionando os produtos ao pedido
     carrinho.SACOLA.entries.forEach((entry) {
       final produto = entry.key;
       final quantidade = entry.value;
 
-      pedidoJsonItems.add({
+      itensPedido.add({
         "quantidade": quantidade,
         "nome": produto.nome,
         "preco": produto.precos[0]['preco']
       });
     });
 
-    var statusValues = ['Em Processo', 'Concluido','Cancelado' ];
+    // Define o status inicial do pedido
+    String statusInicial = 'Em Processo';
 
-    // Cria um objeto JSON completo para o pedido
+    // Estrutura do pedido alinhada ao modelo do servidor
     Map<String, dynamic> pedidoInfo = {
-      "pedido": pedidoJsonItems,
-      "status": statusValues[0],
-      "totalPagar": carrinho.totalPrice,
+      "status": statusInicial,
+      // "nome_cliente": controller.nomeCliente,  // Substitua pelo nome do cliente
+      // "telefone_cliente": controller.telefoneCliente,  // Substitua pelo telefone do cliente
+      "itens": itensPedido,
+      "total": carrinho.totalPrice,
     };
 
     return pedidoInfo;
   }
 
   enviarDadosPedidoGroundon(id) async {
-    var data_post = await salvarDadosCarrinho();
-    pikachu.cout(data_post);
-
-
-    try{
-      await  pikachu.API.post("https://rayquaza-citta-server.onrender.com/pedidos-kyogre/${id}", data: jsonEncode(data_post),);
-      pikachu.loadDataSuccess('Sucesso', 'Post Enviado ');
-    } catch (e){
-      print("Erro no POST = $e");
+    var dataPost = await salvarDadosCarrinho(id);
+    try {
+      var response = await pikachu.API.post(
+        "https://rayquaza-citta-server.onrender.com/pedidos-kyogre/$id",
+        data: jsonEncode(dataPost),
+      );
+      pikachu.loadDataSuccess('Sucesso', 'Pedido enviado com sucesso!');
+      print(response.data); // Para debug
+    } catch (e) {
+      print("Erro ao enviar pedido: $e");
     }
   }
-
-
 
 
 
@@ -95,13 +103,13 @@ class backEndWhatsapp extends GetxController {
     print('ID PEDIDO: $idPedido Cliente: $nomeCliente | Telefone: $telefoneCliente');
   }
 
+
+
    getInfoPedidosGroundon(id)async {
     try {
-     // var response = await pikachu.API.get("https://rayquaza-citta-server.onrender.com/cliente/${id}");
-      var response = await http.get(Uri.parse("https://rayquaza-citta-server.onrender.com/cliente/${id}"));
-      //print('Status Code: ${response.statusCode}');
-      var data = jsonDecode(response.body);
-      return data;
+     var response = await pikachu.API.get("https://rayquaza-citta-server.onrender.com/cliente/${id}");
+      print('Status Code: ${response.statusCode}');
+     return response;
     }
     catch (e) {
       pikachu.cout('Erro = ${e}');
@@ -111,9 +119,8 @@ class backEndWhatsapp extends GetxController {
   //==============================! Pedido
   Future<Map<String, dynamic>> gerarPedidoInfo(id_cliente) async {
 
+   var dados = getInfoPedidosGroundon(id_cliente);
 
-    var info_groundon = await getInfoPedidosGroundon(id_cliente);
-    pikachu.cout(info_groundon);
 
     // Lista para armazenar os itens do pedido em formato JSON
     List<Map<String, dynamic>> pedidoJsonItems = [];
@@ -134,9 +141,9 @@ class backEndWhatsapp extends GetxController {
 
     // Cria um objeto JSON completo para o pedido
     Map<String, dynamic> pedidoInfo = {
-      "id": id_cliente,
-      "nome": nomeCliente,
-      "telefone": telefoneCliente,
+      "id": dados['id'],
+      "nome": dados['nome'],
+      "telefone": dados['telefone'],
       "status": statusValues[0],
       "endereco": "",
       // Adicione um campo para endereço na sua UI e substitua aqui

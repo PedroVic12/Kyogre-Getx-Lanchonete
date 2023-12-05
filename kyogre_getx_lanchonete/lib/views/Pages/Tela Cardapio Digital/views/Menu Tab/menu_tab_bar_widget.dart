@@ -44,7 +44,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
     _tabController = TabController(
         length: controller.menuCategorias.MenuCategorias_Array.length,
-        //length: 5,
         vsync: this);
 
   }

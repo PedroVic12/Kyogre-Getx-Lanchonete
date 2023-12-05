@@ -74,7 +74,7 @@ class CardapioController extends GetxController {
   }
 
 
-  bool mostrarBarraInferior = false;
+  bool mostrarBarraInferior = true;
 
   void toggleBarraInferior() {
       mostrarBarraInferior = !mostrarBarraInferior;

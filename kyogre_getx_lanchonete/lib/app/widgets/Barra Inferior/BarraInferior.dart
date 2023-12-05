@@ -78,7 +78,7 @@ class ModalInferior extends StatelessWidget {
                CustomText(
                  text: 'VER CARRINHO',
                  color: Colors.white,
-                 size: 20,
+                 size: 18,
                )
              ],
            ),

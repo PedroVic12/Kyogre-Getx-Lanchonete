@@ -34,25 +34,19 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   final CarrinhoPedidoController carrinhoController = Get.put(CarrinhoPedidoController());
 
 
-  getIdCliente(){
-    var id = widget.id;
-    return id;
-  }
-
 
   @override
   void initState() {
     super.initState();
     controller.fetchClienteNome(widget.id);
+    controller.setIdPage(widget.id);
     controller.initPage();
   }
 
 
-  bool mostrarBarraInferior = false;
-
-  void toggleBarraInferior() {
+  void showBarraInferior() {
     setState(() {
-      mostrarBarraInferior = !mostrarBarraInferior;
+      controller.toggleBarraInferior();
     });
   }
 
@@ -95,14 +89,14 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
 
               AnimatedContainer(
               duration: Duration(milliseconds: 500),
-              height: mostrarBarraInferior ? 80 : 0,  // Altura modificada pela variável
+              height: controller.mostrarBarraInferior ? 80 : 0,  // Altura modificada pela variável
               child: ModalInferior(),
               )
           ],
         ),
       ),
 
-      floatingActionButton:AnimatedFloatingActionButton(() => toggleBarraInferior(),)
+      floatingActionButton:AnimatedFloatingActionButton(() => showBarraInferior(),)
     );
 
 

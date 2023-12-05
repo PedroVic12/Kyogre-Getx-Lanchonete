@@ -18,13 +18,16 @@ class SingleItemNavBar extends StatelessWidget {
         color: Colors.white,
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
 
             Obx(() =>      Column(
+
               children: [
-                SizedBox(height: 20,),
+                SizedBox(height: 10,),
                 CustomText(text: 'Total: R\$ ${carrinho.totalPrice.toStringAsFixed(2)}', size: 18, color: Colors.black,),
+                SizedBox(width: 15,),
               ],
             ),),
 

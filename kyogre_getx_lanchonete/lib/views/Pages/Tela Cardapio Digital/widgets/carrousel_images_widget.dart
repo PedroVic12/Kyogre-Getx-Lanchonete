@@ -7,7 +7,7 @@ class CarrouselImagensWidget extends StatelessWidget {
    final List<String> imageList = [
      'lib/repository/assets/app_bar.jpeg',
      'lib/repository/assets/card_produto.jpeg',
-     'lib/repository/assets/citta_logo_dark.jpeg',
+     'lib/repository/assets/Rio-de-Janeiro-CittaRJ-Catete-menu.jpg',
      // Adicione mais imagens conforme necessário
    ];
 

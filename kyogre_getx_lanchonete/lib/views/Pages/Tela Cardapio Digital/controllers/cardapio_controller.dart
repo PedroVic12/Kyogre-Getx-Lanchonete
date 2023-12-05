@@ -57,6 +57,11 @@ class CardapioController extends GetxController {
     update();
   }
 
+  setIdPage(_id){
+    idPedido = _id;
+    update();
+  }
+
 
   initPage() async {
     await Future.delayed(Duration(seconds: 5), () async {
@@ -70,6 +75,7 @@ class CardapioController extends GetxController {
 
 
   bool mostrarBarraInferior = false;
+
   void toggleBarraInferior() {
       mostrarBarraInferior = !mostrarBarraInferior;
       update();
@@ -86,7 +92,7 @@ class CardapioController extends GetxController {
         nomeCliente = data['nome'];
         telefoneCliente = data['telefone'];
         idPedido = data['id'];
-        update(); // Atualiza os ouvintes, se houver
+        update();
       } else {
         print('Failed to fetch the client name.');
       }

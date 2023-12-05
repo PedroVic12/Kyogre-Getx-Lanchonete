@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:universal_html/html.dart' as html;
+import 'package:http/http.dart' as http;
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,18 +29,13 @@ class backEndWhatsapp extends GetxController {
     super.onReady();
   }
 
-  // Método para definir os detalhes do cliente
-  void setClienteDetails(String nome, String telefone, String id) {
-    nomeCliente = nome;
-    telefoneCliente = telefone;
-    idPedido = id;
 
-    print(
-        'ID PEDIDO: $idPedido Cliente: $nomeCliente | Telefone: $telefoneCliente');
-  }
 
-  //==============================! Pedido
-  Map<String, dynamic> gerarPedidoInfo(id_cliente) {
+
+
+
+
+  Future<Map<String, dynamic>>  salvarDadosCarrinho()async {
     // Lista para armazenar os itens do pedido em formato JSON
     List<Map<String, dynamic>> pedidoJsonItems = [];
 
@@ -51,7 +47,86 @@ class backEndWhatsapp extends GetxController {
       pedidoJsonItems.add({
         "quantidade": quantidade,
         "nome": produto.nome,
-        "preco": produto.precos
+        "preco": produto.precos[0]['preco']
+      });
+    });
+
+    var statusValues = ['Em Processo', 'Concluido','Cancelado' ];
+
+    // Cria um objeto JSON completo para o pedido
+    Map<String, dynamic> pedidoInfo = {
+      "pedido": pedidoJsonItems,
+      "status": statusValues[0],
+      "totalPagar": carrinho.totalPrice,
+    };
+
+    return pedidoInfo;
+  }
+
+  enviarDadosPedidoGroundon(id) async {
+    var data_post = await salvarDadosCarrinho();
+    pikachu.cout(data_post);
+
+
+    try{
+      await  pikachu.API.post("https://rayquaza-citta-server.onrender.com/pedidos-kyogre/${id}", data: jsonEncode(data_post),);
+      pikachu.loadDataSuccess('Sucesso', 'Post Enviado ');
+    } catch (e){
+      print("Erro no POST = $e");
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+  // Método para definir os detalhes do cliente
+  void setClienteDetails(String nome, String telefone, String id) {
+    nomeCliente = nome;
+    telefoneCliente = telefone;
+    idPedido = id;
+
+    print('ID PEDIDO: $idPedido Cliente: $nomeCliente | Telefone: $telefoneCliente');
+  }
+
+   getInfoPedidosGroundon(id)async {
+    try {
+     // var response = await pikachu.API.get("https://rayquaza-citta-server.onrender.com/cliente/${id}");
+      var response = await http.get(Uri.parse("https://rayquaza-citta-server.onrender.com/cliente/${id}"));
+      //print('Status Code: ${response.statusCode}');
+      var data = jsonDecode(response.body);
+      return data;
+    }
+    catch (e) {
+      pikachu.cout('Erro = ${e}');
+    }
+  }
+
+  //==============================! Pedido
+  Future<Map<String, dynamic>> gerarPedidoInfo(id_cliente) async {
+
+
+    var info_groundon = await getInfoPedidosGroundon(id_cliente);
+    pikachu.cout(info_groundon);
+
+    // Lista para armazenar os itens do pedido em formato JSON
+    List<Map<String, dynamic>> pedidoJsonItems = [];
+
+    // Itera sobre cada produto no carrinho e adiciona um objeto JSON à lista
+    carrinho.SACOLA.entries.forEach((entry) {
+      final produto = entry.key;
+      final quantidade = entry.value;
+
+      pedidoJsonItems.add({
+        "quantidade": quantidade,
+        "nome": produto.nome,
+        "preco": produto.precos[0]['preco']
       });
     });
 
@@ -78,7 +153,7 @@ class backEndWhatsapp extends GetxController {
 
   Future<void> enviarPedidoServidor(id_cliente) async {
     // Gera o objeto JSON do pedido usando o método acima
-    Map<String, dynamic> pedidoInfo = gerarPedidoInfo(id_cliente);
+    Map<String, dynamic> pedidoInfo = await gerarPedidoInfo(id_cliente);
 
     // URL da API do servidor para enviar o pedido
     const String apiUrl = "https://rayquaza-citta-server.onrender.com/pedidos-kyogre";
@@ -101,7 +176,7 @@ class backEndWhatsapp extends GetxController {
           duration: Duration(seconds: 5),
         );
       } else {
-        throw 'O servidor respondeu com o código de status: ${response
+        throw '\n\nO servidor respondeu com o código de status: ${response
             .statusCode}';
       }
     } catch (e) {
@@ -119,11 +194,13 @@ class backEndWhatsapp extends GetxController {
   }
 
 
+
+
   String gerarResumoPedidoCardapio() {
     final items = carrinho.SACOLA.entries.map((entry) {
       final produto = entry.key;
       final quantidade = entry.value;
-      return "\n${quantidade}x ${produto.nome} (R\$ ${produto.precos})";
+      return "\n${quantidade}x ${produto.nome} (R\$ ${produto.precos[0]['preco']})";
     }).join('\n');
 
     // Calcula o tempo de entrega
@@ -139,7 +216,7 @@ class backEndWhatsapp extends GetxController {
         : "";
 
     return """
-  ▶ *RESUMO DO PEDIDO* 
+  ▶ *RESUMO DO PEDIDO ${idPedido}* 
    $clienteDetails
   *🛒 Itens do Pedido*:
    $items
@@ -153,8 +230,7 @@ class backEndWhatsapp extends GetxController {
 
 
 // Metodos do Pedido no whatsapp
-  Future<void> enviarPedidoWhatsapp(
-      {required String phone, required String message}) async {
+  Future<void> enviarPedidoWhatsapp({required String phone, required String message}) async {
     String generateUrl(String type) {
       switch (type) {
         case "wa.me":

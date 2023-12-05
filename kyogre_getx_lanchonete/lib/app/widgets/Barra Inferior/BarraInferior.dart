@@ -63,9 +63,6 @@ class ModalInferior extends StatelessWidget {
 
 
    Widget BotaoNavegacao1() {
-     final CarrinhoController carrinhoOld = Get.put(CarrinhoController());
-     final CardapioController controller = Get.find<CardapioController>();
-
      return BotaoPadrao(color:  CupertinoColors.activeBlue,on_pressed: (){
        Get.to(()=> CarrinhoPage());
      },

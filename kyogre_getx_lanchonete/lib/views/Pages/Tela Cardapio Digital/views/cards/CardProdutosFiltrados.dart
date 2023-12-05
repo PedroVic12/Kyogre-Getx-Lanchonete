@@ -167,8 +167,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
                         carrinho.adicionarCarrinho(produto);
 
                         cardapioController.repositoryController.pikachu.loadDataSuccess('Perfeito', 'Item ${produto.nome} adicionado!');
-
-                       //todo here cardapioController.toggleBarraInferior();
+                        cardapioController.toggleBarraInferior();
 
 
                       }),

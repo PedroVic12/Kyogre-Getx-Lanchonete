@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/TelaCardapioDigital.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/DetailsPage/single_item_navBar.dart';
 
@@ -24,7 +25,7 @@ class ItemDetailsPage extends StatelessWidget {
 
 
     return Scaffold(
-      backgroundColor: CupertinoColors.black,
+      backgroundColor: Colors.black87,
       body: SafeArea(child: Padding(padding: EdgeInsets.all(6),child: ListView(
 
         children: [
@@ -64,7 +65,7 @@ class ItemDetailsPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         InkWell(
-          onTap: ()=> Get.to(TelaCardapioDigital(id: '1234')),
+          onTap: ()=> Get.back(),
           child: Icon(
             Icons.arrow_back_rounded,
             color: Colors.white,
@@ -73,7 +74,8 @@ class ItemDetailsPage extends StatelessWidget {
         ),
 
         InkWell(
-          onTap: ()=> carrinho.adicionarCarrinho(produto),
+          //onTap: ()=> carrinho.adicionarCarrinho(produto),
+          onTap: ()=> Get.to(CarrinhoPage()),
           child: Icon(
             Icons.shopping_cart_rounded,
             color: Colors.white,

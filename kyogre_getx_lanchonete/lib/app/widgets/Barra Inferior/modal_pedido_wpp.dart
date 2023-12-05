@@ -8,12 +8,14 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/con
 import '../../../themes /cores.dart';
 import '../../../views/Pages/Carrinho/controller/backend_wpp.dart';
 import '../../../views/Pages/Carrinho/controller/sacola_controller.dart';
+import '../../../views/Pages/Tela Cardapio Digital/controllers/pikachu_controller.dart';
 import '../Custom/CustomText.dart';
 
 class BarraInferiorPedido extends StatelessWidget {
   final CarrinhoPedidoController carrinho = Get.put(CarrinhoPedidoController());
   final backEndWhatsapp Groundon = Get.put(backEndWhatsapp());
   final CardapioController controller = Get.find<CardapioController>();
+  final pikachu = PikachuController();
 
 
   BarraInferiorPedido({Key? key}) : super(key: key);
@@ -70,41 +72,35 @@ class BarraInferiorPedido extends StatelessWidget {
     SizedBox(
         height: 40,
         child: ElevatedButton(onPressed: () async {
-          final result = await showCupertinoDialog(
-              context: context,
-              builder: createDialog
-          );
-          if (result == true) { // Se o resultado for true, o usuário clicou em "Sim".
+
+          //  pegar id do cliente
+          var ID_PEDIDO = await Groundon.gerarPedidoInfo(controller.idPedido);
+          pikachu.cout('ID = ${ID_PEDIDO}');
+
+          await Groundon.enviarDadosPedidoGroundon(controller.idPedido);
 
 
-            // todo pegar id do cliente
-
-            // todo pegar dados do pedido formatado
-
-            // todo enviar dados do servidor com post
-
-            // todo pegar dados do cliente com o get
-
-            // todo redirecionar pro wpp com a imagem ja enviada
-
-            
-            await Groundon.gerarPedidoInfo('1998');
-            var idCliente = controller.fetchIdPedido();
-            print(idCliente);
-
-            var pedido_string = await Groundon.gerarResumoPedidoCardapio();
-            print(pedido_string);
 
 
-          }
+
+
+
+          //TODO  pegar dados do pedido formatado
+          //final String pedidoCompletoToWpp = Groundon.gerarResumoPedidoCardapio();
+
+          //enviar dados do servidor com post
+          //pikachu.cout(pedidoCompletoToWpp);
+
+          // voltar para o whatsapp
+          //sendDados(context);
 
         }, style: ElevatedButton.styleFrom(
             backgroundColor: CupertinoColors.systemGreen,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20)
+                borderRadius: BorderRadius.circular(32)
             )
         ),
-            child: const Text('Continuar o Pedido no Whatsapp', style: TextStyle(fontSize: 16),))
+            child: const Text('Continuar o Pedido no Whatsapp', style: TextStyle(fontSize: 20,),))
 
     )
     );
@@ -118,8 +114,7 @@ class BarraInferiorPedido extends StatelessWidget {
     if (result == true) { // Se o resultado for true, o usuário clicou em "Sim".
       try {
         const String groundon_number1 = '5521983524026';
-        final String messagemWhatsappPedido = Groundon.gerarResumoPedidoCardapio();
-        print(messagemWhatsappPedido);
+        const String messagemWhatsappPedido = 'Ola mundo';
         Groundon.enviarPedidoWhatsapp(phone: groundon_number1, message: messagemWhatsappPedido);
 
 

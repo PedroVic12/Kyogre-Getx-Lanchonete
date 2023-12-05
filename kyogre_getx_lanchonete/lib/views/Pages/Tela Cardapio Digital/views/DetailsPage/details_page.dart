@@ -9,6 +9,7 @@ import '../../../../../models/DataBaseController/template/produtos_model.dart';
 import '../../../Carrinho/controller/sacola_controller.dart';
 import '../../controllers/cardapio_form_controller.dart';
 import '../../widgets/RadioButton.dart';
+import '../../widgets/carrousel_images_widget.dart';
 
 class ItemDetailsPage extends StatelessWidget {
   final ProdutoModel produto_selecionado;
@@ -23,14 +24,15 @@ class ItemDetailsPage extends StatelessWidget {
 
 
     return Scaffold(
-      backgroundColor: CupertinoColors.black.withBlue(9),
-      body: SafeArea(child: Padding(padding: EdgeInsets.all(6),child: Column(
+      backgroundColor: CupertinoColors.black,
+      body: SafeArea(child: Padding(padding: EdgeInsets.all(6),child: ListView(
 
         children: [
           botoesSuperior(produto_selecionado),
 
-          Padding(padding: EdgeInsets.all(12),child: Image.asset('lib/repository/assets/card_produto.jpeg',height: _height/2, fit: BoxFit.cover,),),
+          //Padding(padding: EdgeInsets.all(12),child: Image.asset('lib/repository/assets/card_produto.jpeg',height: _height/2, fit: BoxFit.cover,),),
           //Padding(padding: EdgeInsets.all(12),child: Image.asset('${produto_selecionado.imagem}',height: _height/2, fit: BoxFit.cover,),),
+          CarrouselImagensWidget(),
 
           SizedBox(height: 10,),
 
@@ -98,7 +100,7 @@ class ItemDetailsPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             CustomText(text: produto_selecionado.nome, size: 28, color: Colors.white, weight: FontWeight.bold,),
-            SizedBox(width: 180,),
+            SizedBox(width: 160,),
 
             InkWell(
              onTap: (){

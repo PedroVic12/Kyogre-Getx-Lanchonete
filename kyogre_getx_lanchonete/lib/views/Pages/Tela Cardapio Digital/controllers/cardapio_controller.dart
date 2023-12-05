@@ -6,7 +6,36 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/con
 import '../../../../models/DataBaseController/repository_db_controller.dart';
 import '../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../Carrinho/CarrinhoController.dart';
-import '../views/Menu Tab/menu_tab_bar_widget.dart';
+
+
+class MenuProdutosController extends GetxController {
+  var produtoIndex = 0.obs;
+  var categoriasCarregadas = false.obs;
+  final MenuProdutosRepository menuCategorias =      Get.put(MenuProdutosRepository());
+
+  //metodos
+  void setProdutoIndex(int index) {
+    produtoIndex.value = index;
+    update(); // Notifica os ouvintes de que o estado foi atualizado
+    print('Produto atualizado!');
+  }
+
+  void setCategoriasCarregadas(bool carregado) {
+
+    if(menuCategorias.MenuCategorias_Array.isNotEmpty){
+      categoriasCarregadas.value = carregado;
+      update();
+    }
+
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
+}
+
+
 
 class CardapioController extends GetxController {
   late String nomeCliente;
@@ -20,7 +49,6 @@ class CardapioController extends GetxController {
   final MenuProdutosRepository menuCategorias =      Get.put(MenuProdutosRepository());
   final RepositoryDataBaseController repositoryController =      Get.put(RepositoryDataBaseController());
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
-
   final pikachu = PikachuController();
 
   @override
@@ -32,10 +60,12 @@ class CardapioController extends GetxController {
 
   initPage() async {
     await Future.delayed(Duration(seconds: 5), () async {
-     await setupCardapioDigitalWeb();
+     await setupCardapioDigitalWeb().then((_){
+       pikachu.cout('Produtos carregados!');
+       update();
+     });
     });
 
-    update();
   }
 
 
@@ -82,8 +112,8 @@ class CardapioController extends GetxController {
     isLoadingCardapio.value = true;
 
     try {
-      await menuCategorias.getCategoriasRepository();
       await repositoryController.getProdutosDatabase();
+      await menuCategorias.getCategoriasRepository();
       update();
     } catch (e) {
       print('---> Erro ao carregar dados: $e');

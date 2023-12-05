@@ -63,14 +63,12 @@ class MyApp extends StatelessWidget {
 
 
 
-
-
         GetPage(
             name: '/pedido/:id',
             page: () {
               var id = Get.parameters['id']!;
 
-              id = '1998';
+              //id = '1998';
               return TelaCardapioDigital(id: id);
             }),
       ],

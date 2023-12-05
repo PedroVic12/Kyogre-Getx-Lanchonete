@@ -14,24 +14,25 @@ class SingleItemNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
-      color: Colors.white,
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        height: 60,
+        color: Colors.white,
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
 
-          Obx(() =>      Column(
-            children: [
-              CustomText(text: 'Total: R\$ ${carrinho.totalPrice.toStringAsFixed(2)}', size: 32, color: Colors.black,),
-              SizedBox(height: 10),
-            ],
-          ),),
+            Obx(() =>      Column(
+              children: [
+                SizedBox(height: 15),
+                CustomText(text: 'Total: R\$ ${carrinho.totalPrice.toStringAsFixed(2)}', size: 22, color: Colors.black,),
+              ],
+            ),),
 
-          BotaoCarrinho2(produto: produto),
-        ],
-      ),
-    );
+            BotaoCarrinho2(produto: produto),
+          ],
+        ),
+      );
+
   }
 }
 
@@ -45,19 +46,20 @@ class BotaoCarrinho2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.symmetric(vertical: 15,horizontal: 20),
+    return Center(child:  Container(
+        padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
         decoration: BoxDecoration(
             color: Colors.orange,
             borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20),bottomLeft: Radius.circular(20))
         ),
         child: TextButton(
-          onPressed: () {
-            carrinho.adicionarCarrinho(produto);
-          },
-          child:  Row(
+            onPressed: () {
+              carrinho.adicionarCarrinho(produto);
+            },
+            child:  Row(
               children: [
-                CustomText(text: 'Adicionar no Carrinho', size: 20, color: Colors.white,),
+                SizedBox(height: 15),
+                CustomText(text: 'Adicionar no Carrinho', size: 22, color: Colors.white,),
                 SizedBox(height: 10),
                 Icon(
                   Icons.shopping_cart_rounded,
@@ -65,8 +67,8 @@ class BotaoCarrinho2 extends StatelessWidget {
                   size: 32,
                 ),
               ],
+            )
         )
-        )
-    );
+    ));
   }
 }

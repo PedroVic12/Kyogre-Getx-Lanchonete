@@ -9,6 +9,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 
 import '../../../../models/DataBaseController/template/produtos_model.dart';
+import '../../Tela Cardapio Digital/controllers/cardapio_controller.dart';
 import '../../Tela Cardapio Digital/views/Menu Tab/menu_tab_bar_widget.dart';
 import '../CatalogoProdutos/CatalogoProdutosController.dart';
 import '../ItemPage/itemPage.dart';

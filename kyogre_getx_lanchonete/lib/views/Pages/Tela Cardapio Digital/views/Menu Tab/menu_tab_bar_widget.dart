@@ -21,21 +21,7 @@ import '../cards/CardProdutosFiltrados.dart';
 
 // TODO ITEM PAGE DETAILS
 
-class MenuProdutosController extends GetxController {
-  var produtoIndex = 0.obs;
 
-  //metodos
-  void setProdutoIndex(int index) {
-    produtoIndex.value = index;
-    update(); // Notifica os ouvintes de que o estado foi atualizado
-    print('Produto atualizado!');
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
-}
 
 class MenuTabBarCardapio extends StatefulWidget {
   const MenuTabBarCardapio({super.key});
@@ -60,8 +46,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         length: controller.menuCategorias.MenuCategorias_Array.length,
         //length: 5,
         vsync: this);
-    // Assuma que o carregamento dos dados é iniciado em MenuProdutosController.onInit
-
 
   }
 
@@ -72,16 +56,10 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
       children: [
         // Menu Tab Scrol Gradiente
         _buildHeader(),
-        Obx(() {
-        if(controller.menuCategorias.MenuCategorias_Array.isEmpty){
-           return CircularProgressIndicator();
-        } else {
-          return  TabBarScrollCardapioCategorias();
-        }
-        }),
+        TabBarScrollCardapioCategorias(),
 
         // TabView
-        TabBarViewCardapioProdutosDetails()
+        Expanded(child: TabBarViewCardapioProdutosDetails())
       ],
     );
   }
@@ -111,42 +89,50 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
   Widget TabBarScrollCardapioCategorias() {
 
-    return  Container(
-      margin: EdgeInsets.all(8),
-      alignment: Alignment.centerLeft,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            CupertinoColors.activeOrange,
-            cor2
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
-          BoxShadow(
-            offset: Offset(0.7, 1),
-            blurRadius: 50,
-            spreadRadius: 3,
-            color: Colors.yellow,
+    return Obx(() {
+      if (menuGradiente.menuCategorias.MenuCategorias_Array.isEmpty) {
+        return CircularProgressIndicator();
+      } else {
+        return  Container(
+          margin: EdgeInsets.all(12),
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                CupertinoColors.activeOrange,
+                cor2
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: const [
+              BoxShadow(
+                offset: Offset(0.7, 1),
+                blurRadius: 60,
+                spreadRadius: 3,
+                color: Colors.yellow,
+              ),
+            ],
           ),
-        ],
-      ),
-      child: TabBar(
-        controller: _tabController,
-        labelColor: Colors.white,
-        labelPadding: const EdgeInsets.all(4),
-        isScrollable: true,
-        unselectedLabelColor: Colors.black,
-        //indicator: CircleTabIndicator(color: Colors.purpleAccent,radius: 64.0),
-        tabs: [
-          for (var index = 0; index <     controller.menuCategorias.MenuCategorias_Array.length; index++)
-            _buildTabBarMenuGradiente( controller.menuCategorias.MenuCategorias_Array[index].nome,
-                controller.menuCategorias.MenuCategorias_Array[index].iconPath, index)
-        ],
-      ),
-    );
+          child: TabBar(
+            controller: _tabController,
+            labelColor: Colors.white,
+            labelPadding: const EdgeInsets.all(6),
+            isScrollable: true,
+            unselectedLabelColor: Colors.black,
+            //indicator: CircleTabIndicator(color: Colors.purpleAccent,radius: 64.0),
+            tabs: [
+              for (var index = 0; index <     controller.menuCategorias.MenuCategorias_Array.length; index++)
+                _buildTabBarMenuGradiente( controller.menuCategorias.MenuCategorias_Array[index].nome,
+                    controller.menuCategorias.MenuCategorias_Array[index].iconPath, index)
+            ],
+          ),
+        );
+      }
+    });
+
+
   }
 
   Widget _buildTabBarMenuGradiente(String nome, Icon iconPath, int index) {
@@ -196,7 +182,8 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   }
 
   //! CARDS PRODUTOS
-  Widget TabBarViewCardapioProdutosDetails() {
+
+    Widget TabBarViewCardapioProdutosDetails() {
     List<ProdutoModel> produtosCarregados = controller.repositoryController.dataBase_Array;
     final indice = menuGradiente.produtoIndex.value;
 

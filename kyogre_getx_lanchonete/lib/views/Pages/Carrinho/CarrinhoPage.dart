@@ -7,6 +7,8 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/controller/sacola_co
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/views/CarrinhoCard.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 
+import '../../../app/widgets/Barra Inferior/modal_pedido_wpp.dart';
+
 class CarrinhoPage extends StatelessWidget {
 
   final CarrinhoPedidoController carrinho = Get.put(CarrinhoPedidoController());

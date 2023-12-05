@@ -19,6 +19,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/vie
 import '../../../app/widgets/Custom/CustomText.dart';
 import '../../../models/DataBaseController/repository_db_controller.dart';
 import '../../../models/DataBaseController/template/produtos_model.dart';
+import '../Tela Cardapio Digital/controllers/cardapio_controller.dart';
 
 /*
 * Paleta de Cores : #ff8c00 , #f2ff00, # ff0d00

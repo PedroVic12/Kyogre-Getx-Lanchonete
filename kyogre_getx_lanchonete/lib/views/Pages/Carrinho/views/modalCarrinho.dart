@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../app/widgets/Barra Inferior/BarraInferior.dart';
+import '../../../../app/widgets/Barra Inferior/modal_pedido_wpp.dart';
 
 class BottomSheetWidget extends StatelessWidget {
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());

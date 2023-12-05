@@ -29,6 +29,10 @@ class backEndWhatsapp extends GetxController {
   }
 
 
+  void enviarDadosPedidoServidor() async {
+    pikachu.API.post('');
+  }
+
   // Método para definir os detalhes do cliente
   void setClienteDetails(String nome, String telefone, String id) {
     nomeCliente = nome;

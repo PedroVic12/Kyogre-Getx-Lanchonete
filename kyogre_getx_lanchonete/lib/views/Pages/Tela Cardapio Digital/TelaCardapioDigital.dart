@@ -88,19 +88,11 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
       body: Center(
         child: Column(
           children: <Widget>[
-            Expanded(
-                  child:  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        GetBuilder<CardapioController>(
-                          builder: (controller) {
-                            return const MenuTabBarCardapio();
-                          },
-                        ),
-                      ],
-                    ),
-                  )
-                ),
+            Expanded(child: GetBuilder<CardapioController>(
+              builder: (controller) {
+                return const MenuTabBarCardapio();
+              },
+            ),),
 
               AnimatedContainer(
               duration: Duration(milliseconds: 500),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/menu_tab_bar_widget.dart';
 import '../../../../../app/widgets/Custom/CustomText.dart';
+import '../../../Tela Cardapio Digital/controllers/cardapio_controller.dart';
 import '../produtos_controller.dart';
 
 class MenuCategoriasScrollGradientWidget extends StatefulWidget {

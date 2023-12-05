@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:kyogre_getx_lanchonete/app/widgets/Botoes/animated_float_button.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomAppBar.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
@@ -17,12 +18,6 @@ import '../Carrinho/CarrinhoController.dart';
 import 'cardapio_Digital_webPage.dart';
 import 'controllers/pikachu_controller.dart';
 
-/*
-* Paleta de Cores : #ff8c00 , #f2ff00, # ff0d00
-*
-* page_turn
-* glass_kit
-* */
 
 class TelaCardapioDigital extends StatefulWidget {
   final String id;
@@ -39,6 +34,10 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   final CarrinhoPedidoController carrinhoController = Get.put(CarrinhoPedidoController());
 
 
+  getIdCliente(){
+    var id = widget.id;
+    return id;
+  }
 
 
   @override
@@ -103,11 +102,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
         ),
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          toggleBarraInferior();
-        },
-      ),
+      floatingActionButton:AnimatedFloatingActionButton(() => toggleBarraInferior(),)
     );
 
 

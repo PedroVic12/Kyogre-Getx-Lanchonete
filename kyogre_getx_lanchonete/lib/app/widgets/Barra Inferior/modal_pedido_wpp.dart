@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 
 import '../../../themes /cores.dart';
 import '../../../views/Pages/Carrinho/controller/backend_wpp.dart';
@@ -12,6 +13,7 @@ import '../Custom/CustomText.dart';
 class BarraInferiorPedido extends StatelessWidget {
   final CarrinhoPedidoController carrinho = Get.put(CarrinhoPedidoController());
   final backEndWhatsapp Groundon = Get.put(backEndWhatsapp());
+  final CardapioController controller = Get.find<CardapioController>();
 
 
   BarraInferiorPedido({Key? key}) : super(key: key);
@@ -69,9 +71,12 @@ class BarraInferiorPedido extends StatelessWidget {
         height: 40,
         child: ElevatedButton(onPressed: () async {
 
+          await Groundon.gerarPedidoInfo('1998');
+          var idCliente = controller.fetchIdPedido();
+          print(idCliente);
 
-
-
+          var pedido_string = await Groundon.gerarResumoPedidoCardapio();
+          print(pedido_string);
 
         }, style: ElevatedButton.styleFrom(
             backgroundColor: CupertinoColors.systemGreen,

@@ -15,7 +15,7 @@ import '../../CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 
 class backEndWhatsapp extends GetxController {
 
-  final carrinho = CarrinhoPedidoController();
+  final carrinho = Get.find<CarrinhoPedidoController>();
   final pikachu = PikachuController();
 
   // Converta as variáveis para
@@ -28,11 +28,6 @@ class backEndWhatsapp extends GetxController {
     super.onReady();
   }
 
-
-  void enviarDadosPedidoServidor() async {
-    pikachu.API.post('');
-  }
-
   // Método para definir os detalhes do cliente
   void setClienteDetails(String nome, String telefone, String id) {
     nomeCliente = nome;
@@ -43,8 +38,8 @@ class backEndWhatsapp extends GetxController {
         'ID PEDIDO: $idPedido Cliente: $nomeCliente | Telefone: $telefoneCliente');
   }
 
-  // Pedido
-  Map<String, dynamic> gerarPedidoInfo() {
+  //==============================! Pedido
+  Map<String, dynamic> gerarPedidoInfo(id_cliente) {
     // Lista para armazenar os itens do pedido em formato JSON
     List<Map<String, dynamic>> pedidoJsonItems = [];
 
@@ -60,10 +55,14 @@ class backEndWhatsapp extends GetxController {
       });
     });
 
+    var statusValues = ['Em Processo', 'Concluido','Cancelado' ];
+
     // Cria um objeto JSON completo para o pedido
     Map<String, dynamic> pedidoInfo = {
+      "id": id_cliente,
       "nome": nomeCliente,
       "telefone": telefoneCliente,
+      "status": statusValues[0],
       "endereco": "",
       // Adicione um campo para endereço na sua UI e substitua aqui
       "complemento": "",
@@ -77,21 +76,19 @@ class backEndWhatsapp extends GetxController {
     return pedidoInfo;
   }
 
-  Future<void> enviarPedidoServidor() async {
+  Future<void> enviarPedidoServidor(id_cliente) async {
     // Gera o objeto JSON do pedido usando o método acima
-    Map<String, dynamic> pedidoInfo = gerarPedidoInfo();
+    Map<String, dynamic> pedidoInfo = gerarPedidoInfo(id_cliente);
 
     // URL da API do servidor para enviar o pedido
-    const String apiUrl = "https://suaapi.com/pedidos";
+    const String apiUrl = "https://rayquaza-citta-server.onrender.com/pedidos-kyogre";
 
     // Converte o pedidoInfo Map para uma String JSON
     String pedidoJson = jsonEncode(pedidoInfo);
 
     try {
       // Envia o pedido ao servidor como um corpo JSON
-      var response = await pikachu.API.post(
-        pedidoJson,
-      );
+      var response = await pikachu.API.post(apiUrl,data: pedidoJson);
 
       // Verifica se o pedido foi enviado com sucesso (código de status HTTP 200)
       if (response.statusCode == 200) {
@@ -104,8 +101,6 @@ class backEndWhatsapp extends GetxController {
           duration: Duration(seconds: 5),
         );
       } else {
-        // Se o servidor responder com um código de status diferente de 200,
-        // lançar um erro
         throw 'O servidor respondeu com o código de status: ${response
             .statusCode}';
       }
@@ -122,6 +117,39 @@ class backEndWhatsapp extends GetxController {
       );
     }
   }
+
+
+  String gerarResumoPedidoCardapio() {
+    final items = carrinho.SACOLA.entries.map((entry) {
+      final produto = entry.key;
+      final quantidade = entry.value;
+      return "\n${quantidade}x ${produto.nome} (R\$ ${produto.precos})";
+    }).join('\n');
+
+    // Calcula o tempo de entrega
+    final agora = DateTime.now();
+    final inicioEntrega = agora.add(Duration(minutes: 15));
+    final fimEntrega = agora.add(Duration(minutes: 50));
+    final formatoHora = DateFormat('HH:mm');
+
+
+    // Acrescentando detalhes do cliente ao resumo
+    final clienteDetails = nomeCliente != null && telefoneCliente != null
+        ? "Cliente: $nomeCliente\n\n Pedido #${idPedido ?? 'N/A'}\n"
+        : "";
+
+    return """
+  ▶ *RESUMO DO PEDIDO* 
+   $clienteDetails
+  *🛒 Itens do Pedido*:
+   $items
+   -------------------------------------
+           ▶ TOTAL: R\$${carrinho.totalPrice}
+   -------------------------------------
+   🕙 Tempo de Entrega: aprox. ${formatoHora.format(inicioEntrega)} a ${formatoHora.format(fimEntrega)}
+    """;
+  }
+
 
 
 // Metodos do Pedido no whatsapp
@@ -162,38 +190,6 @@ class backEndWhatsapp extends GetxController {
       }
     }
   }
-
-  String gerarResumoPedidoCardapio() {
-    final items = carrinho.SACOLA.entries.map((entry) {
-      final produto = entry.key;
-      final quantidade = entry.value;
-      return "\n${quantidade}x ${produto.nome} (R\$ ${produto.precos})";
-    }).join('\n');
-
-    // Calcula o tempo de entrega
-    final agora = DateTime.now();
-    final inicioEntrega = agora.add(Duration(minutes: 15));
-    final fimEntrega = agora.add(Duration(minutes: 50));
-    final formatoHora = DateFormat('HH:mm');
-
-
-    // Acrescentando detalhes do cliente ao resumo
-    final clienteDetails = nomeCliente != null && telefoneCliente != null
-        ? "Cliente: $nomeCliente\n\n Pedido #${idPedido ?? 'N/A'}\n"
-        : "";
-
-    return """
-  ▶ *RESUMO DO PEDIDO* 
-   $clienteDetails
-  *🛒 Itens do Pedido*:
-   $items
-   -------------------------------------
-           ▶ TOTAL: R\$${carrinho.totalPrice}
-   -------------------------------------
-   🕙 Tempo de Entrega: aprox. ${formatoHora.format(inicioEntrega)} a ${formatoHora.format(fimEntrega)}
-    """;
-  }
-
 
 
 }

@@ -16,15 +16,15 @@ class SingleItemNavBar extends StatelessWidget {
     return Container(
         height: 60,
         color: Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 15),
+        padding: EdgeInsets.symmetric(horizontal: 10),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
 
             Obx(() =>      Column(
               children: [
-                SizedBox(height: 15),
-                CustomText(text: 'Total: R\$ ${carrinho.totalPrice.toStringAsFixed(2)}', size: 22, color: Colors.black,),
+                SizedBox(height: 20,),
+                CustomText(text: 'Total: R\$ ${carrinho.totalPrice.toStringAsFixed(2)}', size: 18, color: Colors.black,),
               ],
             ),),
 
@@ -47,7 +47,6 @@ class BotaoCarrinho2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(child:  Container(
-        padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
         decoration: BoxDecoration(
             color: Colors.orange,
             borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20),bottomLeft: Radius.circular(20))
@@ -57,14 +56,13 @@ class BotaoCarrinho2 extends StatelessWidget {
               carrinho.adicionarCarrinho(produto);
             },
             child:  Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 15),
-                CustomText(text: 'Adicionar no Carrinho', size: 22, color: Colors.white,),
-                SizedBox(height: 10),
+                CustomText(text: 'Adicionar no Carrinho', size: 20, color: Colors.white,),
                 Icon(
                   Icons.shopping_cart_rounded,
                   color: Colors.white,
-                  size: 32,
+                  size: 20,
                 ),
               ],
             )

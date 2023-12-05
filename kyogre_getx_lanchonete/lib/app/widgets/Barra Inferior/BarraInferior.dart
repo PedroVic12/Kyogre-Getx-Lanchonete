@@ -71,6 +71,7 @@ class ModalInferior extends StatelessWidget {
      },
          child: Center(
            child: Row(
+             mainAxisAlignment: MainAxisAlignment.center,
              children: [
                Icon(
                  Icons.shopify_rounded,

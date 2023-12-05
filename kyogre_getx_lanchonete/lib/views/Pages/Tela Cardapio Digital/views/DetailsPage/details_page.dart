@@ -48,7 +48,7 @@ class ItemDetailsPage extends StatelessWidget {
           CaixaDeTexto(
             controller: form_controller.observacoesDique,
             labelText: "Observações",
-            height: 60,
+            height: 30,
           ),
         ],
       ),),),
@@ -100,7 +100,7 @@ class ItemDetailsPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             CustomText(text: produto_selecionado.nome, size: 28, color: Colors.white, weight: FontWeight.bold,),
-            SizedBox(width: 160,),
+            SizedBox(width: 30,),
 
             InkWell(
              onTap: (){
@@ -118,12 +118,12 @@ class ItemDetailsPage extends StatelessWidget {
              ),
            ),
 
-            SizedBox(width: 16,),
+            SizedBox(width: 12,),
             Obx(() {
               final quantidade = carrinho.SACOLA[produto_selecionado] ?? 0;
               return   CustomText(text:' $quantidade', size: 28, color: Colors.white, weight: FontWeight.bold,);
             }),
-            SizedBox(width: 16,),
+            SizedBox(width: 12,),
 
             InkWell(
               onTap: (){

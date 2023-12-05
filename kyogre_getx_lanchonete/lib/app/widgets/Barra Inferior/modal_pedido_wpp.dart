@@ -70,13 +70,33 @@ class BarraInferiorPedido extends StatelessWidget {
     SizedBox(
         height: 40,
         child: ElevatedButton(onPressed: () async {
+          final result = await showCupertinoDialog(
+              context: context,
+              builder: createDialog
+          );
+          if (result == true) { // Se o resultado for true, o usuário clicou em "Sim".
 
-          await Groundon.gerarPedidoInfo('1998');
-          var idCliente = controller.fetchIdPedido();
-          print(idCliente);
 
-          var pedido_string = await Groundon.gerarResumoPedidoCardapio();
-          print(pedido_string);
+            // todo pegar id do cliente
+
+            // todo pegar dados do pedido formatado
+
+            // todo enviar dados do servidor com post
+
+            // todo pegar dados do cliente com o get
+
+            // todo redirecionar pro wpp com a imagem ja enviada
+
+            
+            await Groundon.gerarPedidoInfo('1998');
+            var idCliente = controller.fetchIdPedido();
+            print(idCliente);
+
+            var pedido_string = await Groundon.gerarResumoPedidoCardapio();
+            print(pedido_string);
+
+
+          }
 
         }, style: ElevatedButton.styleFrom(
             backgroundColor: CupertinoColors.systemGreen,

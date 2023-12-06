@@ -34,13 +34,22 @@ class backEndWhatsapp extends GetxController {
 
 
 
-
+  getDadosClienteGroundon(id)async {
+    try {
+      var response = await pikachu.API.get("https://rayquaza-citta-server.onrender.com/cliente/${id}");
+      print('Status Code: ${response.statusCode}');
+      return response;
+    }
+    catch (e) {
+      pikachu.cout('Erro = ${e}');
+    }
+  }
 
 
 
   Future<Map<String, dynamic>> salvarDadosCarrinho(id_cliente) async {
 
-    var dados = getInfoPedidosGroundon(id_cliente);
+    var dados = await getDadosClienteGroundon(id_cliente);
     pikachu.cout('DADOS GROUNDON = $dados');
 
     List<Map<String, dynamic>> itensPedido = [];
@@ -63,8 +72,8 @@ class backEndWhatsapp extends GetxController {
     // Estrutura do pedido alinhada ao modelo do servidor
     Map<String, dynamic> pedidoInfo = {
       "status": statusInicial,
-      // "nome_cliente": controller.nomeCliente,  // Substitua pelo nome do cliente
-      // "telefone_cliente": controller.telefoneCliente,  // Substitua pelo telefone do cliente
+      //"nome_cliente": dados[0]['nome'],  // Substitua pelo nome do cliente
+      //"telefone_cliente": dados[0]['telefone'],  // Substitua pelo telefone do cliente
       "itens": itensPedido,
       "total": carrinho.totalPrice,
     };
@@ -74,6 +83,7 @@ class backEndWhatsapp extends GetxController {
 
   enviarDadosPedidoGroundon(id) async {
     var dataPost = await salvarDadosCarrinho(id);
+    pikachu.cout('Carrinho $dataPost');
     try {
       var response = await pikachu.API.post(
         "https://rayquaza-citta-server.onrender.com/pedidos-kyogre/$id",
@@ -88,12 +98,6 @@ class backEndWhatsapp extends GetxController {
 
 
 
-
-
-
-
-
-
   // Método para definir os detalhes do cliente
   void setClienteDetails(String nome, String telefone, String id) {
     nomeCliente = nome;
@@ -102,104 +106,6 @@ class backEndWhatsapp extends GetxController {
 
     print('ID PEDIDO: $idPedido Cliente: $nomeCliente | Telefone: $telefoneCliente');
   }
-
-
-
-   getInfoPedidosGroundon(id)async {
-    try {
-     var response = await pikachu.API.get("https://rayquaza-citta-server.onrender.com/cliente/${id}");
-      print('Status Code: ${response.statusCode}');
-     return response;
-    }
-    catch (e) {
-      pikachu.cout('Erro = ${e}');
-    }
-  }
-
-  //==============================! Pedido
-  Future<Map<String, dynamic>> gerarPedidoInfo(id_cliente) async {
-
-   var dados = getInfoPedidosGroundon(id_cliente);
-
-
-    // Lista para armazenar os itens do pedido em formato JSON
-    List<Map<String, dynamic>> pedidoJsonItems = [];
-
-    // Itera sobre cada produto no carrinho e adiciona um objeto JSON à lista
-    carrinho.SACOLA.entries.forEach((entry) {
-      final produto = entry.key;
-      final quantidade = entry.value;
-
-      pedidoJsonItems.add({
-        "quantidade": quantidade,
-        "nome": produto.nome,
-        "preco": produto.precos[0]['preco']
-      });
-    });
-
-    var statusValues = ['Em Processo', 'Concluido','Cancelado' ];
-
-    // Cria um objeto JSON completo para o pedido
-    Map<String, dynamic> pedidoInfo = {
-      "id": dados['id'],
-      "nome": dados['nome'],
-      "telefone": dados['telefone'],
-      "status": statusValues[0],
-      "endereco": "",
-      // Adicione um campo para endereço na sua UI e substitua aqui
-      "complemento": "",
-      // Adicione um campo para complemento na sua UI e substitua aqui
-      "formaPagamento": "",
-      // Adicione um campo para forma de pagamento na sua UI e substitua aqui
-      "pedido": pedidoJsonItems,
-      "totalPagar": carrinho.totalPrice,
-    };
-
-    return pedidoInfo;
-  }
-
-  Future<void> enviarPedidoServidor(id_cliente) async {
-    // Gera o objeto JSON do pedido usando o método acima
-    Map<String, dynamic> pedidoInfo = await gerarPedidoInfo(id_cliente);
-
-    // URL da API do servidor para enviar o pedido
-    const String apiUrl = "https://rayquaza-citta-server.onrender.com/pedidos-kyogre";
-
-    // Converte o pedidoInfo Map para uma String JSON
-    String pedidoJson = jsonEncode(pedidoInfo);
-
-    try {
-      // Envia o pedido ao servidor como um corpo JSON
-      var response = await pikachu.API.post(apiUrl,data: pedidoJson);
-
-      // Verifica se o pedido foi enviado com sucesso (código de status HTTP 200)
-      if (response.statusCode == 200) {
-        Get.snackbar(
-          'Pedido Enviado!',
-          'Seu pedido foi enviado com sucesso para o servidor.',
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: CupertinoColors.systemGreen,
-          colorText: Colors.white,
-          duration: Duration(seconds: 5),
-        );
-      } else {
-        throw '\n\nO servidor respondeu com o código de status: ${response
-            .statusCode}';
-      }
-    } catch (e) {
-      // Algo deu errado ao enviar o pedido. Pode ser uma exceção de rede,
-      // tempo de espera, etc.
-      Get.snackbar(
-        'Erro ao Enviar Pedido',
-        'Ocorreu um erro ao enviar o pedido para o servidor: $e',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: CupertinoColors.systemRed,
-        colorText: Colors.white,
-        duration: Duration(seconds: 5),
-      );
-    }
-  }
-
 
 
 
@@ -218,12 +124,12 @@ class backEndWhatsapp extends GetxController {
 
 
     // Acrescentando detalhes do cliente ao resumo
-    final clienteDetails = nomeCliente != null && telefoneCliente != null
-        ? "Cliente: $nomeCliente\n\n Pedido #${idPedido ?? 'N/A'}\n"
+    final clienteDetails = controller.nomeCliente != null && controller.telefoneCliente != null
+        ? "Cliente: $controller.nomeCliente\n\n Pedido #${controller.idPedido ?? 'N/A'}\n"
         : "";
 
     return """
-  ▶ *RESUMO DO PEDIDO ${idPedido}* 
+  ▶ *RESUMO DO PEDIDO ${controller.idPedido}* 
    $clienteDetails
   *🛒 Itens do Pedido*:
    $items

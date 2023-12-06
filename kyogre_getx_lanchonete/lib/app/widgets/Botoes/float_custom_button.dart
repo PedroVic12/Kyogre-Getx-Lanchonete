@@ -13,7 +13,7 @@ class BotaoFloatArredondado extends StatelessWidget {
     return RawMaterialButton(
       hoverColor: Colors.greenAccent,
       onPressed: onPress,
-      child: Icon(icone, size: 48, color: Colors.blueAccent,),
+      child: Icon(icone, size: 48, color: Colors.indigoAccent,),
       elevation: 25.0,
       constraints: BoxConstraints(
         maxHeight: 100,

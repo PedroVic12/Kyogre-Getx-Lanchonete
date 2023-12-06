@@ -74,21 +74,15 @@ class BarraInferiorPedido extends StatelessWidget {
         child: ElevatedButton(onPressed: () async {
 
           //  pegar id do cliente
-          var info_groundon = await Groundon.getInfoPedidosGroundon(controller.idPedido);
-          print(info_groundon);
-
           await Groundon.enviarDadosPedidoGroundon(controller.idPedido);
 
-          //await Groundon.gerarPedidoInfo(controller.idPedido);
-
           //TODO  pegar dados do pedido formatado
-          final String pedidoCompletoToWpp = Groundon.gerarResumoPedidoCardapio();
-
-          //enviar dados do servidor com post
+          //final String pedidoCompletoToWpp = Groundon.gerarResumoPedidoCardapio();
           //pikachu.cout(pedidoCompletoToWpp);
 
+
           // voltar para o whatsapp
-          //sendDados(context);
+          sendDados(context);
 
         }, style: ElevatedButton.styleFrom(
             backgroundColor: CupertinoColors.systemGreen,

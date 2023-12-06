@@ -30,7 +30,6 @@ void main() {
   Get.put(PedidoController());
   Get.put(FilaDeliveryController());
 
-  //Get.put(MenuProdutosController());
   Get.put(MenuProdutosController());
   Get.put(CardapioController());
 

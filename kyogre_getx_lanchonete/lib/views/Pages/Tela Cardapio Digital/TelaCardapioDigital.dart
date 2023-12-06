@@ -38,6 +38,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   @override
   void initState() {
     super.initState();
+    controller.setupCardapioDigitalWeb();
     controller.fetchClienteNome(widget.id);
     controller.setIdPage(widget.id);
     controller.initPage();
@@ -83,6 +84,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
           children: <Widget>[
             Expanded(child: GetBuilder<CardapioController>(
               builder: (controller) {
+
                 return const MenuTabBarCardapio();
               },
             ),),

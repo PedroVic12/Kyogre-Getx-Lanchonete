@@ -9,6 +9,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/con
 
 import '../../../models/DataBaseController/repository_db_controller.dart';
 
+import '../Carrinho/controller/backend_wpp.dart';
 import '../Tela Cardapio Digital/controllers/pikachu_controller.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -168,19 +169,21 @@ class SplashController extends GetxController {
       await Future.delayed(Duration(seconds: 2));
 
       // Navega para a próxima tela
-      navegarParaTelaCardapio();
-      //verificarDadosCarregados();
+      verificarDadosCarregados();
     }
   }
 
   Future<void> verificarDadosCarregados() async {
-    Timer(Duration(seconds: 3), () async {
+    Timer(Duration(seconds: 2), () async {
       await navegarParaTelaCardapio();
     });
   }
 
   Future<void> navegarParaTelaCardapio() async {
-    String id = '2077';
+
+    //final groundon = backEndWhatsapp();
+
+    String id = '7313';
     Get.offNamed('/pedido/$id');
   }
 }

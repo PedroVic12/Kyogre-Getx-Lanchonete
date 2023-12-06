@@ -21,8 +21,6 @@ import '../cards/CardProdutosFiltrados.dart';
 
 // TODO ITEM PAGE DETAILS
 
-
-
 class MenuTabBarCardapio extends StatefulWidget {
   const MenuTabBarCardapio({super.key});
 
@@ -34,8 +32,8 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
-  final MenuProdutosController menuGradiente = Get.put(MenuProdutosController());
   final CardapioController controller = Get.put(CardapioController());
+  final MenuProdutosController menuController = Get.put(MenuProdutosController());
 
 
   @override
@@ -50,6 +48,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+
+    });
 
     return Column(
       children: [
@@ -89,11 +90,12 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   Widget TabBarScrollCardapioCategorias() {
 
     return Obx(() {
-      if (menuGradiente.menuCategorias.MenuCategorias_Array.isEmpty) {
+      if (!menuController.categoriasCarregadas.value) {
         return CircularProgressIndicator();
-      } else {
+      }
+      else {
         return  Container(
-          margin: EdgeInsets.all(12),
+          margin: EdgeInsets.all(6),
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -104,7 +106,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(22),
             boxShadow: const [
               BoxShadow(
                 offset: Offset(0.7, 1),
@@ -129,13 +131,13 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
           ),
         );
       }
+
     });
 
 
   }
 
   Widget _buildTabBarMenuGradiente(String nome, Icon iconPath, int index) {
-    final menuController = Get.find<MenuProdutosController>();
 
     return Obx(() {
       bool isSelected = menuController.produtoIndex.value == index;
@@ -143,8 +145,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
       return GestureDetector(
         onTap: () {
           menuController.setProdutoIndex(index);
-          _tabController.animateTo(
-              index); // Adicione isso para sincronizar com TabController
+          _tabController.animateTo(index); // Adicione isso para sincronizar com TabController
         },
         child: Container(
           width: 120,
@@ -184,7 +185,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
     Widget TabBarViewCardapioProdutosDetails() {
     List<ProdutoModel> produtosCarregados = controller.repositoryController.dataBase_Array;
-    final indice = menuGradiente.produtoIndex.value;
 
     // Use MediaQuery para obter o tamanho da tela
     final screenSize = MediaQuery.of(context).size;

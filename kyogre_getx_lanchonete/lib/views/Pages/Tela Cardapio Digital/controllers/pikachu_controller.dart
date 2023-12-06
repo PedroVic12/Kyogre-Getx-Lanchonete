@@ -85,16 +85,11 @@ class PikachuController extends GetxController {
         'tipo': 'Elétrico',
 
       };
-
-
-
-
-
     } catch (e) {
       // Trate erros aqui
       print('Erro ao carregar dados: $e');
     } finally {
-      carregamentoConcluido();
+     // carregamentoConcluido();
       isLoading.value = false; // Conclui o carregamento
     }
   }

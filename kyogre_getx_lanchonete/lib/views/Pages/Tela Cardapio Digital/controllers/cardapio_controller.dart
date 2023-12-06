@@ -11,7 +11,7 @@ import '../../Carrinho/CarrinhoController.dart';
 class MenuProdutosController extends GetxController {
   var produtoIndex = 0.obs;
   var categoriasCarregadas = false.obs;
-  final MenuProdutosRepository menuCategorias =      Get.put(MenuProdutosRepository());
+  final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
 
   //metodos
   void setProdutoIndex(int index) {
@@ -41,19 +41,25 @@ class CardapioController extends GetxController {
   late String nomeCliente;
   late String telefoneCliente;
   late String idPedido;
-
   var isLoadingCardapio = true.obs;
 
-  // Acessando os controladores
+  // Acessando os controladores]
   final MenuProdutosController menuGradiente = Get.put(MenuProdutosController());
-  final MenuProdutosRepository menuCategorias =      Get.put(MenuProdutosRepository());
-  final RepositoryDataBaseController repositoryController =      Get.put(RepositoryDataBaseController());
+  final MenuProdutosRepository menuCategorias =  Get.put(MenuProdutosRepository());
+  final RepositoryDataBaseController repositoryController =  Get.put(RepositoryDataBaseController());
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
   final pikachu = PikachuController();
 
   @override
   void onReady() {
     super.onReady();
+    setupCardapioDigitalWeb();
+    update();
+  }
+  bool mostrarBarraInferior = true;
+
+  void toggleBarraInferior() {
+    mostrarBarraInferior = !mostrarBarraInferior;
     update();
   }
 
@@ -63,22 +69,20 @@ class CardapioController extends GetxController {
   }
 
 
-  initPage() async {
+  Future initPage() async {
     await Future.delayed(Duration(seconds: 5), () async {
-     await setupCardapioDigitalWeb().then((_){
-       pikachu.cout('Produtos carregados!');
-       update();
-     });
+      await setupCardapioDigitalWeb().then((_) async {
+        // Verifica se os dados estão carregados
+        if (repositoryController.dataBase_Array.isNotEmpty &&
+            menuCategorias.MenuCategorias_Array.isNotEmpty) {
+          // Espera por 2 segundos
+          await Future.delayed(Duration(seconds: 2));
+          // Atualiza o estado para refletir que os dados estão carregados
+          menuGradiente.setCategoriasCarregadas(true);
+          pikachu.cout('Produtos carregados!!!!');
+        }
+      });
     });
-
-  }
-
-
-  bool mostrarBarraInferior = true;
-
-  void toggleBarraInferior() {
-      mostrarBarraInferior = !mostrarBarraInferior;
-      update();
   }
 
   // metodos backend
@@ -136,8 +140,7 @@ class CardapioController extends GetxController {
         update();
 
         if (!isLoadingCardapio.value) {
-          pikachu.loadDataSuccess('','Conteudos carregados? ${!isLoadingCardapio.value}');
-          update();
+          //pikachu.loadDataSuccess('','Conteudos carregados? ${!isLoadingCardapio.value}');
           return isLoadingCardapio.value;
         }
       }

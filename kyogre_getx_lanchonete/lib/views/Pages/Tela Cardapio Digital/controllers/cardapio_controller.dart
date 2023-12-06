@@ -122,8 +122,10 @@ class CardapioController extends GetxController {
     isLoadingCardapio.value = true;
 
     try {
-      await repositoryController.getProdutosDatabase();
-      await menuCategorias.getCategoriasRepository();
+      await Future.wait([
+        repositoryController.getProdutosDatabase(),
+        menuCategorias.getCategoriasRepository()
+      ]);
       update();
     } catch (e) {
       print('---> Erro ao carregar dados: $e');

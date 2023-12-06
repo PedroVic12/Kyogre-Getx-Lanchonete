@@ -31,37 +31,48 @@ class MenuTabBarCardapio extends StatefulWidget {
 class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
     with TickerProviderStateMixin {
   late TabController _tabController;
-
+  bool _isLoadingTabView = true; // Variável para controlar o estado de carregamento
   final CardapioController controller = Get.put(CardapioController());
   final MenuProdutosController menuController = Get.put(MenuProdutosController());
-
 
   @override
   void initState() {
     super.initState();
-
-    _tabController = TabController(
-        length: controller.menuCategorias.MenuCategorias_Array.length,
-        vsync: this);
-
+    controller.setupCardapioDigitalWeb().then((_) {
+      if (mounted) {
+        setState(() {
+          _tabController = TabController(
+            length: controller.menuCategorias.MenuCategorias_Array.length,
+            vsync: this,
+          );
+          _isLoadingTabView = false;
+        });
+      }
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
 
+    return Obx(() {
+      if (_isLoadingTabView) {
+        return LoadingWidget(); // Ou outro widget de carregamento
+      } else {
+        return Column(
+          children: [
+            // Menu Tab Scrol Gradiente
+            _buildHeader(),
+
+            TabBarScrollCardapioCategorias(),
+
+            // TabView
+            Expanded(child: TabBarViewCardapioProdutosDetails())
+          ],
+        );
+      }
     });
 
-    return Column(
-      children: [
-        // Menu Tab Scrol Gradiente
-        _buildHeader(),
-        TabBarScrollCardapioCategorias(),
-
-        // TabView
-        Expanded(child: TabBarViewCardapioProdutosDetails())
-      ],
-    );
   }
 
   //! Menu Scroll Lateral
@@ -89,50 +100,42 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
   Widget TabBarScrollCardapioCategorias() {
 
-    return Obx(() {
-      if (!menuController.categoriasCarregadas.value) {
-        return CircularProgressIndicator();
-      }
-      else {
-        return  Container(
-          margin: EdgeInsets.all(6),
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                CupertinoColors.activeOrange,
-                cor2
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(22),
-            boxShadow: const [
-              BoxShadow(
-                offset: Offset(0.7, 1),
-                blurRadius: 60,
-                spreadRadius: 3,
-                color: Colors.yellow,
-              ),
-            ],
+   return  Container(
+      margin: EdgeInsets.all(6),
+      alignment: Alignment.centerLeft,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            CupertinoColors.activeOrange,
+            cor2
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(22),
+        boxShadow: const [
+          BoxShadow(
+            offset: Offset(0.7, 1),
+            blurRadius: 60,
+            spreadRadius: 3,
+            color: Colors.yellow,
           ),
-          child: TabBar(
-            controller: _tabController,
-            labelColor: Colors.white,
-            labelPadding: const EdgeInsets.all(6),
-            isScrollable: true,
-            unselectedLabelColor: Colors.black,
-            //indicator: CircleTabIndicator(color: Colors.purpleAccent,radius: 64.0),
-            tabs: [
-              for (var index = 0; index <     controller.menuCategorias.MenuCategorias_Array.length; index++)
-                _buildTabBarMenuGradiente( controller.menuCategorias.MenuCategorias_Array[index].nome,
-                    controller.menuCategorias.MenuCategorias_Array[index].iconPath, index)
-            ],
-          ),
-        );
-      }
-
-    });
+        ],
+      ),
+      child: TabBar(
+        controller: _tabController,
+        labelColor: Colors.white,
+        labelPadding: const EdgeInsets.all(6),
+        isScrollable: true,
+        unselectedLabelColor: Colors.black,
+        //indicator: CircleTabIndicator(color: Colors.purpleAccent,radius: 64.0),
+        tabs: [
+          for (var index = 0; index <     controller.menuCategorias.MenuCategorias_Array.length; index++)
+            _buildTabBarMenuGradiente( controller.menuCategorias.MenuCategorias_Array[index].nome,
+                controller.menuCategorias.MenuCategorias_Array[index].iconPath, index)
+        ],
+      ),
+    );
 
 
   }
@@ -145,7 +148,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
       return GestureDetector(
         onTap: () {
           menuController.setProdutoIndex(index);
-          _tabController.animateTo(index); // Adicione isso para sincronizar com TabController
+          _tabController.animateTo(index);
         },
         child: Container(
           width: 120,

@@ -16,7 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 
-class backEndWhatsapp extends GetxController {
+class GroundonBackEndController extends GetxController {
 
   final carrinho = Get.find<CarrinhoPedidoController>();
   final pikachu = PikachuController();
@@ -142,43 +142,43 @@ class backEndWhatsapp extends GetxController {
 
 
 
-// Metodos do Pedido no whatsapp
-  Future<void> enviarPedidoWhatsapp({required String phone, required String message}) async {
+Future<void> enviarPedidoWhatsapp({required String phone, required String message}) async {
     String generateUrl(String type) {
       switch (type) {
         case "wa.me":
           return "https://wa.me/$phone/?text=${Uri.encodeComponent(message)}";
         case "api":
-          return "https://api.whatsapp.com/send?phone=$phone&text=${Uri
-              .encodeComponent(message)}";
+          return "https://api.whatsapp.com/send?phone=$phone&text=${Uri.encodeComponent(message)}";
         case "whatsapp":
         default:
-          return 'whatsapp://send?phone=${phone}&text=${message}';
+          return 'whatsapp://send?phone=$phone&text=${Uri.encodeComponent(message)}';
       }
     }
 
-    Future<bool> canLaunchUrl(Uri uri) async {
-      return await canLaunch(uri.toString());
-    }
+    // Determina quais URLs tentar, baseado no dispositivo do usuário
+    List<String> urlsToTry = determineUrlsToTry();
 
-    Future<bool> launchUrl(Uri uri) async {
-      return await launch(
-          uri.toString(), enableJavaScript: true, forceWebView: true);
-    }
-
-    List<String> determineUrlsToTry() {
-      if (html.window.navigator.userAgent.contains('Android')) {
-        return ["whatsapp", "wa.me", "api"];
-      } else if (html.window.navigator.userAgent.contains('iPhone') ||
-          html.window.navigator.userAgent.contains('iPad')) {
-        return ["wa.me", "api", "whatsapp"];
-      } else if (html.window.navigator.userAgent.contains('Web')) {
-        return ["wa.me", "api", "whatsapp"];
-      } else {
-        return ["wa.me", "whatsapp", "api"];
+    // Tenta abrir cada URL até que uma funcione
+    for (var urlType in urlsToTry) {
+      var url = generateUrl(urlType);
+      if (await canLaunch(url)) {
+        await launch(url, enableJavaScript: true, forceWebView: false);
+        break; // Interrompe o loop se a URL for aberta com sucesso
       }
     }
   }
 
-
+  List<String> determineUrlsToTry() {
+    // Verifica o agente do usuário para determinar a plataforma
+    if (html.window.navigator.userAgent.contains('Android')) {
+      return ["whatsapp", "wa.me", "api"];
+    } else if (html.window.navigator.userAgent.contains('iPhone') ||
+        html.window.navigator.userAgent.contains('iPad')) {
+      return ["wa.me", "api", "whatsapp"];
+    } else if (html.window.navigator.userAgent.contains('Web')) {
+      return ["wa.me", "api", "whatsapp"];
+    } else {
+      return ["wa.me", "whatsapp", "api"];
+    }
+  }
 }

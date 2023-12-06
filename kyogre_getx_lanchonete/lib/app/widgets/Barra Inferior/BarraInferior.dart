@@ -15,7 +15,7 @@ import '../../../views/Pages/Tela Cardapio Digital/controllers/cardapio_controll
 class ModalInferior extends StatelessWidget {
    ModalInferior({super.key});
   final CarrinhoPedidoController carrinho = Get.put(CarrinhoPedidoController());
-  final backEndWhatsapp Groundon = Get.put(backEndWhatsapp());
+  final GroundonBackEndController Groundon = Get.put(GroundonBackEndController());
 
   @override
   Widget build(BuildContext context) {

@@ -38,10 +38,10 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   @override
   void initState() {
     super.initState();
-    controller.setupCardapioDigitalWeb();
     controller.fetchClienteNome(widget.id);
     controller.setIdPage(widget.id);
-    controller.initPage();
+    controller.setupCardapioDigitalWeb();
+    //controller.initPage().then((value) =>  controller.setupCardapioDigitalWeb());
   }
 
 
@@ -82,6 +82,8 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
       body: Center(
         child: Column(
           children: <Widget>[
+
+            //pegarDadosCliente(),
             Expanded(child: GetBuilder<CardapioController>(
               builder: (controller) {
 
@@ -156,9 +158,6 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
           }
         }));
   }
-
-
-
 
   Widget pegarDadosCliente() {
     return Column(

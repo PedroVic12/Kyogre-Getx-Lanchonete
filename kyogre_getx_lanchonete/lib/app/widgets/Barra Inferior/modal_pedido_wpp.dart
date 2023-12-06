@@ -13,7 +13,7 @@ import '../Custom/CustomText.dart';
 
 class BarraInferiorPedido extends StatelessWidget {
   final CarrinhoPedidoController carrinho = Get.put(CarrinhoPedidoController());
-  final backEndWhatsapp Groundon = Get.put(backEndWhatsapp());
+  final GroundonBackEndController Groundon = Get.put(GroundonBackEndController());
   final CardapioController controller = Get.find<CardapioController>();
   final pikachu = PikachuController();
 
@@ -68,21 +68,13 @@ class BarraInferiorPedido extends StatelessWidget {
   }
 
   Widget BotaoWpp(context){
-    return    Padding(padding: const EdgeInsets.all(8),child:
-    SizedBox(
+    return    Padding(padding: const EdgeInsets.all(12),child:
+    Container(
         height: 40,
         child: ElevatedButton(onPressed: () async {
 
-          //  pegar id do cliente
           await Groundon.enviarDadosPedidoGroundon(controller.idPedido);
-
-          //TODO  pegar dados do pedido formatado
-          //final String pedidoCompletoToWpp = Groundon.gerarResumoPedidoCardapio();
-          //pikachu.cout(pedidoCompletoToWpp);
-
-
-          // voltar para o whatsapp
-          sendDados(context);
+          sendDadosServer(context);
 
         }, style: ElevatedButton.styleFrom(
             backgroundColor: CupertinoColors.systemGreen,
@@ -96,7 +88,7 @@ class BarraInferiorPedido extends StatelessWidget {
     );
   }
 
-  void sendDados(context) async {
+  void sendDadosServer(context) async {
     final result = await showCupertinoDialog(
         context: context,
         builder: createDialog
@@ -105,7 +97,8 @@ class BarraInferiorPedido extends StatelessWidget {
       try {
         const String groundon_number1 = '5521983524026';
         const String messagemWhatsappPedido = 'Ola mundo';
-        Groundon.enviarPedidoWhatsapp(phone: groundon_number1, message: messagemWhatsappPedido);
+        
+       await Groundon.enviarPedidoWhatsapp(phone: groundon_number1, message: messagemWhatsappPedido);
 
 
       } catch (e) {

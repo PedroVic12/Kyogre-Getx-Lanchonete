@@ -155,14 +155,14 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
                     children: [
                       CustomText(
                         //text:'Preços: ${produto.precos.map((p) => p['preco']).join(' | ')}',
-                        text: 'Preço: R\$ ${produto.precos[0]['preco']} Reais',
+                        text: 'R\$ ${produto.precos[0]['preco']} Reais',
                         size: 16,
                         color: Colors.green,
                         weight: FontWeight.bold, // Exemplo de uso do preço
                       ),
                     ],
                   ),
-                  trailing: BotaoFloatArredondado(icone: Icons.add,
+                  trailing: BotaoFloatArredondado(icone: CupertinoIcons.plus_circle_fill,
                       onPress: (){
                         carrinho.adicionarCarrinho(produto);
 
@@ -211,8 +211,6 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
       child: _child,
     );
   }
-
-
 
 
 

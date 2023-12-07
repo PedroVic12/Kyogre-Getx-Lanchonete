@@ -34,7 +34,7 @@ class AnimatedFloatingActionButton extends HookWidget {
       onPressed: onPress,
       child: RotationTransition(
         turns: controller,
-        child: Icon(Icons.shopping_cart_rounded, size: 36),
+        child: Icon(Icons.shopping_cart_rounded, size: 26),
       ),
     );
   }

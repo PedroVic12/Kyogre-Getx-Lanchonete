@@ -48,7 +48,6 @@ class GroundonBackEndController extends GetxController {
 
 
   Future<Map<String, dynamic>> salvarDadosCarrinho(id_cliente) async {
-
     var dados = await getDadosClienteGroundon(id_cliente);
     pikachu.cout('DADOS GROUNDON = $dados');
 
@@ -66,31 +65,29 @@ class GroundonBackEndController extends GetxController {
       });
     });
 
-    // Define o status inicial do pedido
-    String statusInicial = 'Em Processo';
-
     // Estrutura do pedido alinhada ao modelo do servidor
     Map<String, dynamic> pedidoInfo = {
-      "status": statusInicial,
-      //"nome_cliente": dados[0]['nome'],  // Substitua pelo nome do cliente
-      //"telefone_cliente": dados[0]['telefone'],  // Substitua pelo telefone do cliente
-      "itens": itensPedido,
-      "total": carrinho.totalPrice,
+      "carrinho": itensPedido,
+      "status": 'Em Processo',
+      //"nome_cliente": dados['nome'],
+      //"telefone_cliente": dados['telefone'],
+      "total_pagar": carrinho.totalPrice,
     };
 
     return pedidoInfo;
   }
 
+
   enviarDadosPedidoGroundon(id) async {
     var dataPost = await salvarDadosCarrinho(id);
-    pikachu.cout('Carrinho $dataPost');
+    pikachu.cout('Sacola Pedido =  $dataPost');
+
     try {
       var response = await pikachu.API.post(
         "https://rayquaza-citta-server.onrender.com/pedidos-kyogre/$id",
         data: jsonEncode(dataPost),
       );
-      pikachu.loadDataSuccess('Sucesso', 'Pedido enviado com sucesso!');
-      print(response.data); // Para debug
+      pikachu.loadDataSuccess('Dados Enviados', 'Pedido realizado com sucesso!');
     } catch (e) {
       print("Erro ao enviar pedido: $e");
     }

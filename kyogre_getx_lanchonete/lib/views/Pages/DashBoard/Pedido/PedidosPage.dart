@@ -123,7 +123,7 @@ class _PedidosServerState extends State<PedidosServer> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text("Novo Pedido Recebido"),
-        content: Text("Deseja aceitar o pedido de ${pedido.nome}?"),
+        content: Text("Deseja aceitar o pedido de ${pedido.nome_cliente}?"),
         actions: [
           TextButton(
             child: Text("Recusar"),
@@ -155,7 +155,7 @@ class _PedidosServerState extends State<PedidosServer> {
       children: fila.todosPedidos().map((pedido) {
         return Card(
           child: ListTile(
-            title: Text(pedido.nome),
+            title: Text(pedido.nome_cliente),
             subtitle: Text("Pedido ID: ${pedido.id}"),
           ),
         );

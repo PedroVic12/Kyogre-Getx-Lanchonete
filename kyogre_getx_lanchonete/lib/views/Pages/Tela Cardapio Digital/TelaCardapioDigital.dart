@@ -100,7 +100,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
         ),
       ),
 
-      floatingActionButton:AnimatedFloatingActionButton(() => showBarraInferior(),)
+      floatingActionButton:Container(child: AnimatedFloatingActionButton(() => showBarraInferior(),),height: 32,width: 32,)
     );
 
 

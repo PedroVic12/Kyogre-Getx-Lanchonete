@@ -74,7 +74,7 @@ class BarraInferiorPedido extends StatelessWidget {
         child: ElevatedButton(onPressed: () async {
 
           await Groundon.enviarDadosPedidoGroundon(controller.idPedido);
-          sendDadosServer(context);
+          await voltarPedidoWpp(context);
 
         }, style: ElevatedButton.styleFrom(
             backgroundColor: CupertinoColors.systemGreen,
@@ -82,13 +82,13 @@ class BarraInferiorPedido extends StatelessWidget {
                 borderRadius: BorderRadius.circular(32)
             )
         ),
-            child: const Text('Continuar o Pedido no Whatsapp', style: TextStyle(fontSize: 20,),))
+            child: const Text('Continuar o Pedido no Whatsapp', style: TextStyle(fontSize: 18,),))
 
     )
     );
   }
 
-  void sendDadosServer(context) async {
+   voltarPedidoWpp(context) async {
     final result = await showCupertinoDialog(
         context: context,
         builder: createDialog
@@ -100,9 +100,7 @@ class BarraInferiorPedido extends StatelessWidget {
         
        await Groundon.enviarPedidoWhatsapp(phone: groundon_number1, message: messagemWhatsappPedido);
 
-
       } catch (e) {
-        print('Erro ao tentar abrir o WhatsApp: $e');
         Get.snackbar(
             'Erro: ${e}',
             'Não foi possível abrir o WhatsApp. Por favor, tente novamente.',

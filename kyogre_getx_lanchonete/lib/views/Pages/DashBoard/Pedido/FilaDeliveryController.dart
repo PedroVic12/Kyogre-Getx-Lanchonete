@@ -10,7 +10,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido
 
 class FilaDeliveryController extends GetxController {
   final Rx<Fila> FILA_PEDIDOS = Fila().obs;
-  final controller = Get.find<PedidoController>();
+  final PedidoController controller = Get.find<PedidoController>();
   final List<dynamic> PEDIDOS_ALERTA_ARRAY = [];
 
   getFila() => FILA_PEDIDOS;
@@ -37,9 +37,11 @@ class FilaDeliveryController extends GetxController {
 
   void _adicionarPedidosNaoExistenteNaFila(List<dynamic> pedidosDoServidor) {
     for (var pedidoJson in pedidosDoServidor) {
+
       print('Número de pedidos para alerta: ${PEDIDOS_ALERTA_ARRAY.length}');
-      //print('Tipo do pedidoJson: ${pedidoJson.runtimeType}');  // Adicionei esta linha para debug
       final pedido = Pedido.fromJson(pedidoJson);
+
+
       if (!_pedidoEstaNaFila(pedido)) {
         PEDIDOS_ALERTA_ARRAY.add(pedidoJson);
       }
@@ -92,7 +94,7 @@ class FilaDeliveryController extends GetxController {
   }
 
   Future<void> showNovoPedidoAlertDialog(dynamic pedido) async {
-    final pedidoId = pedido['id_pedido'];
+    final pedidoId = pedido['id'];
 
     if (!_alertaJaFoiMostrado(pedidoId)) {
       _configurarEExibirAlerta(pedido, pedidoId);
@@ -117,7 +119,7 @@ class FilaDeliveryController extends GetxController {
   }
 
   List<String> _obterItensDoPedido(dynamic pedido) {
-    return (pedido['pedido'] as List<dynamic>)
+    return (pedido['carrinho'] as List<dynamic>)
         .map((item) => item['nome'] as String)
         .toList();
   }
@@ -130,7 +132,7 @@ class FilaDeliveryController extends GetxController {
     controller.showAlert = true;
 
     await Get.to(() => AlertaPedidoWidget(
-      nomeCliente: pedido['nome'] ?? '',
+      nomeCliente: pedido['nome_cliente'] ?? '',
       enderecoPedido: pedido['endereco'] ?? '',
       itensPedido: itensPedido,
       btnOkOnPress: () {
@@ -142,7 +144,6 @@ class FilaDeliveryController extends GetxController {
   void _handlePedidoAceito(dynamic pedido, int pedidoId) {
     _adicionarPedidoNaFila(pedido);
     Get.back();
-    //Get.off(DashboardPage());
     _resetarConfiguracoesDeAlerta(pedidoId);
   }
 

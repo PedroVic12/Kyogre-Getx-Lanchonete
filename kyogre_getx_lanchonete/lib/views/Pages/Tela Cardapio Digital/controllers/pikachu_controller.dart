@@ -65,7 +65,9 @@ class PikachuController extends GetxController {
     Get.snackbar(
       title,
       message,
-      backgroundColor: Colors.cyan,
+      isDismissible: true,
+      duration: Duration(seconds: 1),
+      backgroundColor: Colors.cyanAccent,
       snackPosition: SnackPosition.TOP,
     );
   }

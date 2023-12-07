@@ -20,7 +20,7 @@ class AlertaPedidoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pedidoInfo = StringBuffer();
-    pedidoInfo.writeln('Endereço do Pedido: $enderecoPedido');
+    pedidoInfo.writeln('ENDEREÇO: $enderecoPedido');
     pedidoInfo.writeln('Itens do Pedido:');
     pedidoInfo.writeAll(itensPedido, '\n');
 
@@ -30,7 +30,7 @@ class AlertaPedidoWidget extends StatelessWidget {
         dialogType: DialogType.info,
         animType: AnimType.rightSlide,
         showCloseIcon: true,
-        title: 'Pedido de $nomeCliente chegando!',
+        title: 'Pedido de ${nomeCliente} chegando!',
         desc: pedidoInfo.toString(),
         btnOkText: 'Aceitar Pedido',
         btnCancelOnPress: (){

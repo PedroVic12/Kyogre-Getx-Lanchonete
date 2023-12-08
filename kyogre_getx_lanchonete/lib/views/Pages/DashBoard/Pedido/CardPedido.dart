@@ -58,8 +58,8 @@ class CardPedido extends StatelessWidget {
                 );
               },
               child: Card(
-                elevation: 18.0,
-                color: Colors.green,
+                elevation: 20.0,
+                //color: Colors.lightGreenAccent,
                 margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),

@@ -150,7 +150,14 @@ class ItemDetailsPage extends StatelessWidget {
           ],
         ),
 
-        CustomText(text: '\nIgredientes: ${produto_selecionado.ingredientes}', size: 28, color: Colors.white, weight: FontWeight.bold,),
+        CustomText(
+          text: '\nIngredientes: ${produto_selecionado.ingredientes?.map((ingrediente) {
+            return '${ingrediente[0].toUpperCase()}${ingrediente.substring(1)}';
+          }).join(', ') ?? 'N/A'}', // 'N/A' é o texto padrão se não houver ingredientes
+          size: 28,
+          color: Colors.white,
+          weight: FontWeight.bold,
+        )
 
 
 

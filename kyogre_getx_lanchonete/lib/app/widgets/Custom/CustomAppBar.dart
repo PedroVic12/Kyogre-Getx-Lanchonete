@@ -15,7 +15,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Column(
         children: [
-          CustomText(text: 'Citta RJ ${nomesLojas[1]} | Pedido: ${id}',color: Colors.white,size: 20)
+          CustomText(text: 'Citta RJ | Pedido: ${id}',color: Colors.white,size: 20)
         ],
       ),
       backgroundColor: CupertinoColors.black,

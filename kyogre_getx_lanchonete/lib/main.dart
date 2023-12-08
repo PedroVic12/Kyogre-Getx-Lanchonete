@@ -39,8 +39,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-
     return GetMaterialApp(
       //initialRoute: '/splash',
 
@@ -59,9 +57,6 @@ class MyApp extends StatelessWidget {
               final id = Get.parameters['id']!;
               return DetailsPage(id: id);
             }),
-
-
-
         GetPage(
             name: '/pedido/:id',
             page: () {
@@ -71,7 +66,6 @@ class MyApp extends StatelessWidget {
               return TelaCardapioDigital(id: id);
             }),
       ],
-
 
       title: 'Dashboard',
       theme: ThemeData(

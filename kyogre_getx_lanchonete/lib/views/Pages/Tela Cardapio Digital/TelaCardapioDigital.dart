@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kyogre_getx_lanchonete/app/widgets/Botoes/animated_float_button.dart';
@@ -18,7 +19,6 @@ import '../Carrinho/CarrinhoController.dart';
 import 'cardapio_Digital_webPage.dart';
 import 'controllers/pikachu_controller.dart';
 
-
 class TelaCardapioDigital extends StatefulWidget {
   final String id;
   const TelaCardapioDigital({super.key, required this.id});
@@ -28,12 +28,10 @@ class TelaCardapioDigital extends StatefulWidget {
 }
 
 class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
-
   final CardapioController controller = Get.put(CardapioController());
   final pikachu = PikachuController();
-  final CarrinhoPedidoController carrinhoController = Get.put(CarrinhoPedidoController());
-
-
+  final CarrinhoPedidoController carrinhoController =
+      Get.put(CarrinhoPedidoController());
 
   @override
   void initState() {
@@ -44,29 +42,21 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
     //controller.initPage().then((value) =>  controller.setupCardapioDigitalWeb());
   }
 
-
   void showBarraInferior() {
     setState(() {
       controller.toggleBarraInferior();
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-
-
     // Variaveis
     List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
 
     if (kIsWeb) {
-      setState(() {
-
-    });
+      setState(() {});
       // Comportamento específico para a Web
       return buildWebPage();
-
     } else {
       // Comportamento para outras plataformas (móveis)
       return CardapioDigtalApp();
@@ -74,41 +64,42 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   }
 
   Widget buildWebPage() {
-
-
     return Scaffold(
-      backgroundColor: Colors.red,
-      appBar: CustomAppBar(id: widget.id),
-      body: Center(
-        child: Column(
-          children: <Widget>[
+        backgroundColor: Colors.red,
+        appBar: CustomAppBar(id: widget.id),
+        body: Center(
+          child: Column(
+            children: <Widget>[
+              //pegarDadosCliente(),
 
-            //pegarDadosCliente(),
-            Expanded(child: GetBuilder<CardapioController>(
-              builder: (controller) {
-
-                return const MenuTabBarCardapio();
-              },
-            ),),
+              Expanded(
+                child: GetBuilder<CardapioController>(
+                  builder: (controller) {
+                    return const MenuTabBarCardapio();
+                  },
+                ),
+              ),
 
               AnimatedContainer(
-              duration: Duration(milliseconds: 500),
-              height: controller.mostrarBarraInferior ? 80 : 0,  // Altura modificada pela variável
-              child: ModalInferior(),
+                duration: Duration(milliseconds: 500),
+                height: controller.mostrarBarraInferior
+                    ? 80
+                    : 0, // Altura modificada pela variável
+                child: ModalInferior(),
               )
-          ],
+            ],
+          ),
         ),
-      ),
-
-      floatingActionButton:Container(child: AnimatedFloatingActionButton(() => showBarraInferior(),),height: 40,width: 40,)
-    );
-
-
+        floatingActionButton: Container(
+          child: AnimatedFloatingActionButton(
+            () => showBarraInferior(),
+          ),
+          height: 40,
+          width: 40,
+        ));
   }
 
-
   Widget _list() {
-
     return Obx(() {
       if (controller.repositoryController.dataBase_Array.isEmpty) {
         return Center(child: LoadingWidget());
@@ -116,7 +107,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
         return ListView.builder(
           itemCount: controller.repositoryController.dataBase_Array.length,
           itemBuilder: (context, index) {
-            var produto =controller.repositoryController.dataBase_Array[index];
+            var produto = controller.repositoryController.dataBase_Array[index];
             return ListTile(
               title: Text(produto.nome),
               subtitle: Text('Categoria: ${produto.categoria}'),
@@ -129,7 +120,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
 
   Widget buildListRepository() {
     final RepositoryDataBaseController repositoryController =
-    Get.find<RepositoryDataBaseController>();
+        Get.find<RepositoryDataBaseController>();
 
     return Container(
         color: Colors.white,
@@ -145,14 +136,14 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
                 var item = repositoryController.dataBase_Array[index];
                 return ListTile(
                     subtitle: Column(
-                      children: [
-                        CustomText(
-                          text: '\n\nProduto: ${item.nome}',
-                        ),
-                        CustomText(text: 'Categoria: ${item.categoria}'),
-                        CustomText(text: 'Precos: ${item.precos}')
-                      ],
-                    ));
+                  children: [
+                    CustomText(
+                      text: '\n\nProduto: ${item.nome}',
+                    ),
+                    CustomText(text: 'Categoria: ${item.categoria}'),
+                    CustomText(text: 'Precos: ${item.precos}')
+                  ],
+                ));
               },
             );
           }
@@ -171,10 +162,3 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
     );
   }
 }
-
-
-
-
-
-
-

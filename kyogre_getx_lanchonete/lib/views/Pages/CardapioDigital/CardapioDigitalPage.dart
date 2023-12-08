@@ -163,35 +163,6 @@ class _DetailsPageState extends State<DetailsPage> {
                 ))));
   }
 
-  Widget _carregandoProdutos() {
-
-
-    return FutureBuilder(
-      future: _repositoryController.fetchAllProducts(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(
-              child: Text('Ocorreu um erro ao carregar os produtos.'));
-        } else {
-          return Container(
-            height: 200,
-            color: Colors.purpleAccent,
-            child: ListView(
-              children: [
-                Container(
-                    color: Colors.blueGrey,
-                    child: Text(
-                        'Produtos JSON = ${_repositoryController.dataBase_Array}')),
-              ],
-            ),
-          );
-        }
-      },
-    );
-  }
-
   Widget _indexProdutoSelecionado() {
     final MenuProdutosController menuController =
         Get.find<MenuProdutosController>();

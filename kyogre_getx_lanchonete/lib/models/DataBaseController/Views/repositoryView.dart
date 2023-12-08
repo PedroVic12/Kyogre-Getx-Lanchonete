@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -13,15 +12,14 @@ import '../../../views/Pages/Tela Cardapio Digital/controllers/pikachu_controlle
 import '../repository_db_controller.dart';
 import '../template/produtos_model.dart';
 
-
 class RepositoryListView extends StatefulWidget {
   @override
   _RepositoryListViewState createState() => _RepositoryListViewState();
 }
 
 class _RepositoryListViewState extends State<RepositoryListView> {
-  final RepositoryDataBaseController controller = Get.put(RepositoryDataBaseController());
-
+  final RepositoryDataBaseController controller =
+      Get.put(RepositoryDataBaseController());
 
   final String sanduicheFile = 'lib/repository/models/sanduiches.json';
   var ulr2 = 'https://www.npoint.io/docs/ae829694539a3375241e';
@@ -29,8 +27,7 @@ class _RepositoryListViewState extends State<RepositoryListView> {
   final List array = [].obs;
   var products;
 
-
-   readingDataJson(url) async {
+  readingDataJson(url) async {
     Dio api = Dio();
 
     var response = await api.get(url);
@@ -41,14 +38,12 @@ class _RepositoryListViewState extends State<RepositoryListView> {
   }
 
   Future<List> setupPage() async {
-
     // Limpa o array existente
     controller.dataBase_Array.clear();
 
     // Lê os dados JSON
     List itemsJson = await readingDataJson(url1);
     controller.pikachu.cout('JSON = ${itemsJson}');
-
 
     // Transforma em Objeto dart
     itemsJson.forEach((element) {
@@ -57,29 +52,28 @@ class _RepositoryListViewState extends State<RepositoryListView> {
 
       // Adiciona os objetos ao array do controlador
       controller.dataBase_Array.add(products);
-
     });
 
-
-    controller.pikachu.cout('FIX HERE =  ${   controller.dataBase_Array[0]}');
+    controller.pikachu.cout('FIX HERE =  ${controller.dataBase_Array[0]}');
 
     print('\n\n\nDatabase Carregado!');
-    return    controller.dataBase_Array;
+    return controller.dataBase_Array;
   }
 
-
-  Future<List>   _carregandoArrayObjetos() async {
+  Future<List> _carregandoArrayObjetos() async {
     array.clear();
 
     var jsonData = await readingDataJson(url1);
     controller.pikachu.cout('JSON = ${jsonData}');
 
-    List<dynamic> produtos = jsonData.map((item) => ProdutoModel.fromJson(item)).toList();
+    List<dynamic> produtos =
+        jsonData.map((item) => ProdutoModel.fromJson(item)).toList();
     controller.pikachu.cout('Produto: ${produtos} ');
 
     // Exemplo de uso
     for (var produto in produtos) {
-      controller.pikachu.cout('Produto: ${produto.nome}, Categoria: ${produto.categoria}');
+      controller.pikachu
+          .cout('Produto: ${produto.nome}, Categoria: ${produto.categoria}');
       array.add(produto);
     }
     setState(() {
@@ -88,66 +82,66 @@ class _RepositoryListViewState extends State<RepositoryListView> {
     return array;
   }
 
-  void initPage()async {
+  void initPage() async {
     //await setupPage();
-    await Future.delayed(Duration(seconds: 1), () async { _carregandoArrayObjetos(); });
-
+    await Future.delayed(Duration(seconds: 1), () async {
+      _carregandoArrayObjetos();
+    });
   }
-
 
   @override
   void initState() {
     super.initState();
     initPage();
-    Future.delayed(Duration(seconds: 5), () async {    controller.pikachu.loadDataSuccess(':)', 'Tudo carregado'); });
+    Future.delayed(Duration(seconds: 5), () async {
+      controller.pikachu.loadDataSuccess(':)', 'Tudo carregado');
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Produtos - REPOSITORY'),
-      ),
-      body: ListView(
-        children: [
+        appBar: AppBar(
+          title: Text('Produtos - REPOSITORY'),
+        ),
+        body: ListView(
+          children: [
+            Container(
+                color: Colors.white,
+                height: 500,
+                child: Obx(() {
+                  if (array.isEmpty) {
+                    return LoadingWidget();
+                  } else {
+                    return ListView.builder(
+                      itemCount: array.length,
+                      itemBuilder: (context, index) {
+                        var item = array[index];
+                        return ListTile(
+                            title: CustomText(
+                              text: 'Array = ${array}',
+                            ),
+                            subtitle: Column(
+                              children: [
+                                CustomText(
+                                  text: '\n\nProduto: ${item.nome}',
+                                ),
+                                CustomText(
+                                    text: 'Categoria: ${item.categoria}'),
+                                CustomText(text: 'Precos: ${item.precos}')
+                              ],
+                            ));
+                      },
+                    );
+                  }
+                })),
 
-           Container(
-          color: Colors.white,
-          height: 500,
-          child:   Obx(() {
-            if(array.isEmpty){
-              return LoadingWidget();
-          } else {
-              return ListView.builder(
-                itemCount: array.length, itemBuilder: (context, index) {
-                var item = array[index];
-                return ListTile(
-                    title: CustomText(text: 'Array = ${array}',),
-                    subtitle: Column(
-                      children: [
-                        CustomText(text: '\n\nProduto: ${item.nome}',),
-                        CustomText(text: 'Categoria: ${item.categoria}'),
-                        CustomText(text: 'Precos: ${item.precos}')
-
-                      ],
-                    )
-                );
-              },);
-            }})
-      ),
-
-
-
-         // buildListViewProdutosRepository()
-        ],
-      )
-    );
+            // buildListViewProdutosRepository()
+          ],
+        ));
   }
 
   Widget _list() {
-
     return Obx(() {
       if (array.isEmpty) {
         return Center(child: LoadingWidget());
@@ -166,98 +160,54 @@ class _RepositoryListViewState extends State<RepositoryListView> {
     });
   }
 
-
-
-
-
-
-
   Widget buildListViewProdutosRepository() {
-
-
     return Center(
         child: Column(
-          children: [
-
-            _list(),
-
-            _builderListView(),
-
-            _builderListController(),
-
-            _carregandoProdutos(),
-
-            _obxList()
-          ],
-        )
-    );
+      children: [
+        _list(),
+        _builderListView(),
+        _builderListController(),
+        _obxList()
+      ],
+    ));
   }
 
-
-
-  Widget _buildListCategorias(){
+  Widget _buildListCategorias() {
     return Container();
   }
 
-  Widget _builderListView(){
+  Widget _builderListView() {
     return GetBuilder<RepositoryDataBaseController>(
-        init: RepositoryDataBaseController(), // Inicialize o controlador se necessário
+        init:
+            RepositoryDataBaseController(), // Inicialize o controlador se necessário
         builder: (controller) {
           // Aqui você pode acessar os dados do controlador e construir sua UI
           return CustomText(text: 'Array = ${controller.dataBase_Array}');
-        }
-    );
+        });
   }
 
-
-  Widget _builderListController(){
+  Widget _builderListController() {
     return GetX<RepositoryDataBaseController>(
-        init: RepositoryDataBaseController(), // Inicialize o controlador se necessário
+        init:
+            RepositoryDataBaseController(), // Inicialize o controlador se necessário
         builder: (controller) {
           // Construa sua UI com os dados do controlador
           return CustomText(text: 'Array = ${controller.dataBase_Array}');
-        }
-    );
+        });
   }
 
-
-  Widget _obxList(){
-    final controller = Get.find<RepositoryDataBaseController>(); // Obtém a instância do controlador
+  Widget _obxList() {
+    final controller = Get.find<
+        RepositoryDataBaseController>(); // Obtém a instância do controlador
 
     return Container(
-        child: Obx(() => Card(child: Column(children: [
-        CustomText(text: 'Array = ${controller.dataBase_Array}'),
-        ],),)) // Substitua `someData` pelo dado observável
-    );
-  }
-
-
-  Widget _carregandoProdutos() {
-    return FutureBuilder (
-      future: controller.fetchAllProducts(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(
-              child: Text('Ocorreu um erro ao carregar os produtos.'));
-        } else {
-          return Container(
-            height: 500,
-            color: Colors.purpleAccent,
-            child: ListView(
-              children: [
-                Card(
-                    color: Colors.blueGrey,
-                    child: Text(
-                        'Produtos JSON = ${controller.dataBase_Array}')),
-
-                buildListViewProdutosRepository()
-              ],
-            ),
-          );
-        }
-      },
-    );
+        child: Obx(() => Card(
+              child: Column(
+                children: [
+                  CustomText(text: 'Array = ${controller.dataBase_Array}'),
+                ],
+              ),
+            )) // Substitua `someData` pelo dado observável
+        );
   }
 }

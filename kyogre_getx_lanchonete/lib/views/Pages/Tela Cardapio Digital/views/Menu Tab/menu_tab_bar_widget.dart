@@ -31,9 +31,11 @@ class MenuTabBarCardapio extends StatefulWidget {
 class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  bool _isLoadingTabView = true; // Variável para controlar o estado de carregamento
+  bool _isLoadingTabView =
+      true; // Variável para controlar o estado de carregamento
   final CardapioController controller = Get.put(CardapioController());
-  final MenuProdutosController menuController = Get.put(MenuProdutosController());
+  final MenuProdutosController menuController =
+      Get.put(MenuProdutosController());
 
   @override
   void initState() {
@@ -47,14 +49,26 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
           );
           _isLoadingTabView = false;
         });
+
+        // Adicionar um listener para sincronizar a mudança de categoria com a exibição de produtos
+        _tabController.addListener(_handleTabSelection);
       }
     });
   }
 
 
+
+
+  void _handleTabSelection() {
+    if (_tabController.indexIsChanging) {
+      menuController.setProdutoIndex(_tabController.index);
+      setState(() {}); // Isso forçará a reconstrução do widget para refletir a nova seleção
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
-
     return Obx(() {
       if (_isLoadingTabView) {
         return LoadingWidget(); // Ou outro widget de carregamento
@@ -63,7 +77,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
           children: [
             // Menu Tab Scrol Gradiente
             _buildHeader(),
-
             TabBarScrollCardapioCategorias(),
 
             // TabView
@@ -72,19 +85,17 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         );
       }
     });
-
   }
 
   //! Menu Scroll Lateral
   Widget _buildHeader() {
     return Padding(
-      padding: const EdgeInsets.symmetric( horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           IconButton(
-            onPressed: () {
-            },
+            onPressed: () {},
             icon: IconePersonalizado(tipo: Icons.menu),
           ),
           const SizedBox(width: 16),
@@ -99,16 +110,12 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   }
 
   Widget TabBarScrollCardapioCategorias() {
-
-   return  Container(
+    return Container(
       margin: EdgeInsets.all(6),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            CupertinoColors.activeOrange,
-            cor2
-          ],
+          colors: [CupertinoColors.activeOrange, cor2],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -125,23 +132,26 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
       child: TabBar(
         controller: _tabController,
         labelColor: Colors.white,
-        labelPadding: const EdgeInsets.all(6),
+        labelPadding: EdgeInsets.all(6),
         isScrollable: true,
         unselectedLabelColor: Colors.black,
-        //indicator: CircleTabIndicator(color: Colors.purpleAccent,radius: 64.0),
-        tabs: [
-          for (var index = 0; index <     controller.menuCategorias.MenuCategorias_Array.length; index++)
-            _buildTabBarMenuGradiente( controller.menuCategorias.MenuCategorias_Array[index].nome,
-                controller.menuCategorias.MenuCategorias_Array[index].iconPath, index)
-        ],
+        tabs: List<Widget>.generate(
+          controller.menuCategorias.MenuCategorias_Array.length,
+              (index) {
+            var categoria = controller.menuCategorias.MenuCategorias_Array[index];
+            return _buildTabBarMenuGradiente(
+              categoria.nome,
+              categoria.iconPath ?? categoria.img, // Passa o Icon ou a Image
+              index,
+            );
+          },
+        ),
       ),
+
     );
-
-
   }
 
-  Widget _buildTabBarMenuGradiente(String nome, Icon iconPath, int index) {
-
+  Widget _buildTabBarMenuGradiente(String nome, Widget? iconPath, int index) {
     return Obx(() {
       bool isSelected = menuController.produtoIndex.value == index;
 
@@ -157,9 +167,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
           decoration: BoxDecoration(
             border: Border.all(color: Colors.white, width: 1),
             borderRadius: BorderRadius.circular(30),
-            boxShadow:  const [
+            boxShadow: const [
               BoxShadow(
-                offset:  Offset(0.5, 1),
+                offset: Offset(0.5, 1),
                 blurRadius: 5,
                 spreadRadius: 2,
                 color: Colors.yellow,
@@ -168,15 +178,21 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
             gradient: isSelected
                 ? LinearGradient(colors: [Colors.greenAccent, Colors.green])
                 : LinearGradient(colors: [
-                    Colors.deepPurple.shade100,
-                    CupertinoColors.activeBlue.highContrastElevatedColor
-                  ]),
+              Colors.deepPurple.shade100,
+              CupertinoColors.activeBlue.highContrastElevatedColor
+            ]),
           ),
           child: Center(
-            child: CustomTab(
-              text: nome,
-              iconPath: iconPath,
-              isSelected: isSelected,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (iconPath != null) ...[
+                  iconPath, // Renderiza o widget (Icon ou Image)
+                  SizedBox(height: 8),
+                ],
+
+                CustomText(text: nome,color: isSelected ? Colors.white : Colors.black,size: 12,)
+              ],
             ),
           ),
         ),
@@ -184,34 +200,19 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
     });
   }
 
+
   //! CARDS PRODUTOS
 
-    Widget TabBarViewCardapioProdutosDetails() {
-    List<ProdutoModel> produtosCarregados = controller.repositoryController.dataBase_Array;
-
-    // Use MediaQuery para obter o tamanho da tela
-    final screenSize = MediaQuery.of(context).size;
-
+  Widget TabBarViewCardapioProdutosDetails() {
     return Obx(() {
-      return Container(
-        padding: EdgeInsets.all(
-            screenSize.height * 0.02), // Exemplo de uso de tamanho relativo
-        width: screenSize.width,
-        height: screenSize.height,
-
-        child:  TabBarView(
-          controller: _tabController,
-          children: [
-            //BlurCardWidget(CardProdutosFiltrados(categoria_selecionada:  menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome), screenSize.height, screenSize.width),
-            for (var index = 0; index < produtosCarregados.length; index++)
-              CardsProdutosFIltrados(categoria_selecionada: produtosCarregados[index].nome),
-
-          ],
-        ),
+      return TabBarView(
+        controller: _tabController,
+        children: controller.menuCategorias.MenuCategorias_Array.map((categoria) {
+          return CardsProdutosFIltrados(categoria_selecionada: categoria.nome);
+        }).toList(),
       );
     });
   }
-
 
 
   @override

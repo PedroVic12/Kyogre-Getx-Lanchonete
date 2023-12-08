@@ -20,35 +20,35 @@ import '../../../Carrinho/views/modalCarrinho.dart';
 import '../DetailsPage/details_page.dart';
 import '../Menu Tab/menu_tab_bar_widget.dart';
 
-
 class CardsProdutosFIltrados extends StatefulWidget {
-
-
   final String categoria_selecionada;
 
-  const CardsProdutosFIltrados({super.key, required this.categoria_selecionada});
+  const CardsProdutosFIltrados(
+      {super.key, required this.categoria_selecionada});
 
   @override
   State<CardsProdutosFIltrados> createState() => _CardsProdutosFIltradosState();
 }
 
 class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
-
-
   @override
   Widget build(BuildContext context) {
     // Acessando os controladores
-    final RepositoryDataBaseController repositoryController = Get.find<RepositoryDataBaseController>();
-    final CarrinhoController carrinhoController = Get.find<CarrinhoController>();
-    final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
-    final MenuProdutosController menuController =Get.find<MenuProdutosController>();
+    final RepositoryDataBaseController repositoryController =
+        Get.find<RepositoryDataBaseController>();
+    final CarrinhoController carrinhoController =
+        Get.find<CarrinhoController>();
+    final MenuProdutosRepository menuCategorias =
+        Get.find<MenuProdutosRepository>();
+    final MenuProdutosController menuController =
+        Get.find<MenuProdutosController>();
     final pikachu = PikachuController();
-    final CardapioController cardapioController =Get.find<CardapioController>();
-
-
+    final CardapioController cardapioController =
+        Get.find<CardapioController>();
 
     var produtos = repositoryController.dataBase_Array;
-    var nome_categoria_selecionada = menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome;
+    var nome_categoria_selecionada = menuCategorias
+        .MenuCategorias_Array[menuController.produtoIndex.value].nome;
 
     final screenSize = MediaQuery.of(context).size;
 
@@ -57,24 +57,16 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
       child: Column(
         children: [
           _headerProdutos(nome_categoria_selecionada),
-           displayProdutosFiltradosCategoria(nome_categoria_selecionada),
-
+          displayProdutosFiltradosCategoria(nome_categoria_selecionada),
         ],
       ),
     );
-
-
-
-
-
   }
 
   Widget _headerProdutos(categoria_selecionada) {
-
-    final MenuProdutosController menuController =Get.find<MenuProdutosController>();
-    final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
-
-
+    final MenuProdutosController menuController =     Get.find<MenuProdutosController>();
+    final MenuProdutosRepository menuCategorias =
+        Get.find<MenuProdutosRepository>();
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -84,9 +76,11 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
         children: [
           const Divider(height: 5, color: Colors.black),
           const Icon(CupertinoIcons.search, color: Colors.white),
-          const SizedBox(width: 16,),
+          const SizedBox(
+            width: 16,
+          ),
           CustomText(
-            text: '${menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome}',
+            text: '${menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome} - ${menuController.produtoIndex.value}',
             color: Colors.white,
             size: 18,
           ),
@@ -97,13 +91,11 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
     );
   }
 
-
-
   Widget displayProdutosFiltradosCategoria(String categoria) {
-
-    final CarrinhoPedidoController carrinho = Get.put(CarrinhoPedidoController());
-    final CardapioController cardapioController = Get.find<CardapioController>();
-
+    final CarrinhoPedidoController carrinho =
+        Get.put(CarrinhoPedidoController());
+    final CardapioController cardapioController =
+        Get.find<CardapioController>();
 
     // Defina o tamanho do ícone e o espaçamento
     double iconSize = 32;
@@ -112,10 +104,9 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
     // Calcule o raio do CircleAvatar
     double radius = (iconSize / 2) + padding;
 
-
-
     //TODO ESPERAR TUDO CARREGAR AQUI TAMBEM
-    var produtosFiltrados =  cardapioController.repositoryController.filtrarCategoria(categoria);
+    var produtosFiltrados =
+        cardapioController.repositoryController.filtrarCategoria(categoria);
 
     // Exibir um indicador de carregamento enquanto os produtos estão sendo filtrados
     if (produtosFiltrados.isEmpty) {
@@ -126,7 +117,6 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
         child: ListView.builder(
           itemCount: produtosFiltrados.length,
           itemBuilder: (context, index) {
-
             var produto = produtosFiltrados[index];
             return Card(
               margin: const EdgeInsets.all(6.0),
@@ -136,15 +126,16 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
                   padding: const EdgeInsets.all(8.0),
                   onTap: () {
                     //GetPage(name: '/NomeProduto', page: ()=> ItemDetailsPage( produto_selecionado: produto));
-                    Get.to(ItemDetailsPage( produto_selecionado: produto,));
+                    Get.to(ItemDetailsPage(
+                      produto_selecionado: produto,
+                    ));
                   },
                   leading: CircleAvatar(
                       backgroundColor: Colors.white,
                       radius: radius,
                       child: Center(
                         child: Icon(Icons.fastfood, size: iconSize),
-                      )
-                  ),
+                      )),
                   title: CustomText(
                     text: '${produto.nome}', // Use os dados reais do produto
                     size: 22,
@@ -162,14 +153,15 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
                       ),
                     ],
                   ),
-                  trailing: BotaoFloatArredondado(icone: CupertinoIcons.plus_circle_fill,
-                      onPress: (){
+                  trailing: BotaoFloatArredondado(
+                      icone: CupertinoIcons.plus_circle_fill,
+                      onPress: () {
                         carrinho.adicionarCarrinho(produto);
 
-                        cardapioController.repositoryController.pikachu.loadDataSuccess('Perfeito', 'Item ${produto.nome} adicionado!');
+                        cardapioController.repositoryController.pikachu
+                            .loadDataSuccess(
+                                'Perfeito', 'Item ${produto.nome} adicionado!');
                         cardapioController.toggleBarraInferior();
-
-
                       }),
                 ),
               ),
@@ -178,23 +170,27 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
         ),
       );
     }
-
   }
 
-
-  Widget BlurCardWidget(_child,size_h,size_w){
-
-
+  Widget BlurCardWidget(_child, size_h, size_w) {
     return GlassContainer(
       height: size_h,
       width: size_w,
       gradient: LinearGradient(
-        colors: [Colors.white.withOpacity(0.40), Colors.white.withOpacity(0.10)],
+        colors: [
+          Colors.white.withOpacity(0.40),
+          Colors.white.withOpacity(0.10)
+        ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
       borderGradient: LinearGradient(
-        colors: [Colors.white.withOpacity(0.60), Colors.white.withOpacity(0.10), Colors.lightBlueAccent.withOpacity(0.05), Colors.lightBlueAccent.withOpacity(0.6)],
+        colors: [
+          Colors.white.withOpacity(0.60),
+          Colors.white.withOpacity(0.10),
+          Colors.lightBlueAccent.withOpacity(0.05),
+          Colors.lightBlueAccent.withOpacity(0.6)
+        ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         stops: [0.0, 0.39, 0.40, 1.0],
@@ -212,14 +208,12 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
     );
   }
 
-
-
   Widget _carregandoProdutos() {
+    final RepositoryDataBaseController repositoryController =
+        Get.find<RepositoryDataBaseController>();
 
-    final RepositoryDataBaseController repositoryController = Get.find<RepositoryDataBaseController>();
-
-    return FutureBuilder (
-      future: repositoryController.fetchAllProducts(),
+    return FutureBuilder(
+      future: repositoryController.getProdutosDatabase(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
@@ -236,7 +230,6 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
                     color: Colors.blueGrey,
                     child: Text(
                         'Produtos JSON = ${repositoryController.dataBase_Array}')),
-
               ],
             ),
           );
@@ -244,8 +237,4 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
       },
     );
   }
-
-
-
 }
-

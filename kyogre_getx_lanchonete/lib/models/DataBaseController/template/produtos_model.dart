@@ -27,13 +27,6 @@ class Produto {
 
 
 
-
-
-
-
-
-
-
 class ProdutoModel {
   String nome;
   List<Map<String, dynamic>> precos;

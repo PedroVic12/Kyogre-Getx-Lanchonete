@@ -7,11 +7,11 @@ import '../../../../models/DataBaseController/repository_db_controller.dart';
 import '../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../Carrinho/CarrinhoController.dart';
 
-
 class MenuProdutosController extends GetxController {
   var produtoIndex = 0.obs;
   var categoriasCarregadas = false.obs;
-  final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
+  final MenuProdutosRepository menuCategorias =
+      Get.put(MenuProdutosRepository());
 
   //metodos
   void setProdutoIndex(int index) {
@@ -21,12 +21,10 @@ class MenuProdutosController extends GetxController {
   }
 
   void setCategoriasCarregadas(bool carregado) {
-
-    if(menuCategorias.MenuCategorias_Array.isNotEmpty){
+    if (menuCategorias.MenuCategorias_Array.isNotEmpty) {
       categoriasCarregadas.value = carregado;
       update();
     }
-
   }
 
   @override
@@ -35,8 +33,6 @@ class MenuProdutosController extends GetxController {
   }
 }
 
-
-
 class CardapioController extends GetxController {
   late String nomeCliente;
   late String telefoneCliente;
@@ -44,9 +40,12 @@ class CardapioController extends GetxController {
   var isLoadingCardapio = true.obs;
 
   // Acessando os controladores]
-  final MenuProdutosController menuGradiente = Get.put(MenuProdutosController());
-  final MenuProdutosRepository menuCategorias =  Get.put(MenuProdutosRepository());
-  final RepositoryDataBaseController repositoryController =  Get.put(RepositoryDataBaseController());
+  final MenuProdutosController menuGradiente =
+      Get.put(MenuProdutosController());
+  final MenuProdutosRepository menuCategorias =
+      Get.put(MenuProdutosRepository());
+  final RepositoryDataBaseController repositoryController =
+      Get.put(RepositoryDataBaseController());
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
   final pikachu = PikachuController();
 
@@ -56,6 +55,7 @@ class CardapioController extends GetxController {
     setupCardapioDigitalWeb();
     update();
   }
+
   bool mostrarBarraInferior = true;
 
   void toggleBarraInferior() {
@@ -63,11 +63,10 @@ class CardapioController extends GetxController {
     update();
   }
 
-  setIdPage(_id){
+  setIdPage(_id) {
     idPedido = _id;
     update();
   }
-
 
   Future initPage() async {
     await Future.delayed(Duration(seconds: 5), () async {
@@ -129,11 +128,9 @@ class CardapioController extends GetxController {
       update();
     } catch (e) {
       print('---> Erro ao carregar dados: $e');
-    }
-    finally {
+    } finally {
       if (repositoryController.dataBase_Array.isNotEmpty &&
-          menuCategorias.MenuCategorias_Array.isNotEmpty
-      ) {
+          menuCategorias.MenuCategorias_Array.isNotEmpty) {
         pikachu.cout('\nCategorias = ${menuCategorias.MenuCategorias_Array}');
         pikachu.cout('\nRepository = ${repositoryController.dataBase_Array}');
 
@@ -147,8 +144,5 @@ class CardapioController extends GetxController {
         }
       }
     }
-
-
   }
-
 }

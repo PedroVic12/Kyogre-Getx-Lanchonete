@@ -40,10 +40,13 @@ class ItemDetailsPage extends StatelessWidget {
 
           detalhesProdutos(),
 
-          RadioButtonGroup(
-            niveis: form_controller.niveis,
-            nivelSelecionado: form_controller.nivelSelecionado,
-          ),
+
+         Obx(() {
+           return  RadioButtonGroup(
+             niveis: form_controller.niveis,
+             nivelSelecionado: form_controller.nivelSelecionado,
+           );
+         }),
 
 
           CaixaDeTexto(

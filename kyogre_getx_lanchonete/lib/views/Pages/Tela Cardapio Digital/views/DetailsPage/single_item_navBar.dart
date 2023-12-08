@@ -27,6 +27,7 @@ class SingleItemNavBar extends StatelessWidget {
               children: [
                 SizedBox(height: 15,),
                 CustomText(text: 'Total: R\$ ${carrinho.totalPrice.toStringAsFixed(2)}', size: 18, color: Colors.black,),
+
               ],
             ),),
             SizedBox(width: 15,),

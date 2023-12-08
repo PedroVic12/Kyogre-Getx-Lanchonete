@@ -29,11 +29,15 @@ class IconePersonalizado extends StatelessWidget {
 
 
 class CategoriaModel {
-  String nome;
-  Icon iconPath;
-  Color boxColor;
+  // Only `nome` is required
+  final String nome;
+  final Icon? iconPath; // Alterado para aceitar qualquer Widget
+  final Image? img; // Marked as optional
 
-  CategoriaModel(
-      {required this.nome, required this.iconPath, required this.boxColor});
+  // Constructor accepts named arguments for all properties
+  CategoriaModel({
+    required this.nome,
+    this.iconPath,
+    this.img,
+  });
 }
-

@@ -41,11 +41,11 @@ class MenuProdutosRepository extends GetxController {
       MenuCategorias_Array.addAll([
         CategoriaModel(
           nome: 'Sanduiches',
-          iconPath: Icon(Icons.fastfood_rounded,),
+          iconPath: const Icon(Icons.fastfood_rounded ,size: 24,),
         ),
         CategoriaModel(
           nome: 'Salgados',
-          iconPath: Icon(Icons.local_pizza_rounded),
+          iconPath: Icon(Icons.local_pizza_rounded ,size: 24,),
         ),
         CategoriaModel(
           nome: 'Açai e Pitaya',
@@ -57,27 +57,27 @@ class MenuProdutosRepository extends GetxController {
         ),
         CategoriaModel(
           nome: 'Hamburguer',
-          iconPath: Icon(Icons.local_drink),
+          iconPath: Icon(Icons.local_drink ,size: 24,),
         ),
         CategoriaModel(
           nome: 'Cuscuz de Milho',
-          iconPath: Icon(Icons.egg_alt_rounded),
+          iconPath: Icon(Icons.egg_alt_rounded ,size: 24,),
         ),
         CategoriaModel(
           nome: 'Omelete',
-          iconPath: Icon(Icons.egg_alt_rounded),
+          iconPath: Icon(Icons.egg_alt_rounded ,size: 24,),
         ),
         CategoriaModel(
           nome: 'Crepe',
-          iconPath: Icon(Icons.fastfood_rounded),
+          iconPath: Icon(Icons.fastfood_rounded ,size: 24,),
         ),
         CategoriaModel(
           nome: 'Tapioca',
-          iconPath: Icon(Icons.fastfood_rounded),
+          iconPath: Icon(Icons.fastfood_rounded ,size: 24,),
         ),
         CategoriaModel(
           nome: 'Cafeteria',
-          iconPath: Icon(Icons.coffee),
+          iconPath: Icon(Icons.coffee ,size: 24,),
         ),
         CategoriaModel(
           nome: 'Bebidas',

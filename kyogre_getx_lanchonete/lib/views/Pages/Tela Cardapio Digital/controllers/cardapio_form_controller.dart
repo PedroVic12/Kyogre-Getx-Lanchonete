@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,16 +9,15 @@ class CardapioFormController extends GetxController {
   final observacoesDique = TextEditingController();
   var nivelSelecionado = ''.obs;
 
-
   final CardapioController controller = Get.put(CardapioController());
 
-  void setDados(){
-   var ArrayPrecos = controller.repositoryController.dataBase_Array[3].precos;
-   print(ArrayPrecos);
+  void setDados() {
+    var ArrayPrecos = controller.repositoryController.dataBase_Array[3].precos;
+    print(ArrayPrecos);
   }
-  var niveis = <String>['Pequeno', 'Medio'].obs;
-}
 
+  var niveis = <String>['Pequeno (300ML)', 'Medio(500ML)'].obs;
+}
 
 class CaixaDeTexto extends StatelessWidget {
   final TextEditingController controller;
@@ -51,7 +49,7 @@ class CaixaDeTexto extends StatelessWidget {
             border: OutlineInputBorder(),
             label: Padding(
               padding:
-              const EdgeInsets.only(left: 12.0), // Seu valor de padding
+                  const EdgeInsets.only(left: 12.0), // Seu valor de padding
               child: Text(
                 labelText,
                 style: const TextStyle(

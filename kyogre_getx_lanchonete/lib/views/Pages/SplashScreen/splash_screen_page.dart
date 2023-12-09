@@ -180,7 +180,6 @@ class SplashController extends GetxController {
   }
 
   Future<void> navegarParaTelaCardapio() async {
-
     //final groundon = backEndWhatsapp();
 
     String id = '7313';

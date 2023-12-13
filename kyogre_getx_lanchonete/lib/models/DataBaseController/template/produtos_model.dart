@@ -29,24 +29,29 @@ class Produto {
 
 class ProdutoModel {
   String nome;
-  List<Map<String, dynamic>> precos;
-  List<String>? ingredientes;
-  String? imagem;
   String categoria;
+  double preco_1;
+  String? sub_categoria;
+  double? preco_2;
+  String? ingredientes;
+  String? imagem;
 
   ProdutoModel({
     required this.nome,
-    required this.precos,
+    required this.preco_1,
+    required this.categoria,
+    this.sub_categoria,
+    this.preco_2,
     this.ingredientes,
     this.imagem,
-    required this.categoria,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'nome': nome,
       'categoria': categoria,
-      'precos': precos,
+      'preco_1': preco_1,
+      'preco_2': preco_2,
       'ingredientes': ingredientes,
       'imagem': imagem
     };
@@ -55,11 +60,12 @@ class ProdutoModel {
   // Factory constructor para converter JSON em um objeto ProdutoModel
   factory ProdutoModel.fromJson(Map<String, dynamic> json) {
     return ProdutoModel(
-      nome: json['nome'],
-      categoria: json['categoria'],
-      precos: _extrairPrecos(json),
-      ingredientes: json['ingredientes']?.cast<String>(),
-      imagem: json['imagem'],
+      nome: json['NOME'],
+      categoria: json['CATEGORIA'],
+      preco_1: json['preco_1'],
+      preco_2: json['preco_2'],
+      ingredientes: json['IGREDIENTES'],
+      imagem: json['IMAGEM'],
     );
   }
 

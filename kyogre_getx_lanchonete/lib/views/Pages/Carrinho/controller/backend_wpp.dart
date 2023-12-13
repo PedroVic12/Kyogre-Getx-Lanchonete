@@ -61,7 +61,7 @@ class GroundonBackEndController extends GetxController {
       itensPedido.add({
         "quantidade": quantidade,
         "nome": produto.nome,
-        "preco": produto.precos[0]['preco']
+        "preco": produto.preco_1
       });
     });
 
@@ -110,7 +110,7 @@ class GroundonBackEndController extends GetxController {
     final items = carrinho.SACOLA.entries.map((entry) {
       final produto = entry.key;
       final quantidade = entry.value;
-      return "\n${quantidade}x ${produto.nome} (R\$ ${produto.precos[0]['preco']})";
+      return "\n${quantidade}x ${produto.nome} (R\$ ${produto.preco_1})";
     }).join('\n');
 
     // Calcula o tempo de entrega

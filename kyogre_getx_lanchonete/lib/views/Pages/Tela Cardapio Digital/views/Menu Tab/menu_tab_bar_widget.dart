@@ -161,7 +161,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
           _tabController.animateTo(index);
         },
         child: Container(
-          width: 120,
+          width: 110,
           height: 80,
           margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
           decoration: BoxDecoration(
@@ -188,10 +188,10 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
               children: [
                 if (iconPath != null) ...[
                   iconPath, // Renderiza o widget (Icon ou Image)
-                  SizedBox(height: 8),
+                  SizedBox(height: 5),
                 ],
 
-                CustomText(text: nome,color: isSelected ? Colors.white : Colors.black,size: 12,)
+                CustomText(text: nome,color: isSelected ? Colors.white : Colors.black,size: 13,)
               ],
             ),
           ),

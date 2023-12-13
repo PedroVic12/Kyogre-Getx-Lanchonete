@@ -40,52 +40,52 @@ class MenuProdutosRepository extends GetxController {
       // Adicione itens apenas se a lista estiver vazia para evitar duplicatas
       MenuCategorias_Array.addAll([
         CategoriaModel(
-          nome: 'Sanduiches',
-          iconPath: const Icon(Icons.fastfood_rounded ,size: 24,),
+          nome: 'Sanduíches',
+          iconPath: const Icon(Icons.fastfood_rounded ,size: 28,),
         ),
         CategoriaModel(
           nome: 'Salgados',
-          iconPath: Icon(Icons.local_pizza_rounded ,size: 24,),
+          iconPath: Icon(Icons.local_pizza_rounded ,size: 28,),
         ),
         CategoriaModel(
           nome: 'Açai e Pitaya',
-          img: Image.asset('lib/repository/icons/acai.jpg',height: 20, width: 20,),
+          img: Image.asset('lib/repository/icons/acai_bowl.png',height: 28, width: 28,),
         ),
         CategoriaModel(
           nome: 'Sobremesas',
-          img: Image.asset('lib/repository/icons/cake.png',height: 20, width: 20,),
+          img: Image.asset('lib/repository/icons/cake.png',height: 28, width: 28,),
         ),
         CategoriaModel(
           nome: 'Hamburguer',
-          iconPath: Icon(Icons.local_drink ,size: 24,),
+          iconPath: Icon(Icons.local_drink ,size: 28,),
         ),
         CategoriaModel(
           nome: 'Cuscuz de Milho',
-          iconPath: Icon(Icons.egg_alt_rounded ,size: 24,),
+          iconPath: Icon(Icons.egg_alt_rounded ,size: 28,),
         ),
         CategoriaModel(
           nome: 'Omelete',
-          iconPath: Icon(Icons.egg_alt_rounded ,size: 24,),
+          iconPath: Icon(Icons.egg_alt_rounded ,size: 28,),
         ),
         CategoriaModel(
           nome: 'Crepe',
-          iconPath: Icon(Icons.fastfood_rounded ,size: 24,),
+          iconPath: Icon(Icons.fastfood_rounded ,size: 28,),
         ),
         CategoriaModel(
           nome: 'Tapioca',
-          iconPath: Icon(Icons.fastfood_rounded ,size: 24,),
+          iconPath: Icon(Icons.fastfood_rounded ,size: 28,),
         ),
         CategoriaModel(
           nome: 'Cafeteria',
-          iconPath: Icon(Icons.coffee ,size: 24,),
+          iconPath: Icon(Icons.coffee ,size: 28,),
         ),
         CategoriaModel(
           nome: 'Bebidas',
-          img: Image.asset('lib/repository/icons/drink.png',height: 20, width: 20,),
+          img: Image.asset('lib/repository/icons/drink.png',height: 28, width: 28,),
         ),
         CategoriaModel(
           nome: 'Sucos',
-          img: Image.asset('lib/repository/icons/cocktail.png',height: 20, width: 20,),
+          img: Image.asset('lib/repository/icons/cocktail.png',height: 28, width: 28),
         ),
       ]);
     }

@@ -68,7 +68,7 @@ class ItemDetailsPage extends StatelessWidget {
             size: 32,
           ),
         ),
-        CustomText(text: produto_selecionado.nome),
+        CustomText(text: produto_selecionado.nome,color: Colors.white, size: 24,),
         InkWell(
           //onTap: ()=> carrinho.adicionarCarrinho(produto),
           onTap: () => Get.to(CarrinhoPage()),
@@ -161,9 +161,7 @@ class ItemDetailsPage extends StatelessWidget {
           ],
         ),
         CustomText(
-          text: '\nIngredientes: ${produto_selecionado.ingredientes?.map((ingrediente) {
-                return '${ingrediente[0].toUpperCase()}${ingrediente.substring(1)}';
-              }).join(', ') ?? 'N/A'}', // 'N/A' é o texto padrão se não houver ingredientes
+          text: '\nIngredientes: ${produto_selecionado.ingredientes ?? 'N/A'}',
           size: 20,
           color: Colors.white,
           weight: FontWeight.bold,

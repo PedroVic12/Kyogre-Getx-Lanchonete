@@ -82,7 +82,5 @@ void main() {
   for (var produto in produtos) {
     print(produto.categoria);
     print('\nProduto: ${produto.nome}');
-    print('Preços: ${produto.precos.map((p) => p['preco']).join(', ')}');
-    print('Ingredientes: ${produto.ingredientes?.join(', ')}');
   }
 }

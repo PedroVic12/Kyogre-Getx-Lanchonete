@@ -13,7 +13,7 @@ class CarrinhoPedidoController extends GetxController{
 
   double get totalPrice {
     return SACOLA.entries
-        .map((product) => (product.key.precos.first['preco'] ?? 0.0) * product.value)
+        .map((product) => (product.key.preco_1 ?? 0.0) * product.value)
         .fold(0.0, (previousValue, element) => previousValue + element);
   }
 
@@ -42,7 +42,7 @@ class CarrinhoPedidoController extends GetxController{
 
   double updateTotalPrice() {
     var price = SACOLA.entries
-        .map((product) => (product.key.precos.first['preco'] ?? 0.0) * product.value)
+        .map((product) => (product.key.preco_1 ?? 0.0) * product.value)
         .fold(0.0, (previousValue, element) => previousValue + element);
 
     return price;

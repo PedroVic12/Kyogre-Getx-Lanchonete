@@ -3,22 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:kyogre_getx_lanchonete/themes%20/cores.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/pikachu_controller.dart';
-
-import '../../../../../app/widgets/Barra Inferior/BarraInferior.dart';
 import '../../../../../app/widgets/Botoes/float_custom_button.dart';
 import '../../../../../app/widgets/Custom/CustomText.dart';
 import '../../../../../app/widgets/Utils/loading_widget.dart';
 import '../../../../../models/DataBaseController/repository_db_controller.dart';
-import '../../../../../models/DataBaseController/template/produtos_model.dart';
 import '../../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../../Carrinho/CarrinhoController.dart';
 import '../../../Carrinho/controller/sacola_controller.dart';
 import '../../../Carrinho/views/modalCarrinho.dart';
 import '../DetailsPage/details_page.dart';
-import '../Menu Tab/menu_tab_bar_widget.dart';
 
 class CardsProdutosFIltrados extends StatefulWidget {
   final String categoria_selecionada;
@@ -98,7 +93,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
         Get.find<CardapioController>();
 
     // Defina o tamanho do ícone e o espaçamento
-    double iconSize = 32;
+    double iconSize = 64;
     double padding = 128;
 
     // Calcule o raio do CircleAvatar
@@ -118,35 +113,117 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
           itemCount: produtosFiltrados.length,
           itemBuilder: (context, index) {
             var produto = produtosFiltrados[index];
+
+            String? pathImg;
+            if (produto.imagem != null) {
+              List<String>? imagens = produto.imagem?.split('|');
+              pathImg = 'lib/repository/assets/FOTOS/${imagens?[0].trim()}';
+              cardapioController.pikachu.cout("Img = $pathImg");
+            }
+
+
+            return Container(
+              margin: EdgeInsets.all(6),
+              color: Colors.white10,
+              height: 100,
+              child: Card(
+                elevation: 3,
+                child: Row(
+                  children: [
+                    //Leading
+                    Expanded(flex: 25, child: pathImg != null
+                        ? Padding(padding: EdgeInsets.all(12),child: Image.asset(
+                      pathImg,
+                      fit: BoxFit.cover,
+                    ),)
+                        : Center(child: Icon(Icons.fastfood, size: 48)), ),
+
+                    //Title and Subtitle
+                    Expanded(flex: 70,child: Row(
+                      children: [
+                        Expanded(
+                          flex: 25,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center, // Centraliza os filhos na vertical
+                            crossAxisAlignment: CrossAxisAlignment.start, // Alinha os filhos ao início na horizontal
+                            children: [
+                              CustomText(
+                                text: '${produto.nome}',
+                                size: 22,
+                                weight: FontWeight.bold,
+                              ),
+                              CustomText( // Texto alinhado à esquerda
+                                text: 'R\$ ${produto.preco_1} Reais',
+                                size: 16,
+                                color: Colors.green,
+                                weight: FontWeight.bold,
+                              ),
+                            ],
+                          ),
+                        ),
+
+
+                        //Trailing
+                        Expanded(flex: 10,child: BotaoFloatArredondado(
+                            icone: CupertinoIcons.plus_circle_fill,
+                            onPress: () {
+                              Get.to(ItemDetailsPage(produto_selecionado: produto,   ));
+                              carrinho.adicionarCarrinho(produto);
+
+                              cardapioController.repositoryController.pikachu
+                                  .loadDataSuccess('Perfeito', 'Item ${produto.nome} adicionado!');
+
+                              cardapioController.toggleBarraInferior();
+                            }), )
+                      ],
+                    ))
+                  ],
+                ),
+              ),
+            );
+
+
             return Card(
-              margin: const EdgeInsets.all(6.0),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CupertinoListTile(
                   padding: const EdgeInsets.all(8.0),
                   onTap: () {
-                    //GetPage(name: '/NomeProduto', page: ()=> ItemDetailsPage( produto_selecionado: produto));
-                    Get.to(ItemDetailsPage(
-                      produto_selecionado: produto,
-                    ));
+                 //   GetPage(name: '/${produto.nome}', page: ()=> ItemDetailsPage( produto_selecionado: produto));
                   },
-                  leading: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: radius,
-                      child: Center(
-                        child: Icon(Icons.fastfood, size: iconSize),
-                      )),
-                  title: CustomText(
+                 leading: Container(
+                  width: 250,
+                  height: 250,
+                  decoration: BoxDecoration(
+                    color: Colors.grey, // Cor de fundo se não houver imagem
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100), // Raio para arredondar a imagem
+                    child: pathImg != null
+                        ? Image.asset(
+                      pathImg,
+                      fit: BoxFit.cover, // Ajusta a imagem para cobrir todo o espaço
+                      width: 200,
+                      height: 200,
+                    )
+                        : Center(child: Icon(Icons.fastfood, size: 64)), // Ícone grande se não houver imagem
+                  ),
+                ),
+
+
+                title: CustomText(
                     text: '${produto.nome}', // Use os dados reais do produto
                     size: 22,
                     weight: FontWeight.bold,
                   ),
+
+
+
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        //text:'Preços: ${produto.precos.map((p) => p['preco']).join(' | ')}',
-                        text: 'R\$ ${produto.precos[0]['preco']} Reais',
+                        text: 'R\$ ${produto.preco_1} Reais',
                         size: 16,
                         color: Colors.green,
                         weight: FontWeight.bold, // Exemplo de uso do preço
@@ -156,11 +233,12 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
                   trailing: BotaoFloatArredondado(
                       icone: CupertinoIcons.plus_circle_fill,
                       onPress: () {
+                        Get.to(ItemDetailsPage(produto_selecionado: produto,   ));
                         carrinho.adicionarCarrinho(produto);
 
                         cardapioController.repositoryController.pikachu
-                            .loadDataSuccess(
-                                'Perfeito', 'Item ${produto.nome} adicionado!');
+                            .loadDataSuccess('Perfeito', 'Item ${produto.nome} adicionado!');
+
                         cardapioController.toggleBarraInferior();
                       }),
                 ),

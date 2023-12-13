@@ -81,7 +81,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - lib/repository/assets/
+    - lib/repository/assets/files/
+    - lib/repository/assets/FOTOS/
+    - lib/repository/cardapio/
     - lib/repository/icons/
     - lib/repository/models/
 

@@ -33,7 +33,7 @@ class SplashScreen extends StatelessWidget {
                 child: _buildLinhaDeIcones(),
               ),
               AnimatedContainer(
-                duration: const Duration(milliseconds: 12000),
+                duration: const Duration(milliseconds: 7000),
                 onEnd: _controller.initSplashScreen,
                 curve: Curves.fastLinearToSlowEaseIn,
                 alignment: Alignment.center,
@@ -50,7 +50,7 @@ class SplashScreen extends StatelessWidget {
                     child: Padding(
                         padding: const EdgeInsets.all(32),
                         child: Image.asset(
-                          'lib/repository/assets/citta_logo_light.png',
+                          'lib/repository/assets/files/citta_logo_light.png',
                           height: 200,
                           width: 200,
                           alignment: Alignment.center,

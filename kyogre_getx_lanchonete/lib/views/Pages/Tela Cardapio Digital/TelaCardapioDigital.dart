@@ -141,7 +141,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
                       text: '\n\nProduto: ${item.nome}',
                     ),
                     CustomText(text: 'Categoria: ${item.categoria}'),
-                    CustomText(text: 'Precos: ${item.precos}')
+                    CustomText(text: 'Precos: ${item.preco_1}')
                   ],
                 ));
               },

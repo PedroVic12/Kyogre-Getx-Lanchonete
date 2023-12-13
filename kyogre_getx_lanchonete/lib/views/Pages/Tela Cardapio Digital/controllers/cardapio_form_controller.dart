@@ -12,7 +12,7 @@ class CardapioFormController extends GetxController {
   final CardapioController controller = Get.put(CardapioController());
 
   void setDados() {
-    var ArrayPrecos = controller.repositoryController.dataBase_Array[3].precos;
+    var ArrayPrecos = controller.repositoryController.dataBase_Array[3].preco_1;
     print(ArrayPrecos);
   }
 

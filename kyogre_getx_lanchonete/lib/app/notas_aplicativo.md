@@ -47,7 +47,6 @@ Separe as responsabilidades em diferentes classes.
 Use nomes descritivos para variáveis, métodos e classes.
 Evite duplicação de código, buscando criar funções e componentes reutilizáveis.
 Mantenha a estrutura do projeto limpa e concisa.
-Lembre-se de explorar a documentação oficial do Flutter, realizar exercícios práticos e buscar exemplos de código para aprofundar ainda mais o seu aprendizado. Com esse cronograma, você estará bem preparado para criar layouts bonitos, implementar animações, trabalhar com entrada de dados, consumir APIs e implementar um CRUD completo. Boa sorte nos estudos e no desenvolvimento do projeto final!
 
 
 

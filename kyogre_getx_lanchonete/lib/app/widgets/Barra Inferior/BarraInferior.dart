@@ -71,8 +71,8 @@ class ModalInferior extends StatelessWidget {
              mainAxisAlignment: MainAxisAlignment.spaceBetween,
              children: [
                Icon(
-                 Icons.shopify_rounded,
-                 size: 20,
+                 Icons.shopping_cart_checkout_rounded,
+                 size: 22,
                  color: Colors.white,
                ),
                CustomText(

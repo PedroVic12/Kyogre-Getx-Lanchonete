@@ -65,7 +65,17 @@ class RepositoryDataBaseController extends GetxController {
       isLoading = false;
     }
   }
+  List<ProdutoModel> filtrarEOrdenarPorNome(String categoriaDesejada) {
+    // Filtra a lista com base na categoria desejada
+    List<ProdutoModel> produtosFiltrados = dataBase_Array
+        .where((produto) => produto.categoria == categoriaDesejada)
+        .toList();
 
+    // Ordena a lista filtrada por nome
+    produtosFiltrados.sort((a, b) => a.nome.compareTo(b.nome));
+
+    return produtosFiltrados;
+  }
   List<ProdutoModel> filtrarCategoria(String categoriaDesejada) {
     return dataBase_Array
         .where((produto) => produto.categoria == categoriaDesejada)

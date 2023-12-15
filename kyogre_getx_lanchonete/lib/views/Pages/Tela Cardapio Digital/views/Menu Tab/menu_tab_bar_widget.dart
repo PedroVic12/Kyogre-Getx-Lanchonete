@@ -58,14 +58,19 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
 
 
-
   void _handleTabSelection() {
-
-    controller.pikachu.cout('Menu atual = ${menuController.produtoIndex.value}');
-
-    if (_tabController.indexIsChanging) {
+    if (_tabController.indexIsChanging || _tabController.index != menuController.produtoIndex.value) {
       menuController.setProdutoIndex(_tabController.index);
       setState(() {}); // Isso forçará a reconstrução do widget para refletir a nova seleção
+    }
+  }
+  void selecionarLista([int? selectedIndex]) {
+    int newIndex = selectedIndex ?? _tabController.index;
+
+    if (newIndex != menuController.produtoIndex.value) {
+      menuController.setProdutoIndex(newIndex);
+      _tabController.animateTo(newIndex); // Isso garantirá que a aba correta seja selecionada no TabBar.
+      setState(() {}); // Isso forçará a reconstrução do widget para refletir a nova seleção.
     }
   }
 
@@ -101,23 +106,34 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (context) => AlertDialog(
+                builder: (context) => CupertinoAlertDialog(
                   actions: [
-                    TextButton(onPressed: () => Get.back(), child: Text('Fechar'))
+                    CupertinoDialogAction(
+                        child: const CustomText(text:'Fechar', weight: FontWeight.bold,),
+                        onPressed: () => Get.back()
+                    ),
                   ],
                   title: CustomText(text: 'Selecione uma categoria'),
-                  contentPadding: const EdgeInsets.all(12),
-                  content: SizedBox(
+                  content: Container(
                     height: 200, // Defina uma altura fixa para o ListView
                     child: ListView.builder(
                       itemCount: controller.menuCategorias.MenuCategorias_Array.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          title: Text(controller.menuCategorias.MenuCategorias_Array[index].nome),
-                          onTap: () {
-                            // Adicione a lógica para selecionar a categoria aqui
-                            Get.back();
-                          },
+                        bool isSelectedHeader = menuController.produtoIndex.value == index;
+
+                        return Material(
+                          color: Colors.grey.shade300,
+                          child: Column(children: [
+                            ListTile(
+                              focusColor: Colors.green,
+                              title: CustomText(text:controller.menuCategorias.MenuCategorias_Array[index].nome, color: isSelectedHeader ? Colors.green : Colors.black),
+                              onTap: () {
+                                selecionarLista(index);
+                                //Get.back();
+                              },
+                            ),
+                            Divider(height: 5,color: Colors.black,)
+                          ],)
                         );
                       },
                     ),

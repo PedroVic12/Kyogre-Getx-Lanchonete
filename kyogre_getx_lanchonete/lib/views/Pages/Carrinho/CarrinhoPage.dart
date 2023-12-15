@@ -20,7 +20,7 @@ class CarrinhoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Carrinho '),
+        title: Text('CARRINHO '),
       ),
 
       body: Obx(() {

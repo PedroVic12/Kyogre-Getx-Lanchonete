@@ -93,15 +93,18 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
 
     // Exibir um indicador de carregamento enquanto os produtos estão sendo filtrados
     final produtosFiltrados =  cardapioController.repositoryController.filtrarCategoria(categoria);
-    if (produtosFiltrados.isEmpty) {
+
+    var produtosOrdenados = cardapioController.repositoryController.filtrarEOrdenarPorNome(categoria);
+
+    if (produtosOrdenados.isEmpty) {
       return LoadingWidget();
     } else {
       // Exibir a lista de produtos filtrados
       return Expanded(
         child: ListView.builder(
-          itemCount: produtosFiltrados.length,
+          itemCount: produtosOrdenados.length,
           itemBuilder: (context, index) {
-            var produto = produtosFiltrados[index];
+            var produto = produtosOrdenados[index];
 
             String? pathImg;
             if (produto.imagem != null) {

@@ -114,7 +114,7 @@ class BotaoCarrinho2 extends StatelessWidget {
             child:  Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CustomText(text: 'Adicionar no Carrinho', size: 20, color: Colors.white,),
+                CustomText(text: 'Adicionar no Carrinho', size: 24, color: Colors.white,),
                 Icon(
                   Icons.shopping_cart_rounded,
                   color: Colors.white,

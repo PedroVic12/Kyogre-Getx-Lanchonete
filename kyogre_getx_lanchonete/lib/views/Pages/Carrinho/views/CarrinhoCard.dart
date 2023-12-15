@@ -18,10 +18,20 @@ class CardCarrinho extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    
+    String? pathImg;
+    if (produto.imagem != null) {
+      List<String>? imagens = produto.imagem?.split('|');
+       pathImg = 'lib/repository/assets/FOTOS/${imagens?[0].trim()}';
+    }
+
     return Card(
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: Colors.blueGrey,
+          radius: 64,
+          child: pathImg != null ? Image.network(pathImg!, fit: BoxFit.fill,) : Icon(Icons.no_food)
         ),
         title: CustomText(text: produto.nome,weight: FontWeight.bold,),
         trailing: SizedBox(
@@ -46,7 +56,7 @@ class CardCarrinho extends StatelessWidget {
             ],
           ),
         ),
-        //subtitle: CustomText(text: 'R\$ ${produto.precos}'), //TODO
+        subtitle: Column(children: [CustomText(text: '${produto.ingredientes}',size: 11,), CustomText(text: 'Observações')],)//TODO
       ),
     );
   }

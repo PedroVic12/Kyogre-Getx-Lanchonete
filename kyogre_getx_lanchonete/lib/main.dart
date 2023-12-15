@@ -14,6 +14,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDelivery
 import 'package:kyogre_getx_lanchonete/views/Pages/Layout/Layout.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/SplashScreen/splash_screen_page.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/TelaCardapioDigital.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/cardapio_qrcode.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/DetailsPage/details_page.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/menu_tab_bar_widget.dart';
@@ -51,16 +52,12 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/dash', page: () => DashboardPage()),
         GetPage(name: '/layoutDesign', page: () => const CartaoGridView()),
         GetPage(name: '/caosPage', page: () => const CaosPageWidget()),
-        GetPage(
-            name: '/details/:id',
-            page: () {
-              final id = Get.parameters['id']!;
-              return DetailsPage(id: id);
-            }),
+        GetPage(name: '/cardapioQR', page: () => const CardapioQrCode()),
+
         GetPage(
             name: '/pedido/:id',
             page: () {
-              var id = Get.parameters['id']!;
+              final id = Get.parameters['id']!;
 
               //id = '1998';
               return TelaCardapioDigital(id: id);

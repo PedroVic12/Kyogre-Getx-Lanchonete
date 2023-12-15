@@ -6,18 +6,16 @@ class CarrouselImagensWidget extends StatelessWidget {
   final ProdutoModel produto_selecionado;
   CarrouselImagensWidget({super.key, required this.produto_selecionado});
 
-  final List<String> imageList = [
-    'lib/repository/assets/app_bar.jpeg',
-    'lib/repository/assets/card_produto.jpeg',
-    'lib/repository/assets/Rio-de-Janeiro-CittaRJ-Catete-menu.jpg',
-    // Adicione mais imagens conforme necessário
-  ];
-
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    var imagensProduto = produto_selecionado.imagem;
-    print('Produto ${produto_selecionado.nome}: ${produto_selecionado.imagem}');
+
+    List<String>? imagens = produto_selecionado.imagem?.split('|').map((img) => 'lib/repository/assets/FOTOS/${img.trim()}').toList();
+
+    if (imagens == null || imagens.isEmpty) {
+      // Se não houver imagens, exiba um widget padrão
+      return Center(child: Text('Nenhuma imagem disponível'));
+    }
 
     return CarouselSlider(
       options: CarouselOptions(
@@ -30,12 +28,10 @@ class CarrouselImagensWidget extends StatelessWidget {
         autoPlayAnimationDuration: Duration(milliseconds: 1500),
         viewportFraction: 0.8,
       ),
-      items: imageList
-          .map((item) => Container(
-                child: Center(
-                    child: Image.asset(item, fit: BoxFit.cover, width: 500)),
-              ))
-          .toList(),
+      items: imagens.map((item) => Container(
+        child: Center(
+            child: Image.asset(item, fit: BoxFit.cover, width: 500)),
+      )).toList(),
     );
   }
 }

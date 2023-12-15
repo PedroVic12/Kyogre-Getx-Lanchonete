@@ -18,7 +18,6 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SplashController _controller = Get.put(SplashController());
-    final CardapioController cardapioController = Get.put(CardapioController());
 
     return Scaffold(
       backgroundColor: Colors.indigoAccent,

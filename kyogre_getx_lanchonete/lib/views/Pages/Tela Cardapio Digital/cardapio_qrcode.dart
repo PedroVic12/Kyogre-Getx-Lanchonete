@@ -59,7 +59,7 @@ class _CardapioQrCodeState extends State<CardapioQrCode> {
       appBar:  AppBar(
         title: Column(
           children: [
-            CustomText(text: 'Citta RJ ${nomesLojas[0]}| ',color: Colors.white,size: 20)
+            CustomText(text: 'Citta RJ ${nomesLojas[0]}',color: Colors.white,size: 20)
           ],
         ),
         backgroundColor: CupertinoColors.black,

@@ -17,7 +17,7 @@ class BotoesIcone extends StatelessWidget {
     return Padding(padding: EdgeInsets.all(1),child: Container(
         decoration: BoxDecoration(
           color: cor,
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(32),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.8),

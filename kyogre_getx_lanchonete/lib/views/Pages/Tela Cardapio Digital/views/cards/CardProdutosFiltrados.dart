@@ -12,7 +12,6 @@ import '../../../../../models/DataBaseController/repository_db_controller.dart';
 import '../../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../../Carrinho/CarrinhoController.dart';
 import '../../../Carrinho/controller/sacola_controller.dart';
-import '../../../Carrinho/views/modalCarrinho.dart';
 import '../DetailsPage/details_page.dart';
 
 class CardsProdutosFIltrados extends StatefulWidget {
@@ -31,13 +30,10 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
     // Acessando os controladores
     final RepositoryDataBaseController repositoryController =
         Get.find<RepositoryDataBaseController>();
-    final CarrinhoController carrinhoController =
-        Get.find<CarrinhoController>();
     final MenuProdutosRepository menuCategorias =
         Get.find<MenuProdutosRepository>();
     final MenuProdutosController menuController =
         Get.find<MenuProdutosController>();
-    final pikachu = PikachuController();
     final CardapioController cardapioController =
         Get.find<CardapioController>();
 
@@ -60,8 +56,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
 
   Widget _headerProdutos(categoria_selecionada) {
     final MenuProdutosController menuController =     Get.find<MenuProdutosController>();
-    final MenuProdutosRepository menuCategorias =
-        Get.find<MenuProdutosRepository>();
+    final MenuProdutosRepository menuCategorias =     Get.find<MenuProdutosRepository>();
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -70,7 +65,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const Divider(height: 5, color: Colors.black),
-          const Icon(CupertinoIcons.search, color: Colors.white),
+          const Icon(CupertinoIcons.arrow_right_square_fill, color: Colors.white),
           const SizedBox(
             width: 16,
           ),
@@ -79,31 +74,25 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
             color: Colors.white,
             size: 18,
           ),
-
-          // CustomText(text: 'Categoria = ${repositoryController.my_array[7].categoria}',          color: Colors.white,         size: 18,         ),
         ],
       ),
     );
   }
 
   Widget displayProdutosFiltradosCategoria(String categoria) {
-    final CarrinhoPedidoController carrinho =
-        Get.put(CarrinhoPedidoController());
-    final CardapioController cardapioController =
-        Get.find<CardapioController>();
+    final CarrinhoPedidoController carrinho =   Get.put(CarrinhoPedidoController());
+    final CardapioController cardapioController =  Get.find<CardapioController>();
 
     // Defina o tamanho do ícone e o espaçamento
-    double iconSize = 64;
+    double iconSize = 32;
     double padding = 128;
 
     // Calcule o raio do CircleAvatar
     double radius = (iconSize / 2) + padding;
 
-    //TODO ESPERAR TUDO CARREGAR AQUI TAMBEM
-    var produtosFiltrados =
-        cardapioController.repositoryController.filtrarCategoria(categoria);
 
     // Exibir um indicador de carregamento enquanto os produtos estão sendo filtrados
+    final produtosFiltrados =  cardapioController.repositoryController.filtrarCategoria(categoria);
     if (produtosFiltrados.isEmpty) {
       return LoadingWidget();
     } else {
@@ -122,138 +111,88 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
             }
 
 
-            return Container(
-              margin: EdgeInsets.all(6),
-              color: Colors.white10,
-              height: 100,
-              child: Card(
-                elevation: 3,
-                child: Row(
-                  children: [
-                    //Leading
-                    Expanded(flex: 25, child: pathImg != null
-                        ? Padding(padding: EdgeInsets.all(12),child: Image.asset(
-                      pathImg,
-                      fit: BoxFit.cover,
-                    ),)
-                        : Center(child: Icon(Icons.fastfood, size: 48)), ),
+            return InkWell(
 
-                    //Title and Subtitle
-                    Expanded(flex: 70,child: Row(
-                      children: [
-                        Expanded(
-                          flex: 25,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center, // Centraliza os filhos na vertical
-                            crossAxisAlignment: CrossAxisAlignment.start, // Alinha os filhos ao início na horizontal
-                            children: [
-                              CustomText(
-                                text: '${produto.nome}',
-                                size: 22,
-                                weight: FontWeight.bold,
-                              ),
-                              CustomText( // Texto alinhado à esquerda
-                                text: 'R\$ ${produto.preco_1} Reais',
-                                size: 16,
-                                color: Colors.green,
-                                weight: FontWeight.bold,
-                              ),
-                            ],
-                          ),
-                        ),
+              onTap: () {
+                Get.to(ItemDetailsPage(produto_selecionado: produto,   ));
+                //   GetPage(name: '/${produto.nome}', page: ()=> ItemDetailsPage( produto_selecionado: produto));f
+              },
 
-
-                        //Trailing
-                        Expanded(flex: 10,child: BotaoFloatArredondado(
-                            icone: CupertinoIcons.plus_circle_fill,
-                            onPress: () {
-                              Get.to(ItemDetailsPage(produto_selecionado: produto,   ));
-                              carrinho.adicionarCarrinho(produto);
-
-                              cardapioController.repositoryController.pikachu
-                                  .loadDataSuccess('Perfeito', 'Item ${produto.nome} adicionado!');
-
-                              cardapioController.toggleBarraInferior();
-                            }), )
-                      ],
-                    ))
-                  ],
-                ),
-              ),
-            );
-
-
-            return Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CupertinoListTile(
-                  padding: const EdgeInsets.all(8.0),
-                  onTap: () {
-                 //   GetPage(name: '/${produto.nome}', page: ()=> ItemDetailsPage( produto_selecionado: produto));
-                  },
-                 leading: Container(
-                  width: 250,
-                  height: 250,
-                  decoration: BoxDecoration(
-                    color: Colors.grey, // Cor de fundo se não houver imagem
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100), // Raio para arredondar a imagem
-                    child: pathImg != null
-                        ? Image.asset(
-                      pathImg,
-                      fit: BoxFit.cover, // Ajusta a imagem para cobrir todo o espaço
-                      width: 200,
-                      height: 200,
-                    )
-                        : Center(child: Icon(Icons.fastfood, size: 64)), // Ícone grande se não houver imagem
-                  ),
-                ),
-
-
-                title: CustomText(
-                    text: '${produto.nome}', // Use os dados reais do produto
-                    size: 22,
-                    weight: FontWeight.bold,
-                  ),
-
-
-
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              child: Container(
+                margin: EdgeInsets.all(6),
+                color: Colors.white24,
+                height: 100,
+                child: Card(
+                  elevation: 3,
+                  child: Row(
                     children: [
-                      CustomText(
-                        text: 'R\$ ${produto.preco_1} Reais',
-                        size: 16,
-                        color: Colors.green,
-                        weight: FontWeight.bold, // Exemplo de uso do preço
-                      ),
+                      //Leading
+                      Expanded(flex: 30, child: pathImg != null
+                          ? Padding(padding: EdgeInsets.all(6),child:Image.asset(
+                        pathImg,
+                        fit: BoxFit.fill,
+                        //width: ,
+                      ))
+                          : Center(child: Icon(Icons.fastfood, size: 32)), ),
+
+                      //Title and Subtitle
+                      Expanded(flex: 70,child: Row(
+                        children: [
+                          Expanded(
+                            flex: 25,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center, // Centraliza os filhos na vertical
+                              crossAxisAlignment: CrossAxisAlignment.start, // Alinha os filhos ao início na horizontal
+                              children: [
+                                CustomText(
+                                  text: '${produto.nome}',
+                                  size: 22,
+                                  weight: FontWeight.bold,
+                                ),
+                                CustomText(
+                                  text: 'R\$ ${produto.preco_1} Reais',
+                                  size: 16,
+                                  color: Colors.green,
+                                  weight: FontWeight.bold,
+                                ),
+                              ],
+                            ),
+                          ),
+
+
+                          //Trailing
+                          Expanded(flex: 10,child: BotaoFloatArredondado(
+                              icone: CupertinoIcons.plus_circle_fill,
+                              onPress: () {
+                                carrinho.adicionarCarrinho(produto);
+
+                                cardapioController.repositoryController.pikachu
+                                    .loadDataSuccess('Perfeito', 'Item ${produto.nome} adicionado!');
+
+
+                                // TODO UX FIX cardapioController.toggleBarraInferior();
+                              }), )
+                        ],
+                      ))
                     ],
                   ),
-                  trailing: BotaoFloatArredondado(
-                      icone: CupertinoIcons.plus_circle_fill,
-                      onPress: () {
-                        Get.to(ItemDetailsPage(produto_selecionado: produto,   ));
-                        carrinho.adicionarCarrinho(produto);
-
-                        cardapioController.repositoryController.pikachu
-                            .loadDataSuccess('Perfeito', 'Item ${produto.nome} adicionado!');
-
-                        cardapioController.toggleBarraInferior();
-                      }),
                 ),
-              ),
+              )
+
             );
+
           },
         ),
       );
     }
   }
 
-  Widget BlurCardWidget(_child, size_h, size_w) {
+  Widget BlurCardWidget(_child, size_w) {
+    var _width = MediaQuery.of(context).size.width;
+
     return GlassContainer(
-      height: size_h,
-      width: size_w,
+      height: 150,
+      width: _width,
       gradient: LinearGradient(
         colors: [
           Colors.white.withOpacity(0.40),
@@ -266,7 +205,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
         colors: [
           Colors.white.withOpacity(0.60),
           Colors.white.withOpacity(0.10),
-          Colors.lightBlueAccent.withOpacity(0.05),
+          Colors.lightBlueAccent.withOpacity(0.75),
           Colors.lightBlueAccent.withOpacity(0.6)
         ],
         begin: Alignment.topLeft,

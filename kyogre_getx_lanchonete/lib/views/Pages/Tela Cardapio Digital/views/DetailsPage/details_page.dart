@@ -24,14 +24,19 @@ class ItemDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var _height = MediaQuery.of(context).size.height;
 
+
+
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.black45,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(6),
           child: ListView(
             children: [
               botoesSuperior(produto_selecionado),
+              SizedBox(
+                height: 10,
+              ),
               CarrouselImagensWidget(produto_selecionado: produto_selecionado),
               SizedBox(
                 height: 10,
@@ -57,33 +62,39 @@ class ItemDetailsPage extends StatelessWidget {
   }
 
   Widget botoesSuperior(produto) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        InkWell(
-          onTap: () => Get.back(),
-          child: Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
-            size: 32,
+    return Container(
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.black87,
+        borderRadius: BorderRadius.all(Radius.circular(32)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            onTap: () => Get.back(),
+            child: Icon(
+              Icons.arrow_back_rounded,
+              color: Colors.white,
+              size: 32,
+            ),
           ),
-        ),
-        CustomText(text: produto_selecionado.nome,color: Colors.white, size: 24,),
-        InkWell(
-          //onTap: ()=> carrinho.adicionarCarrinho(produto),
-          onTap: () => Get.to(CarrinhoPage()),
-          child: Icon(
-            Icons.shopping_cart_rounded,
-            color: Colors.white,
-            size: 32,
-          ),
-        )
-      ],
+          CustomText(text: produto_selecionado.nome,color: Colors.white, size: 28,),
+          InkWell(
+            onTap: () => Get.to(CarrinhoPage()),
+            child: Icon(
+              Icons.shopping_cart_rounded,
+              color: Colors.white,
+              size: 32,
+            ),
+          )
+        ],
+      ),
     );
   }
 
   Widget btnQuantidade() {
-    return Column(
+    return Row(
       children: [
         InkWell(
           onTap: () {
@@ -148,21 +159,16 @@ class ItemDetailsPage extends StatelessWidget {
           //end crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CustomText(
-              text: produto_selecionado.nome,
-              size: 32,
-              color: Colors.white,
-              weight: FontWeight.bold,
-            ),
+           // CustomText( text: produto_selecionado.nome,   size: 18,  color: Colors.white,     weight: FontWeight.bold,         ),
             SizedBox(
               width: 30,
             ),
-            btnQuantidade()
+            //btnQuantidade()
           ],
         ),
         CustomText(
           text: '\nIngredientes: ${produto_selecionado.ingredientes ?? 'N/A'}',
-          size: 20,
+          size: 18,
           color: Colors.white,
           weight: FontWeight.bold,
         )

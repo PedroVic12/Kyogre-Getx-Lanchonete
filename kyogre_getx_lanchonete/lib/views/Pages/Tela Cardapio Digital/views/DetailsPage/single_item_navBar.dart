@@ -14,7 +14,7 @@ class SingleItemNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 60,
+        height: 90,
         color: Colors.white,
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: Row(
@@ -27,7 +27,8 @@ class SingleItemNavBar extends StatelessWidget {
               children: [
                 SizedBox(height: 15,),
                 CustomText(text: 'Total: R\$ ${carrinho.totalPrice.toStringAsFixed(2)}', size: 18, color: Colors.black,),
-
+                SizedBox(height: 5,),
+                btnQuantidade()
               ],
             ),),
             SizedBox(width: 15,),
@@ -36,6 +37,58 @@ class SingleItemNavBar extends StatelessWidget {
         ),
       );
 
+  }
+
+
+  Widget btnQuantidade() {
+    return Row(
+      children: [
+        InkWell(
+          onTap: () {
+            carrinho.removerProduto(produto);
+          },
+          child: Container(
+            alignment: Alignment.center,
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+                color: Colors.grey, borderRadius: BorderRadius.circular(10)),
+            child: Icon(CupertinoIcons.minus_circle_fill, size: 32),
+          ),
+        ),
+        SizedBox(
+          width: 12,
+        ),
+        Obx(() {
+          final quantidade = carrinho.SACOLA[produto] ?? 0;
+          return CustomText(
+            text: ' $quantidade',
+            size: 28,
+            color: Colors.red,
+            weight: FontWeight.bold,
+          );
+        }),
+        SizedBox(
+          width: 12,
+        ),
+        InkWell(
+          onTap: () {
+            carrinho.adicionarCarrinho(produto);
+          },
+          child: Container(
+            alignment: Alignment.center,
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+                color: Colors.grey, borderRadius: BorderRadius.circular(10)),
+            child: Icon(
+              CupertinoIcons.plus_circle_fill,
+              size: 32,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 

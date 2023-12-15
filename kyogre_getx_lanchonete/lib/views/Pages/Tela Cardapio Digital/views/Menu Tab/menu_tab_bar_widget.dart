@@ -39,7 +39,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
   @override
   void initState() {
-    super.initState();
+
     controller.setupCardapioDigitalWeb().then((_) {
       if (mounted) {
         setState(() {
@@ -60,6 +60,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
 
   void _handleTabSelection() {
+
+    controller.pikachu.cout('Menu atual = ${menuController.produtoIndex.value}');
+
     if (_tabController.indexIsChanging) {
       menuController.setProdutoIndex(_tabController.index);
       setState(() {}); // Isso forçará a reconstrução do widget para refletir a nova seleção
@@ -71,7 +74,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   Widget build(BuildContext context) {
     return Obx(() {
       if (_isLoadingTabView) {
-        return LoadingWidget(); // Ou outro widget de carregamento
+        return LoadingWidget();
       } else {
         return Column(
           children: [
@@ -95,7 +98,33 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  actions: [
+                    TextButton(onPressed: () => Get.back(), child: Text('Fechar'))
+                  ],
+                  title: CustomText(text: 'Selecione uma categoria'),
+                  contentPadding: const EdgeInsets.all(12),
+                  content: SizedBox(
+                    height: 200, // Defina uma altura fixa para o ListView
+                    child: ListView.builder(
+                      itemCount: controller.menuCategorias.MenuCategorias_Array.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          title: Text(controller.menuCategorias.MenuCategorias_Array[index].nome),
+                          onTap: () {
+                            // Adicione a lógica para selecionar a categoria aqui
+                            Get.back();
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              );
+            },
             icon: IconePersonalizado(tipo: Icons.menu),
           ),
           const SizedBox(width: 16),
@@ -108,6 +137,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
       ),
     );
   }
+
 
   Widget TabBarScrollCardapioCategorias() {
     return Container(
@@ -139,9 +169,10 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
           controller.menuCategorias.MenuCategorias_Array.length,
               (index) {
             var categoria = controller.menuCategorias.MenuCategorias_Array[index];
+
             return _buildTabBarMenuGradiente(
               categoria.nome,
-              categoria.iconPath ?? categoria.img, // Passa o Icon ou a Image
+              categoria.iconPath ?? categoria.img,
               index,
             );
           },

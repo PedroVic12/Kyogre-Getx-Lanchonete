@@ -72,6 +72,11 @@ class RepositoryDataBaseController extends GetxController {
         .toList();
   }
 
+  void ordenarPorNome(List<ProdutoModel> produtos) {
+    produtos.sort((a, b) => a.nome.compareTo(b.nome));
+  }
+
+
   // Metodos JSON
   Future<List<ProdutoModel>> lerArquivoJson(String filePath) async {
     try {
@@ -88,8 +93,6 @@ class RepositoryDataBaseController extends GetxController {
     }
   }
 
-  void ordenarPorNome(List<ProdutoModel> produtos) {
-    produtos.sort((a, b) => a.nome.compareTo(b.nome));
-  }
+
 
 }

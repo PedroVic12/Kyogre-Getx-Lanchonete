@@ -38,10 +38,10 @@ class MenuLateralNavegacaoDash extends StatelessWidget {
     ItemMenuLateral(title: 'Splash', icon: CupertinoIcons.moon_stars_fill, route: '/splash'),
 
 
-    ItemMenuLateral(title: 'NEW Cardapio Digital', icon: CupertinoIcons.shopping_cart, route: '/pedido/:id'),
+    ItemMenuLateral(title: 'NEW Cardapio Digital ROBO', icon: CupertinoIcons.shopping_cart, route: '/pedido/:id'),
 
     ItemMenuLateral( title: 'Grid Style', icon: Icons.abc_outlined, route: '/layoutDesign'),
-    ItemMenuLateral(title: 'Cardapio Digital', icon: Icons.fastfood_rounded, route: '/details/:id'),
+    ItemMenuLateral(title: 'Cardapio Digital QR', icon: Icons.fastfood_rounded, route: 'cardapioQR'),
     ItemMenuLateral(title: 'Caos Page', icon: Icons.ac_unit_sharp, route: '/caosPage')
     //TODO Adicione mais itens de menu conforme necessário
   ];

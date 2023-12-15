@@ -22,14 +22,14 @@ class BotoesIcone extends StatelessWidget {
             BoxShadow(
               color: Colors.grey.withOpacity(0.8),
               spreadRadius: 1,
-              blurRadius: 7,
+              blurRadius: 4,
             ),
           ],
         ),
         child: Center(
           child: IconButton(
             onPressed: onPressed,
-            iconSize: 30,
+            iconSize: 28,
             icon: Icon(
               iconData,
               color: Colors.white,

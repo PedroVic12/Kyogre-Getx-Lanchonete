@@ -96,7 +96,7 @@ class BarraInferiorPedido extends StatelessWidget {
     if (result == true) { // Se o resultado for true, o usuário clicou em "Sim".
       try {
         const String groundon_number1 = '5521983524026';
-        const String messagemWhatsappPedido = 'Ola mundo';
+        const String messagemWhatsappPedido = 'Pronto! fiz meu pedido!';
         
        await Groundon.enviarPedidoWhatsapp(phone: groundon_number1, message: messagemWhatsappPedido);
 

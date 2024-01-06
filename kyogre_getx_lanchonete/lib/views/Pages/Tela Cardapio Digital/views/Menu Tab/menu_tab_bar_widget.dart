@@ -13,11 +13,7 @@ import '../../../../../themes /cores.dart';
 import '../../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import '../cards/CardProdutosFiltrados.dart';
 
-//TODO ROLAR TAB E PROCURAR O INDICE PARA SELECIONAR NO MENU
-
 // TODO CARDAPIO DEPLOY QRCODE
-
-//TODO BOTTOM SHEET
 
 // TODO ITEM PAGE DETAILS
 
@@ -34,8 +30,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
   bool _isLoadingTabView =
       true; // Variável para controlar o estado de carregamento
   final CardapioController controller = Get.put(CardapioController());
-  final MenuProdutosController menuController =
-      Get.put(MenuProdutosController());
+  final MenuProdutosController menuController =   Get.put(MenuProdutosController());
 
   @override
   void initState() {

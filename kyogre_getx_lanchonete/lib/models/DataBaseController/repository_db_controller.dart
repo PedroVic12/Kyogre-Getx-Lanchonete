@@ -92,7 +92,7 @@ class RepositoryDataBaseController extends GetxController {
 
 
 
-  
+
   // Metodos JSON
   Future<List<ProdutoModel>> lerArquivoJson(String filePath) async {
     try {

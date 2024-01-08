@@ -59,7 +59,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
     final MenuProdutosRepository menuCategorias =     Get.find<MenuProdutosRepository>();
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       color: CupertinoColors.systemBlue,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -70,7 +70,8 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
             width: 16,
           ),
           CustomText(
-            text: '${menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome} - ${menuController.produtoIndex.value}',
+            text: '${menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome}',
+            //text: '${menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome} - ${menuController.produtoIndex.value}',
             color: Colors.white,
             size: 18,
           ),

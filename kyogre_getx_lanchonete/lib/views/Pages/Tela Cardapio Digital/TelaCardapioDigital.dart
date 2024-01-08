@@ -38,8 +38,8 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
     super.initState();
     controller.fetchClienteNome(widget.id);
     controller.setIdPage(widget.id);
-    controller.setupCardapioDigitalWeb();
-    //controller.initPage().then((value) =>  controller.setupCardapioDigitalWeb());
+    //controller.setupCardapioDigitalWeb();
+    controller.initPage().then((value) =>  controller.setupCardapioDigitalWeb());
   }
 
   void showBarraInferior() {

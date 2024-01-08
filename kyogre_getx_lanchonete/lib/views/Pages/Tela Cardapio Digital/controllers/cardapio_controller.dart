@@ -51,7 +51,7 @@ class CardapioController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    setupCardapioDigitalWeb();
+    //setupCardapioDigitalWeb();
     update();
   }
 

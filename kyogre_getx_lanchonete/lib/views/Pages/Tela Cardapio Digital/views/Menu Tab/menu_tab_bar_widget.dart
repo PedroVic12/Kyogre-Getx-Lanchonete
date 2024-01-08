@@ -78,6 +78,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
       } else {
         return Column(
           children: [
+
             // Menu Tab Scrol Gradiente
             _buildHeader(),
             TabBarScrollCardapioCategorias(),
@@ -152,11 +153,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
   Widget TabBarScrollCardapioCategorias() {
     return Container(
-      margin: EdgeInsets.all(6),
-      alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [CupertinoColors.activeOrange, cor2],
+          colors: const [CupertinoColors.activeOrange, cor2],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -164,29 +163,28 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         boxShadow: const [
           BoxShadow(
             offset: Offset(0.7, 1),
-            blurRadius: 60,
-            spreadRadius: 3,
+            blurRadius: 50,
+            spreadRadius: 1,
             color: Colors.yellow,
           ),
         ],
       ),
-      child: TabBar(
-        controller: _tabController,
-        labelColor: Colors.white,
-        labelPadding: EdgeInsets.all(6),
-        isScrollable: true,
-        unselectedLabelColor: Colors.black,
-        tabs: List<Widget>.generate(
-          controller.menuCategorias.MenuCategorias_Array.length,
-              (index) {
-            var categoria = controller.menuCategorias.MenuCategorias_Array[index];
-
-            return _buildTabBarMenuGradiente(
-              categoria.nome,
-              categoria.iconPath ?? categoria.img,
-              index,
-            );
-          },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 6), // Ajuste o espaçamento à esquerda aqui
+        child: TabBar(
+          controller: _tabController,
+          labelColor: Colors.white,
+          isScrollable: true,
+          unselectedLabelColor: Colors.black,
+          // Mantenha o labelPadding padrão ou ajuste conforme necessário
+          labelPadding: EdgeInsets.all(6),
+          tabs: List<Widget>.generate(
+            controller.menuCategorias.MenuCategorias_Array.length,
+                (index) {
+              var categoria = controller.menuCategorias.MenuCategorias_Array[index];
+              return _buildTabBarMenuGradiente(categoria.nome, categoria.iconPath ?? categoria.img, index);
+            },
+          ),
         ),
       ),
 
@@ -203,9 +201,10 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
           _tabController.animateTo(index);
         },
         child: Container(
-          width: 110,
+          width: 115,
           height: 80,
-          margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+
+          margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.white, width: 1),
             borderRadius: BorderRadius.circular(30),

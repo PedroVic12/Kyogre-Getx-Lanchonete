@@ -38,16 +38,6 @@ class RepositoryDataBaseController extends GetxController {
 
   }
 
-  Future getProdutosDatabase() async {
-    if (isLoading == true) {
-      //await fetchAllProducts();
-      await carregandoDadosRepository(pizzasFile);
-      await carregandoDadosRepository(hamburguersFile);
-      await carregandoDadosRepository(sanduicheFile);
-      isLoading = false;
-      update();
-    }
-  }
 
   Future<void> carregandoDadosRepository(String file) async {
     isLoading = true;

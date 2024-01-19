@@ -59,6 +59,9 @@ class MenuProdutosRepository extends GetxController {
           nome: 'Hamburguer',
           iconPath: Icon(Icons.local_drink ,size: 28,),
         ),
+
+        //TODO RETIRAR AQUI
+
         CategoriaModel(
           nome: 'Cuscuz de Milho',
           iconPath: Icon(Icons.egg_alt_rounded ,size: 28,),
@@ -75,6 +78,9 @@ class MenuProdutosRepository extends GetxController {
           nome: 'Tapioca',
           iconPath: Icon(Icons.fastfood_rounded ,size: 28,),
         ),
+
+        // PRATOS RÁPIDOS E PRATICOS
+
         CategoriaModel(
           nome: 'Cafeteria',
           iconPath: Icon(Icons.coffee ,size: 28,),

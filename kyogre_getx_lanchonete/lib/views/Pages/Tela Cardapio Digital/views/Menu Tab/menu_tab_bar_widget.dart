@@ -13,10 +13,6 @@ import '../../../../../themes /cores.dart';
 import '../../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import '../cards/CardProdutosFiltrados.dart';
 
-// TODO CARDAPIO DEPLOY QRCODE
-
-// TODO ITEM PAGE DETAILS
-
 class MenuTabBarCardapio extends StatefulWidget {
   const MenuTabBarCardapio({super.key});
 
@@ -27,8 +23,7 @@ class MenuTabBarCardapio extends StatefulWidget {
 class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  bool _isLoadingTabView =
-      true; // Variável para controlar o estado de carregamento
+  bool _isLoadingTabView =      true;
   final CardapioController controller = Get.put(CardapioController());
   final MenuProdutosController menuController =   Get.put(MenuProdutosController());
 
@@ -204,7 +199,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
           width: 115,
           height: 80,
 
-          margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
+          margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.white, width: 1),
             borderRadius: BorderRadius.circular(30),

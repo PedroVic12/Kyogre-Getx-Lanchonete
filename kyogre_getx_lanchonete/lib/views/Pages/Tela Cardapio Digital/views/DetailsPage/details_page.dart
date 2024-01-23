@@ -42,6 +42,7 @@ class ItemDetailsPage extends StatelessWidget {
                 height: 10,
               ),
               detalhesProdutos(),
+              showProdutosComSubCategorias(produto_selecionado),
               RadioButtonGroup(
                 niveis: form_controller.niveis,
                 nivelSelecionado: form_controller.nivelSelecionado,
@@ -59,6 +60,14 @@ class ItemDetailsPage extends StatelessWidget {
         produto: produto_selecionado,
       ),
     );
+  }
+  Widget showProdutosComSubCategorias(ProdutoModel produto){
+    if(produto.sub_categoria != null){
+      print(produto.sub_categoria);
+      print('\n\nProduto com varias categorias para o cliente selecionar');
+      print("Details page é diferente");
+    }
+    return Container(child: CustomText(text: "Item = ${produto.nome} ${produto.sub_categoria}",),);
   }
 
   Widget botoesSuperior(produto) {

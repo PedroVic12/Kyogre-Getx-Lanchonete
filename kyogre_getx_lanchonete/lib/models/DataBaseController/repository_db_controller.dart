@@ -20,6 +20,7 @@ class RepositoryDataBaseController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+
   }
 
   Future<void> getJsonFilesRepositoryProdutos() async {
@@ -28,7 +29,6 @@ class RepositoryDataBaseController extends GetxController {
      if (isLoading == true) {
        for (var i = 0; i < categorias.length; i++) {
           String produtoFile = 'lib/repository/cardapio/tabela_${i}.json';
-          final String response = await rootBundle.loadString(produtoFile);
           await carregandoDadosRepository(produtoFile);
        }
      }
@@ -45,7 +45,6 @@ class RepositoryDataBaseController extends GetxController {
     try {
       final String response = await rootBundle.loadString(file);
       final List<dynamic> dados = json.decode(response);
-
       List<ProdutoModel> produtos = dados.map((item) => ProdutoModel.fromJson(item)).toList();
 
       dataBase_Array.addAll(produtos);

@@ -53,7 +53,8 @@ class ProdutoModel {
       'preco_1': preco_1,
       'preco_2': preco_2,
       'ingredientes': ingredientes,
-      'imagem': imagem
+      'imagem': imagem,
+      "sub_categoria": sub_categoria,
     };
   }
 
@@ -64,6 +65,7 @@ class ProdutoModel {
       categoria: json['CATEGORIA'],
       preco_1: json['preco_1'],
       preco_2: json['preco_2'],
+      sub_categoria: json["SUB_CAT"],
       ingredientes: json['IGREDIENTES'],
       imagem: json['IMAGEM'],
     );

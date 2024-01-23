@@ -95,12 +95,15 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
               itemCount: produtosOrdenados.length,
               itemBuilder: (context, index) {
                 var produto = produtosOrdenados[index];
+                print("\n\Produto Selecionado = ${produto.nome} | ${produto.preco_1} | ${produto.categoria} | ${produto.sub_categoria}");
+
 
                 return AnimatedProductCardWrapper(
                   produto: produto,
                   duration: Duration(milliseconds: 1000),// Ajuste a duração conforme necessário
 
                   onTap: () {
+
                     Get.to(ItemDetailsPage(produto_selecionado: produto));
                   },
                 );

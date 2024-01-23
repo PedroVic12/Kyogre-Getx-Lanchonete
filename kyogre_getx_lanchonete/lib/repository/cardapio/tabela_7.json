@@ -1,1 +1,47 @@
-[{"NOME":"Batata frita 1\/2 porção","CATEGORIA":"Salgados","SUB_CAT":null,"preco_1":18.9,"preco_2":null,"IGREDIENTES":null,"IMAGEM":null},{"NOME":"Batata Frita Porçao","CATEGORIA":"Salgados","SUB_CAT":null,"preco_1":28.9,"preco_2":null,"IGREDIENTES":null,"IMAGEM":null},{"NOME":"Fatia de Pizza","CATEGORIA":"Salgados","SUB_CAT":null,"preco_1":12.0,"preco_2":null,"IGREDIENTES":null,"IMAGEM":"Icon(Icons.pizza)"},{"NOME":"Pão Queijo Unidade","CATEGORIA":"Salgados","SUB_CAT":null,"preco_1":4.0,"preco_2":null,"IGREDIENTES":null,"IMAGEM":null},{"NOME":"Salgados Diversos","CATEGORIA":"Salgados","SUB_CAT":null,"preco_1":9.0,"preco_2":null,"IGREDIENTES":null,"IMAGEM":null}]
+[
+    {
+        "NOME": "Batata frita 1\/2 porção",
+        "CATEGORIA": "Salgados",
+        "SUB_CAT": "SIM",
+        "preco_1": 18.9,
+        "preco_2": null,
+        "IGREDIENTES": null,
+        "IMAGEM": null
+    },
+    {
+        "NOME": "Batata Frita Porçao",
+        "CATEGORIA": "Salgados",
+        "SUB_CAT": "SIM",
+        "preco_1": 28.9,
+        "preco_2": null,
+        "IGREDIENTES": null,
+        "IMAGEM": null
+    },
+    {
+        "NOME": "Fatia de Pizza",
+        "CATEGORIA": "Salgados",
+        "SUB_CAT": null,
+        "preco_1": 12.0,
+        "preco_2": null,
+        "IGREDIENTES": null,
+        "IMAGEM": "Icon(Icons.pizza)"
+    },
+    {
+        "NOME": "Pão Queijo Unidade",
+        "CATEGORIA": "Salgados",
+        "SUB_CAT": null,
+        "preco_1": 4.0,
+        "preco_2": null,
+        "IGREDIENTES": null,
+        "IMAGEM": null
+    },
+    {
+        "NOME": "Salgados Diversos",
+        "CATEGORIA": "Salgados",
+        "SUB_CAT": null,
+        "preco_1": 9.0,
+        "preco_2": null,
+        "IGREDIENTES": null,
+        "IMAGEM": null
+    }
+]

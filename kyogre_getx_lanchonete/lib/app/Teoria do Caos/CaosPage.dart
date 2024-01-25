@@ -1,44 +1,78 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
 
 import '../../models/DataBaseController/template/produtos_model.dart';
 
-class LoadingWidget extends StatefulWidget {
-  final Widget content;
-  final Duration duration;
 
-  LoadingWidget({required this.content, this.duration = const Duration(seconds: 1)});
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-  @override
-  _LoadingWidgetState createState() => _LoadingWidgetState();
-}
+import '../widgets/Custom/CustomText.dart';
 
-class _LoadingWidgetState extends State<LoadingWidget> {
-  bool _isLoading = true;
+class LoadingController extends GetxController {
+  RxInt segundos = 0.obs;
+  Timer? _timer;
 
   @override
-  void initState() {
-    super.initState();
+  void onInit() {
+    super.onInit();
     _startTimer();
   }
 
+  @override
+  void onClose() {
+    _timer?.cancel();
+    super.onClose();
+  }
+
   void _startTimer() {
-    Future.delayed(widget.duration, () {
-      setState(() {
-        _isLoading = false;
-      });
+
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      segundos++;
+      update();
     });
   }
+}
+
+class LoadingWidget extends StatelessWidget {
+  const LoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return _isLoading
-        ? Center(
-      child: CircularProgressIndicator(),
-    )
-        : widget.content;
+    final controller = Get.put(LoadingController());
+    controller.segundos = 0.obs;
+
+    return Center(
+      child: Container(
+        height: 120,
+        width: 120,
+        margin: const EdgeInsets.all(24),
+        color: Colors.green,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Obx(() => CustomText(
+              text: 'Carregando... ${controller.segundos} s',
+              size: 12,
+              color: Colors.white,
+            )),
+            CircularProgressIndicator(color: Colors.greenAccent),
+            Icon(
+              Icons.cloud_upload_rounded,
+              color: Colors.white,
+              size: 24,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
+
 
 // Agora vamos usar o LoadingWidget no CaosPage
 
@@ -71,14 +105,13 @@ class _CaosPageState extends State<CaosPage> {
             );
           } else if (snapshot.hasData) {
             List<Produto> produtos = snapshot.data!;
-            return LoadingWidget(
-              content: ListView(
+            return  ListView(
                 children: [
                   ProdutosListView(categoria: 'Sanduíches Tradicionais', produtos: produtos.where((p) => p.tipo_produto == 'Sanduíches Tradicionais').toList()),
                   ProdutosListView(categoria: 'Açaí e Pitaya', produtos: produtos.where((p) => p.tipo_produto == 'Açaí e Pitaya').toList()),
                   ProdutosListView(categoria: 'Petiscos', produtos: produtos.where((p) => p.tipo_produto == 'Petiscos').toList()),
                 ],
-              ),
+
             );
           } else {
             return Center(

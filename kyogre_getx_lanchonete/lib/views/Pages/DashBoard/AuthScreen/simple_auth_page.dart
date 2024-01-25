@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
-
-
 
 //TODO MESMA TELA COM BOAS PRATICAS DE GETX
 //TODO RANDOM TOKEN
@@ -131,3 +126,5 @@ class RegisterPage extends StatelessWidget {
     Navigator.pop(context);
   }
 }
+
+

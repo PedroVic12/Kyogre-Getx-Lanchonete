@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/simple_auth_page.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/tela_auth_jvt.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/widgets/input_text_field.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/widgets/submit_button.dart';
 
+import 'auth_jvt_screen.dart';
 import 'controllers/login_controller.dart';
 import 'controllers/registrar_controller.dart';
 
@@ -15,12 +17,10 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  RegisterationController registerationController =
-  Get.put(RegisterationController());
-
+  RegisterationController registerationController = Get.put(RegisterationController());
   LoginController loginController = Get.put(LoginController());
-
   var isLogin = false.obs;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,8 +34,9 @@ class _AuthScreenState extends State<AuthScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
 
-
                     ElevatedButton(onPressed: () => Get.to(LoginPage()), child: Text("Login Page")),
+                    ElevatedButton(onPressed: () => Get.to(AuthJvtScreen()), child: Text("Auth + JVT + API")),
+                    ElevatedButton(onPressed: () => Get.to(TelaAutenticacaoUsuarios()), child: Text("Tela Usuario")),
                     SizedBox(
                       height: 30,
                     ),

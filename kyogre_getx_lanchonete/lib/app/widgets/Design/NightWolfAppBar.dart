@@ -1,15 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
+
+import '../../../views/Pages/DashBoard/AuthScreen/controllers/usuarios_admin_controllers.dart';
 
 class NightWolfAppBar extends StatefulWidget implements PreferredSizeWidget {
   final GlobalKey<ScaffoldState>? drawerKey;
-  final String title;
 
   const NightWolfAppBar({
     Key? key,
     this.drawerKey,
-    this.title = 'Citta RJ ',
   }) : super(key: key);
 
   @override
@@ -21,9 +22,16 @@ class NightWolfAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _NightWolfAppBarState extends State<NightWolfAppBar> {
   bool _isPurple = true;
+  final ControleUsuariosCliente usuariosController = Get.put(ControleUsuariosCliente());
+
+
+
 
   @override
   Widget build(BuildContext context) {
+    var user = usuariosController.getUsuarios;
+
+
     return AppBar(
       leading: widget.drawerKey != null
           ? IconButton(
@@ -43,7 +51,7 @@ class _NightWolfAppBarState extends State<NightWolfAppBar> {
           Visibility(
             visible: _isPurple,
             child: CustomText(
-              text: widget.title,
+              text: "${user[0]["LOJA"]} Gestão de Pedidos APP",
               color: CupertinoColors.inactiveGray,
               size: 22,
               weight: FontWeight.bold,
@@ -103,7 +111,7 @@ class _NightWolfAppBarState extends State<NightWolfAppBar> {
             color: CupertinoColors.systemGrey,
           ),
           CustomText(
-            text: 'Pedro Victor',
+            text: "${user[0]["USER"]}",
             color: _isPurple ? CupertinoColors.inactiveGray : Colors.white,
           ),
           SizedBox(

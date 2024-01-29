@@ -20,7 +20,7 @@ class CarrinhoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CARRINHO '),
+        title: Text('🛒 CARRINHO '),
       ),
 
       body: Obx(() {
@@ -49,9 +49,6 @@ class CarrinhoPage extends StatelessWidget {
               ),
 
 
-              CustomText(text: 'Digite seu Endereço de Entrega'),
-
-              CustomText(text: 'Digite a forma de pagamento'),
 
               BarraInferiorPedido(),
             ],

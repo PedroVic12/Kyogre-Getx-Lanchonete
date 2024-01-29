@@ -40,6 +40,8 @@ class CardPedido extends StatelessWidget {
               print('${object.quantidade} - ${object.nome}');
             }
 
+
+
             return Dismissible(
               key: Key(pedido.id.toString()),
               direction: DismissDirection.endToStart,
@@ -65,29 +67,31 @@ class CardPedido extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(4),
                   child: CupertinoListTile(
-                    title: CustomText(text:'Cliente: ${pedido.nome_cliente}',weight: FontWeight.bold, size: 18,),
+                    title: CustomText(text:'Cliente: ${pedido.nome_cliente} - Status: ${pedido.status}',weight: FontWeight.bold, size: 18,),
 
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Divider(color: Colors.black,indent: 2.0),
                         CustomText(text:'Itens do Pedido:'),
                         SizedBox(height: 8),
                         for (var item in pedido.carrinho)
                           CustomText(text:'${item.quantidade}x ${item.nome}',color: CupertinoColors.systemRed,weight: FontWeight.bold,size: 15,),
                         SizedBox(height: 8),
-                        CustomText(text:'Total a Pagar: ${pedido.totalPagar}',weight: FontWeight.bold),
+                        CustomText(text:'Total a Pagar: R\$ ${pedido.totalPagar} Reais',weight: FontWeight.bold),
                         CustomText(text: 'Forma de pagamento: ${pedido.formaPagamento}'),
                         SizedBox(height: 8),
                         CustomText(text:'Endereço: ${pedido.endereco}',weight: FontWeight.bold),
                         CustomText(text: 'Complemento: ${pedido.complemento}'),
-                        Divider(),
+                        Divider(color: Colors.black,indent: 2.0),
 
+
+                        botaoDashBoard(pedido.status)
                       ],
                     ),
-                    trailing: Column(children: [CustomText(text: 'ID: ${pedido.id}'), IconButton(onPressed: (){},
-                        icon: Icon(Icons.arrow_circle_right,size: 32,))],),
+                    trailing:popUpConfig(pedido,context)
                   ),
                 ),
               ),
@@ -97,4 +101,87 @@ class CardPedido extends StatelessWidget {
       );
     });
   }
+
+
+  Widget popUpConfig(pedido,context){
+    return  Column(children: [
+      IconButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => CupertinoAlertDialog(
+                actions: [
+                  CupertinoDialogAction(
+                      child: const CustomText(text: 'Fechar', weight: FontWeight.bold,),
+                      onPressed: () => Get.back()
+                  ),
+                ],
+                title: CustomText(text: 'Configurações'),
+                content: Container(
+                  height: 100, // Defina uma altura fixa para o ListView
+                  child: ListView.builder(
+                    itemCount: 2,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Material(
+                        color: Colors.grey.shade300,
+                        child:
+                        ListTile(
+                          focusColor: Colors.green,
+                          leading: Icon(Icons.add),
+                          title: Column(children: [Divider(), Text(index == 0 ? 'Cancelar Pedido' : 'Resetar'),],),
+                          onTap: () {
+                            if (index == 0) {
+                              //cancelarPedido();
+                            } else if (index == 1) {
+                              //avancarPedido();
+                            }
+                            Get.back();
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            );
+          },
+          icon: Icon(Icons.settings)),
+      CustomText(text: "ID Pedido:\n${pedido.id}",)],
+    );
+  }
+
+  Widget botaoDashBoard(String statusPedido){
+
+    String txtBtn =  "";
+    if (statusPedido == "Producao"){
+      txtBtn = "Avançar Pedido!";
+    }
+    else if (statusPedido == "Entrega"){
+      txtBtn = "Despachar Pedido";
+    }
+
+    return ElevatedButton(
+        onFocusChange: (value) {
+          Colors.blue;
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.lightGreenAccent,
+        ),
+      onPressed: () {
+      },
+
+        onLongPress: (){
+
+        },
+      child:Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+
+          CustomText(text: txtBtn,color: Colors.black,weight: FontWeight.bold,),
+          Icon(Icons.arrow_circle_right,size: 32,),
+        ],)
+    );
+  }
+
+
 }

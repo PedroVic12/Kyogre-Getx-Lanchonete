@@ -113,18 +113,18 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
                         bool isSelectedHeader = menuController.produtoIndex.value == index;
 
                         return Material(
-                          color: Colors.grey.shade300,
-                          child: Column(children: [
-                            ListTile(
-                              focusColor: Colors.green,
-                              title: CustomText(text:controller.menuCategorias.MenuCategorias_Array[index].nome, color: isSelectedHeader ? Colors.green : Colors.black),
-                              onTap: () {
-                                selecionarLista(index);
-                                //Get.back();
-                              },
-                            ),
-                            Divider(height: 5,color: Colors.black,)
-                          ],)
+                            color: Colors.grey.shade300,
+                            child: Column(children: [
+                              ListTile(
+                                focusColor: Colors.green,
+                                title: CustomText(text:controller.menuCategorias.MenuCategorias_Array[index].nome, color: isSelectedHeader ? Colors.green : Colors.black),
+                                onTap: () {
+                                  selecionarLista(index);
+                                  //Get.back();
+                                },
+                              ),
+                              Divider(height: 5,color: Colors.black,)
+                            ],)
                         );
                       },
                     ),

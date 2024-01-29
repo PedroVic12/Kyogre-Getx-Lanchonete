@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Design/kanban_column.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
 
 class ColunaPedidosProcessados extends StatelessWidget {
@@ -24,6 +26,16 @@ class ColunaPedidosProcessados extends StatelessWidget {
               color: Colors.black,
             ),
             SizedBox(height: 10.0),
+
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+              ),
+              onPressed: () {
+                Get.to(DashBoardKanban());
+              },
+              child: Text('Kanban'),
+            ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,

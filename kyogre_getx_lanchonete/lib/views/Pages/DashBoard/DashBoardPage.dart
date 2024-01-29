@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Design/NightWolfAppBar.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/controllers/usuarios_admin_controllers.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Colunas/ColunaInfoPedido.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Colunas/ColunaPedidosCozinha.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Colunas/ColunasPedidoProcessados.dart';
@@ -10,8 +11,9 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidosPage.
 
 
 class DashboardPage extends StatelessWidget {
-  final PedidoController pedidoController = Get.find();
-  final FilaDeliveryController filaDeliveryController = Get.find();
+  final PedidoController pedidoController = Get.find<PedidoController>();
+  final FilaDeliveryController filaDeliveryController = Get.find<FilaDeliveryController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,8 @@ class DashboardPage extends StatelessWidget {
     );
   }
 }
+
+
 class PesquisarDadosWidet extends StatefulWidget {
   PesquisarDadosWidet({Key? key}) : super(key: key);
 

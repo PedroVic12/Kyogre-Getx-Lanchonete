@@ -32,7 +32,7 @@ class AlertaPedidoWidget extends StatelessWidget {
         showCloseIcon: true,
         title: 'Pedido de ${nomeCliente} chegando!',
         desc: pedidoInfo.toString(),
-        btnOkText: 'Aceitar Pedido',
+        btnOkText: 'CONFIRMAR PEDIDO',
         btnCancelOnPress: (){
           Get.back();
         },
@@ -41,7 +41,7 @@ class AlertaPedidoWidget extends StatelessWidget {
     });
 
     return Container(
-      child: Text('ola mundo'),
+      child: Text(""),
     ); // Retorna um widget vazio para não renderizar nada
   }
 }

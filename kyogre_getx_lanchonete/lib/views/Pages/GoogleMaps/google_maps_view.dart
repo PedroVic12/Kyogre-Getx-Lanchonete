@@ -77,10 +77,11 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
   }
 
   Widget localAtualizadoDispositivo(){
-
     var currentLocation = controller.localizacaoAtual != null
         ? LatLng(controller.localizacaoAtual!.latitude!, controller.localizacaoAtual!.longitude!)
         : sourceLocation; // Fallback para uma localização padrão
+
+    controller.getPolyPoints(); // Chama para obter os pontos da rota
 
     if (controller.localizacaoAtual == null ){
       return Center(child: LoadingWidget());
@@ -91,8 +92,7 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
         width: 600,
         child: GoogleMap(
           mapType: MapType.normal,
-          initialCameraPosition:
-           CameraPosition(target: currentLocation, zoom: 13.5),
+          initialCameraPosition: CameraPosition(target: currentLocation, zoom: 13.5),
           polylines: {
             Polyline(polylineId: PolylineId('route'),
                 points: controller.coordenadas,
@@ -100,12 +100,10 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
                 width: 5
             )
           },
-
           markers: {
             Marker(
               markerId: MarkerId('currentLocation'),
-              position: LatLng(controller.localizacaoAtual?.latitude ?? sourceLocation.latitude,
-                  controller.localizacaoAtual?.longitude ?? sourceLocation.longitude),
+              position: currentLocation, // Usa a localização atual
               icon: controller.currentLocationIcon,
             ),
             Marker(
@@ -119,7 +117,6 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
               icon: controller.destinationIcon,
             ),
           },
-
           onMapCreated: (mapController){
             controller.googleMapController.complete(mapController);
           },

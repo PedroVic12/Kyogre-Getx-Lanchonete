@@ -10,6 +10,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CardapioDigit
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/auth_screen.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/tela_auth_jvt.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/GoogleMaps/google_maps_view.dart';
@@ -56,7 +57,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/caosPage', page: () => const CaosPageWidget()),
         GetPage(name: '/cardapioQR', page: () => const CardapioQrCode()),
         GetPage(name: '/mapaPedido', page: () => const PedidoTrackingMapsScreen()),
-        GetPage(name: '/authScreen', page: () => AuthScreen()),
+        GetPage(name: '/authScreen', page: () => TelaAutenticacaoUsuarios()),
+        //GetPage(name: '/authScreen', page: () => AuthScreen()),
 
         GetPage(
             name: '/pedido/:id',

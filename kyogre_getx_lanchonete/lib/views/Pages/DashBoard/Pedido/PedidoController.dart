@@ -27,7 +27,7 @@ class PedidoController extends GetxController {
 
   void startFetchingPedidos() {
     try {
-      timer = Timer.periodic(const Duration(seconds: 7), (Timer timer) {
+      timer = Timer.periodic(const Duration(seconds: 15), (Timer timer) {
         fetchPedidos();
       });
     } catch (e) {

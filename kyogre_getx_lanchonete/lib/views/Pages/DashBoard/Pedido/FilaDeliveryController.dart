@@ -28,6 +28,21 @@ class FilaDeliveryController extends GetxController {
   }
 
 
+  avancarPedido(){
+    //altera status no servidor PUT
+
+    // adicionar +1 na coluna
+  }
+
+
+  resetarPedido(){
+    //altera status no servidor PUT
+
+    // adicionar -1 na coluna
+  }
+  cancelarPedido(){}
+
+
 
 
   void _limparPedidosAntigos() {
@@ -161,4 +176,6 @@ class FilaDeliveryController extends GetxController {
       _mostrarAlertaSeNecessario();
     });
   }
+
+
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CaixaDeTexto.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
 
 //TODO MESMA TELA COM BOAS PRATICAS DE GETX
@@ -30,16 +31,13 @@ class LoginPage extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
+
+
           children: <Widget>[
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(labelText: 'Senha'),
-              obscureText: true,
-            ),
+
+            CaixaDeTexto(controller: emailController, labelText: 'Email'),
+            CaixaDeTexto(controller: passwordController, labelText: 'Senha'),
+
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => login(context),

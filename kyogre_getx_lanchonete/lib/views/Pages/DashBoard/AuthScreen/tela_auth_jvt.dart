@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/controllers/usuarios_admin_controllers.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/simple_auth_page.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/widgets/input_text_field.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/widgets/submit_button.dart';
 
+import '../../../../app/widgets/Custom/CaixaDeTexto.dart';
 import 'controllers/login_controller.dart';
 import 'controllers/registrar_controller.dart';
 
@@ -20,6 +22,7 @@ class _TelaAutenticacaoUsuariosState extends State<TelaAutenticacaoUsuarios> {
   RegisterationController registerationController = Get.put(RegisterationController());
   LoginController loginController = Get.put(LoginController());
   var isLogin = false.obs;
+  final ControleUsuariosCliente usuariosClienteController = Get.put(ControleUsuariosCliente());
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +38,9 @@ class _TelaAutenticacaoUsuariosState extends State<TelaAutenticacaoUsuarios> {
                   children: [
 
 
-                    ElevatedButton(onPressed: () => Get.to(LoginPage()), child: Text("Login Page")),
-
-
-                    SizedBox(
-                      height: 30,
-                    ),
                     Container(
                       child: Text(
-                        'Ruby Saphire App',
+                        'Bem vindo ao Ruby Delivery App',
                         style: TextStyle(
                             fontSize: 30,
                             color: Colors.black,
@@ -75,7 +72,7 @@ class _TelaAutenticacaoUsuariosState extends State<TelaAutenticacaoUsuarios> {
                     SizedBox(
                       height: 80,
                     ),
-                    isLogin.value ? loginWidget() : registerWidget()
+                    isLogin.value ? LoginPageWidget() : CadastroPageWidget()
                   ]),
             ),
           ),
@@ -106,7 +103,7 @@ class _TelaAutenticacaoUsuariosState extends State<TelaAutenticacaoUsuarios> {
             registerationController.registerWithEmail();
             // todo mandar email para confirmar novo usuario com token
           } ,
-          title: 'Cadastrar novo Usuario',
+          title: 'Cadastrar',
 
         )
       ],
@@ -134,4 +131,58 @@ class _TelaAutenticacaoUsuariosState extends State<TelaAutenticacaoUsuarios> {
       ],
     );
   }
+
+  Widget LoginPageWidget(){
+
+
+
+    return Padding(
+      padding: EdgeInsets.all(16),
+      child: Column(
+
+
+        children: <Widget>[
+
+          CaixaDeTexto(controller: usuariosClienteController.emailController, labelText: 'Email'),
+          CaixaDeTexto(controller: usuariosClienteController.passwordController, labelText: 'Senha'),
+
+          SizedBox(height: 20),
+          SubmitButton(
+            onPressed: () => usuariosClienteController.login(context),
+            // loginController.loginWithEmail(),
+
+            title: 'Login',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget  CadastroPageWidget() {
+    return Padding(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        children: <Widget>[
+          CaixaDeTexto(controller: usuariosClienteController.userController, labelText:  'Usuário'),
+          CaixaDeTexto(controller: usuariosClienteController.emailController, labelText: 'Email'),
+          CaixaDeTexto(controller: usuariosClienteController.passwordController, labelText: 'Senha'),
+
+          SizedBox(height: 20),
+          SubmitButton(
+            onPressed: ()
+                    {
+                      usuariosClienteController.register(context);
+                      usuariosClienteController.sendEmail();
+
+                    },
+
+
+              title: 'Registrar',
+          ),
+        ],
+      ),
+    );
 }
+}
+
+

@@ -108,14 +108,10 @@ class _KanbanColumnState extends State<KanbanColumn> {
                 ),
                 const SizedBox(height: 10.0),
 
-                Center(
-                  child: CustomText(text:'Total de pedidos: ${total_pedidos}'),
-
-                ),
-                CardPedido(),
+                CardPedido(status_pedido: "PRODUÇÃO",),
 
 
-// Lista de itens de trabalho
+            // Lista de itens de trabalho
                 const Divider(),
                 Obx(() => Column(
                   children: controller

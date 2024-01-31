@@ -16,7 +16,7 @@ class OverViewCardsSmallScreen extends StatelessWidget {
         children: [
           InfoCardSmall(title: 'Em processo', value: '7', isActive: true, onTap: (){}),
           SizedBox( height: _width/64),
-          CardPedido(),
+          CardPedido(status_pedido: "Finalizado",),
 
           InfoCardSmall(title: 'Pedidos Concluidos', value: '10', isActive: true, onTap: (){}),
           SizedBox( height: _width/64),

@@ -85,7 +85,7 @@ class Pedido {
   final String endereco;
   final String complemento;
   final String formaPagamento;
-  final String status;
+  late final String status;
   final List<ItemPedido> carrinho;
   final double totalPagar;
 

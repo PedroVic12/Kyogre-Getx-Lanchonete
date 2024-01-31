@@ -30,10 +30,6 @@ import 'views/Pages/DashBoard/Pedido/PedidoController.dart';
 
 void main() {
   Get.put(MenuLateralController());
-
-  Get.put(PedidoController());
-  Get.put(FilaDeliveryController());
-
   Get.put(MenuProdutosController());
   Get.put(CardapioController());
 

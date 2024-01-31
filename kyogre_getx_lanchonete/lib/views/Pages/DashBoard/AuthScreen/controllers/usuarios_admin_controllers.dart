@@ -93,6 +93,8 @@ class ControleUsuariosCliente extends GetxController{
       "token":token
     });
 
+    print("Usuarios List = $usuarios");
+
     Navigator.pop(context);
   }
 
@@ -103,40 +105,53 @@ class ControleUsuariosCliente extends GetxController{
     return List.generate(length, (_) => chars[rnd.nextInt(chars.length)]).join();
   }
 
-  String generateSecurityCode() {
+  String generateSecurityCode(int n) {
     const chars = '0123456789';
     final rnd = Random();
-    return List.generate(5, (_) => chars[rnd.nextInt(10)]).join();
+    return List.generate(n, (_) => chars[rnd.nextInt(10)]).join();
   }
 
   String message = "";
 
   Future<void> sendEmail() async {
-    final url = Uri.parse("https://rayquaza-citta-server.onrender.com/send-email");
+    final url = Uri.parse("https://rayquaza-citta-server.onrender.com/enviar-email");
 
     String msgEmail = """
-      Codigo de acesso = ${generateRandomToken(2)}
+    <h2>Obrigado pelo interesse por Ruby Details</h2>
+    
+    <h1> Cadastro:</h1>>
+    Cliente : ${userController.text}
+    \nSenha de acesso : ${passwordCadastroController.text}
+     \nCodigo de acesso = ${generateSecurityCode(6)}
+
+    <h2> ATRAVES DESSA SENHA QUE VOCE TERA ACESSO AO SISTEMA POIS ENTAO NAO COMPARTILHE ELA COM NINGUEM</h2>
+      
+      <h3>Usuarios cadastrados </h3>>
+      - ${usuarios}
+    
     """;
 
     final response = await http.post(
       url,
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
-        "recipient_email": "Kyogre x Rayquaza",
-        "subject": "Novo Usuario cadastrado",
-        "body":msgEmail,
+        "recipient_email": emailController.text,
+        "subject": "Ruby on Details - Obrigado por adquirir nosso sistema!",
+        "body": msgEmail,
       }),
     );
 
     if (response.statusCode == 200) {
 
         message = "Email sent successfully!";
+        print(message);
 
         //retorna o token do cliente
 
     } else {
 
         message = "Error sending email: ${response.body}";
+        print(message);
 
     }
   }

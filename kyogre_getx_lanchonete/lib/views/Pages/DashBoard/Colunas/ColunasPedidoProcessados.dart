@@ -3,6 +3,10 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Design/kanban_column.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/TelaDashGestaoPedidos.dart';
+
+import '../../../../app/widgets/Design/new_kanban_coluna.dart';
+import 'ColunaPedidosCozinha.dart';
 
 class ColunaPedidosProcessados extends StatelessWidget {
   late final PedidoController pedidoController;
@@ -32,10 +36,24 @@ class ColunaPedidosProcessados extends StatelessWidget {
                 backgroundColor: Colors.green,
               ),
               onPressed: () {
-                Get.to(DashBoardKanban());
+                //Get.to(DashBoardKanban());
+                Get.to(KanbanBoard());
+
               },
               child: Text('Kanban'),
             ),
+
+
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+              ),
+              onPressed: () {
+                Get.to(TelaGestaoDePedidosDashBoard());
+              },
+              child: Text('Gestao de Pedidos'),
+            ),
+
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,

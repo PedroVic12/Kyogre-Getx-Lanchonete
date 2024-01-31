@@ -10,7 +10,6 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido
 
 class FilaDeliveryController extends GetxController {
   final Rx<Fila> FILA_PEDIDOS = Fila().obs;
-  final PedidoController controller = Get.find<PedidoController>();
   final List<dynamic> PEDIDOS_ALERTA_ARRAY = [];
 
   getFila() => FILA_PEDIDOS;
@@ -28,21 +27,51 @@ class FilaDeliveryController extends GetxController {
   }
 
 
-  avancarPedido(){
-    //altera status no servidor PUT
+  void inserirPedido(Pedido pedido) {
+    try {
+      FILA_PEDIDOS.value.push(pedido);
+      FILA_PEDIDOS.refresh();
+      print("Pedido inserido. Tamanho da fila agora: ${FILA_PEDIDOS.value.tamanhoFila()}");
+    } catch (e) {
+      print('Erro ao inserir pedido: $e');
+    }
+  }
+  void _adicionarPedidoNaFila(dynamic pedido) {
+    Pedido novoPedido = Pedido.fromJson(pedido);
+    inserirPedido(novoPedido);
+    print('\n\nPedido Aceito!');
+  }
 
-    // adicionar +1 na coluna
+  Pedido? removerPedido() {
+    try {
+      return FILA_PEDIDOS.value.pop();
+    } catch (e) {
+      print('Erro ao remover pedido: $e');
+      return null;
+    }
   }
 
 
-  resetarPedido(){
-    //altera status no servidor PUT
 
-    // adicionar -1 na coluna
+
+
+
+
+  //! UTILS
+  Future<void> _mostrarAlerta(dynamic pedido, List<String> itensPedido, int pedidoId) async {
+    final PedidoController controller = Get.find<PedidoController>();
+
+    controller.showAlert = true;
+
+    await Get.to(() => AlertaPedidoWidget(
+      nomeCliente: pedido['nome_cliente'] ?? '',
+      enderecoPedido: pedido['endereco'] ?? '',
+      itensPedido: itensPedido,
+      btnOkOnPress: () {
+        _handlePedidoAceito(pedido, pedidoId);
+      },
+    ));
   }
-  cancelarPedido(){}
-
-
 
 
   void _limparPedidosAntigos() {
@@ -78,6 +107,8 @@ class FilaDeliveryController extends GetxController {
   }
 
   bool _alertaEstaAtivo() {
+    final PedidoController controller = Get.find<PedidoController>();
+
     return controller.showAlert;
   }
 
@@ -89,24 +120,7 @@ class FilaDeliveryController extends GetxController {
     }
   }
 
-  void inserirPedido(Pedido pedido) {
-    try {
-      FILA_PEDIDOS.value.push(pedido);
-      FILA_PEDIDOS.refresh();
-      print("Pedido inserido. Tamanho da fila agora: ${FILA_PEDIDOS.value.tamanhoFila()}");
-    } catch (e) {
-      print('Erro ao inserir pedido: $e');
-    }
-  }
 
-  Pedido? removerPedido() {
-    try {
-      return FILA_PEDIDOS.value.pop();
-    } catch (e) {
-      print('Erro ao remover pedido: $e');
-      return null;
-    }
-  }
 
   Future<void> showNovoPedidoAlertDialog(dynamic pedido) async {
     final pedidoId = pedido['id'];
@@ -117,10 +131,14 @@ class FilaDeliveryController extends GetxController {
   }
 
   bool _alertaJaFoiMostrado(int pedidoId) {
+    final PedidoController controller = Get.find<PedidoController>();
+
     return controller.pedidosAlertaMostrado.containsKey(pedidoId);
   }
 
   Future<void> _configurarEExibirAlerta(dynamic pedido, int pedidoId) async {
+    final PedidoController controller = Get.find<PedidoController>();
+
     final itensPedido = _obterItensDoPedido(pedido);
 
     print('Pedido ${pedidoId} não esta na Fila, mostrando o alerta...');
@@ -143,18 +161,7 @@ class FilaDeliveryController extends GetxController {
     return Get.currentRoute == '/dash';
   }
 
-  Future<void> _mostrarAlerta(dynamic pedido, List<String> itensPedido, int pedidoId) async {
-    controller.showAlert = true;
 
-    await Get.to(() => AlertaPedidoWidget(
-      nomeCliente: pedido['nome_cliente'] ?? '',
-      enderecoPedido: pedido['endereco'] ?? '',
-      itensPedido: itensPedido,
-      btnOkOnPress: () {
-        _handlePedidoAceito(pedido, pedidoId);
-      },
-    ));
-  }
 
   void _handlePedidoAceito(dynamic pedido, int pedidoId) {
     _adicionarPedidoNaFila(pedido);
@@ -162,14 +169,11 @@ class FilaDeliveryController extends GetxController {
     _resetarConfiguracoesDeAlerta(pedidoId);
   }
 
-  void _adicionarPedidoNaFila(dynamic pedido) {
-    Pedido novoPedido = Pedido.fromJson(pedido);
-    inserirPedido(novoPedido);
-    print('\n\nPedido Aceito!');
-  }
 
 
   void _resetarConfiguracoesDeAlerta(int pedidoId) {
+    final PedidoController controller = Get.find<PedidoController>();
+
     Future.delayed(Duration(milliseconds: 200), () {
       controller.showAlert = false;
       controller.pedidosAlertaMostrado[pedidoId] = true;

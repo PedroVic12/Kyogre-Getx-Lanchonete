@@ -8,21 +8,22 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Colunas/ColunasPedi
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidosPage.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido.dart';
 
 
 class DashboardPage extends StatelessWidget {
-  final PedidoController pedidoController = Get.find<PedidoController>();
-  final FilaDeliveryController filaDeliveryController = Get.find<FilaDeliveryController>();
-
+  final FilaDeliveryController filaDeliveryController = Get.put(FilaDeliveryController());
+  final PedidoController pedidoController =   Get.put(PedidoController(Get.find<FilaDeliveryController>()));
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: NightWolfAppBar(),
       body: Column(
         children: [
 
-          //PesquisarDadosWidet(),
+          PesquisarDadosWidet(),
 
           Expanded(child: Row(
             children: [
@@ -85,3 +86,5 @@ class _PesquisarDadosWidetState extends State<PesquisarDadosWidet> {
     );
   }
 }
+
+

@@ -23,8 +23,7 @@ class ColunaPedidosParaAceitar extends StatefulWidget {
 }
 
 class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
-  final FilaDeliveryController filaDeliveryController = Get.find();
-  final pedidoController = PedidoController();
+  final FilaDeliveryController filaDeliveryController = Get.find<FilaDeliveryController>();
 
 
   @override
@@ -39,6 +38,7 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
 
   @override
   Widget build(BuildContext context) {
+
     final TodosPedidos = filaDeliveryController.FILA_PEDIDOS.value.todosPedidos();
     print('Todos Pedidos: ${TodosPedidos}');
     final total_pedidos = filaDeliveryController.FILA_PEDIDOS.value.tamanhoFila();
@@ -66,7 +66,7 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
               child: CustomText(text:'Total de pedidos: ${total_pedidos}'),
 
             ),
-            CardPedido(),
+            CardPedido(status_pedido: "produção"),
 
 
           ],
@@ -75,4 +75,3 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
     );
   }
 }
-

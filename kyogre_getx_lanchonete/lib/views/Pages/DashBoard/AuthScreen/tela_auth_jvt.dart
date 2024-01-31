@@ -163,7 +163,7 @@ class _TelaAutenticacaoUsuariosState extends State<TelaAutenticacaoUsuarios> {
       padding: EdgeInsets.all(16),
       child: Column(
         children: <Widget>[
-          CaixaDeTexto(controller: usuariosClienteController.userController, labelText:  'Usuário'),
+          CaixaDeTexto(controller: usuariosClienteController.userController, labelText:  'Usuário de Acesso Restrito'),
           CaixaDeTexto(controller: usuariosClienteController.emailController, labelText: 'Email'),
           CaixaDeTexto(controller: usuariosClienteController.passwordController, labelText: 'Senha'),
 
@@ -173,6 +173,7 @@ class _TelaAutenticacaoUsuariosState extends State<TelaAutenticacaoUsuarios> {
                     {
                       usuariosClienteController.register(context);
                       usuariosClienteController.sendEmail();
+                      Get.snackbar("Email de acesso enviado", "Cadastro realizado");
 
                     },
 

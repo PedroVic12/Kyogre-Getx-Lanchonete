@@ -12,16 +12,18 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/con
 
 
 class CardPedido extends StatelessWidget {
-  const CardPedido({Key? key}) : super(key: key);
+   final String status_pedido;
+  const CardPedido({Key? key, required this.status_pedido}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final FilaDeliveryController filaDeliveryController = Get.find<FilaDeliveryController>();
     final pikachu = PikachuController();
+    final PedidoController controller = Get.find<PedidoController>();
+
+
     return Obx(() {
       final todosPedidos = filaDeliveryController.getTodosPedidos();
-
-
 
       if (todosPedidos.isEmpty) {
         return Center(
@@ -34,12 +36,15 @@ class CardPedido extends StatelessWidget {
           itemCount: todosPedidos.length,
           itemBuilder: (context, index) {
             final pedido = todosPedidos[index];
-
             pikachu.cout(pedido.carrinho);
+
+            var currentIndex = controller.getStatusIndex(pedido.status);
+
+
+
             for (var object in pedido.carrinho){
               print('${object.quantidade} - ${object.nome}');
             }
-
 
 
             return Dismissible(
@@ -69,17 +74,19 @@ class CardPedido extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.all(4),
                   child: CupertinoListTile(
-                    title: CustomText(text:'Cliente: ${pedido.nome_cliente} - Status: ${pedido.status}',weight: FontWeight.bold, size: 18,),
+                    title: CustomText(text:'Cliente: ${pedido.nome_cliente}',weight: FontWeight.bold, size: 18,),
 
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        CustomText(text: "Status Cliente = ${pedido.status} - Index $currentIndex"),
                         Divider(color: Colors.black,indent: 2.0),
                         CustomText(text:'Itens do Pedido:'),
                         SizedBox(height: 8),
                         for (var item in pedido.carrinho)
                           CustomText(text:'${item.quantidade}x ${item.nome}',color: CupertinoColors.systemRed,weight: FontWeight.bold,size: 15,),
                         SizedBox(height: 8),
+
                         CustomText(text:'Total a Pagar: R\$ ${pedido.totalPagar} Reais',weight: FontWeight.bold),
                         CustomText(text: 'Forma de pagamento: ${pedido.formaPagamento}'),
                         SizedBox(height: 8),

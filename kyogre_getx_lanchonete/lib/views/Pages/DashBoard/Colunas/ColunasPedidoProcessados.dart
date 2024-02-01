@@ -31,18 +31,6 @@ class ColunaPedidosProcessados extends StatelessWidget {
             ),
             SizedBox(height: 10.0),
 
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-              ),
-              onPressed: () {
-                //Get.to(DashBoardKanban());
-                Get.to(KanbanBoard());
-
-              },
-              child: Text('Kanban'),
-            ),
-
 
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -54,16 +42,7 @@ class ColunaPedidosProcessados extends StatelessWidget {
               child: Text('Gestao de Pedidos'),
             ),
 
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-              ),
-              onPressed: () {
-                pedidoController.fetchPedidos();
-              },
-              child: Text('Atualizar Pedidos'),
-            ),
-            SizedBox(height: 10.0),
+
             // Implemente a lista de pedidos em processamento aqui
           ],
         ),

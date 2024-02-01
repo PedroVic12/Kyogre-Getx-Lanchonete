@@ -66,7 +66,7 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
               child: CustomText(text:'Total de pedidos: ${total_pedidos}'),
 
             ),
-            CardPedido(status_pedido: "produção"),
+            CardPedido(status_pedido: "Produção"),
 
 
           ],

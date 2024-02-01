@@ -5,11 +5,13 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
+import '../../Tela Cardapio Digital/controllers/pikachu_controller.dart';
 import 'modelsPedido.dart';
 
 
 class PedidoController extends GetxController {
   late final allPedidosArray;
+  final pikachu = PikachuController();
 
   final Map<int, bool> pedidosAlertaMostrado = {};
   Timer? timer;
@@ -33,9 +35,55 @@ class PedidoController extends GetxController {
   }
   // Atualiza o status do pedido com base no index e move para a coluna correspondente
   void atualizarStatusPedido(int id, int novoIndex) {
-    var pedido = allPedidosArray.firstWhere((p) => p.id == id);
-    pedido.status = getIndexStatus(novoIndex);
+    var pedido = filaDeliveryController.getTodosPedidos().where((pedido) => pedido.id == id).toList();
+    pedido[0].status = getIndexStatus(novoIndex);
     update();
+  }
+
+
+
+  Future<void> avancarPedido(int id) async {
+    var pedido = filaDeliveryController.getTodosPedidos().where((pedido) => pedido.id == id).toList();
+    pikachu.cout("TESTE = ${pedido[0].id} - ${pedido[0].status} ");
+    if (pedido != null) {
+      var novoIndex = getStatusIndex(pedido[0].status) + 1;
+      if (novoIndex <= 3) {
+        //await atualizarStatusPedidoServer(id, "push");
+        atualizarStatusPedido(pedido[0].id,novoIndex);
+        update();
+      }
+    }
+  }
+
+  Future<void> retrocederPedido(int id) async {
+    var pedido = filaDeliveryController.getTodosPedidos().where((pedido) => pedido.id == id).toList();
+    try{
+      if (pedido != null) {
+        var novoIndex = getStatusIndex(pedido[0].status) - 1;
+        if (novoIndex >= 1) {
+          //await atualizarStatusPedidoServer(id, "pull");
+          atualizarStatusPedido(pedido[0].id,novoIndex);
+          update();
+        }
+      }
+    }catch (e){
+      Get.snackbar('Erro', e.toString());
+    }
+
+  }
+
+
+  int getStatusIndex(String status) {
+    switch (status) {
+      case 'Producao':
+        return 1;
+      case 'Entrega':
+        return 2;
+      case 'Concluido':
+        return 3;
+      default:
+        return 1;
+    }
   }
 
   String getIndexStatus(int index) {
@@ -51,53 +99,7 @@ class PedidoController extends GetxController {
     }
   }
 
-  // Avança o pedido para o próximo status.
-  void avancarPedido(int id) {
 
-    var pedido = allPedidosArray.firstWhereOrNull((p) => p.id == id);
-    print("Pedido = ${pedido}");
-
-    if (pedido != null) {
-      var novoIndex = getStatusIndex(pedido.status) + 1;
-      if (novoIndex <= 3) {
-        pedido.status = getIndexStatus(novoIndex);
-        update();
-      }
-    }
-  }
-
-  void retrocederPedido(int id) {
-
-    var pedido = allPedidosArray.firstWhereOrNull((p) => p.id == id);
-    if (pedido != null) {
-      var novoIndex = getStatusIndex(pedido.status) - 1;
-      if (novoIndex >= 1) {
-        pedido.status = getIndexStatus(novoIndex);
-        update();
-      }
-    }
-  }
-
-  int getStatusIndex(String status) {
-    switch (status) {
-      case 'Producao':
-        return 1;
-      case 'Entrega':
-        return 2;
-      case 'Concluido':
-        return 3;
-      default:
-        return 1;
-    }
-  }
-
-
-
-
-  // Retorna uma lista filtrada de pedidos com base no status
-  List<Pedido> pedidosPorStatus(String status) {
-    return allPedidosArray.where((p) => p.status == status).toList();
-  }
 
 
 

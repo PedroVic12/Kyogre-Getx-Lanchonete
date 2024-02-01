@@ -10,6 +10,9 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoContro
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/pikachu_controller.dart';
 
+import '../../../../app/widgets/Design/kanban_column.dart';
+import '../../../../app/widgets/Design/new_kanban_coluna.dart';
+
 
 class CardPedido extends StatelessWidget {
    final String status_pedido;
@@ -111,6 +114,7 @@ class CardPedido extends StatelessWidget {
 
 
   Widget popUpConfig(pedido,context){
+
     return  Column(children: [
       IconButton(
           onPressed: () {
@@ -141,7 +145,9 @@ class CardPedido extends StatelessWidget {
                               //cancelarPedido();
                             } else if (index == 1) {
                               //avancarPedido();
-                            }
+
+                              //k_controller.avancarStatus(card);
+                          }
                             Get.back();
                           },
                         ),

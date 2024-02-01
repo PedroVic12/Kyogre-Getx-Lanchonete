@@ -46,7 +46,7 @@ class TelaGestaoDePedidosDashBoard extends StatelessWidget {
         color: color,
         child: Column(
           children: [
-            Text("$titulo -> ($index)", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text("$titulo - ($index)", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             Divider(
               color: Colors.black,
             ),
@@ -89,13 +89,14 @@ class TelaGestaoDePedidosDashBoard extends StatelessWidget {
                   icon: Icon(Icons.arrow_back),
                   onPressed: () {
                     pedidoController.retrocederPedido(pedido.id);
-                    //pedidoController.atualizarStatusPedidoServer(pedido.id,"push");
+
                   },
                 ),
                 IconButton(
                   icon: Icon(Icons.arrow_forward),
                   onPressed: () {
-                    pedidoController.avancarPedido(pedido.id);
+                  pedidoController.avancarPedido(pedido.id);
+
                   }
 
                 ),

@@ -37,6 +37,9 @@ class MapsController extends GetxController {
   final destination = LatLng(-22.907662, -43.5659086);
   RxSet<Marker> markers = <Marker>{}.obs;
   RxList<LatLng> routeCoordinates = <LatLng>[].obs; // Para armazenar a rota
+  
+  final apiKey = "AIzaSyBz5PufcmSRVrrmTWPHS2qlzPosL70XrwE";
+
 
   @override
   void onInit() {
@@ -48,7 +51,7 @@ class MapsController extends GetxController {
   }
 
   Future<String> getAddressFromLatLng(LatLng position) async {
-    final url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=YOUR_API_KEY';
+    final url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=AIzaSyBz5PufcmSRVrrmTWPHS2qlzPosL70XrwE';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {

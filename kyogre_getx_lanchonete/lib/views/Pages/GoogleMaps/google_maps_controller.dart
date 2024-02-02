@@ -14,7 +14,7 @@ import 'package:location/location.dart';
 
 class GoogleMapsController extends GetxController {
   final google_api_key = "AIzaSyBz5PufcmSRVrrmTWPHS2qlzPosL70XrwE";
-
+  final trackingController = Get.put(TrackingController());
   // Dados
   static const LatLng sourceLocation = LatLng(-22.9510978, -43.1807461);
   static const LatLng destination = LatLng(-22.907662, -43.5659086);
@@ -108,5 +108,33 @@ class GoogleMapsController extends GetxController {
 
     BitmapDescriptor.fromAssetImage(ImageConfiguration.empty, "").then((value) => currentLocationIcon = value);
 
+  }
+
+
+
+}
+
+
+class TrackingController extends GetxController {
+  var currentMarkerPosition = LatLng(-22.9510978, -43.1807461).obs;
+  final LatLng destination = LatLng(-22.907662, -43.5659086);
+
+  @override
+  void onInit() {
+    super.onInit();
+    simulateMovement();
+  }
+
+  void simulateMovement() {
+    const step = 0.0001;
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      if (currentMarkerPosition.value.latitude < destination.latitude && currentMarkerPosition.value.longitude < destination.longitude) {
+        var newLat = currentMarkerPosition.value.latitude + step;
+        var newLng = currentMarkerPosition.value.longitude + step;
+        currentMarkerPosition.value = LatLng(newLat, newLng);
+      } else {
+        timer.cancel();
+      }
+    });
   }
 }

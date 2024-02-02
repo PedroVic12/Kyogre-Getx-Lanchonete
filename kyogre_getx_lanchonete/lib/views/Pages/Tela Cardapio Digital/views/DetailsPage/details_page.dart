@@ -27,7 +27,7 @@ class ItemDetailsPage extends StatelessWidget {
 
 
     return Scaffold(
-      backgroundColor: Colors.black45,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(6),
@@ -41,12 +41,9 @@ class ItemDetailsPage extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              detalhesProdutos(),
+              detalhesProdutos("Conheça mais sobre o produto "),
               showProdutosComSubCategorias(produto_selecionado),
-              RadioButtonGroup(
-                niveis: form_controller.niveis,
-                nivelSelecionado: form_controller.nivelSelecionado,
-              ),
+
               CaixaDeTexto(
                 controller: form_controller.observacoesDique,
                 labelText: "Observações",
@@ -66,15 +63,27 @@ class ItemDetailsPage extends StatelessWidget {
       print(produto.sub_categoria);
       print('\n\nProduto com varias categorias para o cliente selecionar');
       print("Details page é diferente");
+
+
+
+      return Column(children: [
+        Container(child: CustomText(text: "Item = ${produto.nome} ${produto.sub_categoria}",color: Colors.white,size: 30,),),
+        RadioButtonGroup(
+          niveis: form_controller.niveis,
+          nivelSelecionado: form_controller.nivelSelecionado,
+        ),
+      ],);
+    } else {
+      return Text('Sem descrição');
     }
-    return Container(child: CustomText(text: "Item = ${produto.nome} ${produto.sub_categoria}",),);
+
   }
 
   Widget botoesSuperior(produto) {
     return Container(
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.black87,
+        color: Colors.blueGrey,
         borderRadius: BorderRadius.all(Radius.circular(32)),
       ),
       child: Row(
@@ -156,7 +165,7 @@ class ItemDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget detalhesProdutos() {
+  Widget detalhesProdutos(String txt) {
     //final produto = carrinho.SACOLA.keys.toList()[index];
     //final quantidade = carrinho.SACOLA[produto] ?? 0;
 
@@ -168,7 +177,7 @@ class ItemDetailsPage extends StatelessWidget {
           //end crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-           // CustomText( text: produto_selecionado.nome,   size: 18,  color: Colors.white,     weight: FontWeight.bold,         ),
+           CustomText( text: "${txt} ${produto_selecionado.nome}\nQue tal matar a fome com ele? hmmm",   size: 18,  color: Colors.white,     weight: FontWeight.bold,         ),
             SizedBox(
               width: 30,
             ),

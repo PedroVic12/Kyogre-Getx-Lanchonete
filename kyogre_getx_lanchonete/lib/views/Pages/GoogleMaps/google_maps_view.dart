@@ -8,6 +8,10 @@ import 'package:google_maps_flutter_web/google_maps_flutter_web.dart'
 as googleMaps;
 import 'package:kyogre_getx_lanchonete/app/Teoria%20do%20Caos/CaosPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/GoogleMaps/google_maps_controller.dart';
+import 'package:location/location.dart';
+
+import '../Monitoramento/maps/tela_google_maps.dart';
+import '../Monitoramento/tracking/tracking_map_page.dart';
 
 class PedidoTrackingMapsScreen extends StatefulWidget {
   const PedidoTrackingMapsScreen({super.key});
@@ -20,13 +24,39 @@ class PedidoTrackingMapsScreen extends StatefulWidget {
 class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
   final google_api_key = "AIzaSyBz5PufcmSRVrrmTWPHS2qlzPosL70XrwE";
   final controller = Get.put(GoogleMapsController());
-
+  Location _locationController = new Location();
+  LatLng? _currentPosition;
 
 // Dados
   static const LatLng sourceLocation = LatLng(-22.9510978, -43.1807461);
   static const LatLng destination = LatLng(-22.907662, -43.5659086);
 
+  Future<void> _getLocationUpdates() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
 
+    _serviceEnabled = await _locationController.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await _locationController.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await _locationController.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await _locationController.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    _locationController.onLocationChanged.listen((LocationData currentLocation) {
+      setState(() {
+        _currentPosition = LatLng(currentLocation.latitude!, currentLocation.longitude!);
+      });
+    });
+  }
 
 //variaveis
   bool showMaps = true;
@@ -57,7 +87,33 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Set<Marker> _markers = {
+      Marker(
+        markerId: MarkerId('source'),
+        position: GoogleMapsController.sourceLocation,
+        icon: BitmapDescriptor.defaultMarker,
+      ),
+      Marker(
+        markerId: MarkerId('destination'),
+        position: GoogleMapsController.destination,
+        icon: BitmapDescriptor.defaultMarker,
+      ),
+      Marker(
+        markerId: MarkerId('moving'),
+        position: controller.trackingController.currentMarkerPosition.value,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+      ),
+    };
 
+    if (_currentPosition != null) {
+      _markers.add(
+        Marker(
+          markerId: MarkerId('currentPosition'),
+          position: _currentPosition!,
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        ),
+      );
+    }
     if (kIsWeb) {
       return Scaffold(
         appBar: AppBar(
@@ -65,8 +121,9 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
         ),
         body: ListView(children: [
 
-          Mapa(),
-          localAtualizadoDispositivo(),
+          ElevatedButton(onPressed: ()=>Get.to(GoogleMapsWidget()), child: Text("Track page")),
+
+          MapaWidget(),
         ],)
       );
     } else {
@@ -76,56 +133,9 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
     }
   }
 
-  Widget localAtualizadoDispositivo(){
-    var currentLocation = controller.localizacaoAtual != null
-        ? LatLng(controller.localizacaoAtual!.latitude!, controller.localizacaoAtual!.longitude!)
-        : sourceLocation; // Fallback para uma localização padrão
 
-    controller.getPolyPoints(); // Chama para obter os pontos da rota
 
-    if (controller.localizacaoAtual == null ){
-      return Center(child: LoadingWidget());
-    } else {
-      return Container(
-        padding: EdgeInsets.all(12),
-        height: 300,
-        width: 600,
-        child: GoogleMap(
-          mapType: MapType.normal,
-          initialCameraPosition: CameraPosition(target: currentLocation, zoom: 13.5),
-          polylines: {
-            Polyline(polylineId: PolylineId('route'),
-                points: controller.coordenadas,
-                color: Colors.red,
-                width: 5
-            )
-          },
-          markers: {
-            Marker(
-              markerId: MarkerId('currentLocation'),
-              position: currentLocation, // Usa a localização atual
-              icon: controller.currentLocationIcon,
-            ),
-            Marker(
-              markerId: MarkerId('source'),
-              position: sourceLocation,
-              icon: controller.sourceIcon,
-            ),
-            Marker(
-              markerId: MarkerId('destination'),
-              position: destination,
-              icon: controller.destinationIcon,
-            ),
-          },
-          onMapCreated: (mapController){
-            controller.googleMapController.complete(mapController);
-          },
-        ),
-      );
-    }
-  }
-
-  Widget Mapa(){
+  Widget MapaWidget(){
     return   Container(
       padding: EdgeInsets.all(12),
       height: 300,

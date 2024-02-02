@@ -36,16 +36,16 @@ class GestaoPedidosController extends GetxController {
   }
 
   Future<void> atualizarStatusPedido(int pedidoId, String acao) async {
-    final url = Uri.parse('https://rayquaza-citta-server.onrender.com/pedido/$pedidoId');
+    final url = Uri.parse('https://rayquaza-citta-server.onrender.com/pedidos/$pedidoId');
     final response = await http.put(
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'id': pedidoId, 'acao': acao}),
     );
 
+
     if (response.statusCode == 200) {
-      print('Pedido atualizado com sucesso.');
-      // Atualize o estado local aqui, se necessário
+      Get.snackbar("Pedido atualizado com sucesso!", "",showProgressIndicator: true,duration: Duration(seconds: 1));
     } else {
       print('Falha ao atualizar o pedido: ${response.body}');
     }
@@ -62,14 +62,13 @@ class GestaoPedidosController extends GetxController {
 
   }
 
-  void moveLeft(Task task) {
+  void moveLeft(Task task) async {
+
     if (task.columnIndex > 1) {
       task.columnIndex--;
       task.pedido.status = getIndexStatus(task.columnIndex); // Atualiza o status
       tasks.refresh();
     }
-    //atualizarStatusPedido(task.pedido.id, getIndexStatus(task.columnIndex));
-
   }
 
   int getStatusIndex(String status) {

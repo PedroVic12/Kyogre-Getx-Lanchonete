@@ -40,6 +40,7 @@ class MenuLateralNavegacaoDash extends StatelessWidget {
     ItemMenuLateral( title: 'Google Maps Pedido', icon: Icons.location_on_rounded, route: '/mapaPedido'),
     ItemMenuLateral(title: 'Cardapio Digital QR', icon: Icons.fastfood_rounded, route: '/cardapioQR'),
     ItemMenuLateral(title: 'Tela de Cadastro', icon: Icons.fastfood_rounded, route: '/authScreen'),
+    ItemMenuLateral(title: 'Atendimento ao Cliente', icon: Icons.screenshot_monitor_sharp, route: '/atendimento'),
 
 
     //ItemMenuLateral( title: 'Grid Style', icon: Icons.abc_outlined, route: '/layoutDesign'),

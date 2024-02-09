@@ -7,6 +7,8 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Design/NightWolfAppBar.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Monitoramento/maps/controllers.dart';
 
+import '../../../../app/widgets/Custom/AssinaturaWidget.dart';
+
 class GoogleMapsWidget extends StatelessWidget {
   final MapsController mapsController = Get.put(MapsController());
 
@@ -128,6 +130,8 @@ class GoogleMapsWidget extends StatelessWidget {
           onPressed: incrementStatus,
           child: Text('Incrementar Status'),
         ),
+
+        AssinaturaWidget()
       ],
     );
   }

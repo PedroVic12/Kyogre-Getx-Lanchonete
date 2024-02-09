@@ -37,7 +37,7 @@ class MapsController extends GetxController {
   final destination = LatLng(-22.907662, -43.5659086);
   RxSet<Marker> markers = <Marker>{}.obs;
   RxList<LatLng> routeCoordinates = <LatLng>[].obs; // Para armazenar a rota
-  
+
   final apiKey = "AIzaSyBz5PufcmSRVrrmTWPHS2qlzPosL70XrwE";
 
 

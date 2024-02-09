@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 
 class BotaoPadrao extends StatelessWidget {
   final Color color;
@@ -19,7 +18,7 @@ class BotaoPadrao extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20)
             )
         ),
-            child:child )
+            child: child)
 
     )
     );

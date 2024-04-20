@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/InfoCards/InfoCard.dart';
 
-
 class OverviewCardsMediumScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
 
-    return  Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(
@@ -16,7 +14,7 @@ class OverviewCardsMediumScreen extends StatelessWidget {
             InfoCard(
               title: "Rides in progress",
               value: "7",
-              onTap: (){},
+              onTap: () {},
               isActive: true,
             ),
             SizedBox(
@@ -25,10 +23,9 @@ class OverviewCardsMediumScreen extends StatelessWidget {
             InfoCard(
               title: "Packages delivered",
               value: "17",
-              onTap: (){},
+              onTap: () {},
               isActive: true,
             ),
-
           ],
         ),
         SizedBox(
@@ -36,13 +33,11 @@ class OverviewCardsMediumScreen extends StatelessWidget {
         ),
         Row(
           children: [
-
             InfoCard(
               title: "Cancelled delivery",
               value: "3",
-              onTap: (){},
+              onTap: () {},
               isActive: true,
-
             ),
             SizedBox(
               width: _width / 64,
@@ -50,10 +45,9 @@ class OverviewCardsMediumScreen extends StatelessWidget {
             InfoCard(
               title: "Scheduled deliveries",
               value: "32",
-              onTap: (){},
+              onTap: () {},
               isActive: true,
             ),
-
           ],
         ),
       ],

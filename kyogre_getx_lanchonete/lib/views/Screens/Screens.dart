@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Design/NightWolfAppBar.dart';
-import 'package:kyogre_getx_lanchonete/app/widgets/Utils/MenuLateral.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Utils/MenuLateralNavegacao.dart';
 import 'package:kyogre_getx_lanchonete/views/Screens/OverViewCards/OverViewCardLarge.dart';
 import 'package:kyogre_getx_lanchonete/views/Screens/OverViewCards/OverViewCardSmall.dart';
-
 
 class LargePage extends StatelessWidget {
   LargePage({Key? key}) : super(key: key);
@@ -26,7 +25,6 @@ class LargePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(child: MenuLateralNavegacaoDash()),
-
               Expanded(
                   flex: 4,
                   child: Container(
@@ -34,14 +32,11 @@ class LargePage extends StatelessWidget {
                     constraints: BoxConstraints.expand(),
                     color: CupertinoColors.systemYellow,
                   )),
-
             ],
           ),
-        )
-    );
+        ));
   }
 }
-
 
 class LargeScreen extends StatelessWidget {
   const LargeScreen({Key? key}) : super(key: key);
@@ -52,7 +47,6 @@ class LargeScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(child: MenuLateralNavegacaoDash()),
-
         Expanded(
             flex: 4,
             child: Container(
@@ -60,10 +54,7 @@ class LargeScreen extends StatelessWidget {
               constraints: BoxConstraints.expand(),
               color: CupertinoColors.activeOrange,
             )),
-
       ],
-
-
     );
   }
 }

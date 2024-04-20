@@ -5,28 +5,25 @@ import 'package:kyogre_getx_lanchonete/app/rotas/routes.dart';
 
 // TODO 1:15
 
-
-class MenuControler extends GetxController{
+class MenuControler extends GetxController {
   static MenuControler instance = Get.find();
   var activeItem = PaginaOverViewDisplayName.obs;
   var hoverItem = ''.obs;
 
-  changeActiveItemTo(String itemName){
+  changeActiveItemTo(String itemName) {
     activeItem.value = itemName;
-
   }
 
-  onHover(String itemName){
+  onHover(String itemName) {
     if (!isActive(itemName)) hoverItem.value = itemName;
-
   }
 
-  isActive(String itemName) => activeItem.value ==itemName;
+  isActive(String itemName) => activeItem.value == itemName;
 
   isPassandoNaTela(String itemName) => hoverItem.value = itemName;
 
-  Widget returnIconFor(String itemName){
-    switch (itemName){
+  Widget returnIconFor(String itemName) {
+    switch (itemName) {
       case overviewPageRoute:
         return _customIcon(Icons.trending_up_outlined, itemName);
 
@@ -40,15 +37,15 @@ class MenuControler extends GetxController{
         return _customIcon(Icons.exit_to_app_outlined, itemName);
       default:
         return _customIcon(Icons.exit_to_app_outlined, itemName);
-
-
     }
   }
 
-  Widget _customIcon(IconData icon, String itemName){
+  Widget _customIcon(IconData icon, String itemName) {
     if (isActive(itemName)) return Icon(icon, size: 22, color: Colors.black);
 
-    return Icon(icon, color: isPassandoNaTela(itemName) ? Colors.deepPurpleAccent: CupertinoColors.inactiveGray);
+    return Icon(icon,
+        color: isPassandoNaTela(itemName)
+            ? Colors.deepPurpleAccent
+            : CupertinoColors.inactiveGray);
   }
-
 }

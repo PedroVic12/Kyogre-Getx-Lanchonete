@@ -7,8 +7,6 @@ import 'package:kyogre_getx_lanchonete/views/responsividade/ResponsiveWidget.dar
 
 import '../DashBoard/Pedido/FilaDeliveryController.dart';
 
-
-
 class Layout extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
@@ -28,11 +26,7 @@ class Layout extends StatelessWidget {
 
             // tela Default
             smallScreen:
-            //child: localNavigator(),
-            SmallScreen()
-        )
-    );
+                //child: localNavigator(),
+                SmallScreen()));
   }
 }
-
-

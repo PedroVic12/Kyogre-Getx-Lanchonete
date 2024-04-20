@@ -4,8 +4,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kyogre_getx_lanchonete/app/Teoria%20do%20Caos/CaosPage.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Design/CartaoGridView.dart';
-import 'package:kyogre_getx_lanchonete/app/widgets/Utils/MenuLateral.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Utils/MenuLateralNavegacao.dart';
 import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
+import 'package:kyogre_getx_lanchonete/models/DataBaseController/Views/excel_view_database.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CardapioDigitalPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
@@ -54,10 +55,10 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/layoutDesign', page: () => const CartaoGridView()),
         GetPage(name: '/caosPage', page: () => const CaosPageWidget()),
         GetPage(name: '/cardapioQR', page: () => const CardapioQrCode()),
-        GetPage(name: '/mapaPedido', page: () =>  GoogleMapsWidget()),
+        GetPage(name: '/mapaPedido', page: () => GoogleMapsWidget()),
         GetPage(name: '/authScreen', page: () => TelaAutenticacaoUsuarios()),
         GetPage(name: '/atendimento', page: () => ChatPage()),
-
+        GetPage(name: '/database', page: () => ExcelReaderView()),
         GetPage(
             name: '/pedido/:id',
             page: () {

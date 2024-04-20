@@ -6,8 +6,6 @@ import 'dart:convert';
 import 'package:kyogre_getx_lanchonete/app/widgets/InfoCards/InfoCard.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/CardPedido.dart';
 
-
-
 Future<dynamic> readJsonFile(String filePath) async {
   File file = File(filePath);
   if (await file.exists()) {
@@ -57,20 +55,18 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
                   // Dados do arquivo JSON
                   dynamic jsonData = snapshot.data;
 
-
                   return Container(
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(height: _cardWidth / 64),
-
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                width: _cardWidth , // Defina a largura desejada para o CardPedido
+                                width:
+                                    _cardWidth, // Defina a largura desejada para o CardPedido
                                 //child: infoCards[0],
                               ),
                               InfoCard(
@@ -106,8 +102,6 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
                       ),
                     ),
                   );
-
-
                 } else {
                   return Text('No data available');
                 }
@@ -128,11 +122,4 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
       ),
     );
   }
-
-
-
-
-
-
-
 }

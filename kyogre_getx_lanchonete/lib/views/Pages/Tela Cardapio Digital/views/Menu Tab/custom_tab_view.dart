@@ -16,21 +16,10 @@ class _MyTabbedPageState extends State<MyTabbedPage>
     'Tab 2',
     'Tab 3',
     'Tab 4',
-    'Tab 5',
-    'Tab 6',
-    'Tab 7'
   ];
   final List<String> tabContents = [
     'Content of Tab 1',
     'Content of Tab 2',
-    'Content of Tab 3',
-    'Content of Tab 3',
-    'Content of Tab 3',
-    'Content of Tab 3',
-    'Content of Tab 3',
-    'Content of Tab 3',
-    'Content of Tab 3',
-    'Content of Tab 3',
     'Content of Tab 3',
     'Content of Tab 3',
   ];
@@ -49,7 +38,7 @@ class _MyTabbedPageState extends State<MyTabbedPage>
           controller: _tabController,
           tabs: List<Widget>.generate(
             tabTitles.length,
-                (index) => TabBarGradiente(
+            (index) => TabBarGradiente(
                 tabTitles[index], _tabController.index == index),
           ),
         ),
@@ -57,7 +46,7 @@ class _MyTabbedPageState extends State<MyTabbedPage>
       body: TabBarView(
         controller: _tabController,
         children:
-        tabContents.map((content) => Center(child: Text(content))).toList(),
+            tabContents.map((content) => Center(child: Text(content))).toList(),
       ),
     );
   }
@@ -82,9 +71,9 @@ class _MyTabbedPageState extends State<MyTabbedPage>
           gradient: isSelected
               ? LinearGradient(colors: [Colors.greenAccent, Colors.green])
               : LinearGradient(colors: [
-            Colors.deepPurple.shade100,
-            CupertinoColors.activeBlue.highContrastElevatedColor
-          ]),
+                  Colors.deepPurple.shade100,
+                  CupertinoColors.activeBlue.highContrastElevatedColor
+                ]),
         ),
         child: Center(
           child: CustomText(

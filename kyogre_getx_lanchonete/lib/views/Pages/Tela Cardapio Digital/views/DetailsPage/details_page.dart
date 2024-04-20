@@ -24,8 +24,6 @@ class ItemDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var _height = MediaQuery.of(context).size.height;
 
-
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -43,7 +41,6 @@ class ItemDetailsPage extends StatelessWidget {
               ),
               detalhesProdutos("Conheça mais sobre o produto "),
               showProdutosComSubCategorias(produto_selecionado),
-
               CaixaDeTexto(
                 controller: form_controller.observacoesDique,
                 labelText: "Observações",
@@ -58,25 +55,31 @@ class ItemDetailsPage extends StatelessWidget {
       ),
     );
   }
-  Widget showProdutosComSubCategorias(ProdutoModel produto){
-    if(produto.sub_categoria != null){
+
+  Widget showProdutosComSubCategorias(ProdutoModel produto) {
+    if (produto.sub_categoria != null) {
       print(produto.sub_categoria);
       print('\n\nProduto com varias categorias para o cliente selecionar');
       print("Details page é diferente");
 
-
-
-      return Column(children: [
-        Container(child: CustomText(text: "Item = ${produto.nome} ${produto.sub_categoria}",color: Colors.white,size: 30,),),
-        RadioButtonGroup(
-          niveis: form_controller.niveis,
-          nivelSelecionado: form_controller.nivelSelecionado,
-        ),
-      ],);
+      return Column(
+        children: [
+          Container(
+            child: CustomText(
+              text: "Item = ${produto.nome} ${produto.sub_categoria}",
+              color: Colors.white,
+              size: 30,
+            ),
+          ),
+          RadioButtonGroup(
+            niveis: form_controller.niveis,
+            nivelSelecionado: form_controller.nivelSelecionado,
+          ),
+        ],
+      );
     } else {
       return Text('Sem descrição');
     }
-
   }
 
   Widget botoesSuperior(produto) {
@@ -97,7 +100,11 @@ class ItemDetailsPage extends StatelessWidget {
               size: 32,
             ),
           ),
-          CustomText(text: produto_selecionado.nome,color: Colors.white, size: 28,),
+          CustomText(
+            text: produto_selecionado.nome,
+            color: Colors.white,
+            size: 28,
+          ),
           InkWell(
             onTap: () => Get.to(CarrinhoPage()),
             child: Icon(
@@ -177,7 +184,13 @@ class ItemDetailsPage extends StatelessWidget {
           //end crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-           CustomText( text: "${txt} ${produto_selecionado.nome}\nQue tal matar a fome com ele? hmmm",   size: 18,  color: Colors.white,     weight: FontWeight.bold,         ),
+            CustomText(
+              text:
+                  "${txt} ${produto_selecionado.nome}\nQue tal matar a fome com ele? hmmm",
+              size: 18,
+              color: Colors.white,
+              weight: FontWeight.bold,
+            ),
             SizedBox(
               width: 30,
             ),

@@ -39,7 +39,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
     controller.fetchClienteNome(widget.id);
     controller.setIdPage(widget.id);
     //controller.setupCardapioDigitalWeb();
-    controller.initPage().then((value) =>  controller.setupCardapioDigitalWeb());
+    controller.initPage().then((value) => controller.setupCardapioDigitalWeb());
   }
 
   void showBarraInferior() {
@@ -51,6 +51,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   @override
   Widget build(BuildContext context) {
     // Variaveis
+    //repository
     List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
 
     if (kIsWeb) {
@@ -59,7 +60,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
       return buildWebPage();
     } else {
       // Comportamento para outras plataformas (móveis)
-      return CardapioDigtalApp();
+      return const CardapioDigtalApp();
     }
   }
 

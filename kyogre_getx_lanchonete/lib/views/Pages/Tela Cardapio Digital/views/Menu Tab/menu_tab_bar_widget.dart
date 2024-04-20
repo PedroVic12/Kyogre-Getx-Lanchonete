@@ -23,13 +23,13 @@ class MenuTabBarCardapio extends StatefulWidget {
 class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  bool _isLoadingTabView =      true;
+  bool _isLoadingTabView = true;
   final CardapioController controller = Get.put(CardapioController());
-  final MenuProdutosController menuController =   Get.put(MenuProdutosController());
+  final MenuProdutosController menuController =
+      Get.put(MenuProdutosController());
 
   @override
   void initState() {
-
     controller.setupCardapioDigitalWeb().then((_) {
       if (mounted) {
         setState(() {
@@ -46,24 +46,26 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
     });
   }
 
-
-
   void _handleTabSelection() {
-    if (_tabController.indexIsChanging || _tabController.index != menuController.produtoIndex.value) {
+    if (_tabController.indexIsChanging ||
+        _tabController.index != menuController.produtoIndex.value) {
       menuController.setProdutoIndex(_tabController.index);
-      setState(() {}); // Isso forçará a reconstrução do widget para refletir a nova seleção
+      setState(
+          () {}); // Isso forçará a reconstrução do widget para refletir a nova seleção
     }
   }
+
   void selecionarLista([int? selectedIndex]) {
     int newIndex = selectedIndex ?? _tabController.index;
 
     if (newIndex != menuController.produtoIndex.value) {
       menuController.setProdutoIndex(newIndex);
-      _tabController.animateTo(newIndex); // Isso garantirá que a aba correta seja selecionada no TabBar.
-      setState(() {}); // Isso forçará a reconstrução do widget para refletir a nova seleção.
+      _tabController.animateTo(
+          newIndex); // Isso garantirá que a aba correta seja selecionada no TabBar.
+      setState(
+          () {}); // Isso forçará a reconstrução do widget para refletir a nova seleção.
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +75,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
       } else {
         return Column(
           children: [
-
             // Menu Tab Scrol Gradiente
             _buildHeader(),
             TabBarScrollCardapioCategorias(),
@@ -100,32 +101,45 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
                 builder: (context) => CupertinoAlertDialog(
                   actions: [
                     CupertinoDialogAction(
-                        child: const CustomText(text:'Fechar', weight: FontWeight.bold,),
-                        onPressed: () => Get.back()
-                    ),
+                        child: const CustomText(
+                          text: 'Fechar',
+                          weight: FontWeight.bold,
+                        ),
+                        onPressed: () => Get.back()),
                   ],
                   title: CustomText(text: 'Selecione uma categoria'),
                   content: Container(
                     height: 200, // Defina uma altura fixa para o ListView
                     child: ListView.builder(
-                      itemCount: controller.menuCategorias.MenuCategorias_Array.length,
+                      itemCount:
+                          controller.menuCategorias.MenuCategorias_Array.length,
                       itemBuilder: (BuildContext context, int index) {
-                        bool isSelectedHeader = menuController.produtoIndex.value == index;
+                        bool isSelectedHeader =
+                            menuController.produtoIndex.value == index;
 
                         return Material(
                             color: Colors.grey.shade300,
-                            child: Column(children: [
-                              ListTile(
-                                focusColor: Colors.green,
-                                title: CustomText(text:controller.menuCategorias.MenuCategorias_Array[index].nome, color: isSelectedHeader ? Colors.green : Colors.black),
-                                onTap: () {
-                                  selecionarLista(index);
-                                  //Get.back();
-                                },
-                              ),
-                              Divider(height: 5,color: Colors.black,)
-                            ],)
-                        );
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  focusColor: Colors.green,
+                                  title: CustomText(
+                                      text: controller.menuCategorias
+                                          .MenuCategorias_Array[index].nome,
+                                      color: isSelectedHeader
+                                          ? Colors.green
+                                          : Colors.black),
+                                  onTap: () {
+                                    selecionarLista(index);
+                                    //Get.back();
+                                  },
+                                ),
+                                Divider(
+                                  height: 5,
+                                  color: Colors.black,
+                                )
+                              ],
+                            ));
                       },
                     ),
                   ),
@@ -144,7 +158,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
       ),
     );
   }
-
 
   Widget TabBarScrollCardapioCategorias() {
     return Container(
@@ -165,7 +178,8 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.only(left: 6), // Ajuste o espaçamento à esquerda aqui
+        padding: const EdgeInsets.only(
+            left: 6), // Ajuste o espaçamento à esquerda aqui
         child: TabBar(
           controller: _tabController,
           labelColor: Colors.white,
@@ -175,14 +189,15 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
           labelPadding: EdgeInsets.all(6),
           tabs: List<Widget>.generate(
             controller.menuCategorias.MenuCategorias_Array.length,
-                (index) {
-              var categoria = controller.menuCategorias.MenuCategorias_Array[index];
-              return _buildTabBarMenuGradiente(categoria.nome, categoria.iconPath ?? categoria.img, index);
+            (index) {
+              var categoria =
+                  controller.menuCategorias.MenuCategorias_Array[index];
+              return _buildTabBarMenuGradiente(
+                  categoria.nome, categoria.iconPath ?? categoria.img, index);
             },
           ),
         ),
       ),
-
     );
   }
 
@@ -198,7 +213,6 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
         child: Container(
           width: 115,
           height: 80,
-
           margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.white, width: 1),
@@ -214,9 +228,9 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
             gradient: isSelected
                 ? LinearGradient(colors: [Colors.greenAccent, Colors.green])
                 : LinearGradient(colors: [
-              Colors.deepPurple.shade100,
-              CupertinoColors.activeBlue.highContrastElevatedColor
-            ]),
+                    Colors.deepPurple.shade100,
+                    CupertinoColors.activeBlue.highContrastElevatedColor
+                  ]),
           ),
           child: Center(
             child: Column(
@@ -226,8 +240,11 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
                   iconPath, // Renderiza o widget (Icon ou Image)
                   SizedBox(height: 5),
                 ],
-
-                CustomText(text: nome,color: isSelected ? Colors.white : Colors.black,size: 13,)
+                CustomText(
+                  text: nome,
+                  color: isSelected ? Colors.white : Colors.black,
+                  size: 13,
+                )
               ],
             ),
           ),
@@ -236,20 +253,19 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
     });
   }
 
-
   //! CARDS PRODUTOS
 
   Widget TabBarViewCardapioProdutosDetails() {
     return Obx(() {
       return TabBarView(
         controller: _tabController,
-        children: controller.menuCategorias.MenuCategorias_Array.map((categoria) {
+        children:
+            controller.menuCategorias.MenuCategorias_Array.map((categoria) {
           return CardsProdutosFIltrados(categoria_selecionada: categoria.nome);
         }).toList(),
       );
     });
   }
-
 
   @override
   void dispose() {

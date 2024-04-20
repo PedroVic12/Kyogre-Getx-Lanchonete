@@ -5,7 +5,11 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 class MenuCategorias extends StatefulWidget {
   final Function(int) onCategorySelected;
 
-  MenuCategorias({Key? key, required this.onCategorySelected, required List<String> categorias}) : super(key: key);
+  MenuCategorias(
+      {Key? key,
+      required this.onCategorySelected,
+      required List<String> categorias})
+      : super(key: key);
 
   @override
   _MenuCategoriasState createState() => _MenuCategoriasState();
@@ -14,6 +18,7 @@ class MenuCategorias extends StatefulWidget {
 class _MenuCategoriasState extends State<MenuCategorias> {
   int selectedCategoryIndex = 0;
 
+//repository
   List<String> categorias = [
     'Todos os Produtos',
     'Sanduíches Tradicionais',
@@ -36,7 +41,10 @@ class _MenuCategoriasState extends State<MenuCategorias> {
               alignment: Alignment.topLeft,
               child: Text(
                 'Categorias',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black),
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
               ),
             ),
           ),
@@ -55,7 +63,8 @@ class _MenuCategoriasState extends State<MenuCategorias> {
                         widget.onCategorySelected(i);
                       },
                       child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
                         height: 30,
                         decoration: BoxDecoration(
                           color: selectedCategoryIndex == i
@@ -78,7 +87,11 @@ class _MenuCategoriasState extends State<MenuCategorias> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 3),
-                              child: CustomText(text: categorias[i], size: 18,color: CupertinoColors.white,),
+                              child: CustomText(
+                                text: categorias[i],
+                                size: 18,
+                                color: CupertinoColors.white,
+                              ),
                             )
                           ],
                         ),

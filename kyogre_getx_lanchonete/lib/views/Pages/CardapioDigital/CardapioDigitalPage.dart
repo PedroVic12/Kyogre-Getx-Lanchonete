@@ -127,16 +127,16 @@ class _DetailsPageState extends State<DetailsPage> {
           botaoVerCarrinho()
         ]),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Text('Abrir'),
-        onPressed: () => Get.bottomSheet(
-          BottomSheetWidget(
-            nomeCliente: nomeCliente,
-            telefoneCliente: telefoneCliente,
-            id: widget.id,
-          ),
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: Text('Abrir'),
+      //   onPressed: () => Get.bottomSheet(
+      //     BottomSheetWidget(
+      //       nomeCliente: nomeCliente,
+      //       telefoneCliente: telefoneCliente,
+      //       id: widget.id,
+      //     ),
+      //   ),
+      // ),
     );
   }
 

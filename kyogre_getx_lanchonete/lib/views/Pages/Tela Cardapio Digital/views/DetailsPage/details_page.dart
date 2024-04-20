@@ -23,25 +23,19 @@ class ItemDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _height = MediaQuery.of(context).size.height;
-
-    print(
-        "Item = ${produto_selecionado.nome} ${produto_selecionado.categoria}");
-    print(produto_selecionado);
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(6),
+          padding: const EdgeInsets.all(6),
           child: ListView(
             children: [
               botoesSuperior(produto_selecionado),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               CarrouselImagensWidget(produto_selecionado: produto_selecionado),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               detalhesProdutos("Conheça mais sobre o produto "),
@@ -102,14 +96,14 @@ class ItemDetailsPage extends StatelessWidget {
         ],
       );
     } else {
-      return Text('Sem descrição');
+      return const Text('Sem descrição');
     }
   }
 
   Widget botoesSuperior(produto) {
     return Container(
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(12),
+      decoration: const BoxDecoration(
         color: Colors.blueGrey,
         borderRadius: BorderRadius.all(Radius.circular(32)),
       ),
@@ -118,7 +112,7 @@ class ItemDetailsPage extends StatelessWidget {
         children: [
           InkWell(
             onTap: () => Get.back(),
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back_rounded,
               color: Colors.white,
               size: 32,
@@ -131,7 +125,7 @@ class ItemDetailsPage extends StatelessWidget {
           ),
           InkWell(
             onTap: () => Get.to(CarrinhoPage()),
-            child: Icon(
+            child: const Icon(
               Icons.shopping_cart_rounded,
               color: Colors.white,
               size: 32,
@@ -155,10 +149,10 @@ class ItemDetailsPage extends StatelessWidget {
             height: 40,
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(10)),
-            child: Icon(CupertinoIcons.minus_circle_fill, size: 32),
+            child: const Icon(CupertinoIcons.minus_circle_fill, size: 32),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 12,
         ),
         Obx(() {
@@ -170,7 +164,7 @@ class ItemDetailsPage extends StatelessWidget {
             weight: FontWeight.bold,
           );
         }),
-        SizedBox(
+        const SizedBox(
           width: 12,
         ),
         InkWell(
@@ -183,13 +177,13 @@ class ItemDetailsPage extends StatelessWidget {
             height: 40,
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(10)),
-            child: Icon(
+            child: const Icon(
               CupertinoIcons.plus_circle_fill,
               size: 32,
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 15,
         ),
       ],
@@ -215,7 +209,7 @@ class ItemDetailsPage extends StatelessWidget {
               color: Colors.white,
               weight: FontWeight.bold,
             ),
-            SizedBox(
+            const SizedBox(
               width: 30,
             ),
             //btnQuantidade()

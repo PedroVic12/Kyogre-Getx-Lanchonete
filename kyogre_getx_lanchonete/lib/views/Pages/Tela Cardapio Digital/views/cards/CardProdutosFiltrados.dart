@@ -62,7 +62,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
         Get.find<MenuProdutosRepository>();
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       color: CupertinoColors.systemBlue,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -93,7 +93,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
         .filtrarEOrdenarPorNome(categoria);
 
     if (produtosOrdenados.isEmpty) {
-      return LoadingWidget();
+      return const LoadingWidget();
     } else {
       // Exibir a lista de produtos filtrados
       return Expanded(
@@ -102,12 +102,12 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
           itemBuilder: (context, index) {
             var produto = produtosOrdenados[index];
             print(
-                "\nProduto Selecionado = ${produto.nome} | ${produto.preco_1} | ${produto.categoria} | ${produto.sub_categoria}");
+                "\nProduto Selecionado = ${produto.nome} | ${produto.preco_1} | ${produto.categoria} | ${produto.sub_categoria} | ${produto.ingredientes} | ${produto.Adicionais}");
 
             return AnimatedProductCardWrapper(
               produto: produto,
-              duration: Duration(
-                  milliseconds: 2000), // Ajuste a duração conforme necessário
+              duration: const Duration(
+                  milliseconds: 1000), // Ajuste a duração conforme necessário
 
               onTap: () {},
             );
@@ -125,9 +125,9 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
       future: repositoryController.getJsonFilesRepositoryProdutos(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
               child: Text('Ocorreu um erro ao carregar os produtos.'));
         } else {
           return Container(

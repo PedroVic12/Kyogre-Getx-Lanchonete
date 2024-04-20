@@ -13,31 +13,29 @@ class RepositoryDataBaseController extends GetxController {
   final String pizzasFile = 'lib/repository/models/pizzas.json';
 
   final PikachuController pikachu = Get.put(PikachuController());
-  final MenuProdutosRepository menuCategorias = Get.find<MenuProdutosRepository>();
+  final MenuProdutosRepository menuCategorias =
+      Get.find<MenuProdutosRepository>();
   final RxList<ProdutoModel> dataBase_Array = <ProdutoModel>[].obs;
   bool isLoading = true;
 
   @override
   void onReady() {
     super.onReady();
-
   }
 
   Future<void> getJsonFilesRepositoryProdutos() async {
-     final categorias = menuCategorias.MenuCategorias_Array;
+    final categorias = menuCategorias.MenuCategorias_Array;
 
-     if (isLoading == true) {
-       for (var i = 0; i < categorias.length; i++) {
-          String produtoFile = 'lib/repository/cardapio/tabela_${i}.json';
-          await carregandoDadosRepository(produtoFile);
-       }
-     }
+    if (isLoading == true) {
+      for (var i = 0; i < categorias.length; i++) {
+        String produtoFile = 'lib/repository/cardapio/tabela_${i}.json';
+        await carregandoDadosRepository(produtoFile);
+      }
+    }
 
-      isLoading = false;
-      update();
-
+    isLoading = false;
+    update();
   }
-
 
   Future<void> carregandoDadosRepository(String file) async {
     isLoading = true;
@@ -45,7 +43,8 @@ class RepositoryDataBaseController extends GetxController {
     try {
       final String response = await rootBundle.loadString(file);
       final List<dynamic> dados = json.decode(response);
-      List<ProdutoModel> produtos = dados.map((item) => ProdutoModel.fromJson(item)).toList();
+      List<ProdutoModel> produtos =
+          dados.map((item) => ProdutoModel.fromJson(item)).toList();
 
       dataBase_Array.addAll(produtos);
     } catch (e) {
@@ -54,6 +53,7 @@ class RepositoryDataBaseController extends GetxController {
       isLoading = false;
     }
   }
+
   List<ProdutoModel> filtrarEOrdenarPorNome(String categoriaDesejada) {
     // Filtra a lista com base na categoria desejada
     List<ProdutoModel> produtosFiltrados = dataBase_Array
@@ -65,6 +65,7 @@ class RepositoryDataBaseController extends GetxController {
 
     return produtosFiltrados;
   }
+
   List<ProdutoModel> filtrarCategoria(String categoriaDesejada) {
     return dataBase_Array
         .where((produto) => produto.categoria == categoriaDesejada)
@@ -74,13 +75,6 @@ class RepositoryDataBaseController extends GetxController {
   void ordenarPorNome(List<ProdutoModel> produtos) {
     produtos.sort((a, b) => a.nome.compareTo(b.nome));
   }
-
-
-
-
-
-
-
 
   // Metodos JSON
   Future<List<ProdutoModel>> lerArquivoJson(String filePath) async {
@@ -97,7 +91,4 @@ class RepositoryDataBaseController extends GetxController {
       return [];
     }
   }
-
-
-
 }

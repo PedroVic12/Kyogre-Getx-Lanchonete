@@ -10,7 +10,8 @@ import '../../Carrinho/CarrinhoController.dart';
 class MenuProdutosController extends GetxController {
   var produtoIndex = 0.obs;
   var categoriasCarregadas = false.obs;
-  final MenuProdutosRepository menuCategorias = Get.put(MenuProdutosRepository());
+  final MenuProdutosRepository menuCategorias =
+      Get.put(MenuProdutosRepository());
 
   //metodos
   void setProdutoIndex(int index) {

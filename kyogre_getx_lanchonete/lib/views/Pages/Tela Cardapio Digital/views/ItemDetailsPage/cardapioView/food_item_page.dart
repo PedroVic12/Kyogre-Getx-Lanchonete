@@ -61,10 +61,9 @@ class _ProdutoSelectedDetalhesPageState
   @override
   Widget build(BuildContext context) {
     var newPrice = getProdutoAtualizado();
-    print(widget.produto_selecionado);
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade300,
+      backgroundColor: lightMode.colorScheme.onBackground,
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(16),
@@ -124,7 +123,11 @@ class _ProdutoSelectedDetalhesPageState
         // food description
         CustomText(
           text: widget.produto_selecionado.ingredientes!,
-          //color: Colors.white,
+          weight: FontWeight.bold,
+          size: 16,
+        ),
+        CustomText(
+          text: widget.produto_selecionado.description!,
           weight: FontWeight.bold,
           size: 16,
         ),
@@ -158,7 +161,7 @@ class _ProdutoSelectedDetalhesPageState
           ),
           Container(
             decoration: BoxDecoration(
-              color: Colors.grey.shade300,
+              color: Colors.grey.shade500,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: Colors.black),
             ),
@@ -171,19 +174,21 @@ class _ProdutoSelectedDetalhesPageState
                 final adicional = chaves[index];
                 final precoAdicional = adicionais[adicional];
 
-                return CheckboxListTile(
-                  title: CustomText(text: adicional),
-                  subtitle: CustomText(
-                    text: "Preço: R\$ $precoAdicional",
-                    color: Colors.grey,
-                    weight: FontWeight.bold,
+                return Card(
+                  child: CheckboxListTile(
+                    title: CustomText(text: adicional),
+                    subtitle: CustomText(
+                      text: "Preço: R\$ $precoAdicional",
+                      color: Colors.grey,
+                      weight: FontWeight.bold,
+                    ),
+                    value: addSelecionados[adicional] ?? false,
+                    onChanged: (value) {
+                      setState(() {
+                        addSelecionados[adicional] = value!;
+                      });
+                    },
                   ),
-                  value: addSelecionados[adicional] ?? false,
-                  onChanged: (value) {
-                    setState(() {
-                      addSelecionados[adicional] = value!;
-                    });
-                  },
                 );
               },
             ),

@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 class Preco {
   final double? preco1;
   final double? preco2;
@@ -27,6 +29,7 @@ class ProdutoModel {
   String nome;
   String categoria;
   double preco_1;
+  String? description;
   String? sub_categoria;
   double? preco_2;
   String? ingredientes;
@@ -41,8 +44,12 @@ class ProdutoModel {
     this.preco_2,
     this.ingredientes,
     this.imagem,
-    this.Adicionais,
-  });
+    Map? Adicionais, // Agora é um parâmetro opcional
+  }) : Adicionais = Adicionais ?? {} {
+    sub_categoria ??= "";
+    ingredientes ??= "";
+    description ??= "";
+  }
   ProdutoModel copyWith({
     String? nome,
     double? preco_1,

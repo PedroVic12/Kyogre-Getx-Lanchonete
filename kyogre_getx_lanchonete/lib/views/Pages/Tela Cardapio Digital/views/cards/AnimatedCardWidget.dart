@@ -68,9 +68,15 @@ class _AnimatedProductCardWrapperState extends State<AnimatedProductCardWrapper>
               milliseconds: 500), // Ajuste a duração conforme necessário
 
           onTap: () {
-            //Get.to(ProdutoSelectedDetalhesPage(
-            // produto_selecionado: widget.produto));
-            Get.to(ItemDetailsPage(produto_selecionado: widget.produto));
+            if (widget.produto.Adicionais != null) {
+              Get.to(ProdutoSelectedDetalhesPage(
+                produto_selecionado: widget.produto,
+              ));
+            } else {
+              print(
+                  "\n\nProduto selecionado não possui adicionais disponíveis.");
+              Get.to(ItemDetailsPage(produto_selecionado: widget.produto));
+            }
           },
         ));
   }

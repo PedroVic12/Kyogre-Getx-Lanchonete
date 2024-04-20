@@ -9,7 +9,7 @@ import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produt
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/widget_tab.dart';
 import '../../../../../app/widgets/Custom/CustomText.dart';
-import '../../../../../themes /cores.dart';
+import '../../../../../themes/cores.dart';
 import '../../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import '../cards/CardProdutosFiltrados.dart';
 

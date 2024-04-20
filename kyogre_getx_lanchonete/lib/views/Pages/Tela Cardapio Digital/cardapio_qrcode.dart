@@ -15,7 +15,6 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/vie
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
 import '../../../models/DataBaseController/repository_db_controller.dart';
 import '../Carrinho/CarrinhoController.dart';
-import 'cardapio_Digital_webPage.dart';
 import 'controllers/pikachu_controller.dart';
 
 class CardapioQrCode extends StatefulWidget {
@@ -26,12 +25,10 @@ class CardapioQrCode extends StatefulWidget {
 }
 
 class _CardapioQrCodeState extends State<CardapioQrCode> {
-
   final CardapioController controller = Get.put(CardapioController());
   final pikachu = PikachuController();
-  final CarrinhoPedidoController carrinhoController = Get.put(CarrinhoPedidoController());
-
-
+  final CarrinhoPedidoController carrinhoController =
+      Get.put(CarrinhoPedidoController());
 
   @override
   void initState() {
@@ -40,26 +37,26 @@ class _CardapioQrCodeState extends State<CardapioQrCode> {
     //controller.initPage().then((value) =>  controller.setupCardapioDigitalWeb());
   }
 
-
   void showBarraInferior() {
     setState(() {
       controller.toggleBarraInferior();
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     // Variaveis
     List nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
 
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: Colors.red,
-      appBar:  AppBar(
+      appBar: AppBar(
         title: Column(
           children: [
-            CustomText(text: 'Citta RJ ${nomesLojas[0]}',color: Colors.white,size: 20)
+            CustomText(
+                text: 'Citta RJ ${nomesLojas[0]}',
+                color: Colors.white,
+                size: 20)
           ],
         ),
         backgroundColor: CupertinoColors.black,
@@ -67,32 +64,23 @@ class _CardapioQrCodeState extends State<CardapioQrCode> {
         centerTitle: true,
         elevation: 7.0,
         toolbarHeight: 72,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(128))),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(128))),
       ),
       body: Center(
         child: Column(
           children: <Widget>[
-
             //pegarDadosCliente(),
-            Expanded(child: GetBuilder<CardapioController>(
-              builder: (controller) {
-
-                return const MenuTabBarCardapio();
-              },
-            ),),
-
+            Expanded(
+              child: GetBuilder<CardapioController>(
+                builder: (controller) {
+                  return const MenuTabBarCardapio();
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
   }
-
-
 }
-
-
-
-
-
-
-

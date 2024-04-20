@@ -16,7 +16,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/vie
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
 import '../../../models/DataBaseController/repository_db_controller.dart';
 import '../Carrinho/CarrinhoController.dart';
-import 'cardapio_Digital_webPage.dart';
+import 'web/cardapio_Digital_webPage.dart';
 import 'controllers/pikachu_controller.dart';
 
 class TelaCardapioDigital extends StatefulWidget {
@@ -66,38 +66,37 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
 
   Widget buildWebPage() {
     return Scaffold(
-        backgroundColor: Colors.red,
-        appBar: CustomAppBar(id: widget.id),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              //pegarDadosCliente(),
-
-              Expanded(
-                child: GetBuilder<CardapioController>(
-                  builder: (controller) {
-                    return const MenuTabBarCardapio();
-                  },
-                ),
+      backgroundColor: Colors.red,
+      appBar: CustomAppBar(id: widget.id),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            //pegarDadosCliente(),
+            Expanded(
+              child: GetBuilder<CardapioController>(
+                builder: (controller) {
+                  return const MenuTabBarCardapio();
+                },
               ),
-
-              AnimatedContainer(
-                duration: Duration(milliseconds: 500),
-                height: controller.mostrarBarraInferior
-                    ? 80
-                    : 0, // Altura modificada pela variável
-                child: ModalInferior(),
-              )
-            ],
-          ),
+            ),
+            AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              height: controller.mostrarBarraInferior
+                  ? 80
+                  : 0, // Altura modificada pela variável
+              child: ModalInferior(),
+            )
+          ],
         ),
-        floatingActionButton: Container(
-          child: AnimatedFloatingActionButton(
-            () => showBarraInferior(),
-          ),
-          height: 40,
-          width: 40,
-        ));
+      ),
+      // floatingActionButton: Container(
+      //   child: AnimatedFloatingActionButton(
+      //     () => showBarraInferior(),
+      //   ),
+      //   height: 40,
+      //   width: 40,
+      // ),
+    );
   }
 
   Widget _list() {

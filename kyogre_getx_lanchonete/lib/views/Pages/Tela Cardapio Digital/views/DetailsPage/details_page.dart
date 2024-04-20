@@ -11,6 +11,7 @@ import '../../../Carrinho/controller/sacola_controller.dart';
 import '../../controllers/cardapio_form_controller.dart';
 import '../../widgets/RadioButton.dart';
 import '../../widgets/carrousel_images_widget.dart';
+import '../ItemDetailsPage/cardapioView/food_item_page.dart';
 
 class ItemDetailsPage extends StatelessWidget {
   final ProdutoModel produto_selecionado;
@@ -23,6 +24,10 @@ class ItemDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _height = MediaQuery.of(context).size.height;
+
+    print(
+        "Item = ${produto_selecionado.nome} ${produto_selecionado.categoria}");
+    print(produto_selecionado);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -49,6 +54,25 @@ class ItemDetailsPage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(ProdutoSelectedDetalhesPage(
+            produto_selecionado: ProdutoModel(
+              nome: "HAMBÚRGUER",
+              preco_1: 32.0,
+              ingredientes: "Pão, carne, queijo, alface, tomate",
+              sub_categoria: "SIM",
+              categoria: "ARTESANAL",
+              Adicionais: {
+                "Bacon": 5.0,
+                "Ovo": 3.0,
+                "Queijo": 2.0,
+                "Molho especial": 1.0
+              },
+            ),
+          ));
+        },
       ),
       bottomNavigationBar: SingleItemNavBar(
         produto: produto_selecionado,

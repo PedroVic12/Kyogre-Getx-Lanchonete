@@ -1,23 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/themes/dark_mode.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/controller/sacola_controller.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_form_controller.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/DetailsPage/single_item_navBar.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/cards/blur_card_widget.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/widgets/carrousel_images_widget.dart';
 
 import '../../../../../../app/widgets/Custom/CustomText.dart';
 import '../../../../../../models/DataBaseController/template/produtos_model.dart';
 
-class ItemDetailsPage extends StatefulWidget {
+class ProdutoSelectedDetalhesPage extends StatefulWidget {
   final ProdutoModel produto_selecionado;
-
-  ItemDetailsPage({Key? key, required this.produto_selecionado})
-      : super(key: key);
+  const ProdutoSelectedDetalhesPage(
+      {super.key, required this.produto_selecionado});
 
   @override
-  _ItemDetailsPageState createState() => _ItemDetailsPageState();
+  State<ProdutoSelectedDetalhesPage> createState() =>
+      _ProdutoSelectedDetalhesPageState();
 }
 
-class _ItemDetailsPageState extends State<ItemDetailsPage> {
+class _ProdutoSelectedDetalhesPageState
+    extends State<ProdutoSelectedDetalhesPage> {
   final Map<String, bool> addSelecionados = {};
-
+  final CarrinhoPedidoController carrinho =
+      Get.find<CarrinhoPedidoController>();
+  final CardapioFormController form_controller =
+      Get.put(CardapioFormController());
   @override
   void initState() {
     super.initState();
@@ -50,9 +60,8 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var _height = MediaQuery.of(context).size.height;
-
     var newPrice = getProdutoAtualizado();
+    print(widget.produto_selecionado);
 
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
@@ -65,10 +74,9 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
               const SizedBox(height: 16),
 
               // food image
-              Expanded(
-                child: Placeholder(),
-              ),
-              //CarrouselImagensWidget(produto_selecionado: widget.produto_selecionado),
+
+              CarrouselImagensWidget(
+                  produto_selecionado: widget.produto_selecionado),
 
               detalhesInfoProduto(),
 
@@ -79,9 +87,17 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
 
               CustomText(
                   text: "Total: R\$ ${newPrice.last}", color: Colors.white),
+              CaixaDeTexto(
+                controller: form_controller.observacoesDique,
+                labelText: "Observações",
+                height: 30,
+              ),
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: SingleItemNavBar(
+        produto: widget.produto_selecionado,
       ),
     );
   }
@@ -133,16 +149,11 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
   }
 
   Widget showAdicionaisProduto(ProdutoModel produto) {
-    if (produto.sub_categoria == "SIM") {
-      print(produto.sub_categoria);
-      print('\n\nProduto com varias categorias para o cliente selecionar');
-      print("Details page é diferente");
-
+    if (produto.Adicionais != null && produto.Adicionais!.isNotEmpty) {
       return Column(
         children: [
           CustomText(
-            text: "Turbine seu ${widget.produto_selecionado.nome}",
-            //color: Colors.white,
+            text: "Turbine seu ${produto.nome}",
             size: 24,
           ),
           Container(
@@ -153,13 +164,12 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
             ),
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: widget.produto_selecionado.Adicionais!.length,
+              itemCount: produto.Adicionais!.length,
               itemBuilder: (context, index) {
-                final adicionais =
-                    widget.produto_selecionado.Adicionais!.keys.toList();
-                final adicional = adicionais[index];
-                final precoAdicional =
-                    widget.produto_selecionado.Adicionais![adicional];
+                final adicionais = produto.Adicionais!;
+                final chaves = adicionais.keys.toList();
+                final adicional = chaves[index];
+                final precoAdicional = adicionais[adicional];
 
                 return CheckboxListTile(
                   title: CustomText(text: adicional),
@@ -182,7 +192,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
         ],
       );
     } else {
-      return Text('Sem descrição');
+      return Text('Sem Adicionais Disponíveis');
     }
   }
 
@@ -205,7 +215,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
             ),
           ),
           CustomText(
-            text: "produto_selecionado",
+            text: produto.nome,
             color: Colors.white,
             size: 28,
           ),

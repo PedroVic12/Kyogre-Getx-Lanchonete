@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:glass_kit/glass_kit.dart';
 
 class BlurCardWidget extends StatelessWidget {
-  const BlurCardWidget({super.key});
+  final Widget child;
+  const BlurCardWidget({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    return   GlassContainer(
+    return GlassContainer(
       height: 500,
       width: 500,
       gradient: LinearGradient(
@@ -38,7 +39,10 @@ class BlurCardWidget extends StatelessWidget {
       frostedOpacity: 0.12,
       margin: EdgeInsets.all(8.0),
       padding: EdgeInsets.all(8.0),
-      child: Container(color: Colors.orange,),
+      child: Container(
+        color: Colors.orange,
+        child: child,
+      ),
     );
   }
 }

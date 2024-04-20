@@ -10,7 +10,10 @@ class CarrouselImagensWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
-    List<String>? imagens = produto_selecionado.imagem?.split('|').map((img) => 'lib/repository/assets/FOTOS/${img.trim()}').toList();
+    List<String>? imagens = produto_selecionado.imagem
+        ?.split('|')
+        .map((img) => 'lib/repository/assets/FOTOS/${img.trim()}')
+        .toList();
 
     if (imagens == null || imagens.isEmpty) {
       // Se não houver imagens, exiba um widget padrão
@@ -28,10 +31,12 @@ class CarrouselImagensWidget extends StatelessWidget {
         autoPlayAnimationDuration: Duration(milliseconds: 1500),
         viewportFraction: 0.8,
       ),
-      items: imagens.map((item) => Container(
-        child: Center(
-            child: Image.asset(item, fit: BoxFit.cover, width: 500)),
-      )).toList(),
+      items: imagens
+          .map((item) => Container(
+                child: Center(
+                    child: Image.asset(item, fit: BoxFit.cover, width: 500)),
+              ))
+          .toList(),
     );
   }
 }

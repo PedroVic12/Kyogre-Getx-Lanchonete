@@ -1,20 +1,16 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produtos_model.dart';
-
-
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/template/produtos_model.dart';
 
 class DataBaseController {
   final String sanduicheTradicionalFile = 'lib/repository/cardapio_1.json';
   final String acaiFile = 'lib/repository/cardapio_2.json';
   final String petiscosFile = 'lib/repository/cardapio_3.json';
 
-
   List<Produto> produtos_loja = [];
 
   Future<List<Produto>> getAllProducts() async {
-
     produtos_loja.addAll(await getSanduichesTradicionais());
     produtos_loja.addAll(await getAcai());
     produtos_loja.addAll(await getPetiscos());
@@ -34,7 +30,8 @@ class DataBaseController {
         final Preco preco = Preco.fromJson({
           'preco1': produtoJson['Preço.4']?.toDouble(),
         });
-        return Produto(nome, tipo_produto, preco: preco, igredientes: igredientes);
+        return Produto(nome, tipo_produto,
+            preco: preco, igredientes: igredientes);
       }).toList();
     } catch (error) {
       print('Erro ao ler o arquivo JSON: $error');
@@ -52,10 +49,13 @@ class DataBaseController {
         final String tipo_produto = 'Açaí e Pitaya';
         final String igredientes = ''; // Não há campo "Ingredientes" nos açaís
         final Preco preco = Preco.fromJson({
-          'preco1': produtoJson['300ml']?.toDouble(), // Definimos o preço 300ml como preco1
-          'preco2': produtoJson['500ml']?.toDouble(), // Definimos o preço 500ml como preco2
+          'preco1': produtoJson['300ml']
+              ?.toDouble(), // Definimos o preço 300ml como preco1
+          'preco2': produtoJson['500ml']
+              ?.toDouble(), // Definimos o preço 500ml como preco2
         });
-        return Produto(nome, tipo_produto, preco: preco, igredientes: igredientes);
+        return Produto(nome, tipo_produto,
+            preco: preco, igredientes: igredientes);
       }).toList();
     } catch (error) {
       print('Erro ao ler o arquivo JSON: $error');
@@ -71,12 +71,16 @@ class DataBaseController {
       return listaProdutos.map((produtoJson) {
         final String nome = produtoJson['Petiscos'] ?? '';
         final String tipo_produto = 'Petiscos';
-        final String igredientes = ''; // Não há campo "Ingredientes" nos petiscos
+        final String igredientes =
+            ''; // Não há campo "Ingredientes" nos petiscos
         final Preco preco = Preco.fromJson({
-          'preco1': produtoJson['Meia']?.toDouble(), // Definimos o preço da Meia como preco1
-          'preco2': produtoJson['Inteira']?.toDouble(), // Definimos o preço da Inteira como preco2
+          'preco1': produtoJson['Meia']
+              ?.toDouble(), // Definimos o preço da Meia como preco1
+          'preco2': produtoJson['Inteira']
+              ?.toDouble(), // Definimos o preço da Inteira como preco2
         });
-        return Produto(nome, tipo_produto, preco: preco, igredientes: igredientes);
+        return Produto(nome, tipo_produto,
+            preco: preco, igredientes: igredientes);
       }).toList();
     } catch (error) {
       print('Erro ao ler o arquivo JSON: $error');
@@ -84,8 +88,6 @@ class DataBaseController {
     }
   }
 }
-
-
 
 class ProdutosListView extends StatelessWidget {
   final String categoria;

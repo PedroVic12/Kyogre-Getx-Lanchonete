@@ -1,7 +1,7 @@
 // widgets
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produtos_model.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/template/produtos_model.dart';
 
 class TextLabel extends StatelessWidget {
   final String texto;

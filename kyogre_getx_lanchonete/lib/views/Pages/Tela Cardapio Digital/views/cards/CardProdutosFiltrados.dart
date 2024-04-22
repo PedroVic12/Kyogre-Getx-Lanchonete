@@ -10,7 +10,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/vie
 import '../../../../../app/widgets/Botoes/float_custom_button.dart';
 import '../../../../../app/widgets/Custom/CustomText.dart';
 import '../../../../../app/widgets/Utils/loading_widget.dart';
-import '../../../../../models/DataBaseController/repository_db_controller.dart';
+import '../../../../../controllers/DataBaseController/repository_db_controller.dart';
 import '../../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../../Carrinho/CarrinhoController.dart';
 import '../../../Carrinho/controller/sacola_controller.dart';

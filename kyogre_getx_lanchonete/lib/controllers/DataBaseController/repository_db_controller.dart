@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produtos_model.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/template/produtos_model.dart';
 import '../../views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../views/Pages/Tela Cardapio Digital/controllers/pikachu_controller.dart';
 

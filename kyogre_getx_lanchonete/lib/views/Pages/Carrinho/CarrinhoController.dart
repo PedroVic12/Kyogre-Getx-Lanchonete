@@ -6,16 +6,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart'; // Usado para formatar a hora
 import 'package:http/http.dart' as http;
 
-import '../../../models/DataBaseController/template/produtos_model.dart';
-
-
-
+import '../../../controllers/DataBaseController/template/produtos_model.dart';
 
 class CarrinhoController extends GetxController {
   late final CatalogoProdutosController produtosController;
@@ -28,9 +25,6 @@ class CarrinhoController extends GetxController {
   void onReady() {
     super.onReady();
   }
-
-
-
 
   // Pedido
   Map<String, dynamic> gerarPedidoInfo() {
@@ -53,9 +47,12 @@ class CarrinhoController extends GetxController {
     Map<String, dynamic> pedidoInfo = {
       "nome": nomeCliente,
       "telefone": telefoneCliente,
-      "endereco": "",  // Adicione um campo para endereço na sua UI e substitua aqui
-      "complemento": "",  // Adicione um campo para complemento na sua UI e substitua aqui
-      "formaPagamento": "",  // Adicione um campo para forma de pagamento na sua UI e substitua aqui
+      "endereco":
+          "", // Adicione um campo para endereço na sua UI e substitua aqui
+      "complemento":
+          "", // Adicione um campo para complemento na sua UI e substitua aqui
+      "formaPagamento":
+          "", // Adicione um campo para forma de pagamento na sua UI e substitua aqui
       "pedido": pedidoJsonItems,
       "totalPagar": total,
     };
@@ -109,18 +106,19 @@ class CarrinhoController extends GetxController {
       );
     }
   }
+
   // Método para definir os detalhes do cliente
   void setClienteDetails(String nome, String telefone, String id) {
     nomeCliente = nome;
     telefoneCliente = telefone;
     idPedido = id;
 
-    print('ID PEDIDO: $idPedido Cliente: $nomeCliente | Telefone: $telefoneCliente');
+    print(
+        'ID PEDIDO: $idPedido Cliente: $nomeCliente | Telefone: $telefoneCliente');
   }
 
   // Usando RxMap para tornar o mapa de produtos reativo
   final _products = <Produto, int>{}.obs;
-
 
   String gerarResumoPedidoCardapio() {
     final items = _products.entries.map((entry) {
@@ -134,7 +132,6 @@ class CarrinhoController extends GetxController {
     final inicioEntrega = agora.add(Duration(minutes: 15));
     final fimEntrega = agora.add(Duration(minutes: 50));
     final formatoHora = DateFormat('HH:mm');
-
 
     // Acrescentando detalhes do cliente ao resumo
     final clienteDetails = nomeCliente != null && telefoneCliente != null
@@ -153,10 +150,9 @@ class CarrinhoController extends GetxController {
     """;
   }
 
-
-
 // Metodos do Pedido no whatsapp
-  Future<void> enviarPedidoWhatsapp({required String phone, required String message}) async {
+  Future<void> enviarPedidoWhatsapp(
+      {required String phone, required String message}) async {
     String generateUrl(String type) {
       switch (type) {
         case "wa.me":
@@ -174,13 +170,15 @@ class CarrinhoController extends GetxController {
     }
 
     Future<bool> launchUrl(Uri uri) async {
-      return await launch(uri.toString(), enableJavaScript: true, forceWebView: true);
+      return await launch(uri.toString(),
+          enableJavaScript: true, forceWebView: true);
     }
 
     List<String> determineUrlsToTry() {
       if (html.window.navigator.userAgent.contains('Android')) {
         return ["whatsapp", "wa.me", "api"];
-      } else if (html.window.navigator.userAgent.contains('iPhone') || html.window.navigator.userAgent.contains('iPad')) {
+      } else if (html.window.navigator.userAgent.contains('iPhone') ||
+          html.window.navigator.userAgent.contains('iPad')) {
         return ["wa.me", "api", "whatsapp"];
       } else if (html.window.navigator.userAgent.contains('Web')) {
         return ["wa.me", "api", "whatsapp"];
@@ -205,22 +203,19 @@ class CarrinhoController extends GetxController {
 
           Get.rawSnackbar(
               message: 'WhatsApp Aberto com Sucesso!',
-              title: 'URL usado: $urlString\nPlataforma: ${Platform.operatingSystem}',
+              title:
+                  'URL usado: $urlString\nPlataforma: ${Platform.operatingSystem}',
               backgroundColor: CupertinoColors.systemGreen,
-              duration: Duration(seconds: 1)
-          );
+              duration: Duration(seconds: 1));
           return;
-
         } catch (e) {
           print('Falha ao tentar abrir: $urlString');
-          Get.snackbar(
-              'Error: ${e}',
+          Get.snackbar('Error: ${e}',
               'URL usado: $urlString\nPlataforma: ${Platform.operatingSystem}',
               snackPosition: SnackPosition.TOP,
               backgroundColor: CupertinoColors.systemRed,
               colorText: Colors.white,
-              duration: Duration(seconds: 5)
-          );
+              duration: Duration(seconds: 5));
         }
       }
 
@@ -232,11 +227,10 @@ class CarrinhoController extends GetxController {
     await tryLaunchRecursive(urlsToTry);
   }
 
-
-  Future<void> sendPedidoWpp({required String phone, required String message}) async {
+  Future<void> sendPedidoWpp(
+      {required String phone, required String message}) async {
     String generateUrl(String type) {
       switch (type) {
-
         case "wa.me":
           return "https://wa.me/$phone/?text=${Uri.encodeComponent(message)}";
         case "api":
@@ -253,7 +247,8 @@ class CarrinhoController extends GetxController {
     }
 
     Future<bool> launchUrl(Uri uri) async {
-      return await launch(uri.toString(), enableJavaScript: true, forceWebView: true);
+      return await launch(uri.toString(),
+          enableJavaScript: true, forceWebView: true);
     }
 
     List<String> urlsToTry;
@@ -261,60 +256,55 @@ class CarrinhoController extends GetxController {
     if (html.window.navigator.userAgent.contains('Android')) {
       urlsToTry = ["whatsapp", "wa.me", "api"];
       print('Detectado plataforma Android. Tentando URLs na ordem: $urlsToTry');
-    } else if (html.window.navigator.userAgent.contains('iPhone') || html.window.navigator.userAgent.contains('iPad')) {
+    } else if (html.window.navigator.userAgent.contains('iPhone') ||
+        html.window.navigator.userAgent.contains('iPad')) {
       urlsToTry = ["wa.me", "api", "whatsapp"];
       print('Detectado plataforma iOS. Tentando URLs na ordem: $urlsToTry');
-    } else if (html.window.navigator.userAgent.contains('Web')) { // Detectando web
+    } else if (html.window.navigator.userAgent.contains('Web')) {
+      // Detectando web
       urlsToTry = ["wa.me", "api", "whatsapp"];
       print('Detectado Flutter Web. Tentando URLs na ordem: $urlsToTry');
     } else {
-      urlsToTry = [ "wa.me", "whatsapp", "api"];
-      print('Detectado plataforma desconhecida. Tentando URLs na ordem: $urlsToTry');
+      urlsToTry = ["wa.me", "whatsapp", "api"];
+      print(
+          'Detectado plataforma desconhecida. Tentando URLs na ordem: $urlsToTry');
     }
-
-
 
     for (var urlType in urlsToTry) {
       var urlString = generateUrl(urlType);
       print('Tentando abrir o URL: $urlString');
 
       if (await canLaunchUrl(Uri.parse(urlString))) {
-
-        try{
+        try {
           await launchUrl(Uri.parse(urlString));
           print('URL $urlString aberto com sucesso!');
 
           // Mostrar snackbar com detalhes do link e plataforma
           Get.rawSnackbar(
               message: 'WhatsApp Aberto com Sucesso!',
-              title: 'URL usado: $urlString\nPlataforma: ${Platform.operatingSystem}',
+              title:
+                  'URL usado: $urlString\nPlataforma: ${Platform.operatingSystem}',
               backgroundColor: CupertinoColors.systemGreen,
-              duration: Duration(seconds: 1)
-          );
-
+              duration: Duration(seconds: 1));
 
           return; // Se lançado com sucesso, saia da função
-        } catch (e){
-          print('Falha ao tentar abrir: $urlString em ${Platform.operatingSystem}');
-          Get.snackbar(
-              'Error: ${e}',
+        } catch (e) {
+          print(
+              'Falha ao tentar abrir: $urlString em ${Platform.operatingSystem}');
+          Get.snackbar('Error: ${e}',
               'URL usado: $urlString\nPlataforma: ${Platform.operatingSystem}',
               snackPosition: SnackPosition.TOP,
               backgroundColor: CupertinoColors.systemRed,
               colorText: Colors.white,
-              duration: Duration(seconds: 5)
-          );
+              duration: Duration(seconds: 5));
         }
-
       }
     }
 
-    print('Nenhum URL funcionou para a plataforma ${Platform.operatingSystem}. Lançando exceção.');
+    print(
+        'Nenhum URL funcionou para a plataforma ${Platform.operatingSystem}. Lançando exceção.');
     throw 'Nenhum URL funcionou para a plataforma ${Platform.operatingSystem}';
   }
-
-
-
 
   // Metodos de controle do carrinho
   void adicionarProduto(Produto produto) {
@@ -323,10 +313,6 @@ class CarrinhoController extends GetxController {
     } else {
       _products[produto] = 1;
     }
-
-
-
-
   }
 
   void removerProduto(Produto produto) {
@@ -341,12 +327,10 @@ class CarrinhoController extends GetxController {
 
   get produtosCarrinho => _products;
 
-
   String get total {
     return _products.entries
         .map((product) => (product.key.preco?.preco1 ?? 0) * product.value)
         .reduce((value, element) => value + element)
         .toStringAsFixed(2);
   }
-
 }

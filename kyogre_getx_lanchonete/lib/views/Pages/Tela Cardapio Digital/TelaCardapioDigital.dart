@@ -14,7 +14,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/controller/sacola_co
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/menu_tab_bar_widget.dart';
 import '../../../app/widgets/Barra Inferior/BarraInferior.dart';
-import '../../../models/DataBaseController/repository_db_controller.dart';
+import '../../../controllers/DataBaseController/repository_db_controller.dart';
 import '../Carrinho/CarrinhoController.dart';
 import 'web/cardapio_Digital_webPage.dart';
 import 'controllers/pikachu_controller.dart';

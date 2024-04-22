@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produtos_model.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/template/produtos_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/widget_tab.dart';
 import '../../../../../app/widgets/Custom/CustomText.dart';

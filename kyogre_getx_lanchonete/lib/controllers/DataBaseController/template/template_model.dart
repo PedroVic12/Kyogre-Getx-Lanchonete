@@ -1,4 +1,4 @@
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produtos_model.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/template/produtos_model.dart';
 
 void main() {
   var hamburguer = [

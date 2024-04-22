@@ -6,7 +6,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/TelaCardapioDigital.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/DetailsPage/single_item_navBar.dart';
 
-import '../../../../../models/DataBaseController/template/produtos_model.dart';
+import '../../../../../controllers/DataBaseController/template/produtos_model.dart';
 import '../../../Carrinho/controller/sacola_controller.dart';
 import '../../controllers/cardapio_form_controller.dart';
 import '../../widgets/RadioButton.dart';

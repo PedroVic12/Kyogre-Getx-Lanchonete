@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 
-import '../../../../models/DataBaseController/template/produtos_model.dart';
+import '../../../../controllers/DataBaseController/template/produtos_model.dart';
 
 class CatalogoProdutosController extends GetxController {
   String?
@@ -14,11 +14,9 @@ class CatalogoProdutosController extends GetxController {
   RxList<Produto> allProdutos = RxList<Produto>();
   RxList<Produto> produtos = RxList<Produto>();
 
-
-  void getCategorias(){
+  void getCategorias() {
     repository.fetchCategorias();
   }
-
 
   final List<String> catalogoCategorias = [
     'Sanduíches',

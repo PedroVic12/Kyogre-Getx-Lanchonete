@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/Views/produtos_display_listview.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/DataBaseController.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/Views/produtos_display_listview.dart';
 import 'package:kyogre_getx_lanchonete/repository/models/pizza.dart';
 
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
@@ -17,8 +17,8 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/views/modalCarrinho.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/menu_tab_bar_widget.dart';
 import '../../../app/widgets/Custom/CustomText.dart';
-import '../../../models/DataBaseController/repository_db_controller.dart';
-import '../../../models/DataBaseController/template/produtos_model.dart';
+import '../../../controllers/DataBaseController/repository_db_controller.dart';
+import '../../../controllers/DataBaseController/template/produtos_model.dart';
 import '../Tela Cardapio Digital/controllers/cardapio_controller.dart';
 
 /*

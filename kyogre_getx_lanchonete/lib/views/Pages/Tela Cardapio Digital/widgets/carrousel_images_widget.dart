@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produtos_model.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/template/produtos_model.dart';
 
 class CarrouselImagensWidget extends StatelessWidget {
   final ProdutoModel produto_selecionado;

@@ -3,20 +3,18 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 
-import '../../../../models/DataBaseController/template/produtos_model.dart';
+import '../../../../controllers/DataBaseController/template/produtos_model.dart';
 import '../../Tela Cardapio Digital/controllers/cardapio_controller.dart';
 import '../../Tela Cardapio Digital/views/Menu Tab/menu_tab_bar_widget.dart';
 import '../CatalogoProdutos/CatalogoProdutosController.dart';
 import '../ItemPage/itemPage.dart';
 
-
 //! CARD 2
-
 
 class DetalhesProdutosCard extends StatefulWidget {
   final Key? key;

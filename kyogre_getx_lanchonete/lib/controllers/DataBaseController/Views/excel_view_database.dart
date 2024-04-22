@@ -3,7 +3,7 @@ import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/Views/cadatro_cardapio._db.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/Views/cadatro_cardapio._db.dart';
 
 import '../db/cadastro_page_mongo.dart';
 

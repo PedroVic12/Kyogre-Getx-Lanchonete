@@ -8,7 +8,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/vie
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/ItemDetailsPage/cardapioView/food_item_page.dart';
 
 import '../../../../../app/widgets/Botoes/float_custom_button.dart';
-import '../../../../../models/DataBaseController/template/produtos_model.dart';
+import '../../../../../controllers/DataBaseController/template/produtos_model.dart';
 
 class AnimatedProductCardWrapper extends StatefulWidget {
   final ProdutoModel produto;

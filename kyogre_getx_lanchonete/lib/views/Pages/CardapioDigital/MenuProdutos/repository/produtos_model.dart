@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../app/widgets/Custom/CustomText.dart';
-import '../../../../../models/DataBaseController/DataBaseController.dart';
+import '../../../../../controllers/DataBaseController/DataBaseController.dart';
 import '../../CatalogoProdutos/CatalogoProdutosController.dart';
+
 class ItemModel {
   final String label;
 
@@ -26,7 +27,6 @@ class IconePersonalizado extends StatelessWidget {
     );
   }
 }
-
 
 class CategoriaModel {
   // Only `nome` is required

@@ -9,7 +9,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/vie
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/widgets/carrousel_images_widget.dart';
 
 import '../../../../../../app/widgets/Custom/CustomText.dart';
-import '../../../../../../models/DataBaseController/template/produtos_model.dart';
+import '../../../../../../controllers/DataBaseController/template/produtos_model.dart';
 
 class ProdutoSelectedDetalhesPage extends StatefulWidget {
   final ProdutoModel produto_selecionado;

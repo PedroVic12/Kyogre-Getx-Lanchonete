@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/template/produtos_model.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/template/produtos_model.dart';
 
 import '../views/cards/AnimatedCardWidget.dart';
 
@@ -47,20 +47,21 @@ class _AnimatedListItemState extends State<AnimatedListItem>
     return FadeTransition(
       opacity: _animation,
       child: SlideTransition(
-        position: _animation.drive(Tween(
-          begin: const Offset(-1, 0),
-          end: Offset.zero,
-        )),
-        child: AnimatedProductCard(
-        produto: widget.produto,
-        duration: Duration(milliseconds: 500),// Ajuste a duração conforme necessário
+          position: _animation.drive(Tween(
+            begin: const Offset(-1, 0),
+            end: Offset.zero,
+          )),
+          child: AnimatedProductCard(
+            produto: widget.produto,
+            duration: Duration(
+                milliseconds: 500), // Ajuste a duração conforme necessário
 
-        onTap: () {
-          //Get.to(ItemDetailsPage(produto_selecionado: produto));
-        },
-      )
-      // Seu widget de card aqui
-      ),
+            onTap: () {
+              //Get.to(ItemDetailsPage(produto_selecionado: produto));
+            },
+          )
+          // Seu widget de card aqui
+          ),
     );
   }
 }

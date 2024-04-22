@@ -1,10 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:kyogre_getx_lanchonete/models/DataBaseController/DataBaseController.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/DataBaseController.dart';
 
-import '../../models/DataBaseController/template/produtos_model.dart';
-
+import '../../controllers/DataBaseController/template/produtos_model.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,8 +28,6 @@ class LoadingController extends GetxController {
   }
 
   void _startTimer() {
-
-
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       segundos++;
       update();
@@ -56,10 +53,10 @@ class LoadingWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Obx(() => CustomText(
-              text: 'Carregando... ${controller.segundos} s',
-              size: 12,
-              color: Colors.white,
-            )),
+                  text: 'Carregando... ${controller.segundos} s',
+                  size: 12,
+                  color: Colors.white,
+                )),
             CircularProgressIndicator(color: Colors.greenAccent),
             Icon(
               Icons.cloud_upload_rounded,
@@ -72,7 +69,6 @@ class LoadingWidget extends StatelessWidget {
     );
   }
 }
-
 
 // Agora vamos usar o LoadingWidget no CaosPage
 
@@ -105,13 +101,25 @@ class _CaosPageState extends State<CaosPage> {
             );
           } else if (snapshot.hasData) {
             List<Produto> produtos = snapshot.data!;
-            return  ListView(
-                children: [
-                  ProdutosListView(categoria: 'Sanduíches Tradicionais', produtos: produtos.where((p) => p.tipo_produto == 'Sanduíches Tradicionais').toList()),
-                  ProdutosListView(categoria: 'Açaí e Pitaya', produtos: produtos.where((p) => p.tipo_produto == 'Açaí e Pitaya').toList()),
-                  ProdutosListView(categoria: 'Petiscos', produtos: produtos.where((p) => p.tipo_produto == 'Petiscos').toList()),
-                ],
-
+            return ListView(
+              children: [
+                ProdutosListView(
+                    categoria: 'Sanduíches Tradicionais',
+                    produtos: produtos
+                        .where(
+                            (p) => p.tipo_produto == 'Sanduíches Tradicionais')
+                        .toList()),
+                ProdutosListView(
+                    categoria: 'Açaí e Pitaya',
+                    produtos: produtos
+                        .where((p) => p.tipo_produto == 'Açaí e Pitaya')
+                        .toList()),
+                ProdutosListView(
+                    categoria: 'Petiscos',
+                    produtos: produtos
+                        .where((p) => p.tipo_produto == 'Petiscos')
+                        .toList()),
+              ],
             );
           } else {
             return Center(

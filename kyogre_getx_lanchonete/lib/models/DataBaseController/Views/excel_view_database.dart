@@ -132,7 +132,7 @@ class ExcelReaderView extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                   onPressed: () {
-                    Get.to(HomePage());
+                    Get.to(MongoDBexample());
                   },
                   child: Text("Mongo cadastro")),
             ),

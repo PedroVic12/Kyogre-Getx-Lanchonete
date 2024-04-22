@@ -1,1 +1,20 @@
-[{"NOME":"Açai Tradicional","CATEGORIA":"Açai e Pitaya","SUB_CAT":"SIM ","preco_1":17.0,"preco_2":22.0,"IGREDIENTES":null,"IMAGEM":"Açai.jpg"},{"NOME":"Açai e Pitaya","CATEGORIA":"Açai e Pitaya","SUB_CAT":"SIM ","preco_1":17.0,"preco_2":22.0,"IGREDIENTES":null,"IMAGEM":"Açai (1).jpg"}]
+[
+    {
+        "NOME": "Açai Tradicional",
+        "CATEGORIA": "Açai e Pitaya",
+        "SUB_CAT": "SIM ",
+        "preco_1": 17.0,
+        "preco_2": 22.0,
+        "IGREDIENTES": null,
+        "IMAGEM": "Açai.jpg"
+    },
+    {
+        "NOME": "Açai e Pitaya",
+        "CATEGORIA": "Açai e Pitaya",
+        "SUB_CAT": "SIM ",
+        "preco_1": 17.0,
+        "preco_2": 22.0,
+        "IGREDIENTES": null,
+        "IMAGEM": "Açai (1).jpg"
+    }
+]

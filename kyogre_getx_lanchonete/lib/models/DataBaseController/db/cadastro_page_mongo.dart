@@ -13,14 +13,17 @@ class Product {
   });
 }
 
-class HomePage extends StatefulWidget {
+class MongoDBexample extends StatefulWidget {
+  const MongoDBexample({super.key});
+
   @override
-  _HomePageState createState() => _HomePageState();
+  State<MongoDBexample> createState() => _MongoDBexampleState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MongoDBexampleState extends State<MongoDBexample> {
   late mongo.Db db;
   List<Product> products = [];
+  List<Map<String, dynamic>> productList = [];
 
   @override
   void initState() {
@@ -28,39 +31,58 @@ class _HomePageState extends State<HomePage> {
     connectToDatabase();
   }
 
+  Future<void> connectToDatabaseCamorim() async {
+    String uri =
+        "mongodb+srv://pedrovictorveras:admin@cluster.s1yzg4o.mongodb.net/?retryWrites=true&w=majority&appName=Cluster";
+    String database_name = "Relatorio_OS_DB";
+    String collection_name = "relatorio_records";
+    db = await mongo.Db.create(uri);
+    await db.open();
+    final collection = db.collection(collection_name);
+    final productList = await collection.find().toList();
+    print(collection);
+    print(productList);
+    setState(() {
+      this.productList = productList;
+    });
+  }
+
   Future<void> connectToDatabase() async {
-    db = await mongo.Db.create('mongodb://localhost:27017/products');
+    db = await mongo.Db.create('mongodb://localhost:27017');
     await db.open();
     await fetchProducts();
   }
 
   Future<void> fetchProducts() async {
-    final collection = db.collection('products');
+    final collection = db.collection('KyogreDB');
     final productList = await collection.find().toList();
+    print(collection);
+    print(productList);
+
     setState(() {
       products = productList
           .map((json) => Product(
-                name: json['name'],
-                price: json['price'],
-                imageUrl: json['imageUrl'],
+                name: json['NOME'],
+                price: json['preco_1'],
+                imageUrl: json['IMAGEM'],
               ))
           .toList();
     });
   }
 
   Future<void> addProduct(Product product) async {
-    final collection = db.collection('products');
+    final collection = db.collection('KyogreDB');
     await collection.insert({
-      'name': product.name,
-      'price': product.price,
-      'imageUrl': product.imageUrl,
+      'NOME': product.name,
+      'preco_1': product.price,
+      'IMAGEM': product.imageUrl,
     });
     await fetchProducts();
   }
 
   Future<void> deleteProduct(String name) async {
-    final collection = db.collection('products');
-    await collection.remove(mongo.where.eq('name', name));
+    final collection = db.collection('KyogreDB');
+    await collection.remove(mongo.where.eq('NOME', name));
     await fetchProducts();
   }
 
@@ -70,22 +92,29 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Product CRUD'),
       ),
-      body: ListView.builder(
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          final product = products[index];
-          return Card(
-            child: ListTile(
-              leading: Image.network(product.imageUrl),
-              title: Text(product.name),
-              subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
-              trailing: IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () => deleteProduct(product.name),
-              ),
-            ),
-          );
-        },
+      body: ListView(
+        children: [
+          showDB(),
+          products.isEmpty
+              ? Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    final product = products[index];
+                    return Card(
+                      child: ListTile(
+                        leading: Image.network(product.imageUrl),
+                        title: Text(product.name),
+                        subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () => deleteProduct(product.name),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => addProduct(Product(
@@ -95,6 +124,26 @@ class _HomePageState extends State<HomePage> {
         )),
         child: Icon(Icons.add),
       ),
+    );
+  }
+
+  Widget showDB() {
+    connectToDatabaseCamorim();
+    return Container(
+      child: productList.isEmpty
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemCount: productList.length,
+              itemBuilder: (context, index) {
+                final product = productList[index];
+                return ListTile(
+                  title: Text('Product ${index + 1}'),
+                  subtitle: Text('Details: $product'),
+                );
+              },
+            ),
     );
   }
 

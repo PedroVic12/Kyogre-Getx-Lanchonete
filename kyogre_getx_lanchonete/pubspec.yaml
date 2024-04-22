@@ -63,6 +63,9 @@ dependencies:
   dash_chat_2: ^0.0.20
   excel: ^4.0.3
   mongo_dart: ^0.10.1
+  arcore_flutter_plugin: ^0.1.0
+  camera: ^0.9.8+1
+  ar_core: ^0.0.2+7
 
 dev_dependencies:
   flutter_test:

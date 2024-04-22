@@ -76,7 +76,7 @@ void main() {
   ];
 
   List<ProdutoModel> produtos =
-  pizza_object.map((json) => ProdutoModel.fromJson(json)).toList();
+      pizza_object.map((json) => ProdutoModel.fromJson(json)).toList();
 
   // Exemplo de uso dos produtos
   for (var produto in produtos) {

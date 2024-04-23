@@ -63,7 +63,8 @@ class _ProdutoSelectedDetalhesPageState
     var newPrice = getProdutoAtualizado();
 
     return Scaffold(
-      backgroundColor: lightMode.colorScheme.onBackground,
+      //backgroundColor: lightMode.colorScheme.onBackground,
+      backgroundColor: Colors.indigoAccent,
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(16),

@@ -120,6 +120,19 @@ class ExcelReaderView extends StatelessWidget {
       body: Center(
         child: ListView(
           children: [
+            DropdownButton<String>(
+              value: selectedColumn,
+              onChanged: (value) {
+                selectedColumn = value!;
+                // Chamar método de atualização da lista baseado na nova coluna selecionada
+              },
+              items: columns.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
@@ -135,51 +148,6 @@ class ExcelReaderView extends StatelessWidget {
                     Get.to(DataBasePage());
                   },
                   child: Text("Mongo cadastro")),
-            ),
-            DropdownButton<String>(
-              value: selectedColumn,
-              onChanged: (value) {
-                selectedColumn = value!;
-                // Chamar método de atualização da lista baseado na nova coluna selecionada
-              },
-              items: columns.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-            Expanded(
-              child: FutureBuilder(
-                future: menuRepository.readMenuData(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Erro ao carregar dados do Excel'),
-                    );
-                  } else {
-                    var data = snapshot.data as List<Product>;
-                    var filteredData = data
-                        .where((product) => _filterByColumn(product))
-                        .toList();
-                    return ListView.builder(
-                      itemCount: filteredData.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: ListTile(
-                            title: Text(filteredData[index].name),
-                            subtitle: Text(filteredData[index].category),
-                          ),
-                        );
-                      },
-                    );
-                  }
-                },
-              ),
             ),
           ],
         ),

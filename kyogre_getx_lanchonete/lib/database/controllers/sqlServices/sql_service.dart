@@ -4,69 +4,44 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 
-class Product {
-  final String name;
-  final double price;
-  final String imageUrl;
-
-  Product({
-    required this.name,
-    required this.price,
-    required this.imageUrl,
-  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'price': price,
-      'imageUrl': imageUrl,
-    };
-  }
-
-  factory Product.fromJson(Map<String, dynamic> item) {
-    return Product(
-      name: item['NOME'],
-      price: item['preco_1'].toDouble(),
-      imageUrl: item['IMAGEM']
-          .split(' | ')[0], // Alterado para pegar apenas a primeira imagem
-    );
-  }
-}
-
 class SQLiteService extends GetxController {
-  bool isLoading = true;
-  var products = <Map<dynamic, dynamic>>[].obs;
+  var isLoading = true.obs;
+  List<Map<String, dynamic>> products = <Map<String, dynamic>>[].obs;
   final dio = Dio();
 
-  String apiUrl = 'http://0.0.0.0:7070'; // Change this to your API URL
+  String apiUrl = 'http://0.0.0.0:7070'; // Altere isso para a URL da sua API
 
   fetchProducts() async {
     try {
       var response = await dio.get("$apiUrl/homeSQL");
       if (response.statusCode == 200) {
-        print("\n\nDados SQL= ${response.data.toString()}");
+        print("\n\nDados SQL= ${response.data}");
 
-        //var jsonData = json.decode(response.data) as List;
-        //print(jsonData);
+        // Limpa a lista de produtos antes de adicionar os novos
+        products.clear();
 
-        products.addAll(response.data.cast<Map<dynamic, dynamic>>());
+        // Adiciona cada produto individualmente à lista
+        for (var item in response.data) {
+          products.add(item);
+        }
+        isLoading.value = false; // Atualiza o estado de isLoading
         update();
       }
     } catch (e) {
       print('Failed to load products: $e');
-    } finally {
-      isLoading = false;
+      isLoading.value =
+          false; // Atualiza o estado de isLoading mesmo em caso de erro
       update();
     }
   }
 
-  void addProduct(Product product) async {
+  void addProduct(product) async {
     try {
       var response = await http.post(Uri.parse(apiUrl),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
-          body: jsonEncode(product.toJson()));
+          body: jsonEncode(product));
 
       if (response.statusCode == 201) {
         fetchProducts();
@@ -80,7 +55,11 @@ class SQLiteService extends GetxController {
 
   void deleteProduct(String name) async {
     try {
-      var response = await http.delete(Uri.parse('$apiUrl/$name'));
+      var response = await http.delete(
+        Uri.parse(
+            '$apiUrl/sqlite/item/'), // Endpoint correto para deletar um item
+        body: {'nome': name}, // Passa o nome como parte do corpo da requisição
+      );
 
       if (response.statusCode == 200) {
         fetchProducts();
@@ -89,6 +68,28 @@ class SQLiteService extends GetxController {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  void updateOrderStatus(String name, String newStatus) async {
+    try {
+      var response = await http.post(
+        Uri.parse(
+            '$apiUrl/sqlite/update_status'), // Endpoint para atualizar o status
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({'nome': name, 'status': newStatus}),
+      );
+
+      if (response.statusCode == 200) {
+        print('Order status updated successfully');
+        // Você pode adicionar lógica adicional aqui, se necessário
+      } else {
+        print('Failed to update order status');
+      }
+    } catch (e) {
+      print('Error updating order status: $e');
     }
   }
 }

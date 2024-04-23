@@ -1,17 +1,20 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names
 
-import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
-import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/template/produtos_model.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/widget_tab.dart';
 import '../../../../../app/widgets/Custom/CustomText.dart';
 import '../../../../../themes/cores.dart';
 import '../../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import '../cards/CardProdutosFiltrados.dart';
+
+//!sua configuração com a camada repository:
+
+//MongoDB para o gerenciamento do cardápio, armazenando os itens do cardápio juntamente com as fotos.
+//SQLite para armazenar os pedidos feitos pelos clientes, permitindo a filtragem por data e outras operações relacionadas ao banco de dados relacional.
+//A classe MenuProdutosController é responsável por gerenciar a seleção de produtos e categorias no cardápio digital. Ele possui métodos para definir o índice do produto selecionado e notificar os ouvintes sobre a atualização do estado. A classe CardapioController é responsável por inicializar o cardápio digital e gerenciar a exibição dos produtos e categorias. Ele também possui um método para mostrar ou ocultar a barra inferior na tela do cardápio digital.
 
 class MenuTabBarCardapio extends StatefulWidget {
   const MenuTabBarCardapio({super.key});
@@ -30,6 +33,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
 
   @override
   void initState() {
+    super.initState();
     controller.setupCardapioDigitalWeb().then((_) {
       if (mounted) {
         setState(() {
@@ -177,25 +181,21 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.only(
-            left: 6), // Ajuste o espaçamento à esquerda aqui
-        child: TabBar(
-          controller: _tabController,
-          labelColor: Colors.white,
-          isScrollable: true,
-          unselectedLabelColor: Colors.black,
-          // Mantenha o labelPadding padrão ou ajuste conforme necessário
-          labelPadding: EdgeInsets.all(6),
-          tabs: List<Widget>.generate(
-            controller.menuCategorias.MenuCategorias_Array.length,
-            (index) {
-              var categoria =
-                  controller.menuCategorias.MenuCategorias_Array[index];
-              return _buildTabBarMenuGradiente(
-                  categoria.nome, categoria.iconPath ?? categoria.img, index);
-            },
-          ),
+      child: TabBar(
+        controller: _tabController,
+        labelColor: Colors.white,
+        isScrollable: true,
+        unselectedLabelColor: Colors.black,
+        // Mantenha o labelPadding padrão ou ajuste conforme necessário
+        labelPadding: EdgeInsets.all(6),
+        tabs: List<Widget>.generate(
+          controller.menuCategorias.MenuCategorias_Array.length,
+          (index) {
+            var categoria =
+                controller.menuCategorias.MenuCategorias_Array[index];
+            return _buildTabBarMenuGradiente(
+                categoria.nome, categoria.iconPath ?? categoria.img, index);
+          },
         ),
       ),
     );

@@ -23,81 +23,89 @@ class _DataBasePageState extends State<DataBasePage> {
     iniciarState();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Database Page'),
+        title: const Text('Database Page'),
       ),
       body: ListView(
+        scrollDirection: Axis.vertical,
         children: [
-          Expanded(
-            child: Container(
-                color: Colors.blueGrey,
-                child: mongoServiceDB.products.isNotEmpty
-                    ? const LoadingWidget()
-                    : showMongo()),
+          Container(
+            color: Colors.blueGrey,
+            height: 500,
+            child: showMongo(),
           ),
-          Expanded(
-            child: Container(
-                color: Colors.amber,
-                child: sqlService.isLoading
-                    ? const LoadingWidget()
-                    : Text("Carregado!")),
-          ),
+          Container(color: Colors.amber, height: 500, child: showSQL()),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          var newProduct = {
+            "NOME": "Produto Teste",
+            "preco_1": 10.0,
+            "IMAGEM": "https://via.placeholder.com/150",
+          };
+          mongoServiceDB.addProduct(newProduct);
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
 
   Widget showMongo() {
-    return Obx(() => ListView.builder(
-        itemCount: mongoServiceDB.products.length,
-        itemBuilder: (context, index) {
-          final product =
-              mongoServiceDB.products[index] as Map<String, dynamic>;
-          print("product = ${product}");
+    return GetBuilder<MongoServiceDB>(
+      builder: (controller) {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (controller.productsMongo.isEmpty) {
+          return const Center(child: Text('Nenhum produto encontrado.'));
+        } else {
+          // Se houver produtos, exibe-os usando ListView.builder
+          return ListView.builder(
+            itemCount: controller.productsMongo.length,
+            itemBuilder: (context, index) {
+              var product = controller.productsMongo[index];
 
-          if (product != null) {
-            // // Converte o product para o tipo CardapioModel
-            // final cardapioModel = CardapioModel.fromJson({
-            //   '_id': product['_id'] ?? '=',
-            //   'NOME': product['NOME'] ?? '=',
-            //   'CATEGORIA': product['CATEGORIA'] ?? '=',
-            //   'preco_1': product['preco_1'] ?? 0.0,
-            //   'preco_2': product['preco_2'] ?? 0.0,
-            //   'IGREDIENTES': product['IGREDIENTES'] ?? '=',
-            //   'IMAGEM': product['IMAGEM'] ?? '=',
-            // });
-
-            // // Verifica se o nome não é nulo antes de exibi-lo
-            // return ListTile(
-            //   title: Text(cardapioModel.nome),
-            //   subtitle: Text(cardapioModel.preco1.toString()),
-            //   trailing: IconButton(
-            //     icon: Icon(Icons.delete),
-            //     onPressed: () =>
-            //         mongoServiceDB.deleteProduct(cardapioModel.nome),
-            //   ),
-            // );
-          } else {
-            return const ListTile(
-              title: Text('Sem nome'),
-            );
-          }
-        }));
+              return Card(
+                child: ListTile(
+                  title: Text(product["NOME"]),
+                  subtitle: Text(product["preco_1"].toString()),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () => controller.deleteProduct(product["NOME"]),
+                  ),
+                ),
+              );
+            },
+          );
+        }
+      },
+    );
   }
 
   Widget showSQL() {
-    return Obx(() => ListView.builder(
-          itemCount: sqlService.products.length,
-          itemBuilder: (context, index) {
-            final product = sqlService.products[index];
-            return ListTile(
-              title: Text(product["nome"] ?? 'Sem nome'),
-              subtitle: Text({product["ano"] ?? 'Sem ano'}.toString()),
-              trailing: IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () => sqlService.deleteProduct(product["nome"]),
-              ),
-            );
-          },
-        ));
+    return GetBuilder<SQLiteService>(
+      builder: (controller) {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (controller.products.isEmpty) {
+          return const Center(child: Text('Nenhum produto encontrado.'));
+        } else {
+          // Se houver produtos, exibe-os usando ListView.builder
+          return ListView.builder(
+            itemCount: sqlService.products.length,
+            itemBuilder: (context, index) {
+              final product = sqlService.products[index];
+              return ListTile(
+                title: Text(product["nome"] ?? 'Sem nome'),
+                subtitle: Text({product["ano"] ?? 'Sem ano'}.toString()),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () => sqlService.deleteProduct(product["nome"]),
+                ),
+              );
+            },
+          );
+        }
+      },
+    );
   }
 }

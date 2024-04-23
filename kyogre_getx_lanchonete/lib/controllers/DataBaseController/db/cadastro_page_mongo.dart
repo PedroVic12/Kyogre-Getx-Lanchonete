@@ -1,155 +1,103 @@
 import 'package:flutter/material.dart';
-import 'package:mongo_dart/mongo_dart.dart' as mongo;
+import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
+import 'package:kyogre_getx_lanchonete/database/controllers/MongoDBServices/mongo_service.dart';
+import 'package:kyogre_getx_lanchonete/database/controllers/sqlServices/sql_service.dart';
 
-class Product {
-  final String name;
-  final double price;
-  final String imageUrl;
-
-  Product({
-    required this.name,
-    required this.price,
-    required this.imageUrl,
-  });
+class DataBasePage extends StatefulWidget {
+  @override
+  State<DataBasePage> createState() => _DataBasePageState();
 }
 
-class MongoDBexample extends StatefulWidget {
-  const MongoDBexample({super.key});
+class _DataBasePageState extends State<DataBasePage> {
+  final MongoServiceDB mongoServiceDB = Get.put(MongoServiceDB());
+  final SQLiteService sqlService = Get.put(SQLiteService());
 
-  @override
-  State<MongoDBexample> createState() => _MongoDBexampleState();
-}
-
-class _MongoDBexampleState extends State<MongoDBexample> {
-  late mongo.Db db;
-  List<Product> products = [];
-  List<Map<String, dynamic>> productList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    connectToDatabase();
-  }
-
-  Future<void> connectToDatabaseCamorim() async {
-    String uri =
-        "mongodb+srv://pedrovictorveras:admin@cluster.s1yzg4o.mongodb.net/?retryWrites=true&w=majority&appName=Cluster";
-    String database_name = "Relatorio_OS_DB";
-    String collection_name = "relatorio_records";
-    db = await mongo.Db.create(uri);
-    await db.open();
-    final collection = db.collection(collection_name);
-    final productList = await collection.find().toList();
-    print(collection);
-    print(productList);
-    setState(() {
-      this.productList = productList;
-    });
-  }
-
-  Future<void> connectToDatabase() async {
-    db = await mongo.Db.create('mongodb://localhost:27017');
-    await db.open();
-    await fetchProducts();
-  }
-
-  Future<void> fetchProducts() async {
-    final collection = db.collection('KyogreDB');
-    final productList = await collection.find().toList();
-    print(collection);
-    print(productList);
-
-    setState(() {
-      products = productList
-          .map((json) => Product(
-                name: json['NOME'],
-                price: json['preco_1'],
-                imageUrl: json['IMAGEM'],
-              ))
-          .toList();
-    });
-  }
-
-  Future<void> addProduct(Product product) async {
-    final collection = db.collection('KyogreDB');
-    await collection.insert({
-      'NOME': product.name,
-      'preco_1': product.price,
-      'IMAGEM': product.imageUrl,
-    });
-    await fetchProducts();
-  }
-
-  Future<void> deleteProduct(String name) async {
-    final collection = db.collection('KyogreDB');
-    await collection.remove(mongo.where.eq('NOME', name));
-    await fetchProducts();
+  void iniciarState() async {
+    await mongoServiceDB.fetchProducts();
+    await sqlService.fetchProducts();
   }
 
   @override
   Widget build(BuildContext context) {
+    iniciarState();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Product CRUD'),
+        title: Text('Database Page'),
       ),
       body: ListView(
         children: [
-          showDB(),
-          products.isEmpty
-              ? Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                  itemCount: products.length,
-                  itemBuilder: (context, index) {
-                    final product = products[index];
-                    return Card(
-                      child: ListTile(
-                        leading: Image.network(product.imageUrl),
-                        title: Text(product.name),
-                        subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
-                        trailing: IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () => deleteProduct(product.name),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+          Expanded(
+            child: Container(
+                color: Colors.blueGrey,
+                child: mongoServiceDB.products.isNotEmpty
+                    ? const LoadingWidget()
+                    : showMongo()),
+          ),
+          Expanded(
+            child: Container(
+                color: Colors.amber,
+                child: sqlService.isLoading
+                    ? const LoadingWidget()
+                    : Text("Carregado!")),
+          ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => addProduct(Product(
-          name: 'New Product',
-          price: 0.0,
-          imageUrl: 'https://via.placeholder.com/150',
-        )),
-        child: Icon(Icons.add),
-      ),
     );
   }
 
-  Widget showDB() {
-    connectToDatabaseCamorim();
-    return Container(
-      child: productList.isEmpty
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView.builder(
-              itemCount: productList.length,
-              itemBuilder: (context, index) {
-                final product = productList[index];
-                return ListTile(
-                  title: Text('Product ${index + 1}'),
-                  subtitle: Text('Details: $product'),
-                );
-              },
-            ),
-    );
+  Widget showMongo() {
+    return Obx(() => ListView.builder(
+        itemCount: mongoServiceDB.products.length,
+        itemBuilder: (context, index) {
+          final product =
+              mongoServiceDB.products[index] as Map<String, dynamic>;
+          print("product = ${product}");
+
+          if (product != null) {
+            // // Converte o product para o tipo CardapioModel
+            // final cardapioModel = CardapioModel.fromJson({
+            //   '_id': product['_id'] ?? '=',
+            //   'NOME': product['NOME'] ?? '=',
+            //   'CATEGORIA': product['CATEGORIA'] ?? '=',
+            //   'preco_1': product['preco_1'] ?? 0.0,
+            //   'preco_2': product['preco_2'] ?? 0.0,
+            //   'IGREDIENTES': product['IGREDIENTES'] ?? '=',
+            //   'IMAGEM': product['IMAGEM'] ?? '=',
+            // });
+
+            // // Verifica se o nome não é nulo antes de exibi-lo
+            // return ListTile(
+            //   title: Text(cardapioModel.nome),
+            //   subtitle: Text(cardapioModel.preco1.toString()),
+            //   trailing: IconButton(
+            //     icon: Icon(Icons.delete),
+            //     onPressed: () =>
+            //         mongoServiceDB.deleteProduct(cardapioModel.nome),
+            //   ),
+            // );
+          } else {
+            return const ListTile(
+              title: Text('Sem nome'),
+            );
+          }
+        }));
   }
 
-  @override
-  void dispose() {
-    db.close();
-    super.dispose();
+  Widget showSQL() {
+    return Obx(() => ListView.builder(
+          itemCount: sqlService.products.length,
+          itemBuilder: (context, index) {
+            final product = sqlService.products[index];
+            return ListTile(
+              title: Text(product["nome"] ?? 'Sem nome'),
+              subtitle: Text({product["ano"] ?? 'Sem ano'}.toString()),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () => sqlService.deleteProduct(product["nome"]),
+              ),
+            );
+          },
+        ));
   }
 }

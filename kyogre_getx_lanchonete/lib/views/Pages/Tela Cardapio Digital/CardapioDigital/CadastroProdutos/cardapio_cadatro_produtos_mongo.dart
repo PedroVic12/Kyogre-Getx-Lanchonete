@@ -15,6 +15,9 @@ class CardapioManagerPage extends StatelessWidget {
     await mongoServiceDB.getProducts();
   }
 
+  // separar o collection e categoria
+  // cada produto com adicional ser tratado diferente
+
   @override
   Widget build(BuildContext context) {
     initPage();

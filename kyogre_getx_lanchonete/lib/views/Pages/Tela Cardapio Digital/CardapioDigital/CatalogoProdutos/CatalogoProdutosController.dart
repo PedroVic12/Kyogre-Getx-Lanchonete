@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/DataBaseController.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 
-import '../../../../controllers/DataBaseController/template/produtos_model.dart';
+import '../../../../../controllers/DataBaseController/template/produtos_model.dart';
 
 class CatalogoProdutosController extends GetxController {
   String?

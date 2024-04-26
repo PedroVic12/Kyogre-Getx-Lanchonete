@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
 
-import '../../../views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
-import '../../../views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
+import '../../../views/Pages/Tela Cardapio Digital/CardapioDigital/MenuProdutos/produtos_controller.dart';
+import '../../../views/Pages/Tela Cardapio Digital/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 import '../../../views/Pages/Tela Cardapio Digital/controllers/pikachu_controller.dart';
 import '../repository_db_controller.dart';
 import '../template/produtos_model.dart';

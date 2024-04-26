@@ -4,17 +4,11 @@ import 'package:get/get.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:kyogre_getx_lanchonete/themes/cores.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/pikachu_controller.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/ItemDetailsPage/cardapioView/food_item_page.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/cards/AnimatedCardWidget.dart';
-import '../../../../../app/widgets/Botoes/float_custom_button.dart';
 import '../../../../../app/widgets/Custom/CustomText.dart';
 import '../../../../../app/widgets/Utils/loading_widget.dart';
 import '../../../../../controllers/DataBaseController/repository_db_controller.dart';
-import '../../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
-import '../../../Carrinho/CarrinhoController.dart';
-import '../../../Carrinho/controller/sacola_controller.dart';
-import '../DetailsPage/details_page.dart';
+import '../../CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
 
 class CardsProdutosFIltrados extends StatefulWidget {
   final String categoria_selecionada;

@@ -3,7 +3,7 @@ import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/Views/cadatro_cardapio._db.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/CadastroProdutos/cardapio_cadatro_produtos_mongo.dart';
 
 import '../db/cadastro_page_mongo.dart';
 
@@ -93,7 +93,7 @@ class ExcelMenuRepository extends MenuRepository {
 }
 
 // ignore: must_be_immutable
-class ExcelReaderView extends StatelessWidget {
+class CardapioSysteam extends StatelessWidget {
   final MenuRepository menuRepository = ExcelMenuRepository(
       '/home/pedrov/Documentos/GitHub/Kyogre-Getx-Lanchonete/kyogre_getx_lanchonete/lib/repository/citta/cardapio_template.xlsx');
   final List<String> columns = [
@@ -108,14 +108,14 @@ class ExcelReaderView extends StatelessWidget {
   ];
   String selectedColumn = 'Categoria';
 
-  ExcelReaderView({super.key});
+  CardapioSysteam({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue,
       appBar: AppBar(
-        title: Text('Dados do Excel 2'),
+        title: Text('Dados do Excel '),
       ),
       body: Center(
         child: ListView(
@@ -137,7 +137,7 @@ class ExcelReaderView extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                   onPressed: () {
-                    Get.to(ProductRegistrationScreen());
+                    Get.to(CardapioManagerPage());
                   },
                   child: Text("Pagina de cadastro")),
             ),
@@ -153,29 +153,5 @@ class ExcelReaderView extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  bool _filterByColumn(Product product) {
-    switch (selectedColumn) {
-      case 'Nome':
-        return true; // Não aplicando filtro, todos os nomes são válidos
-      case 'Categoria':
-        return product.category == 'Tapioca';
-      case 'Subcategoria':
-        return product.hasSubCategory && product.subCategory != null;
-      case 'Preço 1':
-        return product.price1 > 20; // Exemplo de filtro
-      case 'Preço 2':
-        return product.price2 != null &&
-            product.price2! > 0; // Exemplo de filtro
-      case 'Imagem':
-        return product.image != null && product.image!.isNotEmpty;
-      case 'Ingredientes':
-        return product.ingredients != null && product.ingredients!.isNotEmpty;
-      case 'Adicionais':
-        return product.additional != null && product.additional!.isNotEmpty;
-      default:
-        return true;
-    }
   }
 }

@@ -5,10 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
-
-import 'repository/produtos_model.dart';
 
 class ProdutosDetails extends StatelessWidget {
   final String nome;

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../app/widgets/Custom/CustomText.dart';
-import '../../../../../controllers/DataBaseController/DataBaseController.dart';
-import '../../CatalogoProdutos/CatalogoProdutosController.dart';
-
 class ItemModel {
   final String label;
 

@@ -2,32 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kyogre_getx_lanchonete/app/Teoria%20do%20Caos/CaosPage.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Design/CartaoGridView.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/MenuLateralNavegacao.dart';
-import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/DataBaseController.dart';
 import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/Views/excel_view_database.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CardapioDigitalPage.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/ChatPage/views/ChatPage.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/auth_screen.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/tela_auth_jvt.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/GoogleMaps/google_maps_view.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Layout/Layout.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Monitoramento/maps/tela_google_maps.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/SplashScreen/splash_screen_page.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/TelaCardapioDigital.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/cardapio_qrcode.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/DetailsPage/details_page.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/menu_tab_bar_widget.dart';
 
 import 'controllers/binding.dart';
 import 'views/Pages/Caos/caos_page.dart';
-import 'views/Pages/DashBoard/Pedido/PedidoController.dart';
 
 //TODO -> Menu controller 1:08
 
@@ -35,7 +24,7 @@ void main() {
   Get.put(MenuLateralController());
   Get.put(MenuProdutosController());
   Get.put(CardapioController());
-
+  GlobalBindings().dependencies();
   runApp(MyApp());
 }
 
@@ -58,7 +47,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/mapaPedido', page: () => GoogleMapsWidget()),
         GetPage(name: '/authScreen', page: () => TelaAutenticacaoUsuarios()),
         GetPage(name: '/atendimento', page: () => ChatPage()),
-        GetPage(name: '/database', page: () => ExcelReaderView()),
+        GetPage(name: '/database', page: () => CardapioSysteam()),
         GetPage(
             name: '/pedido/:id',
             page: () {

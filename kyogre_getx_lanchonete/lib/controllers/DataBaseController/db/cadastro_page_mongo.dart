@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
 import 'package:kyogre_getx_lanchonete/database/controllers/MongoDBServices/mongo_service.dart';
 import 'package:kyogre_getx_lanchonete/database/controllers/sqlServices/sql_service.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/CadastroProdutos/cardapio_cadatro_produtos_mongo.dart';
 
 class DataBasePage extends StatefulWidget {
   @override
@@ -28,12 +29,21 @@ class _DataBasePageState extends State<DataBasePage> {
       body: ListView(
         scrollDirection: Axis.vertical,
         children: [
+          TextButton(
+              child: Text("Cardapio Manager"),
+              onPressed: () {
+                Get.to(CardapioManagerPage());
+              }),
           Container(
             color: Colors.blueGrey,
             height: 500,
             child: showMongo(),
           ),
-          Container(color: Colors.amber, height: 500, child: showSQL()),
+          Container(
+            color: Colors.amber,
+            height: 500,
+            child: showSQL(),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

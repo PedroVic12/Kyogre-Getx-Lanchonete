@@ -5,9 +5,7 @@ import 'package:universal_html/html.dart' as html;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
-import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/DataBaseController.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart'; // Usado para formatar a hora
 import 'package:http/http.dart' as http;

@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'DataBaseController/repository_db_controller.dart';
-import '../views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
-import '../views/Pages/Carrinho/CarrinhoController.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/repository_db_controller.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/MenuProdutos/repository/MenuRepository.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 
 class GlobalBindings extends Bindings {
   List _nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
 
-  final List<CategoriaModel> _categoriasCardapioProdutos = [];
-
   @override
-  void dependencies() {
+  void dependencies() async {
     // Dependências globais comuns (se houver)
 
     setUpCardapioDigital();
   }
 
-  void setUpCardapioDigital() {
+  void setUpCardapioDigital() async {
     Get.put(MenuController());
     Get.put(RepositoryDataBaseController());
     Get.put(CarrinhoController());
-    // Outras dependências específicas para CardapioDigital
+    Get.put(MenuProdutosRepository());
+    Get.put(MenuProdutosController());
   }
 
   void bindOutraPagina() {

@@ -5,21 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/DataBaseController.dart';
-import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/Views/produtos_display_listview.dart';
 import 'package:kyogre_getx_lanchonete/repository/models/pizza.dart';
 
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/cards_produtos.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/produtos_controller.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
+
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/views/modalCarrinho.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/Menu%20Tab/menu_tab_bar_widget.dart';
-import '../../../app/widgets/Custom/CustomText.dart';
-import '../../../controllers/DataBaseController/repository_db_controller.dart';
-import '../../../controllers/DataBaseController/template/produtos_model.dart';
-import '../Tela Cardapio Digital/controllers/cardapio_controller.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
+import '../../../../app/widgets/Custom/CustomText.dart';
+import '../../../../controllers/DataBaseController/repository_db_controller.dart';
+import '../../../../controllers/DataBaseController/template/produtos_model.dart';
 
 /*
 * Paleta de Cores : #ff8c00 , #f2ff00, # ff0d00

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/CardapioDigital/MenuProdutos/repository/produtos_model.dart';
+
+import 'produtos_model.dart';
 
 //MENU DE CATEGORIAS
 class MenuProdutosRepository extends GetxController {
@@ -41,57 +42,94 @@ class MenuProdutosRepository extends GetxController {
       MenuCategorias_Array.addAll([
         CategoriaModel(
           nome: 'Sanduíches',
-          iconPath: const Icon(Icons.fastfood_rounded ,size: 28,),
+          iconPath: const Icon(
+            Icons.fastfood_rounded,
+            size: 28,
+          ),
         ),
         CategoriaModel(
           nome: 'Salgados',
-          iconPath: Icon(Icons.local_pizza_rounded ,size: 28,),
+          iconPath: Icon(
+            Icons.local_pizza_rounded,
+            size: 28,
+          ),
         ),
         CategoriaModel(
           nome: 'Açai e Pitaya',
-          img: Image.asset('lib/repository/icons/acai_bowl.png',height: 28, width: 28,),
+          img: Image.asset(
+            'lib/repository/icons/acai_bowl.png',
+            height: 28,
+            width: 28,
+          ),
         ),
         CategoriaModel(
           nome: 'Sobremesas',
-          img: Image.asset('lib/repository/icons/cake.png',height: 28, width: 28,),
+          img: Image.asset(
+            'lib/repository/icons/cake.png',
+            height: 28,
+            width: 28,
+          ),
         ),
         CategoriaModel(
           nome: 'Hamburguer',
-          iconPath: Icon(Icons.local_drink ,size: 28,),
+          iconPath: Icon(
+            Icons.local_drink,
+            size: 28,
+          ),
         ),
 
         //TODO RETIRAR AQUI
 
         CategoriaModel(
           nome: 'Cuscuz de Milho',
-          iconPath: Icon(Icons.egg_alt_rounded ,size: 28,),
+          iconPath: Icon(
+            Icons.egg_alt_rounded,
+            size: 28,
+          ),
         ),
         CategoriaModel(
           nome: 'Omelete',
-          iconPath: Icon(Icons.egg_alt_rounded ,size: 28,),
+          iconPath: Icon(
+            Icons.egg_alt_rounded,
+            size: 28,
+          ),
         ),
         CategoriaModel(
           nome: 'Crepe',
-          iconPath: Icon(Icons.fastfood_rounded ,size: 28,),
+          iconPath: Icon(
+            Icons.fastfood_rounded,
+            size: 28,
+          ),
         ),
         CategoriaModel(
           nome: 'Tapioca',
-          iconPath: Icon(Icons.fastfood_rounded ,size: 28,),
+          iconPath: Icon(
+            Icons.fastfood_rounded,
+            size: 28,
+          ),
         ),
 
         // PRATOS RÁPIDOS E PRATICOS
 
         CategoriaModel(
           nome: 'Cafeteria',
-          iconPath: Icon(Icons.coffee ,size: 28,),
+          iconPath: Icon(
+            Icons.coffee,
+            size: 28,
+          ),
         ),
         CategoriaModel(
           nome: 'Bebidas',
-          img: Image.asset('lib/repository/icons/drink.png',height: 28, width: 28,),
+          img: Image.asset(
+            'lib/repository/icons/drink.png',
+            height: 28,
+            width: 28,
+          ),
         ),
         CategoriaModel(
           nome: 'Sucos',
-          img: Image.asset('lib/repository/icons/cocktail.png',height: 28, width: 28),
+          img: Image.asset('lib/repository/icons/cocktail.png',
+              height: 28, width: 28),
         ),
       ]);
     }

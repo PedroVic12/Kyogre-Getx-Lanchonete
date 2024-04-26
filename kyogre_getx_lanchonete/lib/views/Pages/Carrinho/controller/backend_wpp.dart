@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:math';
 import 'package:intl/intl.dart';
@@ -14,10 +13,9 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/controller/sacola_co
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/pikachu_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
+import '../../Tela Cardapio Digital/CardapioDigital/CatalogoProdutos/CatalogoProdutosController.dart';
 
 class GroundonBackEndController extends GetxController {
-
   final carrinho = Get.find<CarrinhoPedidoController>();
   final pikachu = PikachuController();
   final CardapioController controller = Get.find<CardapioController>();
@@ -32,20 +30,16 @@ class GroundonBackEndController extends GetxController {
     super.onReady();
   }
 
-
-
-  getDadosClienteGroundon(id)async {
+  getDadosClienteGroundon(id) async {
     try {
-      var response = await pikachu.API.get("https://rayquaza-citta-server.onrender.com/cliente/${id}");
+      var response = await pikachu.API
+          .get("https://rayquaza-citta-server.onrender.com/cliente/${id}");
       print('Status Code: ${response.statusCode}');
       return response;
-    }
-    catch (e) {
+    } catch (e) {
       pikachu.cout('Erro = ${e}');
     }
   }
-
-
 
   Future<Map<String, dynamic>> salvarDadosCarrinho(id_cliente) async {
     var dados = await getDadosClienteGroundon(id_cliente);
@@ -77,7 +71,6 @@ class GroundonBackEndController extends GetxController {
     return pedidoInfo;
   }
 
-
   enviarDadosPedidoGroundon(id) async {
     var dataPost = await salvarDadosCarrinho(id);
     pikachu.cout('Sacola Pedido =  $dataPost');
@@ -87,13 +80,12 @@ class GroundonBackEndController extends GetxController {
         "https://rayquaza-citta-server.onrender.com/pedidos-kyogre/$id",
         data: jsonEncode(dataPost),
       );
-      pikachu.loadDataSuccess('Dados Enviados', 'Pedido realizado com sucesso!');
+      pikachu.loadDataSuccess(
+          'Dados Enviados', 'Pedido realizado com sucesso!');
     } catch (e) {
       print("Erro ao enviar pedido: $e");
     }
   }
-
-
 
   // Método para definir os detalhes do cliente
   void setClienteDetails(String nome, String telefone, String id) {
@@ -101,10 +93,9 @@ class GroundonBackEndController extends GetxController {
     telefoneCliente = telefone;
     idPedido = id;
 
-    print('ID PEDIDO: $idPedido Cliente: $nomeCliente | Telefone: $telefoneCliente');
+    print(
+        'ID PEDIDO: $idPedido Cliente: $nomeCliente | Telefone: $telefoneCliente');
   }
-
-
 
   String gerarResumoPedidoCardapio() {
     final items = carrinho.SACOLA.entries.map((entry) {
@@ -119,9 +110,9 @@ class GroundonBackEndController extends GetxController {
     final fimEntrega = agora.add(Duration(minutes: 50));
     final formatoHora = DateFormat('HH:mm');
 
-
     // Acrescentando detalhes do cliente ao resumo
-    final clienteDetails = controller.nomeCliente != null && controller.telefoneCliente != null
+    final clienteDetails = controller.nomeCliente != null &&
+            controller.telefoneCliente != null
         ? "Cliente: $controller.nomeCliente\n\n Pedido #${controller.idPedido ?? 'N/A'}\n"
         : "";
 
@@ -137,9 +128,8 @@ class GroundonBackEndController extends GetxController {
     """;
   }
 
-
-
-Future<void> enviarPedidoWhatsapp({required String phone, required String message}) async {
+  Future<void> enviarPedidoWhatsapp(
+      {required String phone, required String message}) async {
     String generateUrl(String type) {
       switch (type) {
         case "wa.me":

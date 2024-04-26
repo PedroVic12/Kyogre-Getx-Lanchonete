@@ -7,7 +7,7 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Utils/loading_widget.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 import '../../../../../app/widgets/Custom/CustomText.dart';
 import '../../../../../themes/cores.dart';
-import '../../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
+import '../../CardapioDigital/MenuProdutos/repository/produtos_model.dart';
 import '../cards/CardProdutosFiltrados.dart';
 
 //!sua configuração com a camada repository:

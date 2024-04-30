@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/database/controllers/MongoDBServices/mongo_service.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/CadastroProdutos/widgets/cadastro_produtos.dart';
 
 import '../../../../../app/widgets/Custom/CustomText.dart';
 import '../../controllers/cardapio_manager.dart';
 import '../../controllers/cardapio_repository.dart';
+import 'widgets/photo_gallery_mongo.dart';
 
 class CardapioManagerPage extends StatelessWidget {
   final manager = CardapioManager();
@@ -25,80 +27,121 @@ class CardapioManagerPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('CARDAPIO DIGITAL DE {RUBY}'),
       ),
-      body: Column(
-        children: [
-          TextButton(onPressed: () {}, child: const Text("Procurar Produto")),
-          Container(
-            height: 500, // Defina a altura da lista horizontal
-            padding: const EdgeInsets.all(12),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal, // Lista na direção horizontal
-              itemCount: repository.categoriasCardapio.length,
-              itemBuilder: (context, index) {
-                var produtoCardapio = repository.arrayProdutos[index];
-                var categoriasCardapio = repository.categoriasCardapio[index];
-                return Container(
-                  width: 250, // Largura de cada contêiner
-                  margin: const EdgeInsets.all(
-                      12), // Espaçamento ao redor de cada contêiner
-                  decoration: BoxDecoration(
-                    color: index.isEven
-                        ? Colors.blue
-                        : Colors.green, // Cores alternadas para os contêineres
-                    borderRadius:
-                        BorderRadius.circular(10), // Borda arredondada
-                  ),
-                  child: Column(
-                    //mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      botoesSuperior(context, categoriasCardapio),
-                      Card(
-                        elevation: 5, // Elevação do card
-                        child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                                leading:
-                                    const CircleAvatar(child: Placeholder()),
-                                title: Text(
-                                  '${produtoCardapio["NOME"]}',
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                                subtitle: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          "R\$ ${produtoCardapio["PRECO"].toString()} reais"),
-                                    ]),
-                                trailing: CircleAvatar(
-                                  child: PopupMenuButton(
-                                      itemBuilder: (context) => [
-                                            const PopupMenuItem(
-                                              value: "Editar Produto",
-                                              child: Text("Editar Produto"),
-                                            ),
-                                            const PopupMenuItem(
-                                              child: Text("Deletar Produto"),
-                                              value: "Deletar Produto",
-                                            ),
-                                          ],
-                                      onSelected: (String newValue) {}),
-                                ))),
-                      ),
-                    ],
-                  ),
-                );
-              },
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            TextButton(onPressed: () {}, child: const Text("Procurar Produto")),
+            TextButton(
+                onPressed: () {
+                  Get.to(PhotoGalleryScreen());
+                },
+                child: const CustomText(
+                  text: "Galeria produtos",
+                  color: Colors.white,
+                )),
+            Container(
+              height: 500, // Defina a altura da lista horizontal
+              padding: const EdgeInsets.all(12),
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal, // Lista na direção horizontal
+                itemCount: repository.categoriasCardapio.length,
+                itemBuilder: (context, index) {
+                  var produtoCardapio = repository.arrayProdutos[index];
+                  var categoriasCardapio = repository.categoriasCardapio[index];
+                  return Container(
+                    width: 250, // Largura de cada contêiner
+                    margin: const EdgeInsets.all(
+                        12), // Espaçamento ao redor de cada contêiner
+                    decoration: BoxDecoration(
+                      color: index.isEven
+                          ? Colors.blue
+                          : Colors
+                              .green, // Cores alternadas para os contêineres
+                      borderRadius:
+                          BorderRadius.circular(10), // Borda arredondada
+                    ),
+                    child: Column(
+                      //mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        botoesSuperior(context, categoriasCardapio),
+                        cardProduct(produtoCardapio),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-          showMongo()
-        ],
+            showMongo()
+          ],
+        ),
       ),
-      floatingActionButton: FloatingActionButton.large(
+      floatingActionButton: FloatingActionButton(
           onPressed: () {
             manager.criarCategoria();
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return CadastroDialog(produto: "produto");
+              },
+            );
           },
           tooltip: 'Criar Categoria',
           child: const Text('Criar Categoria')), //
+    );
+  }
+
+  Widget cardProduct(produtoCardapio) {
+    return Card(
+      elevation: 5, // Elevação do card
+      child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+              leading: const CircleAvatar(child: Placeholder()),
+              title: Text(
+                '${produtoCardapio["NOME"]}',
+                style: const TextStyle(fontSize: 18),
+              ),
+              subtitle:
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Text("R\$ ${produtoCardapio["PRECO"].toString()} reais"),
+              ]),
+              trailing: CircleAvatar(
+                child: PopupMenuButton(
+                    itemBuilder: (context) => [
+                          const PopupMenuItem(
+                              value: "Editar",
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: Colors.green,
+                                        child: Icon(Icons.edit),
+                                      ),
+                                      Text("Editar Produto"),
+                                    ],
+                                  ),
+                                  Divider()
+                                ],
+                              )),
+                          const PopupMenuItem(
+                            value: "Deletar",
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.red,
+                                  child: Icon(Icons.delete_forever_rounded),
+                                ),
+                                Text("Deletar Produto"),
+                              ],
+                            ),
+                          ),
+                        ],
+                    onSelected: (String newValue) {}),
+              ))),
     );
   }
 

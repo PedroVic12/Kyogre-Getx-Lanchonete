@@ -1,11 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/SideMenu.dart';
 import 'package:kyogre_getx_lanchonete/views/Screens/Screens.dart';
 import 'package:kyogre_getx_lanchonete/views/responsividade/ResponsiveWidget.dart';
-
-import '../DashBoard/Pedido/FilaDeliveryController.dart';
 
 class Layout extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
@@ -16,8 +12,8 @@ class Layout extends StatelessWidget {
         extendBodyBehindAppBar: true,
         key: scaffoldKey,
         //TODO -> Menu Lateral de Navegação
-        drawer: Drawer(
-          child: SideMenu(),
+        drawer: const Drawer(
+          child: const SideMenu(),
         ),
 
         // Responsividade
@@ -27,6 +23,6 @@ class Layout extends StatelessWidget {
             // tela Default
             smallScreen:
                 //child: localNavigator(),
-                SmallScreen()));
+                const SmallScreen()));
   }
 }

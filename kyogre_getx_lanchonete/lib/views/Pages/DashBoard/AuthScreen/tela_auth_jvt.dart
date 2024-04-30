@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/controllers/usuarios_admin_controllers.dart';
@@ -15,31 +13,32 @@ class TelaAutenticacaoUsuarios extends StatefulWidget {
   const TelaAutenticacaoUsuarios({super.key});
 
   @override
-  State<TelaAutenticacaoUsuarios> createState() => _TelaAutenticacaoUsuariosState();
+  State<TelaAutenticacaoUsuarios> createState() =>
+      _TelaAutenticacaoUsuariosState();
 }
 
 class _TelaAutenticacaoUsuariosState extends State<TelaAutenticacaoUsuarios> {
-  RegisterationController registerationController = Get.put(RegisterationController());
+  RegisterationController registerationController =
+      Get.put(RegisterationController());
   LoginController loginController = Get.put(LoginController());
   var isLogin = false.obs;
-  final ControleUsuariosCliente usuariosClienteController = Get.put(ControleUsuariosCliente());
+  final ControleUsuariosCliente usuariosClienteController =
+      Get.put(ControleUsuariosCliente());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(36),
+          padding: const EdgeInsets.all(36),
           child: Center(
             child: Obx(
-                  () => Column(
+              () => Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
-
                     Container(
-                      child: Text(
+                      child: const Text(
                         'Bem vindo ao Ruby Delivery App',
                         style: TextStyle(
                             fontSize: 30,
@@ -47,7 +46,7 @@ class _TelaAutenticacaoUsuariosState extends State<TelaAutenticacaoUsuarios> {
                             fontWeight: FontWeight.w400),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
@@ -58,18 +57,18 @@ class _TelaAutenticacaoUsuariosState extends State<TelaAutenticacaoUsuarios> {
                           onPressed: () {
                             isLogin.value = false;
                           },
-                          child: Text('Cadastrar'),
+                          child: const Text('Cadastrar'),
                         ),
                         MaterialButton(
                           color: isLogin.value ? Colors.white : Colors.amber,
                           onPressed: () {
                             isLogin.value = true;
                           },
-                          child: Text('Login'),
+                          child: const Text('Login'),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 80,
                     ),
                     isLogin.value ? LoginPageWidget() : CadastroPageWidget()
@@ -85,26 +84,25 @@ class _TelaAutenticacaoUsuariosState extends State<TelaAutenticacaoUsuarios> {
     return Column(
       children: [
         InputTextFieldWidget(registerationController.nameController, 'name'),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         InputTextFieldWidget(
             registerationController.emailController, 'email address'),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         InputTextFieldWidget(
             registerationController.passwordController, 'password'),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         SubmitButton(
           onPressed: () {
             registerationController.registerWithEmail();
             // todo mandar email para confirmar novo usuario com token
-          } ,
+          },
           title: 'Cadastrar',
-
         )
       ],
     );
@@ -113,15 +111,15 @@ class _TelaAutenticacaoUsuariosState extends State<TelaAutenticacaoUsuarios> {
   Widget loginWidget() {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         InputTextFieldWidget(loginController.emailController, 'email address'),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         InputTextFieldWidget(loginController.passwordController, 'password'),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         SubmitButton(
@@ -132,21 +130,18 @@ class _TelaAutenticacaoUsuariosState extends State<TelaAutenticacaoUsuarios> {
     );
   }
 
-  Widget LoginPageWidget(){
-
-
-
+  Widget LoginPageWidget() {
     return Padding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
-
-
         children: <Widget>[
-
-          CaixaDeTexto(controller: usuariosClienteController.emailController, labelText: 'Email'),
-          CaixaDeTexto(controller: usuariosClienteController.passwordController, labelText: 'Senha'),
-
-          SizedBox(height: 20),
+          CaixaDeTexto(
+              controller: usuariosClienteController.emailController,
+              labelText: 'Email'),
+          CaixaDeTexto(
+              controller: usuariosClienteController.passwordController,
+              labelText: 'Senha'),
+          const SizedBox(height: 20),
           SubmitButton(
             onPressed: () => usuariosClienteController.login(context),
             // loginController.loginWithEmail(),
@@ -158,32 +153,31 @@ class _TelaAutenticacaoUsuariosState extends State<TelaAutenticacaoUsuarios> {
     );
   }
 
-  Widget  CadastroPageWidget() {
+  Widget CadastroPageWidget() {
     return Padding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         children: <Widget>[
-          CaixaDeTexto(controller: usuariosClienteController.userController, labelText:  'Usuário de Acesso Restrito'),
-          CaixaDeTexto(controller: usuariosClienteController.emailController, labelText: 'Email'),
-          CaixaDeTexto(controller: usuariosClienteController.passwordController, labelText: 'Senha'),
-
-          SizedBox(height: 20),
+          CaixaDeTexto(
+              controller: usuariosClienteController.userController,
+              labelText: 'Usuário de Acesso Restrito'),
+          CaixaDeTexto(
+              controller: usuariosClienteController.emailController,
+              labelText: 'Email'),
+          CaixaDeTexto(
+              controller: usuariosClienteController.passwordController,
+              labelText: 'Senha'),
+          const SizedBox(height: 20),
           SubmitButton(
-            onPressed: ()
-                    {
-                      usuariosClienteController.register(context);
-                      usuariosClienteController.sendEmail();
-                      Get.snackbar("Email de acesso enviado", "Cadastro realizado");
-
-                    },
-
-
-              title: 'Registrar',
+            onPressed: () {
+              usuariosClienteController.register(context);
+              usuariosClienteController.sendEmail();
+              Get.snackbar("Email de acesso enviado", "Cadastro realizado");
+            },
+            title: 'Registrar',
           ),
         ],
       ),
     );
+  }
 }
-}
-
-

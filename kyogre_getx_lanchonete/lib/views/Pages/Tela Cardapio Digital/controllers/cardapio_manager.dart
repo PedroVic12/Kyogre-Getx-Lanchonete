@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/widgets/forms_simples.dart';
 
 import '../../../../app/widgets/Custom/CustomText.dart';
+import '../CardapioDigital/CadastroProdutos/widgets/photo_gallery_mongo.dart';
 
 class CardapioManager extends GetxController {
   final _formKey = GlobalKey<FormState>();
@@ -18,8 +20,8 @@ class CardapioManager extends GetxController {
   bool precoDescontoSelecionado = false;
   bool produtosAdicionais = false;
   RxBool imagemEnviada = false.obs;
-  //XFile? imagemSelecionada;
-  var imagemSelecionada;
+  XFile? imagemSelecionada;
+  //var imagemSelecionada;
 
   criarCategoria() {
     //todo criar collection mongodb
@@ -37,18 +39,11 @@ class CardapioManager extends GetxController {
 
       if (imagem != null) {
         imagemSelecionada = imagem;
-        imagemEnviada = false.obs;
-        update();
-
-        try {
-          //await sendImageServer(imagemSelecionada!);
-        } catch (e) {
-          print('Erro = $e');
-        }
+        imagemEnviada.value = false; // Atualize o valor do RxBool
+        update(); // Atualize o estado
       }
     } catch (error) {
       print("\nErro aqui: $error");
-
       //Get.show_snackbar('Erro', 'Falha ao enviar imagem : $error');
     }
   }
@@ -77,6 +72,51 @@ class CardapioManager extends GetxController {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget carrouselImagens() {
+    final controller = Get.put(PhotoGalleryController());
+
+    return Container(
+      //width: MediaQuery.of(context).size.width * 0.8,
+      //height: MediaQuery.of(context).size.height * 0.8,
+      width: 200,
+      height: 200,
+
+      child: GetBuilder<PhotoGalleryController>(
+        builder: (controller) {
+          if (controller.photos.isEmpty) {
+            return const Center(
+              child: Text('No photos available'),
+            );
+          } else {
+            return CarouselSlider.builder(
+              itemCount: controller.photos.length,
+              itemBuilder: (context, index, _) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Image.memory(
+                        controller.photos[index].imageBytes,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(controller.photos[index].description),
+                  ],
+                );
+              },
+              options: CarouselOptions(
+                aspectRatio: 16 / 9,
+                viewportFraction: 0.8,
+                enlargeCenterPage: true,
+              ),
+            );
+          }
+        },
       ),
     );
   }
@@ -154,7 +194,45 @@ class CardapioManager extends GetxController {
     );
   }
 
+  Widget getImg() {
+    final controller = Get.put(PhotoGalleryController());
+
+    return Container(
+      color: Colors.lightGreen,
+      padding: const EdgeInsets.all(16.0),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Material(
+          child: TextField(
+            controller: controller.descriptionController,
+            decoration: const InputDecoration(
+              hintText: 'Enter description',
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        Row(
+          children: [
+            // ElevatedButton(
+            //   onPressed: () => controller.takePhoto(),
+            //   child: const Text('Take Photo'),
+            // ),
+            // const SizedBox(height: 10),
+
+            ElevatedButton(
+              onPressed: () => controller.pickFromGallery(),
+              child: const Text('Pick from Gallery'),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ]),
+    );
+  }
+
   showCadastroDialog(BuildContext context, produto) {
+    bool exibirCarrossel =
+        false; // Variável para controlar a exibição do carrossel
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -169,8 +247,16 @@ class CardapioManager extends GetxController {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  cardButton(
-                      escolherImagemGaleria, Icons.photo, "Escolher Imagem"),
+                  cardButton(() {
+                    escolherImagemGaleria();
+                    // Atualizar o estado para exibir o carrossel
+                    exibirCarrossel = true;
+                  }, Icons.photo, "Escolher Imagem"),
+
+                  getImg(),
+                  // Exibir o carrossel se exibirCarrossel for verdadeiro
+                  if (exibirCarrossel) carrouselImagens(),
+
                   // Exibindo a imagem
                   if (imagemSelecionada != null)
                     const Center(child: CircularProgressIndicator())

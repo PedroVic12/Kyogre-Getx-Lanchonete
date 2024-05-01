@@ -34,7 +34,7 @@ class ControleUsuariosCliente extends GetxController {
   void getUsersCSV() {
     //todo pegar dados usuarios por arquivo csv e ao registrar colocar um novo arquivo
   }
-  List usuarios = [
+  List<UserClients> usuarios = [
     UserClients(
       user: "Pedro Victor Veras",
       email: "pedrovictorveras@id.uff.br",
@@ -44,26 +44,26 @@ class ControleUsuariosCliente extends GetxController {
       loja: "Ruby",
     ),
     UserClients(
-        user: "Alex Martins",
-        email: "",
-        senha: "admin",
-        token: "",
-        status: "offline",
-        loja: "Ruby"),
+      user: "Alex Martins",
+      email: "",
+      senha: "admin",
+      token: "",
+      status: "offline",
+      loja: "Ruby",
+    ),
   ];
 
   userOnline() {
     var user = usuarios.firstWhere(
-      (user) => user['status'] == "online",
-      orElse: () => null,
+      (user) => user.status == "online",
     );
     return user;
   }
 
-  get getUsuarios => usuarios;
-
   void onReady() {
-    print("Usuarios = $usuarios");
+    for (var element in usuarios) {
+      print("Usuarios = ${element.user} - ${element.email}");
+    }
     getUsuariosDataBase();
   }
 
@@ -81,8 +81,7 @@ class ControleUsuariosCliente extends GetxController {
 
     // Verifica se o email e senha correspondem a algum usuário
     var user = usuarios.firstWhere(
-      (user) => user['email'] == email && user['senha'] == password,
-      orElse: () => null,
+      (user) => user.email == email && user.senha == password,
     );
 
     if (user != null) {
@@ -109,8 +108,13 @@ class ControleUsuariosCliente extends GetxController {
     var token = generateRandomToken(12);
 
     // Adiciona o novo usuário à lista
-    usuarios
-        .add({"USER": user, "EMAIL": email, "SENHA": password, "token": token});
+    usuarios.add(UserClients(
+        user: user,
+        email: email,
+        senha: password,
+        token: token,
+        status: "offline",
+        loja: "loja"));
 
     print("Usuarios List = $usuarios");
 

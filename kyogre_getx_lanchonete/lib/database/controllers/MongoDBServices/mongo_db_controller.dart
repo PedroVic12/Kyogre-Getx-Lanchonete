@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
@@ -9,28 +7,24 @@ class MongoDBController extends GetxController {
   final url =
       "mongodb+srv://pedrovictorveras:admin@cluster.s1yzg4o.mongodb.net/"
       "?retryWrites=true&w=majority&appName=Cluster";
+
   @override
   void onInit() {
     super.onInit();
-    //var database = conectar();
-    //getRelatorios(database);
-    //lerTodosDocumentos(database, "relatorio_records");
+    conectar("cardapio-ruby");
   }
 
-  conectar() async {
+  Future<Db> conectar(String dbName) async {
     try {
-      final mongo_db = await Db.create(url);
-      await mongo_db.open();
-      inspect(mongo_db);
-      var status = mongo_db.serverStatus();
-      print(status);
-      final coll = mongo_db.collection('relatorio_records');
-      print("\nconexão realizada com sucesso");
-      print(coll.find().toList());
+      final mongoDb = await Db.create(url);
+      await mongoDb.open();
+      this.db = mongoDb;
+      print("\nConexão realizada com sucesso");
 
-      return mongo_db;
+      return mongoDb;
     } catch (e) {
-      print("Nao conectado! $e");
+      print("Não conectado! $e");
+      throw e;
     }
   }
 
@@ -38,46 +32,48 @@ class MongoDBController extends GetxController {
     await db.close();
   }
 
-  Future<void> getRelatorios(_db) async {
-    final collection = _db.collection('relatorio_records');
+  Future<void> getRelatorios(String dbName) async {
+    final db = await conectar(dbName);
+    final collection = db.collection('relatorio_records');
     final documentos = await collection.find().toList();
     print(documentos);
     documentos.forEach((element) {
       relatorios.add(element);
     });
-
-    //relatorios.value =        documentos.map((json) => Relatorio.fromJson(json)).toList();
   }
 
-  Future<void> inserirDocumento(
-      String collectionName, Map<String, dynamic> documento) async {
+  Future<void> inserirDocumento(String dbName, String collectionName,
+      Map<String, dynamic> documento) async {
+    final db = await conectar(dbName);
     final collection = db.collection(collectionName);
     await collection.insert(documento);
   }
 
-  Future<void> atualizarDocumento(String collectionName,
+  Future<void> atualizarDocumento(String dbName, String collectionName,
       Map<String, dynamic> filtro, Map<String, dynamic> atualizacoes) async {
+    final db = await conectar(dbName);
     final collection = db.collection(collectionName);
     await collection.update(filtro, atualizacoes);
   }
 
   Future<void> deletarDocumento(
-      String collectionName, Map<String, dynamic> filtro) async {
+      String dbName, String collectionName, Map<String, dynamic> filtro) async {
+    final db = await conectar(dbName);
     final collection = db.collection(collectionName);
     await collection.remove(filtro);
   }
 
   Future<Map<String, dynamic>?> lerDocumento(
-      String collectionName, Map<String, dynamic> filtro) async {
+      String dbName, String collectionName, Map<String, dynamic> filtro) async {
+    final db = await conectar(dbName);
     final collection = db.collection(collectionName);
     final documento = await collection.findOne(filtro);
     return documento;
   }
 
-  Future<List<Map<String, dynamic>>> lerTodosDocumentos(
-      _db, String collectionName) async {
-    final collection = _db.collection(collectionName);
-    final documentos = await collection.find().toList();
-    return documentos;
+  Future<List<String?>> listarColecoes(String dbName) async {
+    final db = await conectar(dbName);
+    final colecoes = await db.getCollectionNames();
+    return colecoes;
   }
 }

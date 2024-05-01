@@ -13,8 +13,9 @@ class CardapioManagerPage extends StatelessWidget {
   final manager = CardapioManager();
   final repository = CardapioRepository();
   final mongoServiceDB = Get.put(MongoServiceDB());
-  void initPage() async {
-    await mongoServiceDB.getProducts();
+
+  CardapioManagerPage({super.key}) {
+    mongoServiceDB.fetchProducts();
   }
 
   // separar o collection e categoria
@@ -22,12 +23,12 @@ class CardapioManagerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    initPage();
     return Scaffold(
       appBar: AppBar(
         title: const Text('CARDAPIO DIGITAL DE {RUBY}'),
       ),
       body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: Column(
           children: [
             TextButton(onPressed: () {}, child: const Text("Procurar Produto")),
@@ -90,63 +91,81 @@ class CardapioManagerPage extends StatelessWidget {
     );
   }
 
-  Widget cardProduct(produtoCardapio) {
-    return Card(
-      elevation: 5, // Elevação do card
-      child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListTile(
-              leading: const CircleAvatar(child: Placeholder()),
-              title: Text(
-                '${produtoCardapio["NOME"]}',
-                style: const TextStyle(fontSize: 18),
-              ),
-              subtitle:
-                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                Text("R\$ ${produtoCardapio["PRECO"].toString()} reais"),
-              ]),
-              trailing: CircleAvatar(
-                child: PopupMenuButton(
+  Widget cardProduct(
+    produtoCardapio,
+  ) {
+    Future<List<String>> categoriasMongoDB =
+        mongoServiceDB.getCategorias("cardapio-ruby");
+
+    print(categoriasMongoDB);
+
+    bool categoriaExiste = true;
+
+    // Se a categoria existir, exibir o card do produto; caso contrário, retornar um container vazio
+    return categoriaExiste
+        ? Card(
+            elevation: 5, // Elevação do card
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                leading: const CircleAvatar(child: Placeholder()),
+                title: Text(
+                  '${produtoCardapio["NOME"]}',
+                  style: const TextStyle(fontSize: 18),
+                ),
+                subtitle: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("R\$ ${produtoCardapio["PRECO"].toString()} reais"),
+                  ],
+                ),
+                trailing: CircleAvatar(
+                  child: PopupMenuButton(
                     itemBuilder: (context) => [
-                          const PopupMenuItem(
-                              value: "Editar",
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundColor: Colors.green,
-                                        child: Icon(Icons.edit),
-                                      ),
-                                      Text("Editar Produto"),
-                                    ],
-                                  ),
-                                  Divider()
-                                ],
-                              )),
-                          const PopupMenuItem(
-                            value: "Deletar",
-                            child: Row(
+                      const PopupMenuItem(
+                        value: "Editar",
+                        child: Column(
+                          children: [
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 CircleAvatar(
-                                  backgroundColor: Colors.red,
-                                  child: Icon(Icons.delete_forever_rounded),
+                                  backgroundColor: Colors.green,
+                                  child: Icon(Icons.edit),
                                 ),
-                                Text("Deletar Produto"),
+                                Text("Editar Produto"),
                               ],
                             ),
-                          ),
-                        ],
-                    onSelected: (String newValue) {}),
-              ))),
-    );
+                            Divider()
+                          ],
+                        ),
+                      ),
+                      const PopupMenuItem(
+                        value: "Deletar",
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.red,
+                              child: Icon(Icons.delete_forever_rounded),
+                            ),
+                            Text("Deletar Produto"),
+                          ],
+                        ),
+                      ),
+                    ],
+                    onSelected: (String newValue) {},
+                  ),
+                ),
+              ),
+            ),
+          )
+        : Container();
   }
 
   Widget showMongo() {
     return Container(
+      height: 500,
       color: Colors.white,
       child: GetBuilder<MongoServiceDB>(
         builder: (controller) {
@@ -208,7 +227,12 @@ class CardapioManagerPage extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              manager.showCadastroDialog(context, produto);
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return CadastroDialog(produto: produto);
+                },
+              );
             },
             child: const Icon(
               CupertinoIcons.add_circled_solid,

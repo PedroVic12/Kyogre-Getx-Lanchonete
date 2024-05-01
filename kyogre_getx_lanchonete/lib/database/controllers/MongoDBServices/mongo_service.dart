@@ -62,47 +62,28 @@ class MongoServiceDB extends GetxController {
 
   String apiUrl = 'http://0.0.0.0:7070'; // Change this to your API URL
 
-  getProducts() async {
-    try {
-      isLoading(true);
-      var response = await dio.get('$apiUrl/homeMongo');
-      if (response.statusCode == 200) {
-        // Use uma lista vazia como valor inicial para products
-        products
-            .clear(); // Limpe a lista existente antes de adicionar novos itens
-        List<dynamic> responseData = response.data;
-        List<Map<String, dynamic>> jsonData =
-            responseData.cast<Map<String, dynamic>>();
+  getDatabases() async {
+    var response = await dio.get("$apiUrl/databases");
+    return response.data["databases"];
+  }
 
-        // Atualize a lista products com instâncias de CardapioModel
-        products.addAll(jsonData.map((item) {
-          List<String> imagens = (item['IMAGEM'] as String).split(' | ');
-          return CardapioModel(
-            id: item['_id'],
-            nome: item['NOME'] ?? '',
-            categoria: item['CATEGORIA'] ?? '',
-            subCategoria: item['SUB_CAT'] ?? '',
-            preco1: item['preco_1'] != null
-                ? double.tryParse(item['preco_1'].toString()) ?? 0.0
-                : 0.0,
-            preco2: item['preco_2'] != null
-                ? double.tryParse(item['preco_2'].toString()) ?? 0.0
-                : 0.0,
-            ingredientes: item['IGREDIENTES'] ?? '',
-            imagens: imagens,
-          );
-        }));
+  Future<List<String>> getCategorias(String databaseName) async {
+    try {
+      var response = await dio.get("$apiUrl/collections/$databaseName");
+
+      // Verifica se a resposta foi bem-sucedida
+      if (response.statusCode == 200) {
+        // Retorna a lista de coleções (categorias)
+        List<dynamic> collections = response.data["collections"];
+        return collections.map((collection) => collection.toString()).toList();
+      } else {
+        // Lida com uma resposta de erro
+        throw Exception('Failed to load categories: ${response.statusCode}');
       }
     } catch (e) {
-      print('Failed to load products: $e');
-    } finally {
-      isLoading(false);
-      for (var element in products) {
-        print(element.nome);
-      }
-      print("isLoading: ${isLoading.value}");
-
-      update();
+      // Lida com exceções que podem ocorrer durante a execução da requisição
+      print('Error loading categories: $e');
+      throw Exception('Failed to load categories: $e');
     }
   }
 

@@ -22,27 +22,25 @@ class NightWolfAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _NightWolfAppBarState extends State<NightWolfAppBar> {
   bool _isPurple = true;
-  final ControleUsuariosCliente usuariosController = Get.put(ControleUsuariosCliente());
-
-
-
+  final ControleUsuariosCliente usuariosController =
+      Get.put(ControleUsuariosCliente());
 
   @override
   Widget build(BuildContext context) {
-    var user = usuariosController.getUsuarios;
-
+    // todo controller login que vai fazer isso
+    List<UserClients> user = usuariosController.usuarios;
 
     return AppBar(
       leading: widget.drawerKey != null
           ? IconButton(
-        icon: Icon(
-          Icons.menu_rounded,
-          color: _isPurple ? Colors.purple : Colors.black,
-        ),
-        onPressed: () {
-          widget.drawerKey!.currentState?.openDrawer();
-        },
-      )
+              icon: Icon(
+                Icons.menu_rounded,
+                color: _isPurple ? Colors.purple : Colors.black,
+              ),
+              onPressed: () {
+                widget.drawerKey!.currentState?.openDrawer();
+              },
+            )
           : null,
       elevation: 5,
       backgroundColor: Colors.black,
@@ -51,7 +49,7 @@ class _NightWolfAppBarState extends State<NightWolfAppBar> {
           Visibility(
             visible: _isPurple,
             child: CustomText(
-              text: "${user[0]["LOJA"]} Gestão de Pedidos APP",
+              text: "${user[0].loja} Gestão de Pedidos APP",
               color: CupertinoColors.inactiveGray,
               size: 22,
               weight: FontWeight.bold,
@@ -82,7 +80,8 @@ class _NightWolfAppBarState extends State<NightWolfAppBar> {
                 onPressed: () {},
                 icon: Icon(
                   Icons.notifications_rounded,
-                  color: _isPurple ? Colors.white.withOpacity(.7) : Colors.white,
+                  color:
+                      _isPurple ? Colors.white.withOpacity(.7) : Colors.white,
                 ),
               ),
               Positioned(
@@ -111,7 +110,7 @@ class _NightWolfAppBarState extends State<NightWolfAppBar> {
             color: CupertinoColors.systemGrey,
           ),
           CustomText(
-            text: "${user[0]["USER"]}",
+            text: "${user[0].user}",
             color: _isPurple ? CupertinoColors.inactiveGray : Colors.white,
           ),
           SizedBox(
@@ -126,7 +125,8 @@ class _NightWolfAppBarState extends State<NightWolfAppBar> {
               padding: EdgeInsets.all(2),
               margin: EdgeInsets.all(2),
               child: CircleAvatar(
-                backgroundColor: _isPurple ? CupertinoColors.inactiveGray : Colors.white,
+                backgroundColor:
+                    _isPurple ? CupertinoColors.inactiveGray : Colors.white,
                 child: Icon(
                   Icons.person,
                   color: _isPurple ? CupertinoColors.black : Colors.black,

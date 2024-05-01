@@ -2,25 +2,20 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/widgets/forms_simples.dart';
+import 'package:dio/dio.dart';
 
 import '../../../../app/widgets/Custom/CustomText.dart';
 import '../CardapioDigital/CadastroProdutos/widgets/photo_gallery_mongo.dart';
 
 class CardapioManager extends GetxController {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _controller1 = TextEditingController();
-  final TextEditingController _controller2 = TextEditingController();
-  final TextEditingController _controller3 = TextEditingController();
-  final TextEditingController _controller4 = TextEditingController();
-  final TextEditingController _controller5 = TextEditingController();
-
   bool precoDescontoSelecionado = false;
   bool produtosAdicionais = false;
   RxBool imagemEnviada = false.obs;
   XFile? imagemSelecionada;
+  final Dio dio = Dio();
+
+  String urlMongo = "http://0.0.0.0:7070";
   //var imagemSelecionada;
 
   criarCategoria() {
@@ -191,154 +186,6 @@ class CardapioManager extends GetxController {
           ),
         ],
       ),
-    );
-  }
-
-  Widget getImg() {
-    final controller = Get.put(PhotoGalleryController());
-
-    return Container(
-      color: Colors.lightGreen,
-      padding: const EdgeInsets.all(16.0),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        Material(
-          child: TextField(
-            controller: controller.descriptionController,
-            decoration: const InputDecoration(
-              hintText: 'Enter description',
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
-        Row(
-          children: [
-            // ElevatedButton(
-            //   onPressed: () => controller.takePhoto(),
-            //   child: const Text('Take Photo'),
-            // ),
-            // const SizedBox(height: 10),
-
-            ElevatedButton(
-              onPressed: () => controller.pickFromGallery(),
-              child: const Text('Pick from Gallery'),
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ]),
-    );
-  }
-
-  showCadastroDialog(BuildContext context, produto) {
-    bool exibirCarrossel =
-        false; // Variável para controlar a exibição do carrossel
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Preencha os campos para: $produto'),
-          content: SingleChildScrollView(
-            // Adicionando SingleChildScrollView para rolagem vertical
-            child: Form(
-              key: _formKey,
-              child: Column(
-                // Trocando ListView por Column
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  cardButton(() {
-                    escolherImagemGaleria();
-                    // Atualizar o estado para exibir o carrossel
-                    exibirCarrossel = true;
-                  }, Icons.photo, "Escolher Imagem"),
-
-                  getImg(),
-                  // Exibir o carrossel se exibirCarrossel for verdadeiro
-                  if (exibirCarrossel) carrouselImagens(),
-
-                  // Exibindo a imagem
-                  if (imagemSelecionada != null)
-                    const Center(child: CircularProgressIndicator())
-                  else
-                    CardImagem(),
-
-                  FormSimples(
-                      obscureText: false,
-                      controlador: _controller1,
-                      hintText: "NOME"),
-                  FormSimples(
-                      obscureText: false,
-                      controlador: _controller2,
-                      hintText: "PRECO"),
-                  // PRECO COM DESCONTO
-                  Row(children: [
-                    const Text("Preco com desconto?"),
-                    Switch(
-                        value: precoDescontoSelecionado,
-                        onChanged: (value) {
-                          precoDescontoSelecionado = value;
-                          // abrir novo campo
-                        }),
-                  ]),
-                  if (precoDescontoSelecionado) ...[
-                    FormSimples(
-                        obscureText: false,
-                        controlador: _controller3,
-                        hintText: "Preço com Desconto"),
-                  ] else ...[
-                    Container()
-                  ],
-                  FormSimples(
-                      obscureText: false,
-                      controlador: _controller3,
-                      hintText: "IGREDIENTES"),
-                  FormSimples(
-                      obscureText: false,
-                      controlador: _controller4,
-                      hintText: "DESCRIÇÃO DO PRODUTO"),
-                  Row(children: [
-                    const Text("ADICIONAIS?"),
-                    Switch(
-                        value: produtosAdicionais,
-                        onChanged: (value) {
-                          produtosAdicionais = value;
-                          // abrir novo campo
-                        }),
-                  ]),
-                  if (produtosAdicionais) ...[
-                    FormSimples(
-                        obscureText: false,
-                        controlador: _controller5,
-                        hintText: "ADICIONAIS?"),
-
-                    //form builder para cada campo de adicional com nomeADD e precoADD
-                  ] else ...[
-                    Container()
-                  ],
-                ],
-              ),
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  print("salvando...");
-                  Navigator.of(context).pop();
-                }
-              },
-              child: const Text('Salvar'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancelar'),
-            ),
-          ],
-        );
-      },
     );
   }
 }

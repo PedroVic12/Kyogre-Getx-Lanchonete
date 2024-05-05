@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/database/controllers/MongoDBServices/mongo_service.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/CadastroProdutos/widgets/cadastro_produtos.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/CadastroProdutos/widgets/data_filter.dart';
 
 import '../../../../../app/widgets/Custom/CustomText.dart';
 import '../../controllers/cardapio_manager.dart';
@@ -38,6 +39,14 @@ class CardapioManagerPage extends StatelessWidget {
                 },
                 child: const CustomText(
                   text: "Galeria produtos",
+                  color: Colors.white,
+                )),
+            TextButton(
+                onPressed: () {
+                  Get.to(DataFiltered());
+                },
+                child: const CustomText(
+                  text: "Filtrando Dados do mongo",
                   color: Colors.white,
                 )),
             Container(

@@ -4,15 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_flutter_web/google_maps_flutter_web.dart'
-as googleMaps;
-import 'package:kyogre_getx_lanchonete/app/Teoria%20do%20Caos/CaosPage.dart';
+
+
 import 'package:kyogre_getx_lanchonete/views/Pages/GoogleMaps/google_maps_controller.dart';
+
 import 'package:location/location.dart';
 
 import '../Monitoramento/maps/tela_google_maps.dart';
-import '../Monitoramento/tracking/tracking_map_page.dart';
-
 class PedidoTrackingMapsScreen extends StatefulWidget {
   const PedidoTrackingMapsScreen({super.key});
 
@@ -51,9 +49,11 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
       }
     }
 
-    _locationController.onLocationChanged.listen((LocationData currentLocation) {
+    _locationController.onLocationChanged
+        .listen((LocationData currentLocation) {
       setState(() {
-        _currentPosition = LatLng(currentLocation.latitude!, currentLocation.longitude!);
+        _currentPosition =
+            LatLng(currentLocation.latitude!, currentLocation.longitude!);
       });
     });
   }
@@ -110,22 +110,24 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
         Marker(
           markerId: MarkerId('currentPosition'),
           position: _currentPosition!,
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
         ),
       );
     }
     if (kIsWeb) {
       return Scaffold(
-        appBar: AppBar(
-          title: const Text('Google Maps Web'),
-        ),
-        body: ListView(children: [
-
-          ElevatedButton(onPressed: ()=>Get.to(GoogleMapsWidget()), child: Text("Track page")),
-
-          MapaWidget(),
-        ],)
-      );
+          appBar: AppBar(
+            title: const Text('Google Maps Web'),
+          ),
+          body: ListView(
+            children: [
+              ElevatedButton(
+                  onPressed: () => Get.to(GoogleMapsWidget()),
+                  child: Text("Track page")),
+              MapaWidget(),
+            ],
+          ));
     } else {
       return const Center(
         child: Text('Executando em um dispositivo móvel'),
@@ -133,25 +135,22 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
     }
   }
 
-
-
-  Widget MapaWidget(){
-    return   Container(
+  Widget MapaWidget() {
+    return Container(
       padding: EdgeInsets.all(12),
       height: 300,
       width: 600,
       child: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition:
-        const CameraPosition(target: sourceLocation, zoom: 13.5),
+            const CameraPosition(target: sourceLocation, zoom: 13.5),
         polylines: {
-          Polyline(polylineId: PolylineId('route'),
+          Polyline(
+              polylineId: PolylineId('route'),
               points: controller.coordenadas,
               color: Colors.blue,
-              width: 6
-          )
+              width: 6)
         },
-
         markers: {
           const Marker(
             markerId: MarkerId('source'),
@@ -167,5 +166,4 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
       ),
     );
   }
-
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kyogre_getx_lanchonete/app-web2024/good_ui_trainer.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Design/CartaoGridView.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/MenuLateralNavegacao.dart';
 import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/Views/excel_view_database.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/authScreen', page: () => TelaAutenticacaoUsuarios()),
         GetPage(name: '/atendimento', page: () => ChatPage()),
         GetPage(name: '/database', page: () => CardapioSysteam()),
+        //GetPage(name: "/screens", page: MyPageView()),
         GetPage(
             name: '/pedido/:id',
             page: () {

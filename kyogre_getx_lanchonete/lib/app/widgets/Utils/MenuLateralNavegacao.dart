@@ -29,16 +29,20 @@ class MenuLateralNavegacaoDash extends StatelessWidget {
   final MenuLateralController _controller = Get.put(MenuLateralController());
 
   final List<ItemMenuLateral> _menuItems = [
-    ItemMenuLateral(title: 'Página 1', icon: Icons.home, route: '/'),
+    ItemMenuLateral(title: 'Home', icon: Icons.home, route: '/'),
 
-    ItemMenuLateral(
-        title: 'Excel Database Cardapio', icon: Icons.home, route: '/database'),
+    // ItemMenuLateral(
+    //     title: 'Excel Database Cardapio', icon: Icons.home, route: '/database'),
 
     ItemMenuLateral(
         title: 'DashBoard Page',
         icon: Icons.account_balance_wallet_sharp,
         route: '/dash'),
 
+    ItemMenuLateral(
+        title: 'Tela de Cadastro',
+        icon: Icons.fastfood_rounded,
+        route: '/authScreen'),
     ItemMenuLateral(
         title: 'Splash',
         icon: CupertinoIcons.moon_stars_fill,
@@ -47,18 +51,15 @@ class MenuLateralNavegacaoDash extends StatelessWidget {
         title: 'NEW Cardapio Digital ROBO',
         icon: CupertinoIcons.shopping_cart,
         route: '/pedido/:id'),
-    ItemMenuLateral(
-        title: 'Google Maps Pedido',
-        icon: Icons.location_on_rounded,
-        route: '/mapaPedido'),
-    ItemMenuLateral(
-        title: 'Cardapio Digital QR',
-        icon: Icons.fastfood_rounded,
-        route: '/cardapioQR'),
-    ItemMenuLateral(
-        title: 'Tela de Cadastro',
-        icon: Icons.fastfood_rounded,
-        route: '/authScreen'),
+    // ItemMenuLateral(
+    //     title: 'Google Maps Pedido',
+    //     icon: Icons.location_on_rounded,
+    //     route: '/mapaPedido'),
+    // ItemMenuLateral(
+    //     title: 'Cardapio Digital QR',
+    //     icon: Icons.fastfood_rounded,
+    //     route: '/cardapioQR'),
+
     ItemMenuLateral(
         title: 'Atendimento ao Cliente',
         icon: Icons.screenshot_monitor_sharp,
@@ -77,25 +78,28 @@ class MenuLateralNavegacaoDash extends StatelessWidget {
         itemBuilder: (context, index) {
           final menuItem = _menuItems[index];
 
-          return ListTile(
-            leading: Icon(
-              menuItem.icon,
-              color: _controller.selectedIndex.value == index
-                  ? Colors.white
-                  : Colors.grey,
-            ),
-            title: Text(
-              menuItem.title,
-              style: TextStyle(
+          return Card(
+            child: ListTile(
+              leading: Icon(
+                menuItem.icon,
                 color: _controller.selectedIndex.value == index
-                    ? Colors.white
-                    : Colors.grey,
+                    ? Colors.black
+                    : Colors.black,
               ),
+              title: Text(
+                menuItem.title,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: _controller.selectedIndex.value == index
+                      ? const Color.fromARGB(255, 27, 110, 30)
+                      : Colors.black,
+                ),
+              ),
+              onTap: () {
+                _controller.selectMenu(index);
+                Get.toNamed(menuItem.route);
+              },
             ),
-            onTap: () {
-              _controller.selectMenu(index);
-              Get.toNamed(menuItem.route);
-            },
           );
         },
       ),

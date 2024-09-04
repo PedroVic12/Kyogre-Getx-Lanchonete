@@ -4,17 +4,32 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:kyogre_getx_lanchonete/app/widgets/InfoCards/InfoCard.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/CardPedido.dart';
 
 Future<dynamic> readJsonFile(String filePath) async {
   File file = File(filePath);
   if (await file.exists()) {
     String contents = await file.readAsString();
     dynamic jsonData = json.decode(contents);
+    print("JSON data: $jsonData");
     return jsonData;
   } else {
     throw Exception('File not found: $filePath');
   }
+}
+
+Future<void> writeJsonFile(String filePath, dynamic data) async {
+  File file = File(filePath);
+  String jsonString = json.encode(data);
+  await file.writeAsString(jsonString);
+}
+
+void updateJsonData() async {
+  dynamic data = {
+    'pedidosRecebidos': 10,
+    'clientesAtivos': 5,
+    'scheduledDeliveries': 40
+  };
+  await writeJsonFile('lib/repository/pedido_template.json', data);
 }
 
 class OverViewCardsLarge extends StatefulWidget {
@@ -25,19 +40,15 @@ class OverViewCardsLarge extends StatefulWidget {
 }
 
 class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
-  bool showPedidoAnimation = false;
+  final Map<String, int> cardData = {
+    'pedidosRecebidos': 7,
+    'clientesAtivos': 3,
+    'scheduledDeliveries': 32,
+  };
 
   @override
   void initState() {
     super.initState();
-    // Aqui você pode iniciar a escuta de um evento ou aguardar um evento para mostrar a animação do pedido
-    // Quando o evento ocorrer, chame setState() para atualizar o estado da tela e mostrar a animação
-    // Exemplo:
-    // meuEvento.addListener(() {
-    //   setState(() {
-    //     showPedidoAnimation = true;
-    //   });
-    // });
   }
 
   @override
@@ -47,76 +58,50 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
         builder: (context, constraints) {
           double _cardWidth = constraints.maxWidth / 4;
 
-          return FutureBuilder<dynamic>(
-            future: readJsonFile('lib/repository/pedido_template.json'),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  // Dados do arquivo JSON
-                  dynamic jsonData = snapshot.data;
-
-                  return Container(
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(height: _cardWidth / 64),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width:
-                                    _cardWidth, // Defina a largura desejada para o CardPedido
-                                //child: infoCards[0],
-                              ),
-                              InfoCard(
-                                title: "Pedidos Recebidos",
-                                value: "7",
-                                onTap: () {},
-                                isActive: true,
-                              ),
-                              SizedBox(width: _cardWidth / 64),
-                              InfoCard(
-                                title: "Cancelled delivery",
-                                value: "3",
-                                onTap: () {},
-                                isActive: true,
-                              ),
-                              SizedBox(width: _cardWidth / 64),
-                              InfoCard(
-                                title: "Scheduled deliveries",
-                                value: "32",
-                                onTap: () {},
-                                isActive: true,
-                              ),
-                              SizedBox(width: _cardWidth / 64),
-                              Expanded(
-                                child: Wrap(
-                                  spacing: _cardWidth / 64,
-                                  runSpacing: _cardWidth / 64,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+          return Container(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: _cardWidth / 64),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: _cardWidth,
                       ),
-                    ),
-                  );
-                } else {
-                  return Text('No data available');
-                }
-              } else if (snapshot.hasError) {
-                if (snapshot.error is FileSystemException) {
-                  return Text('No data available');
-                } else {
-                  return Text('Error: ${snapshot.error}');
-                }
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
+                      InfoCard(
+                        title: "Pedidos Recebidos",
+                        value: cardData['pedidosRecebidos'].toString(),
+                        onTap: () {},
+                        isActive: true,
+                      ),
+                      SizedBox(width: _cardWidth / 64),
+                      InfoCard(
+                        title: "Numero de clientes ativos",
+                        value: cardData['clientesAtivos'].toString(),
+                        onTap: () {},
+                        isActive: true,
+                      ),
+                      SizedBox(width: _cardWidth / 64),
+                      InfoCard(
+                        title: "Total de vendas",
+                        value: cardData['scheduledDeliveries'].toString(),
+                        onTap: () {},
+                        isActive: true,
+                      ),
+                      SizedBox(width: _cardWidth / 64),
+                      Expanded(
+                        child: Wrap(
+                          spacing: _cardWidth / 64,
+                          runSpacing: _cardWidth / 64,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           );
         },
       ),

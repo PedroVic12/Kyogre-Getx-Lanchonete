@@ -31,7 +31,6 @@ class ColunaPedidosProcessados extends StatelessWidget {
             ),
             SizedBox(height: 10.0),
 
-
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
@@ -41,7 +40,6 @@ class ColunaPedidosProcessados extends StatelessWidget {
               },
               child: Text('Gestao de Pedidos'),
             ),
-
 
             // Implemente a lista de pedidos em processamento aqui
           ],

@@ -9,6 +9,7 @@ import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/Views/exce
 import 'package:kyogre_getx_lanchonete/views/Pages/ChatPage/views/ChatPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/tela_auth_jvt.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/TelaDashGestaoPedidos.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Layout/Layout.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Monitoramento/maps/tela_google_maps.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/SplashScreen/splash_screen_page.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/', page: () => Layout()),
         GetPage(name: '/splash', page: () => const SplashScreen()),
-        GetPage(name: '/dash', page: () => DashboardPage()),
+        GetPage(name: '/dash', page: () => TelaGestaoDePedidosDashBoard()),
         GetPage(name: '/layoutDesign', page: () => const CartaoGridView()),
         GetPage(name: '/caosPage', page: () => const CaosPageWidget()),
         GetPage(name: '/cardapioQR', page: () => const CardapioQrCode()),
@@ -62,7 +63,7 @@ class MyApp extends StatelessWidget {
             }),
       ],
 
-      title: 'Dashboard',
+      title: 'Ruby Delivery APP',
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.indigo.shade700,
         useMaterial3: true,

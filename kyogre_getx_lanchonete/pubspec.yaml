@@ -100,6 +100,8 @@ flutter:
     - lib/repository/citta/
     - lib/repository/icons/
     - lib/repository/models/
+    - lib/repository/pedido_template.json
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

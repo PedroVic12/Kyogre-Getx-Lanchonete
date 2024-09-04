@@ -8,7 +8,11 @@ class InfoCard extends StatelessWidget {
 
   //TODO -> COLOCAR FUNCAO ONTAP E MUDAR DE COR COMO EU QUISER
 
-  const InfoCard({required this.title, required this.value,  this.isActive = false, required this.onTap});
+  const InfoCard(
+      {required this.title,
+      required this.value,
+      this.isActive = false,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class InfoCard extends StatelessWidget {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                offset: Offset(0, 6),
+                offset: const Offset(0, 6),
                 color: Colors.grey.withOpacity(.1),
                 blurRadius: 12,
               )
@@ -36,32 +40,31 @@ class InfoCard extends StatelessWidget {
                   Expanded(
                     child: Container(
                       color: Colors.blue,
-                      height: 5,
+                      height: 12,
                     ),
                   ),
                 ],
               ),
-              Expanded(child: Container()),
+              const SizedBox(height: 16),
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(children: [
                   TextSpan(
                     text: "$title\n",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.green,
                     ),
                   ),
                   TextSpan(
                     text: "$value",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 40,
                       color: Colors.black,
                     ),
                   ),
                 ]),
               ),
-              Expanded(child: Container()),
             ],
           ),
         ),

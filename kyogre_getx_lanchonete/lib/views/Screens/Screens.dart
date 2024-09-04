@@ -19,6 +19,7 @@ class LargePage extends StatelessWidget {
         drawer: Drawer(
           key: _drawerKey,
           // Adicione os itens do menu lateral aqui
+          backgroundColor: CupertinoColors.systemYellow,
         ),
         body: Container(
           child: Row(

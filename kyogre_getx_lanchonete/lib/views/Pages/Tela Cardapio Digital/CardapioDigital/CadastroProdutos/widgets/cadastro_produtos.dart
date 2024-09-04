@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -263,31 +262,32 @@ class _CadastroDialogState extends State<CadastroDialog> {
               child: const Center(child: Text('Sem fotos selecionadas')),
             );
           } else {
-            return CarouselSlider.builder(
-              itemCount: controller.photos.length,
-              itemBuilder: (context, index, _) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 20),
-                    Expanded(
-                      child: Image.memory(
-                        controller.photos[index].imageBytes,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(controller.photos[index].description),
-                  ],
-                );
-              },
-              options: CarouselOptions(
-                aspectRatio: 16 / 9,
-                viewportFraction: 0.8,
-                enlargeCenterPage: true,
-              ),
-            );
+            return Text(controller.photos[0].description);
           }
+          // return CarouselSlider.builder(
+          //   itemCount: controller.photos.length,
+          //   itemBuilder: (context, index, _) {
+          //     return Column(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       children: [
+          //         const SizedBox(height: 20),
+          //         Expanded(
+          //           child: Image.memory(
+          //             controller.photos[index].imageBytes,
+          //             fit: BoxFit.cover,
+          //           ),
+          //         ),
+          //         const SizedBox(height: 10),
+          //         Text(controller.photos[index].description),
+          //       ],
+          //     );
+          //   },
+          //   options: CarouselOptions(
+          //     aspectRatio: 16 / 9,
+          //     viewportFraction: 0.8,
+          //     enlargeCenterPage: true,
+          //   ),
+          // );
         },
       ),
     );

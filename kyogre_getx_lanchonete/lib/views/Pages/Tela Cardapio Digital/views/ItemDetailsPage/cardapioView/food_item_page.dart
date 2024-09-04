@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kyogre_getx_lanchonete/themes/dark_mode.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/controller/sacola_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_form_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/DetailsPage/single_item_navBar.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/views/cards/blur_card_widget.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/widgets/carrousel_images_widget.dart';
 
 import '../../../../../../app/widgets/Custom/CustomText.dart';
@@ -67,7 +64,7 @@ class _ProdutoSelectedDetalhesPageState
       backgroundColor: Colors.indigoAccent,
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: ListView(
             children: [
               botoesSuperior(widget.produto_selecionado),
@@ -194,27 +191,27 @@ class _ProdutoSelectedDetalhesPageState
               },
             ),
           ),
-          Divider()
+          const Divider()
         ],
       );
     } else {
-      return Text('Sem Adicionais Disponíveis');
+      return const Text('Sem Adicionais Disponíveis');
     }
   }
 
   Widget botoesSuperior(produto) {
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.black.withBlue(10),
-        borderRadius: BorderRadius.all(Radius.circular(32)),
+        borderRadius: const BorderRadius.all(Radius.circular(32)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
             onTap: () => Get.back(),
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back_rounded,
               color: Colors.white,
               size: 32,
@@ -227,7 +224,7 @@ class _ProdutoSelectedDetalhesPageState
           ),
           InkWell(
             onTap: () {},
-            child: Icon(
+            child: const Icon(
               Icons.shopping_cart_rounded,
               color: Colors.white,
               size: 32,

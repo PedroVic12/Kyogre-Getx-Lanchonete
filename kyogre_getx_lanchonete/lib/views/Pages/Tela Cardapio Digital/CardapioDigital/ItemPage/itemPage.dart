@@ -5,10 +5,9 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Barra%20Inferior/BarraInferio
 import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.dart';
 
 class ItemPage extends StatelessWidget {
-
   final CarrinhoController controller = Get.find();
 
-   ItemPage({Key? key}) : super(key: key);
+  ItemPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,7 @@ class ItemPage extends StatelessWidget {
           children: [
             Container(
               color: Colors.red,
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               height: 350,
               width: double.infinity,
               //decoration: BoxDecoration(             image: DecorationImage(image: AssetImage('imagens/2.png'))),
@@ -28,14 +27,15 @@ class ItemPage extends StatelessWidget {
                 onTap: () {
                   Get.back();
                 },
-                child: Icon(Icons.arrow_back, size: 30, color: Colors.green),
+                child:
+                    const Icon(Icons.arrow_back, size: 30, color: Colors.green),
               ),
             ),
             Container(
               height: MediaQuery.of(context).size.height,
-              margin: EdgeInsets.only(top: 20),
-              padding: EdgeInsets.all(15),
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.all(15),
+              decoration: const BoxDecoration(
                   color: Colors.greenAccent,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30),
@@ -43,11 +43,11 @@ class ItemPage extends StatelessWidget {
               child: Column(
                 children: [
                   Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 15),
+                      padding: const EdgeInsets.only(top: 10, bottom: 15),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             'Titulo do Produto',
                             style: TextStyle(
                                 fontSize: 28,
@@ -57,7 +57,7 @@ class ItemPage extends StatelessWidget {
                           Row(
                             children: [
                               Container(
-                                padding: EdgeInsets.all(3),
+                                padding: const EdgeInsets.all(3),
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     boxShadow: [
@@ -65,18 +65,19 @@ class ItemPage extends StatelessWidget {
                                           color: Colors.grey.withOpacity(0.5),
                                           spreadRadius: 2,
                                           blurRadius: 8,
-                                          offset: Offset(0, 3))
+                                          offset: const Offset(0, 3))
                                     ]),
-                                child: Icon(CupertinoIcons.minus_circle),
+                                child: const Icon(CupertinoIcons.minus_circle),
                               ),
                               Container(
-                                margin: EdgeInsets.symmetric(horizontal: 10),
-                                child: Text('01',
-                                    style: TextStyle(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: const Text('01',
+                                    style: const TextStyle(
                                         fontSize: 18, color: Colors.white)),
                               ),
                               Container(
-                                padding: EdgeInsets.all(3),
+                                padding: const EdgeInsets.all(3),
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     boxShadow: [
@@ -84,15 +85,15 @@ class ItemPage extends StatelessWidget {
                                           color: Colors.grey.withOpacity(0.5),
                                           spreadRadius: 2,
                                           blurRadius: 8,
-                                          offset: Offset(0, 3))
+                                          offset: const Offset(0, 3))
                                     ]),
-                                child: Icon(CupertinoIcons.plus_app),
+                                child: const Icon(CupertinoIcons.plus_app),
                               ),
                             ],
                           )
                         ],
                       )),
-                  Row(
+                  const Row(
                     children: [
                       Icon(
                         Icons.star,
@@ -102,7 +103,7 @@ class ItemPage extends StatelessWidget {
                       Text('4.8 (230')
                     ],
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Column(
                       children: [

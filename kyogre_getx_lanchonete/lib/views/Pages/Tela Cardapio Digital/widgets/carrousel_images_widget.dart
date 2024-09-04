@@ -1,5 +1,5 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/template/produtos_model.dart';
 
 class CarrouselImagensWidget extends StatelessWidget {
@@ -20,21 +20,19 @@ class CarrouselImagensWidget extends StatelessWidget {
       return Center(child: Text('Nenhuma imagem disponível'));
     }
 
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: screenSize.height / 2,
-        enlargeCenterPage: true,
-        autoPlay: true,
-        aspectRatio: 16 / 9,
-        autoPlayCurve: Curves.fastOutSlowIn,
-        enableInfiniteScroll: true,
-        autoPlayAnimationDuration: Duration(milliseconds: 1500),
-        viewportFraction: 0.8,
+    return CarouselView(
+      itemExtent: screenSize.width - 80,
+      itemSnapping: true,
+      elevation: 7,
+      padding: const EdgeInsets.all(8),
+      backgroundColor: Colors.blueGrey.shade200,
+      controller: CarouselController(
+        initialItem: 0,
       ),
-      items: imagens
-          .map((item) => Container(
-                child: Center(
-                    child: Image.asset(item, fit: BoxFit.cover, width: 500)),
+      children: imagens
+          .map((img) => Image.asset(
+                img,
+                fit: BoxFit.cover,
               ))
           .toList(),
     );

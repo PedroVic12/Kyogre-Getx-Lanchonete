@@ -37,14 +37,17 @@ class GoogleMapsController extends GetxController {
 
   void getPolyPoints() async {
     PolylinePoints linhasRotas = PolylinePoints();
-    PolylineResult result = await linhasRotas.getRouteBetweenCoordinates(
-        google_api_key, endereco_1, endereco_2);
+    // PolylineResult result = await linhasRotas.getRouteBetweenCoordinates(
+    //   googleApiKey: google_api_key,
+    //   request: endereco_1,
+    //   endereco_2,
+    // );
 
-    if (result.points.isNotEmpty) {
-      result.points.forEach((element) {
-        coordenadas.add(LatLng(element.latitude, element.longitude));
-      });
-    }
+    // if (result.points.isNotEmpty) {
+    //   result.points.forEach((element) {
+    //     coordenadas.add(LatLng(element.latitude, element.longitude));
+    //   });
+    // }
   }
 
   void setInitialLocation(String adress) async {

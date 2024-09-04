@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'dart:html' as html;
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as DIO;
 
@@ -165,29 +164,30 @@ class PhotoGalleryScreen extends StatelessWidget {
                             child: Text('No photos available'),
                           );
                         } else {
-                          return CarouselSlider.builder(
-                            itemCount: controller.photos.length,
-                            itemBuilder: (context, index, _) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Image.memory(
-                                      controller.photos[index].imageBytes,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Text(controller.photos[index].description),
-                                ],
-                              );
-                            },
-                            options: CarouselOptions(
-                              aspectRatio: 16 / 9,
-                              viewportFraction: 0.8,
-                              enlargeCenterPage: true,
-                            ),
-                          );
+                          return Text("Photos: ${controller.photos.length}");
+                          // return CarouselSlider.builder(
+                          //   itemCount: controller.photos.length,
+                          //   itemBuilder: (context, index, _) {
+                          //     return Column(
+                          //       mainAxisAlignment: MainAxisAlignment.center,
+                          //       children: [
+                          //         Expanded(
+                          //           child: Image.memory(
+                          //             controller.photos[index].imageBytes,
+                          //             fit: BoxFit.cover,
+                          //           ),
+                          //         ),
+                          //         const SizedBox(height: 10),
+                          //         Text(controller.photos[index].description),
+                          //       ],
+                          //     );
+                          //   },
+                          //   options: CarouselOptions(
+                          //     aspectRatio: 16 / 9,
+                          //     viewportFraction: 0.8,
+                          //     enlargeCenterPage: true,
+                          //   ),
+                          // );
                         }
                       },
                     ),

@@ -73,7 +73,7 @@ class ItemPage extends StatelessWidget {
                                 margin:
                                     const EdgeInsets.symmetric(horizontal: 10),
                                 child: const Text('01',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         fontSize: 18, color: Colors.white)),
                               ),
                               Container(

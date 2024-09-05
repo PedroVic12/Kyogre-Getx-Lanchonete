@@ -29,9 +29,9 @@ class LargePage extends StatelessWidget {
               Expanded(
                   flex: 4,
                   child: Container(
-                    child: OverViewCardsLarge(),
-                    constraints: BoxConstraints.expand(),
+                    constraints: const BoxConstraints.expand(),
                     color: CupertinoColors.systemYellow,
+                    child: OverViewCardsLarge(),
                   )),
             ],
           ),
@@ -51,9 +51,9 @@ class LargeScreen extends StatelessWidget {
         Expanded(
             flex: 4,
             child: Container(
-              child: OverViewCardsLarge(),
-              constraints: BoxConstraints.expand(),
+              constraints: const BoxConstraints.expand(),
               color: CupertinoColors.activeOrange,
+              child: OverViewCardsLarge(),
             )),
       ],
     );
@@ -67,8 +67,8 @@ class SmallScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: CupertinoColors.activeGreen,
-      constraints: BoxConstraints.expand(),
-      child: OverViewCardsSmallScreen(),
+      constraints: const BoxConstraints.expand(),
+      child: const OverViewCardsSmallScreen(),
     );
   }
 }

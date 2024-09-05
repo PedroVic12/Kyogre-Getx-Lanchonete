@@ -13,6 +13,7 @@ class ResponsiveWidget extends StatelessWidget {
   final Widget? customScreen;
 
   const ResponsiveWidget({
+    super.key,
     required this.largeScreen,
     this.mediumScreen,
     this.smallScreen,

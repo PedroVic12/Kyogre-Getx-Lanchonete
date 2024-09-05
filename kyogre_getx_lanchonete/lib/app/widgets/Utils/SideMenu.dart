@@ -8,7 +8,7 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
 
     return Container(
         color: Colors.purple,
@@ -18,18 +18,18 @@ class SideMenu extends StatelessWidget {
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   Row(
                     children: [
                       SizedBox(
-                        width: _width / 48,
+                        width: width / 48,
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.all(6),
                         //child: Image.asset('citta_logo.png'),),
                         child: Text('-> Logo da citta'),
                       ),
-                      Flexible(
+                      const Flexible(
                           child: CustomText(
                         text: 'Teste de Drawer',
                         size: 20,
@@ -37,12 +37,12 @@ class SideMenu extends StatelessWidget {
                         color: CupertinoColors.activeOrange,
                       )),
                       SizedBox(
-                        width: _width / 48,
+                        width: width / 48,
                       ),
                       Divider(
                         color: CupertinoColors.systemGrey.withOpacity(.1),
                       ),
-                      Column(
+                      const Column(
                         children: [
                           Text('SUA NAVEGAÇÃO AQUI CAPITAO JACKSPARROW')
                         ],

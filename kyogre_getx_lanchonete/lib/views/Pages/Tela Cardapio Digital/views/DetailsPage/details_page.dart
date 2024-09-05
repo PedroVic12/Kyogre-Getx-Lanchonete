@@ -204,7 +204,7 @@ class ItemDetailsPage extends StatelessWidget {
           children: [
             CustomText(
               text:
-                  "${txt} ${produto_selecionado.nome}\nQue tal matar a fome com ele? hmmm",
+                  "$txt ${produto_selecionado.nome}\nQue tal matar a fome com ele? hmmm",
               size: 18,
               color: Colors.white,
               weight: FontWeight.bold,

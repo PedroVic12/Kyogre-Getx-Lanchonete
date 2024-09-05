@@ -11,7 +11,7 @@ class CategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.snackbar('oi', '$imageName'),
+      onTap: () => Get.snackbar('oi', imageName),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Container(
@@ -35,7 +35,7 @@ class CategoryWidget extends StatelessWidget {
                   width: 50,
                   height: 50,
                 ),
-                Text('Nome produto')
+                const Text('Nome produto')
               ],
             )),
       ),

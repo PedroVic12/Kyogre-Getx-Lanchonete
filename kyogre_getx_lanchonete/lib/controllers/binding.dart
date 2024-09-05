@@ -6,7 +6,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/Car
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 
 class GlobalBindings extends Bindings {
-  List _nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
+  final List _nomesLojas = ['Copacabana', 'Botafogo', 'Ipanema', 'Castelo'];
 
   @override
   void dependencies() async {

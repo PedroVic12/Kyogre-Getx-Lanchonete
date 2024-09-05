@@ -5,7 +5,7 @@ class RadioButtonGroup extends StatelessWidget {
   final List<String> niveis;
   final RxString nivelSelecionado;
 
-  RadioButtonGroup({
+  const RadioButtonGroup({super.key, 
     required this.niveis,
     required this.nivelSelecionado,
   });

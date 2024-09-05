@@ -9,6 +9,8 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/Car
 class CatalogoProdutos extends StatelessWidget {
   final catalogoProdutosController = Get.find<CatalogoProdutosController>();
 
+  CatalogoProdutos({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

@@ -28,18 +28,15 @@ No aplicativo do cliente: Use o pacote google_maps_flutter para mostrar o mapa e
 *
 * */
 
-
-
 class MapsController extends GetxController {
   final LocationService _locationService = Get.put(LocationService());
-  Rx<LatLng> currentPosition = LatLng(0, 0).obs;
-  var movingMarkerPosition = LatLng(-22.9510978, -43.1807461).obs;
-  final destination = LatLng(-22.907662, -43.5659086);
+  Rx<LatLng> currentPosition = const LatLng(0, 0).obs;
+  var movingMarkerPosition = const LatLng(-22.9510978, -43.1807461).obs;
+  final destination = const LatLng(-22.907662, -43.5659086);
   RxSet<Marker> markers = <Marker>{}.obs;
   RxList<LatLng> routeCoordinates = <LatLng>[].obs; // Para armazenar a rota
 
   final apiKey = "AIzaSyBz5PufcmSRVrrmTWPHS2qlzPosL70XrwE";
-
 
   @override
   void onInit() {
@@ -51,7 +48,8 @@ class MapsController extends GetxController {
   }
 
   Future<String> getAddressFromLatLng(LatLng position) async {
-    final url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=AIzaSyBz5PufcmSRVrrmTWPHS2qlzPosL70XrwE';
+    final url =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=AIzaSyBz5PufcmSRVrrmTWPHS2qlzPosL70XrwE';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -70,18 +68,32 @@ class MapsController extends GetxController {
 
   void updateMarkers() {
     markers.clear();
-    markers.add(Marker(markerId: MarkerId('source'), position: movingMarkerPosition.value, icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure)));
-    markers.add(Marker(markerId: MarkerId('destination'), position: destination, icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose)));
-    markers.add(Marker(markerId: MarkerId('current'), position: currentPosition.value, icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)));
+    markers.add(Marker(
+        markerId: const MarkerId('source'),
+        position: movingMarkerPosition.value,
+        icon:
+            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure)));
+    markers.add(Marker(
+        markerId: const MarkerId('destination'),
+        position: destination,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose)));
+    markers.add(Marker(
+        markerId: const MarkerId('current'),
+        position: currentPosition.value,
+        icon:
+            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)));
     updateRouteCoordinates(); // Atualiza a rota sempre que os marcadores são atualizados
   }
 
   void simulateMovement() {
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
       if (movingMarkerPosition.value != destination) {
         // Lógica simplificada de movimento
-        var newLat = movingMarkerPosition.value.latitude + (destination.latitude - movingMarkerPosition.value.latitude) / 100;
-        var newLng = movingMarkerPosition.value.longitude + (destination.longitude - movingMarkerPosition.value.longitude) / 100;
+        var newLat = movingMarkerPosition.value.latitude +
+            (destination.latitude - movingMarkerPosition.value.latitude) / 100;
+        var newLng = movingMarkerPosition.value.longitude +
+            (destination.longitude - movingMarkerPosition.value.longitude) /
+                100;
         movingMarkerPosition.value = LatLng(newLat, newLng);
         updateMarkers();
       } else {
@@ -91,14 +103,18 @@ class MapsController extends GetxController {
   }
 
   void periodicallyUpdateLocation() {
-    Timer.periodic(Duration(seconds: 5), (timer) {
-      currentPosition.value = _locationService.currentPosition.value; // Atualiza a posição atual a cada 5 segundos
+    Timer.periodic(const Duration(seconds: 5), (timer) {
+      currentPosition.value = _locationService
+          .currentPosition.value; // Atualiza a posição atual a cada 5 segundos
       updateMarkers();
     });
   }
 
   void updateRouteCoordinates() {
     routeCoordinates.clear();
-    routeCoordinates.addAll([movingMarkerPosition.value, destination]); // Simples linha reta para a rota
+    routeCoordinates.addAll([
+      movingMarkerPosition.value,
+      destination
+    ]); // Simples linha reta para a rota
   }
 }

@@ -15,7 +15,9 @@ class Routes {
 class RoutePages {
   static final routes = [
     GetPage(name: Routes.HOME, page: () => DashboardPage()),
-    GetPage(name: Routes.CAOS_PAGE, page: () => CaosPage()), // Rota '/caosPage'
+    GetPage(
+        name: Routes.CAOS_PAGE,
+        page: () => const CaosPage()), // Rota '/caosPage'
     // TODO: Adicione mais mapeamentos de rotas conforme necessário
   ];
 }

@@ -14,9 +14,9 @@ class _CardapioDigtalAppState extends State<CardapioDigtalApp> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Cardapio QR Code.key Digital App"),
+          title: const Text("Cardapio QR Code.key Digital App"),
         ),
-        body: Center(
+        body: const Center(
           child: Column(
             children: [
               Text('Visualizando em um dispositivo móvel'),
@@ -33,10 +33,10 @@ class TelaCardapioDigitalWebPage extends StatelessWidget {
   Widget build(BuildContext context) {
     if (kIsWeb) {
       // Comportamento específico para a Web
-      return Text('Visualizando em um navegador web');
+      return const Text('Visualizando em um navegador web');
     } else {
       // Comportamento para outras plataformas (móveis)
-      return Text('Visualizando em um dispositivo móvel');
+      return const Text('Visualizando em um dispositivo móvel');
     }
   }
 }

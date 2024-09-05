@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,7 +6,6 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/CardPedido.d
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoController.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido.dart';
-
 
 class ColunaPedidosParaAceitar extends StatefulWidget {
   const ColunaPedidosParaAceitar({
@@ -23,25 +21,23 @@ class ColunaPedidosParaAceitar extends StatefulWidget {
 }
 
 class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
-  final FilaDeliveryController filaDeliveryController = Get.find<FilaDeliveryController>();
-
+  final FilaDeliveryController filaDeliveryController =
+      Get.find<FilaDeliveryController>();
 
   @override
   void initState() {
     super.initState();
     widget.pedidoController.startFetchingPedidos();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-    });
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
   }
-
 
   @override
   Widget build(BuildContext context) {
-
-    final TodosPedidos = filaDeliveryController.FILA_PEDIDOS.value.todosPedidos();
-    print('Todos Pedidos: ${TodosPedidos}');
-    final total_pedidos = filaDeliveryController.FILA_PEDIDOS.value.tamanhoFila();
+    final TodosPedidos =
+        filaDeliveryController.FILA_PEDIDOS.value.todosPedidos();
+    print('Todos Pedidos: $TodosPedidos');
+    final totalPedidos =
+        filaDeliveryController.FILA_PEDIDOS.value.tamanhoFila();
 
     return Expanded(
       flex: 1,
@@ -57,18 +53,14 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
                   weight: FontWeight.bold,
                   size: 24),
             ),
-            Divider(
+            const Divider(
               color: Colors.black,
             ),
             const SizedBox(height: 10.0),
-
             Center(
-              child: CustomText(text:'Total de pedidos: ${total_pedidos}'),
-
+              child: CustomText(text: 'Total de pedidos: $totalPedidos'),
             ),
-            CardPedido(status_pedido: "Produção"),
-
-
+            const CardPedido(status_pedido: "Produção"),
           ],
         ),
       ),

@@ -64,7 +64,7 @@ class _CardapioQrCodeState extends State<CardapioQrCode> {
         centerTitle: true,
         elevation: 7.0,
         toolbarHeight: 72,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(128))),
       ),
       body: Center(

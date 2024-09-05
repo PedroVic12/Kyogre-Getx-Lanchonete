@@ -22,8 +22,8 @@ class ModalInferior extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
             color: Colors.blueGrey.shade200,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(50)),
-            boxShadow: [
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(50)),
+            boxShadow: const [
               BoxShadow(color: Colors.grey, blurRadius: 3, spreadRadius: 2)
             ]),
         child: Padding(
@@ -37,7 +37,7 @@ class ModalInferior extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         CustomText(
@@ -62,7 +62,7 @@ class ModalInferior extends StatelessWidget {
         on_pressed: () {
           Get.to(() => CarrinhoPage());
         },
-        child: Center(
+        child: const Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

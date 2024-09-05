@@ -7,9 +7,7 @@ import 'package:kyogre_getx_lanchonete/views/Screens/OverViewCards/OverViewCardM
 import 'package:kyogre_getx_lanchonete/views/Screens/OverViewCards/OverViewCardSmall.dart';
 import 'package:kyogre_getx_lanchonete/views/responsividade/ResponsiveWidget.dart';
 
-
 // TODO -> 1:51
-
 
 class OverViewPage extends StatelessWidget {
   const OverViewPage({Key? key}) : super(key: key);
@@ -19,29 +17,28 @@ class OverViewPage extends StatelessWidget {
     return Column(
       children: [
         Obx(() => Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  child: CustomText(
+                    text: MenuControler.instance.activeItem.value,
+                    size: 20,
+                    weight: FontWeight.bold,
+                  ),
+                )
+              ],
+            )),
+        Expanded(
+            child: ListView(
           children: [
-            Container(
-              margin: EdgeInsets.all(10),
-              child: CustomText(
-                text: MenuControler.instance.activeItem.value,
-                size: 20,
-                weight: FontWeight.bold,
-              ),
-
-            )
-          ],
-        )),
-
-        Expanded(child: ListView(
-          children: [
-
-            if(ResponsiveWidget.isLargeScreen(context) || ResponsiveWidget.isMediumScreen(context))
+            if (ResponsiveWidget.isLargeScreen(context) ||
+                ResponsiveWidget.isMediumScreen(context))
               if (ResponsiveWidget.isCustomSize(context))
                 OverviewCardsMediumScreen()
               else
-                OverViewCardsLarge()
+                const OverViewCardsLarge()
             else
-              OverViewCardsSmallScreen()
+              const OverViewCardsSmallScreen()
           ],
         ))
       ],

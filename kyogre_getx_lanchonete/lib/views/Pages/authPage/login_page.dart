@@ -15,7 +15,7 @@ class FormularioField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25),
+      padding: const EdgeInsets.symmetric(horizontal: 25),
       child: TextField(
         autocorrect: true,
         controller: controlador,
@@ -49,7 +49,7 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login Page"),
+        title: const Text("Login Page"),
       ),
       backgroundColor: Colors.white10,
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -58,7 +58,7 @@ class LoginPage extends StatelessWidget {
         const SizedBox(
           height: 50,
         ),
-        CustomText(text: "BEM VINDO AO RUBY EXPRESS"),
+        const CustomText(text: "BEM VINDO AO RUBY EXPRESS"),
         const SizedBox(
           height: 25,
         ),

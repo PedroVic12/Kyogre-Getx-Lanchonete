@@ -5,7 +5,7 @@ import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 class MenuCategorias extends StatefulWidget {
   final Function(int) onCategorySelected;
 
-  MenuCategorias(
+  const MenuCategorias(
       {Key? key,
       required this.onCategorySelected,
       required List<String> categorias})

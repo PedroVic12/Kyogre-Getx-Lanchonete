@@ -6,6 +6,8 @@ import 'package:kyogre_getx_lanchonete/database/controllers/sqlServices/sql_serv
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/CadastroProdutos/cardapio_cadatro_produtos_mongo.dart';
 
 class DataBasePage extends StatefulWidget {
+  const DataBasePage({super.key});
+
   @override
   State<DataBasePage> createState() => _DataBasePageState();
 }
@@ -30,7 +32,7 @@ class _DataBasePageState extends State<DataBasePage> {
         scrollDirection: Axis.vertical,
         children: [
           TextButton(
-              child: Text("Cardapio Manager"),
+              child: const Text("Cardapio Manager"),
               onPressed: () {
                 Get.to(CardapioManagerPage());
               }),
@@ -55,7 +57,7 @@ class _DataBasePageState extends State<DataBasePage> {
           };
           mongoServiceDB.addProduct(newProduct);
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -23,8 +23,8 @@ class BarraInferiorPedido extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
             color: cor_7,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(50)),
-            boxShadow: [
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(50)),
+            boxShadow: const [
               BoxShadow(color: Colors.grey, blurRadius: 3, spreadRadius: 2)
             ]),
         child: Padding(
@@ -59,7 +59,7 @@ class BarraInferiorPedido extends StatelessWidget {
   Widget BotaoWpp(context) {
     return Padding(
         padding: const EdgeInsets.all(12),
-        child: Container(
+        child: SizedBox(
             height: 40,
             child: ElevatedButton(
                 onPressed: () async {
@@ -84,13 +84,13 @@ class BarraInferiorPedido extends StatelessWidget {
     if (result == true) {
       // Se o resultado for true, o usuário clicou em "Sim".
       try {
-        const String groundon_number1 = '5521988377364';
+        const String groundonNumber1 = '5521988377364';
         const String messagemWhatsappPedido = 'Pronto! fiz meu pedido!';
 
         await Groundon.enviarPedidoWhatsapp(
-            phone: groundon_number1, message: messagemWhatsappPedido);
+            phone: groundonNumber1, message: messagemWhatsappPedido);
       } catch (e) {
-        Get.snackbar('Erro: ${e}',
+        Get.snackbar('Erro: $e',
             'Não foi possível abrir o WhatsApp. Por favor, tente novamente.',
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.red,

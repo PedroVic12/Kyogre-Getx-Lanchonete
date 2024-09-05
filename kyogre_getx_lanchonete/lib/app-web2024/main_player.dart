@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,11 +46,13 @@ class PlayerController {
 class PlayerPage extends StatelessWidget {
   final PlayerController controller = PlayerController();
 
+  PlayerPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Avaliação do Jogador'),
+        title: const Text('Avaliação do Jogador'),
       ),
       body: Column(
         children: <Widget>[
@@ -62,8 +66,8 @@ class PlayerPage extends StatelessWidget {
           ),
           Container(
             color: Colors.grey[300],
-            padding: EdgeInsets.all(10),
-            child: Row(
+            padding: const EdgeInsets.all(10),
+            child: const Row(
               children: <Widget>[
                 Icon(Icons.sports_soccer),
                 SizedBox(width: 10),
@@ -84,7 +88,7 @@ class PlayerPage extends StatelessWidget {
 class PlayerWidget extends StatelessWidget {
   final Player player;
 
-  PlayerWidget({required this.player});
+  const PlayerWidget({super.key, required this.player});
 
   @override
   Widget build(BuildContext context) {
@@ -94,11 +98,11 @@ class PlayerWidget extends StatelessWidget {
         children: <Widget>[
           Text(
             player.name,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Text(player.position),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Text('Rating: ${player.rating}'),
         ],
       ),

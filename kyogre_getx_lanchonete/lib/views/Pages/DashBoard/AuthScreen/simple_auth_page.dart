@@ -9,14 +9,14 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart'
 
 List usuarios = [
   {
-    "USER":"Pedro Victor",
-    "EMAIL":"pedrovictorveras@id.uff.br",
-    "SENHA":"admin",
+    "USER": "Pedro Victor",
+    "EMAIL": "pedrovictorveras@id.uff.br",
+    "SENHA": "admin",
   },
   {
-    "USER":"Alex Martins",
-    "EMAIL":"",
-    "SENHA":"admin",
+    "USER": "Alex Martins",
+    "EMAIL": "",
+    "SENHA": "admin",
   },
 ];
 
@@ -24,24 +24,22 @@ class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  LoginPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(title: const Text('Login')),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
-
-
           children: <Widget>[
-
             CaixaDeTexto(controller: emailController, labelText: 'Email'),
             CaixaDeTexto(controller: passwordController, labelText: 'Senha'),
-
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => login(context),
-              child: Text('Login'),
+              child: const Text('Login'),
             ),
           ],
         ),
@@ -55,7 +53,7 @@ class LoginPage extends StatelessWidget {
 
     // Verifica se o email e senha correspondem a algum usuário
     var user = usuarios.firstWhere(
-          (user) => user['EMAIL'] == email && user['SENHA'] == password,
+      (user) => user['EMAIL'] == email && user['SENHA'] == password,
       orElse: () => null,
     );
 
@@ -65,43 +63,44 @@ class LoginPage extends StatelessWidget {
     } else {
       // Usuário não encontrado
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Usuário ou senha inválidos')),
+        const SnackBar(content: Text('Usuário ou senha inválidos')),
       );
     }
   }
 }
-
 
 class RegisterPage extends StatelessWidget {
   final TextEditingController userController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  RegisterPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Registro')),
+      appBar: AppBar(title: const Text('Registro')),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: <Widget>[
             TextField(
               controller: userController,
-              decoration: InputDecoration(labelText: 'Usuário'),
+              decoration: const InputDecoration(labelText: 'Usuário'),
             ),
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
             TextField(
               controller: passwordController,
-              decoration: InputDecoration(labelText: 'Senha'),
+              decoration: const InputDecoration(labelText: 'Senha'),
               obscureText: true,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => register(context),
-              child: Text('Registrar'),
+              child: const Text('Registrar'),
             ),
           ],
         ),
@@ -124,5 +123,3 @@ class RegisterPage extends StatelessWidget {
     Navigator.pop(context);
   }
 }
-
-

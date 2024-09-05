@@ -20,12 +20,12 @@ class MenuProdutosRepository extends GetxController {
 
   Future getCategoriasRepository() async {
     isLoading.value = true;
-    await fetchCategorias();
+    fetchCategorias();
 
     if (MenuCategorias_Array.isNotEmpty) {
-      MenuCategorias_Array.forEach((element) {
+      for (var element in MenuCategorias_Array) {
         print(' MENU = ${element.nome}');
-      });
+      }
 
       isLoading.value = false;
     }
@@ -49,7 +49,7 @@ class MenuProdutosRepository extends GetxController {
         ),
         CategoriaModel(
           nome: 'Salgados',
-          iconPath: Icon(
+          iconPath: const Icon(
             Icons.local_pizza_rounded,
             size: 28,
           ),
@@ -72,7 +72,7 @@ class MenuProdutosRepository extends GetxController {
         ),
         CategoriaModel(
           nome: 'Hamburguer',
-          iconPath: Icon(
+          iconPath: const Icon(
             Icons.local_drink,
             size: 28,
           ),
@@ -82,28 +82,28 @@ class MenuProdutosRepository extends GetxController {
 
         CategoriaModel(
           nome: 'Cuscuz de Milho',
-          iconPath: Icon(
+          iconPath: const Icon(
             Icons.egg_alt_rounded,
             size: 28,
           ),
         ),
         CategoriaModel(
           nome: 'Omelete',
-          iconPath: Icon(
+          iconPath: const Icon(
             Icons.egg_alt_rounded,
             size: 28,
           ),
         ),
         CategoriaModel(
           nome: 'Crepe',
-          iconPath: Icon(
+          iconPath: const Icon(
             Icons.fastfood_rounded,
             size: 28,
           ),
         ),
         CategoriaModel(
           nome: 'Tapioca',
-          iconPath: Icon(
+          iconPath: const Icon(
             Icons.fastfood_rounded,
             size: 28,
           ),
@@ -113,7 +113,7 @@ class MenuProdutosRepository extends GetxController {
 
         CategoriaModel(
           nome: 'Cafeteria',
-          iconPath: Icon(
+          iconPath: const Icon(
             Icons.coffee,
             size: 28,
           ),

@@ -18,6 +18,7 @@ class BottomSheetWidget extends StatelessWidget {
   final String id;
 
   BottomSheetWidget({
+    super.key,
     required this.nomeCliente,
     required this.telefoneCliente,
     required this.id,
@@ -28,7 +29,7 @@ class BottomSheetWidget extends StatelessWidget {
     return Material(
       borderRadius: BorderRadius.circular(16),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         child: DraggableScrollableSheet(
           initialChildSize: 0.5, // Tamanho inicial mínimo da BottomSheet
           minChildSize: 0.3, // Tamanho mínimo (quando fechado)
@@ -37,13 +38,9 @@ class BottomSheetWidget extends StatelessWidget {
             return Container(
               child: Column(
                 children: [
-
                   barraLateral(),
-
                   BotaoNavegacao1(),
-
                   BarraInferiorPedido(),
-
                 ],
               ),
             );
@@ -53,22 +50,20 @@ class BottomSheetWidget extends StatelessWidget {
     );
   }
 
-
-  Widget barraLateral(){
-    return
-      Container(
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(100),
-          ),
-          child: Center(child: CustomText(text: 'Ola mundo',color: Colors.white),)
-      );
+  Widget barraLateral() {
+    return Container(
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: const Center(
+          child: CustomText(text: 'Ola mundo', color: Colors.white),
+        ));
   }
 
-
-  Widget BotaoNavegacao1(){
-    return  Padding(
-      padding: EdgeInsets.all(12),
+  Widget BotaoNavegacao1() {
+    return Padding(
+      padding: const EdgeInsets.all(12),
       child: SizedBox(
         height: 50,
         width: 200,
@@ -85,12 +80,16 @@ class BottomSheetWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-
-
-            child: Row(children: [Icon(Icons.shopify_rounded),  CustomText(text: 'CLIQUE AQUI',color: Colors.white,)],)
-        ),
+            child: const Row(
+              children: [
+                Icon(Icons.shopify_rounded),
+                CustomText(
+                  text: 'CLIQUE AQUI',
+                  color: Colors.white,
+                )
+              ],
+            )),
       ),
     );
   }
-
 }

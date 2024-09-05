@@ -16,20 +16,20 @@ class LoginController extends GetxController {
   Future<void> loginWithEmail() async {
     var headers = {'Content-Type': 'application/json'};
     try {
-      var url = Uri.parse(
-          ApiEndPoints.rayquazaApiUrl + ApiEndPoints.authEndpoints[0]["EMAIL"]!);
+      var url = Uri.parse(ApiEndPoints.rayquazaApiUrl +
+          ApiEndPoints.authEndpoints[0]["EMAIL"]!);
       Map body = {
         'email': emailController.text.trim(),
         'password': passwordController.text
       };
       http.Response response =
-      await http.post(url, body: jsonEncode(body), headers: headers);
+          await http.post(url, body: jsonEncode(body), headers: headers);
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         if (json['code'] == 0) {
           var token = json['data']['Token'];
-          final SharedPreferences? prefs = await _prefs;
+          final SharedPreferences prefs = await _prefs;
           await prefs?.setString('token', token);
 
           emailController.clear();
@@ -47,8 +47,8 @@ class LoginController extends GetxController {
           context: Get.context!,
           builder: (context) {
             return SimpleDialog(
-              title: Text('Error'),
-              contentPadding: EdgeInsets.all(20),
+              title: const Text('Error'),
+              contentPadding: const EdgeInsets.all(20),
               children: [Text(error.toString())],
             );
           });

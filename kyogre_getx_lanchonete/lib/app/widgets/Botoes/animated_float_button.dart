@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class AnimatedFloatingActionButton extends HookWidget {
-
   final VoidCallback onPress;
 
-   AnimatedFloatingActionButton(this.onPress, {super.key});
+  const AnimatedFloatingActionButton(this.onPress, {super.key});
   @override
   Widget build(BuildContext context) {
     final controller = useAnimationController(
-      duration: Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
       lowerBound: 0.0,
       upperBound: 0.2,
     );
@@ -17,11 +16,11 @@ class AnimatedFloatingActionButton extends HookWidget {
     useEffect(() {
       Future<void> startShake() async {
         while (true) {
-          await Future.delayed(Duration(milliseconds: 100));
+          await Future.delayed(const Duration(milliseconds: 100));
           controller.reverse();
-          await Future.delayed(Duration(seconds: 3));
+          await Future.delayed(const Duration(seconds: 3));
           controller.forward();
-          await Future.delayed(Duration(milliseconds: 100));
+          await Future.delayed(const Duration(milliseconds: 100));
           controller.reverse();
         }
       }
@@ -34,7 +33,7 @@ class AnimatedFloatingActionButton extends HookWidget {
       onPressed: onPress,
       child: RotationTransition(
         turns: controller,
-        child: Icon(Icons.shopping_cart_rounded, size: 26),
+        child: const Icon(Icons.shopping_cart_rounded, size: 26),
       ),
     );
   }

@@ -10,6 +10,7 @@ class AlertaPedidoWidget extends StatelessWidget {
   final VoidCallback? btnOkOnPress;
 
   const AlertaPedidoWidget({
+    super.key,
     required this.nomeCliente,
     required this.enderecoPedido,
     required this.itensPedido,
@@ -30,10 +31,10 @@ class AlertaPedidoWidget extends StatelessWidget {
         dialogType: DialogType.info,
         animType: AnimType.rightSlide,
         showCloseIcon: true,
-        title: 'Pedido de ${nomeCliente} chegando!',
+        title: 'Pedido de $nomeCliente chegando!',
         desc: pedidoInfo.toString(),
         btnOkText: 'CONFIRMAR PEDIDO',
-        btnCancelOnPress: (){
+        btnCancelOnPress: () {
           Get.back();
         },
         btnOkOnPress: btnOkOnPress,
@@ -41,7 +42,7 @@ class AlertaPedidoWidget extends StatelessWidget {
     });
 
     return Container(
-      child: Text(""),
+      child: const Text(""),
     ); // Retorna um widget vazio para não renderizar nada
   }
 }

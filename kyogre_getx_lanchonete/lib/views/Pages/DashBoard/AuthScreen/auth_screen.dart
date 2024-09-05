@@ -12,12 +12,15 @@ import 'controllers/login_controller.dart';
 import 'controllers/registrar_controller.dart';
 
 class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
+
   @override
   State<AuthScreen> createState() => _AuthScreenState();
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  RegisterationController registerationController = Get.put(RegisterationController());
+  RegisterationController registerationController =
+      Get.put(RegisterationController());
   LoginController loginController = Get.put(LoginController());
   var isLogin = false.obs;
 
@@ -29,14 +32,19 @@ class _AuthScreenState extends State<AuthScreen> {
           padding: EdgeInsets.all(36),
           child: Center(
             child: Obx(
-                  () => Column(
+              () => Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
-                    ElevatedButton(onPressed: () => Get.to(LoginPage()), child: Text("Login Page")),
-                    ElevatedButton(onPressed: () => Get.to(AuthJvtScreen()), child: Text("Auth + JVT + API")),
-                    ElevatedButton(onPressed: () => Get.to(TelaAutenticacaoUsuarios()), child: Text("Tela Usuario")),
+                    ElevatedButton(
+                        onPressed: () => Get.to(LoginPage()),
+                        child: Text("Login Page")),
+                    ElevatedButton(
+                        onPressed: () => Get.to(AuthJvtScreen()),
+                        child: Text("Auth + JVT + API")),
+                    ElevatedButton(
+                        onPressed: () => Get.to(TelaAutenticacaoUsuarios()),
+                        child: Text("Tela Usuario")),
                     SizedBox(
                       height: 30,
                     ),
@@ -104,9 +112,8 @@ class _AuthScreenState extends State<AuthScreen> {
           onPressed: () {
             registerationController.registerWithEmail();
             // todo mandar email para confirmar novo usuario com token
-            } ,
-            title: 'Cadastrar novo Usuario',
-
+          },
+          title: 'Cadastrar novo Usuario',
         )
       ],
     );

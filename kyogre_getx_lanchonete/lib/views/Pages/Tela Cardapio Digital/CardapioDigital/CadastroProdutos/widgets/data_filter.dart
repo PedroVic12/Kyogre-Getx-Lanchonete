@@ -38,6 +38,7 @@ class _DataFilteredState extends State<DataFiltered> {
 
   List<int>? filterIndex;
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -158,7 +159,7 @@ class _DataFilteredState extends State<DataFiltered> {
                     ),
                   );
                 }
-                return SizedBox();
+                return const SizedBox();
               },
             ),
           ),

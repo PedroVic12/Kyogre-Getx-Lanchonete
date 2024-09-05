@@ -8,6 +8,8 @@ ChatUser user = ChatUser(
 );
 
 class Basic extends StatefulWidget {
+  const Basic({super.key});
+
   @override
   _BasicState createState() => _BasicState();
 }

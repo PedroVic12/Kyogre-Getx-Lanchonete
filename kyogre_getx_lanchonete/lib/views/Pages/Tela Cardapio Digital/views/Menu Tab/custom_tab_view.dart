@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../../../../../app/widgets/Custom/CustomText.dart';
 
 class MyTabbedPage extends StatefulWidget {
+  const MyTabbedPage({super.key});
+
   @override
   _MyTabbedPageState createState() => _MyTabbedPageState();
 }
@@ -69,7 +71,7 @@ class _MyTabbedPageState extends State<MyTabbedPage>
             ),
           ],
           gradient: isSelected
-              ? LinearGradient(colors: [Colors.greenAccent, Colors.green])
+              ? const LinearGradient(colors: [Colors.greenAccent, Colors.green])
               : LinearGradient(colors: [
                   Colors.deepPurple.shade100,
                   CupertinoColors.activeBlue.highContrastElevatedColor

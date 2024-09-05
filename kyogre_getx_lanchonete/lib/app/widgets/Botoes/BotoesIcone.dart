@@ -14,28 +14,29 @@ class BotoesIcone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: EdgeInsets.all(2),child: Container(
-        decoration: BoxDecoration(
-          color: cor,
-          borderRadius: BorderRadius.circular(32),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.8),
-              spreadRadius: 1,
-              blurRadius: 4,
+    return Padding(
+        padding: const EdgeInsets.all(2),
+        child: Container(
+            decoration: BoxDecoration(
+              color: cor,
+              borderRadius: BorderRadius.circular(32),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.8),
+                  spreadRadius: 1,
+                  blurRadius: 4,
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Center(
-          child: IconButton(
-            onPressed: onPressed,
-            iconSize: 28,
-            icon: Icon(
-              iconData,
-              color: Colors.white,
-            ),
-          ),
-        )
-    ));
+            child: Center(
+              child: IconButton(
+                onPressed: onPressed,
+                iconSize: 28,
+                icon: Icon(
+                  iconData,
+                  color: Colors.white,
+                ),
+              ),
+            )));
   }
 }

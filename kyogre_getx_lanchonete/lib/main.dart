@@ -6,6 +6,9 @@ import 'package:kyogre_getx_lanchonete/app-web2024/good_ui_trainer.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Design/CartaoGridView.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/MenuLateralNavegacao.dart';
 import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/Views/excel_view_database.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Caos/exemplo_flip_screen.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Caos/tab_nav_cardapio.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Caos/tab_page_flip.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/ChatPage/views/ChatPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/tela_auth_jvt.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
@@ -13,6 +16,7 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/TelaDashGestaoPedid
 import 'package:kyogre_getx_lanchonete/views/Pages/Layout/Layout.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Monitoramento/maps/tela_google_maps.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/SplashScreen/splash_screen_page.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/CadastroProdutos/cardapio_cadatro_produtos_mongo.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/TelaCardapioDigital.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/cardapio_qrcode.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
@@ -31,7 +35,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +49,17 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => Layout()),
         GetPage(name: '/splash', page: () => const SplashScreen()),
         GetPage(name: '/dash', page: () => TelaGestaoDePedidosDashBoard()),
-        GetPage(name: '/layoutDesign', page: () => const CartaoGridView()),
-        GetPage(name: '/caosPage', page: () => const CaosPageWidget()),
+        GetPage(name: '/caosPage', page: () => ProductsPageFlip()),
+
+        //GetPage(name: '/caosPage', page: () => const CaosPageWidget()),
         GetPage(name: '/cardapioQR', page: () => const CardapioQrCode()),
         GetPage(name: '/mapaPedido', page: () => GoogleMapsWidget()),
-        GetPage(name: '/authScreen', page: () => TelaAutenticacaoUsuarios()),
-        GetPage(name: '/atendimento', page: () => ChatPage()),
-        GetPage(name: '/database', page: () => CardapioSysteam()),
-        //GetPage(name: "/screens", page: MyPageView()),
+        GetPage(
+            name: '/authScreen', page: () => const TelaAutenticacaoUsuarios()),
+        GetPage(name: '/atendimento', page: () => const ChatPage()),
+        GetPage(name: "/cardapioManager", page: () => CardapioManagerPage()),
+        GetPage(name: "/CardapioDigital", page: () => TabBarDemo()),
+
         GetPage(
             name: '/pedido/:id',
             page: () {

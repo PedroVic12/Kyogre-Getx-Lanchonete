@@ -14,12 +14,14 @@ class TelaGestaoDePedidosDashBoard extends StatelessWidget {
   final PedidoController pedidoController =
       Get.put(PedidoController(Get.find<FilaDeliveryController>()));
 
+  TelaGestaoDePedidosDashBoard({super.key});
+
   @override
   Widget build(BuildContext context) {
     Get.put(GestaoPedidosController()); // Inicializa o controlador
 
     return Scaffold(
-      appBar: NightWolfAppBar(),
+      appBar: const NightWolfAppBar(),
       body: Row(
         children: [
           //PesquisarDadosWidet(),

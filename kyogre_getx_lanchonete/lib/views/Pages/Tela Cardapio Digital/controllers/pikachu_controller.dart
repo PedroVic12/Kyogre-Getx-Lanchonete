@@ -29,12 +29,12 @@ class PikachuController extends GetxController {
           children: [
             TextSpan(
               text: '${produto.nome} ',
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.yellow,
                   fontWeight: FontWeight.bold,
                   fontSize: 18),
             ),
-            TextSpan(
+            const TextSpan(
               text: 'foi adicionado ao seu carrinho',
               style: TextStyle(
                   color: Colors.black,
@@ -47,8 +47,8 @@ class PikachuController extends GetxController {
       ),
       snackPosition: SnackPosition.TOP,
       backgroundColor: CupertinoColors.activeGreen,
-      backgroundGradient:
-          LinearGradient(colors: [CupertinoColors.systemGreen, Colors.blue]),
+      backgroundGradient: const LinearGradient(
+          colors: [CupertinoColors.systemGreen, Colors.blue]),
       showProgressIndicator: true,
       duration: const Duration(seconds: 1),
     );
@@ -71,7 +71,7 @@ class PikachuController extends GetxController {
       title,
       message,
       isDismissible: true,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       backgroundColor: Colors.cyanAccent,
       snackPosition: SnackPosition.TOP,
     );
@@ -82,7 +82,7 @@ class PikachuController extends GetxController {
     try {
       // Simulando uma chamada de rede para buscar dados do Pikachu
       await Future.delayed(
-          Duration(seconds: 2)); // Simulação de chamada de rede
+          const Duration(seconds: 2)); // Simulação de chamada de rede
 
       // Simulando dados recebidos
       pikachuInfo.value = {

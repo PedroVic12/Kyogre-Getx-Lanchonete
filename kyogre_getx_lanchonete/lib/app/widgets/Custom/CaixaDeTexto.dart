@@ -7,7 +7,8 @@ class CaixaDeTexto extends StatelessWidget {
   final Function()? onTap;
   final double? height; // Adicione o parâmetro opcional
 
-  CaixaDeTexto({
+  const CaixaDeTexto({
+    super.key,
     required this.controller,
     required this.labelText,
     this.isReadOnly = false,
@@ -20,17 +21,17 @@ class CaixaDeTexto extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: TextField(
-          style: TextStyle(),
+          style: const TextStyle(),
           controller: controller,
           readOnly: isReadOnly,
           onTap: onTap,
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.purple[50],
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
             label: Padding(
               padding:
-              const EdgeInsets.only(left: 12.0), // Seu valor de padding
+                  const EdgeInsets.only(left: 12.0), // Seu valor de padding
               child: Text(
                 labelText,
                 style: const TextStyle(

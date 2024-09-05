@@ -8,27 +8,36 @@ class OverViewCardsSmallScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
 
-    return Container(
+    return SizedBox(
       height: 400,
       child: Column(
         children: [
-          InfoCardSmall(title: 'Em processo', value: '7', isActive: true, onTap: (){}),
-          SizedBox( height: _width/64),
-          CardPedido(status_pedido: "Finalizado",),
-
-          InfoCardSmall(title: 'Pedidos Concluidos', value: '10', isActive: true, onTap: (){}),
-          SizedBox( height: _width/64),
-
-
-          InfoCardSmall(title: 'Esta sendo preparado', value: '10', isActive: true, onTap: (){}),
-          SizedBox( height: _width/64),
-
-
-
-          InfoCardSmall(title: 'Pedidos Cancelados ', value: '10', isActive: true, onTap: (){}),
-          SizedBox( height: _width/64),
+          InfoCardSmall(
+              title: 'Em processo', value: '7', isActive: true, onTap: () {}),
+          SizedBox(height: width / 64),
+          const CardPedido(
+            status_pedido: "Finalizado",
+          ),
+          InfoCardSmall(
+              title: 'Pedidos Concluidos',
+              value: '10',
+              isActive: true,
+              onTap: () {}),
+          SizedBox(height: width / 64),
+          InfoCardSmall(
+              title: 'Esta sendo preparado',
+              value: '10',
+              isActive: true,
+              onTap: () {}),
+          SizedBox(height: width / 64),
+          InfoCardSmall(
+              title: 'Pedidos Cancelados ',
+              value: '10',
+              isActive: true,
+              onTap: () {}),
+          SizedBox(height: width / 64),
         ],
       ),
     );

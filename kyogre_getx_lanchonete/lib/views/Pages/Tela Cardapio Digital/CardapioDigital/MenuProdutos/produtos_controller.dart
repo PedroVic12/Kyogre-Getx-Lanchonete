@@ -1,9 +1,7 @@
 //Controller
 // ignore_for_file: avoid_print
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 
 class ProdutosDetails extends StatelessWidget {

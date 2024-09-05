@@ -65,6 +65,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.7.0"
+  better_page_turn:
+    dependency: "direct main"
+    description:
+      name: better_page_turn
+      sha256: d84c083ca7f0bc10cd5cde049e7facb81afdb304c3148c641ada0b5661be3966
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.6"
   boolean_selector:
     dependency: transitive
     description:

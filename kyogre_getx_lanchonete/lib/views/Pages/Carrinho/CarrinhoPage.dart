@@ -10,28 +10,25 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Carrinho/CarrinhoController.d
 import '../../../app/widgets/Barra Inferior/modal_pedido_wpp.dart';
 
 class CarrinhoPage extends StatelessWidget {
-
   final CarrinhoPedidoController carrinho = Get.put(CarrinhoPedidoController());
 
   CarrinhoPage({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('🛒 CARRINHO '),
+        title: const Text('🛒 CARRINHO '),
       ),
-
       body: Obx(() {
         if (carrinho.SACOLA.isEmpty) {
           return const Center(
-            child:  CustomText(text: 'Você não tem nenhum produto na sacola ainda', size: 25),
+            child: CustomText(
+                text: 'Você não tem nenhum produto na sacola ainda', size: 25),
           );
         } else {
           return Column(
             children: [
-
               Expanded(
                 child: ListView.builder(
                   itemCount: carrinho.SACOLA.length,
@@ -47,9 +44,6 @@ class CarrinhoPage extends StatelessWidget {
                   },
                 ),
               ),
-
-
-
               BarraInferiorPedido(),
             ],
           );

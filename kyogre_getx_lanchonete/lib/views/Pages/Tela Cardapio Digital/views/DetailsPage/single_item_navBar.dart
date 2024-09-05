@@ -17,7 +17,7 @@ class SingleItemNavBar extends StatelessWidget {
     return Container(
       height: 90,
       color: Colors.white,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -25,7 +25,7 @@ class SingleItemNavBar extends StatelessWidget {
           Obx(
             () => Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 CustomText(
@@ -33,14 +33,14 @@ class SingleItemNavBar extends StatelessWidget {
                   size: 18,
                   color: Colors.black,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 btnQuantidade()
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 15,
           ),
           BotaoCarrinho2(produto: produto),
@@ -62,10 +62,10 @@ class SingleItemNavBar extends StatelessWidget {
             height: 40,
             decoration: BoxDecoration(
                 color: Colors.grey, borderRadius: BorderRadius.circular(10)),
-            child: Icon(CupertinoIcons.minus_circle_fill, size: 32),
+            child: const Icon(CupertinoIcons.minus_circle_fill, size: 32),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 12,
         ),
         Obx(() {
@@ -77,7 +77,7 @@ class SingleItemNavBar extends StatelessWidget {
             weight: FontWeight.bold,
           );
         }),
-        SizedBox(
+        const SizedBox(
           width: 12,
         ),
         InkWell(
@@ -90,7 +90,7 @@ class SingleItemNavBar extends StatelessWidget {
             height: 40,
             decoration: BoxDecoration(
                 color: Colors.grey, borderRadius: BorderRadius.circular(10)),
-            child: Icon(
+            child: const Icon(
               CupertinoIcons.plus_circle_fill,
               size: 32,
             ),
@@ -112,7 +112,7 @@ class BotaoCarrinho2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Colors.orange,
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(20),
@@ -122,7 +122,7 @@ class BotaoCarrinho2 extends StatelessWidget {
                 onPressed: () {
                   carrinho.adicionarCarrinho(produto);
                 },
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomText(

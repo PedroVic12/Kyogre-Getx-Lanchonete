@@ -15,7 +15,7 @@ class AnimatedProductCardWrapper extends StatefulWidget {
   final Duration duration;
   final VoidCallback onTap;
 
-  AnimatedProductCardWrapper({
+  const AnimatedProductCardWrapper({
     Key? key,
     required this.produto,
     required this.duration,
@@ -64,7 +64,7 @@ class _AnimatedProductCardWrapperState extends State<AnimatedProductCardWrapper>
         },
         child: AnimatedProductCard(
           produto: widget.produto,
-          duration: Duration(
+          duration: const Duration(
               milliseconds: 500), // Ajuste a duração conforme necessário
 
           onTap: () {
@@ -88,7 +88,7 @@ class AnimatedProductCard extends StatelessWidget {
   final VoidCallback onTap;
   final double startOffsetX;
 
-  AnimatedProductCard({
+  const AnimatedProductCard({
     Key? key,
     required this.produto,
     required this.duration,
@@ -116,7 +116,7 @@ class AnimatedProductCard extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          margin: EdgeInsets.all(6),
+          margin: const EdgeInsets.all(6),
           color: Colors.white24,
           height: 100,
           child: Card(
@@ -128,12 +128,12 @@ class AnimatedProductCard extends StatelessWidget {
                   flex: 30,
                   child: pathImg != null
                       ? Padding(
-                          padding: EdgeInsets.all(6),
+                          padding: const EdgeInsets.all(6),
                           child: Image.asset(
                             pathImg,
                             fit: BoxFit.fill,
                           ))
-                      : Center(child: Icon(Icons.fastfood, size: 32)),
+                      : const Center(child: Icon(Icons.fastfood, size: 32)),
                 ),
 
                 //Title and Subtitle
@@ -150,7 +150,7 @@ class AnimatedProductCard extends StatelessWidget {
                                 .start, // Alinha os filhos ao início na horizontal
                             children: [
                               CustomText(
-                                text: '${produto.nome}',
+                                text: produto.nome,
                                 size: 22,
                                 weight: FontWeight.bold,
                               ),

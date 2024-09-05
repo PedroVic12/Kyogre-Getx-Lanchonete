@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
 class LocationPage extends StatefulWidget {
+  const LocationPage({super.key});
+
   @override
   _LocationPageState createState() => _LocationPageState();
 }
@@ -19,22 +21,22 @@ class _LocationPageState extends State<LocationPage> {
 
   Future<void> _initializeLocation() async {
     // Verifica e pede permissões
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
 
-    _serviceEnabled = await _location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await _location.requestService();
-      if (!_serviceEnabled) {
+    serviceEnabled = await _location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await _location.requestService();
+      if (!serviceEnabled) {
         // Se ainda não estiver habilitado, sair da função
         return;
       }
     }
 
-    _permissionGranted = await _location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await _location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+    permissionGranted = await _location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await _location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
         // Se a permissão ainda estiver negada, sair da função
         return;
       }
@@ -57,14 +59,14 @@ class _LocationPageState extends State<LocationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Localização em Tempo Real'),
+        title: const Text('Localização em Tempo Real'),
       ),
       body: Center(
         child: _currentLocation == null
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : Text(
-          'Localização:\nLatitude: ${_currentLocation!.latitude}\nLongitude: ${_currentLocation!.longitude}',
-        ),
+                'Localização:\nLatitude: ${_currentLocation!.latitude}\nLongitude: ${_currentLocation!.longitude}',
+              ),
       ),
     );
   }

@@ -17,7 +17,7 @@ class NightWolfAppBar extends StatefulWidget implements PreferredSizeWidget {
   _NightWolfAppBarState createState() => _NightWolfAppBarState();
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class _NightWolfAppBarState extends State<NightWolfAppBar> {
@@ -90,7 +90,7 @@ class _NightWolfAppBarState extends State<NightWolfAppBar> {
                 child: Container(
                   width: 12,
                   height: 12,
-                  padding: EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     color: CupertinoColors.activeGreen,
                     borderRadius: BorderRadius.circular(30),
@@ -106,14 +106,14 @@ class _NightWolfAppBarState extends State<NightWolfAppBar> {
           Container(
             width: 2,
             height: 22,
-            padding: EdgeInsets.all(2),
+            padding: const EdgeInsets.all(2),
             color: CupertinoColors.systemGrey,
           ),
           CustomText(
-            text: "${user[0].user}",
+            text: user[0].user,
             color: _isPurple ? CupertinoColors.inactiveGray : Colors.white,
           ),
-          SizedBox(
+          const SizedBox(
             width: 16,
           ),
           Container(
@@ -122,8 +122,8 @@ class _NightWolfAppBarState extends State<NightWolfAppBar> {
               borderRadius: BorderRadius.circular(30),
             ),
             child: Container(
-              padding: EdgeInsets.all(2),
-              margin: EdgeInsets.all(2),
+              padding: const EdgeInsets.all(2),
+              margin: const EdgeInsets.all(2),
               child: CircleAvatar(
                 backgroundColor:
                     _isPurple ? CupertinoColors.inactiveGray : Colors.white,

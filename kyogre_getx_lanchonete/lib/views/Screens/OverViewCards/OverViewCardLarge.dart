@@ -56,19 +56,19 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
     return Scaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
-          double _cardWidth = constraints.maxWidth / 4;
+          double cardWidth = constraints.maxWidth / 4;
 
           return Container(
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: _cardWidth / 64),
+                  SizedBox(height: cardWidth / 64),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: _cardWidth,
+                        width: cardWidth,
                       ),
                       InfoCard(
                         title: "Pedidos Recebidos",
@@ -76,25 +76,25 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
                         onTap: () {},
                         isActive: true,
                       ),
-                      SizedBox(width: _cardWidth / 64),
+                      SizedBox(width: cardWidth / 64),
                       InfoCard(
                         title: "Numero de clientes ativos",
                         value: cardData['clientesAtivos'].toString(),
                         onTap: () {},
                         isActive: true,
                       ),
-                      SizedBox(width: _cardWidth / 64),
+                      SizedBox(width: cardWidth / 64),
                       InfoCard(
                         title: "Total de vendas",
                         value: cardData['scheduledDeliveries'].toString(),
                         onTap: () {},
                         isActive: true,
                       ),
-                      SizedBox(width: _cardWidth / 64),
+                      SizedBox(width: cardWidth / 64),
                       Expanded(
                         child: Wrap(
-                          spacing: _cardWidth / 64,
-                          runSpacing: _cardWidth / 64,
+                          spacing: cardWidth / 64,
+                          runSpacing: cardWidth / 64,
                         ),
                       ),
                     ],

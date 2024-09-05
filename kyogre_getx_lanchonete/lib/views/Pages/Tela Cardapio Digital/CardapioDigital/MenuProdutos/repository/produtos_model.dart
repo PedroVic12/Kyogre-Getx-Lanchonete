@@ -14,7 +14,7 @@ class IconePersonalizado extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 32,
       width: 32,
       child: CircleAvatar(

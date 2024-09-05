@@ -27,7 +27,7 @@ import '../../../../controllers/DataBaseController/template/produtos_model.dart'
 class DetailsPage extends StatefulWidget {
   final String id;
 
-  DetailsPage({required this.id, Key? key}) : super(key: key);
+  const DetailsPage({required this.id, Key? key}) : super(key: key);
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
@@ -54,8 +54,8 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget pegarDadosCliente() {
     return Column(
       children: [
-        Text('Dados do Cliente: '),
-        Text('ID do Pedido: ${idPedido}'),
+        const Text('Dados do Cliente: '),
+        Text('ID do Pedido: $idPedido'),
         Text('Nome do Cliente: $nomeCliente'),
         Text('Telefone do Cliente: $telefoneCliente'),
       ],
@@ -63,13 +63,13 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
   Future<String> fetchIdPedido() async {
-    final response_id = await http.get(
+    final responseId = await http.get(
         Uri.parse('https://rayquaza-citta-server.onrender.com/receber-link'));
 
-    if (response_id.statusCode == 200) {
-      String id_data = response_id.body;
-      print(id_data);
-      return id_data;
+    if (responseId.statusCode == 200) {
+      String idData = responseId.body;
+      print(idData);
+      return idData;
     } else {
       throw Exception('Failed to fetch ID');
     }
@@ -97,7 +97,7 @@ class _DetailsPageState extends State<DetailsPage> {
     //controllers
     final MenuProdutosController menuController =
         Get.put(MenuProdutosController());
-    final CatalogoProdutosController _controller = CatalogoProdutosController();
+    final CatalogoProdutosController controller = CatalogoProdutosController();
 
     // Variaveis
     List<ProdutoModel> produtos =
@@ -138,7 +138,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
   Widget botaoVerCarrinho() {
     return Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: SizedBox(
             height: 50,
             width: 200,

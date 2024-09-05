@@ -11,6 +11,8 @@ import '../../../../../controllers/DataBaseController/template/produtos_model.da
 class CatalogoProdutosCard extends StatelessWidget {
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
 
+  CatalogoProdutosCard({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -24,7 +26,7 @@ class CatalogoProdutosCard extends StatelessWidget {
             children: [
               Obx(() => ListView.builder(
                     shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     itemCount: controller.produtos.length,
                     itemBuilder: (context, index) {
@@ -52,10 +54,10 @@ class CatalogoProdutosCard extends StatelessWidget {
                               // Adicione mais detalhes sobre o produto aqui
                             ],
                           ),
-                          leading: Icon(Icons
+                          leading: const Icon(Icons
                               .fastfood), // Um ícone para indicar que este é um produto
                           trailing: IconButton(
-                            icon: Icon(Icons.add_box_sharp,
+                            icon: const Icon(Icons.add_box_sharp,
                                 color: Colors.blue,
                                 size:
                                     30), // Um botão para adicionar o produto ao carrinho

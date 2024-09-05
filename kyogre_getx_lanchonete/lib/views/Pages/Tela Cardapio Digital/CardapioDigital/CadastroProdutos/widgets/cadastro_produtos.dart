@@ -251,13 +251,13 @@ class _CadastroDialogState extends State<CadastroDialog> {
   }
 
   Widget carrouselImagens() {
-    return Container(
+    return SizedBox(
       width: 200,
       height: 200, // Defina uma altura fixa para o carrossel
       child: GetBuilder<PhotoGalleryController>(
         builder: (controller) {
           if (controller.photos.isEmpty) {
-            return Container(
+            return SizedBox(
               height: 50,
               child: const Center(child: Text('Sem fotos selecionadas')),
             );

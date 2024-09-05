@@ -13,6 +13,8 @@ import '../repository_db_controller.dart';
 import '../template/produtos_model.dart';
 
 class RepositoryListView extends StatefulWidget {
+  const RepositoryListView({super.key});
+
   @override
   _RepositoryListViewState createState() => _RepositoryListViewState();
 }
@@ -43,16 +45,16 @@ class _RepositoryListViewState extends State<RepositoryListView> {
 
     // Lê os dados JSON
     List itemsJson = await readingDataJson(url1);
-    controller.pikachu.cout('JSON = ${itemsJson}');
+    controller.pikachu.cout('JSON = $itemsJson');
 
     // Transforma em Objeto dart
-    itemsJson.forEach((element) {
+    for (var element in itemsJson) {
       products = ProdutoModel.fromJson(element);
       controller.pikachu.cout(products.categoria);
 
       // Adiciona os objetos ao array do controlador
       controller.dataBase_Array.add(products);
-    });
+    }
 
     controller.pikachu.cout('FIX HERE =  ${controller.dataBase_Array[0]}');
 
@@ -64,11 +66,11 @@ class _RepositoryListViewState extends State<RepositoryListView> {
     array.clear();
 
     var jsonData = await readingDataJson(url1);
-    controller.pikachu.cout('JSON = ${jsonData}');
+    controller.pikachu.cout('JSON = $jsonData');
 
     List<dynamic> produtos =
         jsonData.map((item) => ProdutoModel.fromJson(item)).toList();
-    controller.pikachu.cout('Produto: ${produtos} ');
+    controller.pikachu.cout('Produto: $produtos ');
 
     // Exemplo de uso
     for (var produto in produtos) {
@@ -84,7 +86,7 @@ class _RepositoryListViewState extends State<RepositoryListView> {
 
   void initPage() async {
     //await setupPage();
-    await Future.delayed(Duration(seconds: 1), () async {
+    await Future.delayed(const Duration(seconds: 1), () async {
       _carregandoArrayObjetos();
     });
   }
@@ -93,7 +95,7 @@ class _RepositoryListViewState extends State<RepositoryListView> {
   void initState() {
     super.initState();
     initPage();
-    Future.delayed(Duration(seconds: 5), () async {
+    Future.delayed(const Duration(seconds: 5), () async {
       controller.pikachu.loadDataSuccess(':)', 'Tudo carregado');
     });
   }
@@ -102,7 +104,7 @@ class _RepositoryListViewState extends State<RepositoryListView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Produtos - REPOSITORY'),
+          title: const Text('Produtos - REPOSITORY'),
         ),
         body: ListView(
           children: [
@@ -111,7 +113,7 @@ class _RepositoryListViewState extends State<RepositoryListView> {
                 height: 500,
                 child: Obx(() {
                   if (array.isEmpty) {
-                    return LoadingWidget();
+                    return const LoadingWidget();
                   } else {
                     return ListView.builder(
                       itemCount: array.length,
@@ -119,7 +121,7 @@ class _RepositoryListViewState extends State<RepositoryListView> {
                         var item = array[index];
                         return ListTile(
                             title: CustomText(
-                              text: 'Array = ${array}',
+                              text: 'Array = $array',
                             ),
                             subtitle: Column(
                               children: [
@@ -144,7 +146,7 @@ class _RepositoryListViewState extends State<RepositoryListView> {
   Widget _list() {
     return Obx(() {
       if (array.isEmpty) {
-        return Center(child: LoadingWidget());
+        return const Center(child: LoadingWidget());
       } else {
         return ListView.builder(
           itemCount: array.length,

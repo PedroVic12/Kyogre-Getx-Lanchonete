@@ -12,20 +12,26 @@ import '../../../../app/widgets/Custom/AssinaturaWidget.dart';
 class GoogleMapsWidget extends StatelessWidget {
   final MapsController mapsController = Get.put(MapsController());
 
+  GoogleMapsWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Row(children: [
-          Text("Pedido = {id}"),
-          TextButton(onPressed: () {}, child: Text('Ajuda'),)
-        ],),),
-        body: ListView(scrollDirection: Axis.vertical, children: [
-
-          tempoPrevisaoWidget(),
-          mapaWidget(),
-          statusPedidoUpdate()
-        ],)
-    );
+        appBar: AppBar(
+          title: Row(
+            children: [
+              const Text("Pedido = {id}"),
+              TextButton(
+                onPressed: () {},
+                child: const Text('Ajuda'),
+              )
+            ],
+          ),
+        ),
+        body: ListView(
+          scrollDirection: Axis.vertical,
+          children: [tempoPrevisaoWidget(), mapaWidget(), statusPedidoUpdate()],
+        ));
   }
 
   Widget tempoPrevisaoWidget() {
@@ -38,12 +44,12 @@ class GoogleMapsWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(Icons.access_time_rounded),
-          SizedBox(width: 8),
+          const Icon(Icons.access_time_rounded),
+          const SizedBox(width: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomText(text: "Previsão de entrega"),
+              const CustomText(text: "Previsão de entrega"),
               CustomText(text: '$horarioInicial - $horarioPrevisto')
             ],
           )
@@ -54,7 +60,7 @@ class GoogleMapsWidget extends StatelessWidget {
 
   Widget mapaWidget() {
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       height: 300,
       width: 900, // Use a largura total disponível
       child: Obx(() {
@@ -67,7 +73,7 @@ class GoogleMapsWidget extends StatelessWidget {
           markers: mapsController.markers.toSet(),
           polylines: {
             Polyline(
-              polylineId: PolylineId('route'),
+              polylineId: const PolylineId('route'),
               points: mapsController.routeCoordinates,
               color: Colors.blue,
               width: 5,
@@ -79,13 +85,13 @@ class GoogleMapsWidget extends StatelessWidget {
     );
   }
 
-
   Widget entregadorWidget() {
     return Row(
       children: [
-        ElevatedButton(style: ButtonStyle(),
+        ElevatedButton(
+            style: const ButtonStyle(),
             onPressed: () {},
-            child: Text("Ligar para o estabelicimento"))
+            child: const Text("Ligar para o estabelicimento"))
       ],
     );
   }
@@ -117,8 +123,8 @@ class GoogleMapsWidget extends StatelessWidget {
             statusWidgets.add(
               Row(
                 children: [
-                  Icon(Icons.check_circle, color: Colors.green),
-                  SizedBox(width: 8),
+                  const Icon(Icons.check_circle, color: Colors.green),
+                  const SizedBox(width: 8),
                   CustomText(text: status[i]!),
                 ],
               ),
@@ -128,9 +134,8 @@ class GoogleMapsWidget extends StatelessWidget {
         }),
         ElevatedButton(
           onPressed: incrementStatus,
-          child: Text('Incrementar Status'),
+          child: const Text('Incrementar Status'),
         ),
-
         AssinaturaWidget()
       ],
     );

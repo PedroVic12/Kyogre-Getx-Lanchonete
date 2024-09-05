@@ -1,305 +1,304 @@
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
+// import '../../../views/Pages/DashBoard/Pedido/CardPedido.dart';
+// import '../../../views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
+// import '../../../views/Pages/DashBoard/Pedido/PedidoController.dart';
+// import 'NightWolfAppBar.dart';
 
-import '../../../views/Pages/DashBoard/Pedido/CardPedido.dart';
-import '../../../views/Pages/DashBoard/Pedido/FilaDeliveryController.dart';
-import '../../../views/Pages/DashBoard/Pedido/PedidoController.dart';
-import 'NightWolfAppBar.dart';
+// class DashBoardKanban extends StatelessWidget {
+//   final KanbanController _kanbanController = Get.put(KanbanController());
 
+//   final List<Color> coresColunas = [
+//     Colors.red,
+//     Colors.orange.shade300,
+//     Colors.green,
+//   ];
 
-class DashBoardKanban extends StatelessWidget {
-  final KanbanController _kanbanController = Get.put(KanbanController());
+//   DashBoardKanban({super.key});
 
-  final List<Color> coresColunas = [
-    Colors.red,
-    Colors.orange.shade300,
-    Colors.green,
-  ];
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         appBar: const NightWolfAppBar(),
+//         body: SizedBox(
+//           height: 1200,
+//           child: Row(
+//             children: [
+//               _buildKanbanColumn('Pedidos em Produção',
+//                   _kanbanController.columns['analise']!, coresColunas[0], 0),
+//               _buildKanbanColumn('Pedidos para entrega',
+//                   _kanbanController.columns['entrega']!, coresColunas[1], 1),
+//               _buildKanbanColumn('Pedidos finalizados',
+//                   _kanbanController.columns['concluidos']!, coresColunas[2], 2),
+//             ],
+//           ),
+//         ));
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: NightWolfAppBar(),
-    body: SizedBox(
-      height: 1200,
-      child: Row(
-        children: [
-          _buildKanbanColumn('Pedidos em Produção', _kanbanController.columns['analise']!,
-              coresColunas[0], 0),
+//   Widget _buildKanbanColumn(
+//       String title, List<ItemTrabalho> tasks, Color color, int index) {
+//     return KanbanColumn(
+//       title: title,
+//       tasks: tasks,
+//       color: color,
+//       index: index,
+//     );
+//   }
+// }
 
-          _buildKanbanColumn('Pedidos para entrega', _kanbanController.columns['entrega']!,
-              coresColunas[1], 1),
+// //! Coluna
+// class KanbanColumn extends StatefulWidget {
+//   final String title;
+//   final List<ItemTrabalho> tasks;
+//   final Color color;
+//   final int index;
 
-          _buildKanbanColumn('Pedidos finalizados', _kanbanController.columns['concluidos']!,
-              coresColunas[2], 2),
-        ],
-      ),
-    ));
-  }
+//   const KanbanColumn({
+//     super.key,
+//     required this.title,
+//     required this.tasks,
+//     required this.color,
+//     required this.index,
+//   });
 
-  Widget _buildKanbanColumn(
-      String title, List<ItemTrabalho> tasks, Color color, int index) {
-    return KanbanColumn(
-      title: title,
-      tasks: tasks,
-      color: color,
-      index: index,
-    );
-  }
-}
+//   @override
+//   State<KanbanColumn> createState() => _KanbanColumnState();
+// }
 
+// class _KanbanColumnState extends State<KanbanColumn> {
+//   @override
+//   void initState() {
+//     super.initState();
+//   }
 
+//   final PedidoController pedidoController = Get.find<PedidoController>();
+//   final FilaDeliveryController filaDeliveryController =
+//       Get.find<FilaDeliveryController>();
 
-//! Coluna
-class KanbanColumn extends StatefulWidget {
-  final String title;
-  final List<ItemTrabalho> tasks;
-  final Color color;
-  final int index;
+//   @override
+//   Widget build(BuildContext context) {
+//     final controller = Get.put(KanbanController()); // Obtenha o controlador
 
-  KanbanColumn({
-    required this.title,
-    required this.tasks,
-    required this.color,
-    required this.index,
-  });
+//     final TodosPedidos =
+//         filaDeliveryController.FILA_PEDIDOS.value.todosPedidos();
+//     print('Todos Pedidos: $TodosPedidos');
+//     final totalPedidos =
+//         filaDeliveryController.FILA_PEDIDOS.value.tamanhoFila();
 
-  @override
-  State<KanbanColumn> createState() => _KanbanColumnState();
-}
+//     return Expanded(
+//       child: Container(
+//         color: widget.color,
+//         child: DragTarget(
+//           builder: (context, candidateData, rejectedData) {
+//             return Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Center(
+//                   child: CustomText(
+//                       text: '${widget.title} -  ${widget.index}',
+//                       weight: FontWeight.bold,
+//                       size: 24),
+//                 ),
+//                 const Divider(
+//                   color: Colors.black,
+//                 ),
+//                 const SizedBox(height: 10.0),
 
-class _KanbanColumnState extends State<KanbanColumn> {
-  @override
-  void initState() {
-    super.initState();
-  }
-  final PedidoController pedidoController = Get.find<PedidoController>();
-  final FilaDeliveryController filaDeliveryController = Get.find<FilaDeliveryController>();
+//                 const CardPedido(
+//                   status_pedido: "PRODUÇÃO",
+//                 ),
 
+//                 // Lista de itens de trabalho
+//                 const Divider(),
+//                 Obx(() => Column(
+//                       children: controller
+//                           .columns[controller.columnKeys[widget.index]]!
+//                           .map((item) => CardItemDeTrabalho(
+//                                 titulo: item.title,
+//                                 coluna: widget.index,
+//                               ))
+//                           .toList(),
+//                     )),
+//               ],
+//             );
+//           },
+//           onAcceptWithDetails: (Map data) {
+//             final colunaOrigem = controller.columnKeys[data['column']];
+//             final itemTitulo = data['title'];
 
-  @override
-  Widget build(BuildContext context) {
-    final controller = Get.put(KanbanController()); // Obtenha o controlador
+//             print('\nColuna: $colunaOrigem');
+//             print('Item: $itemTitulo');
 
-    final TodosPedidos = filaDeliveryController.FILA_PEDIDOS.value.todosPedidos();
-    print('Todos Pedidos: ${TodosPedidos}');
-    final total_pedidos = filaDeliveryController.FILA_PEDIDOS.value.tamanhoFila();
+//             final itemIndex = controller.columns[colunaOrigem]!
+//                 .indexWhere((item) => item.title == itemTitulo);
 
-    return Expanded(
-      child: Container(
-        color: widget.color,
-        child: DragTarget(
-          builder: (context, candidateData, rejectedData) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+//             if (itemIndex != -1) {
+//               final item =
+//                   controller.columns[colunaOrigem]!.removeAt(itemIndex);
+//               controller.columns[controller.columnKeys[widget.index]]!
+//                   .add(item);
+//             }
 
-              children: [
-                 Center(
-                  child: CustomText(
-                      text: '${widget.title} -  ${widget.index}',
-                      weight: FontWeight.bold,
-                      size: 24),
-                ),
-                Divider(
-                  color: Colors.black,
-                ),
-                const SizedBox(height: 10.0),
+//             print('Coluna Destino: ${controller.columnKeys[widget.index]}');
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-                CardPedido(status_pedido: "PRODUÇÃO",),
+// //!Controller
+// class KanbanController extends GetxController {
+//   Map<String, RxList<ItemTrabalho>> columns = {};
 
+//   List<String> columnKeys =
+//       []; // Mantenha as chaves das colunas para referência
 
-            // Lista de itens de trabalho
-                const Divider(),
-                Obx(() => Column(
-                  children: controller
-                      .columns[controller.columnKeys[widget.index]]!
-                      .map((item) => CardItemDeTrabalho(
-                    titulo: item.title,
-                    coluna: widget.index,
-                  ))
-                      .toList(),
-                )),
-              ],
-            );
-          },
-          onAccept: (Map data) {
-            final colunaOrigem = controller.columnKeys[data['column']];
-            final itemTitulo = data['title'];
+//   @override
+//   void onInit() {
+//     super.onInit();
 
-            print('\nColuna: $colunaOrigem');
-            print('Item: $itemTitulo');
+//     //Arrays de trabalho
+//     columns['analise'] = <ItemTrabalho>[].obs;
+//     columns['entrega'] = <ItemTrabalho>[].obs;
+//     columns['concluidos'] = <ItemTrabalho>[].obs;
 
-            final itemIndex = controller.columns[colunaOrigem]!
-                .indexWhere((item) => item.title == itemTitulo);
+//     // Adicionar as chaves das colunas
+//     columnKeys.addAll(columns.keys);
 
-            if (itemIndex != -1) {
-              final item =
-              controller.columns[colunaOrigem]!.removeAt(itemIndex);
-              controller.columns[controller.columnKeys[widget.index]]!
-                  .add(item);
-            }
+//     // Adicionar itens às colunas
+//     columns['analise']!.add(ItemTrabalho(title: 'APP KYOGRE UI'));
+//     columns['analise']!.add(ItemTrabalho(title: 'CAMORIM PROJECTS'));
+//     columns['concluidos']!.add(ItemTrabalho(title: 'Machine Learning Python'));
+//   }
 
-            print('Coluna Destino: ${controller.columnKeys[widget.index]}');
-          },
-        ),
-      ),
-    );
-  }
-}
+//   void adicionarTarefa(int coluna, ItemTrabalho item) {
+//     final columnKey = columnKeys[coluna];
+//     columns[columnKey]!.add(item);
+//   }
 
-//!Controller
-class KanbanController extends GetxController {
-  Map<String, RxList<ItemTrabalho>> columns = {};
+//   void removerItem(int coluna, String titulo) {
+//     final columnKey = columnKeys[coluna];
+//     final itemIndex =
+//         columns[columnKey]!.indexWhere((item) => item.title == titulo);
+//     if (itemIndex != -1) {
+//       columns[columnKey]!.removeAt(itemIndex);
+//     }
+//   }
 
-  List<String> columnKeys =
-  []; // Mantenha as chaves das colunas para referência
+//   void trocarItem(String origem, String destino, String itemTitle) {
+//     final origemColuna = columns[origem];
+//     final destinoColuna = columns[destino];
 
-  @override
-  void onInit() {
-    super.onInit();
+//     final itemIndex =
+//         origemColuna?.indexWhere((item) => item.title == itemTitle);
 
-    //Arrays de trabalho
-    columns['analise'] = <ItemTrabalho>[].obs;
-    columns['entrega'] = <ItemTrabalho>[].obs;
-    columns['concluidos'] = <ItemTrabalho>[].obs;
+//     if (itemIndex != -1) {
+//       final item = origemColuna?.removeAt(itemIndex!);
+//       destinoColuna!.add(item!);
+//     }
+//   }
+// }
 
-    // Adicionar as chaves das colunas
-    columnKeys.addAll(columns.keys);
+// //!Models
 
-    // Adicionar itens às colunas
-    columns['analise']!.add(ItemTrabalho(title: 'APP KYOGRE UI'));
-    columns['analise']!.add(ItemTrabalho(title: 'CAMORIM PROJECTS'));
-    columns['concluidos']!.add(ItemTrabalho(title: 'Machine Learning Python'));
-  }
+// class Task {
+//   String title;
 
-  void adicionarTarefa(int coluna, ItemTrabalho item) {
-    final columnKey = columnKeys[coluna];
-    columns[columnKey]!.add(item);
-  }
+//   Task({required this.title});
+// }
 
-  void removerItem(int coluna, String titulo) {
-    final columnKey = columnKeys[coluna];
-    final itemIndex =
-    columns[columnKey]!.indexWhere((item) => item.title == titulo);
-    if (itemIndex != -1) {
-      columns[columnKey]!.removeAt(itemIndex);
-    }
-  }
+// class ColunaKanban {
+//   final String title;
+//   final List<Task> tasks;
 
-  void trocarItem(String origem, String destino, String itemTitle) {
-    final origemColuna = columns[origem];
-    final destinoColuna = columns[destino];
+//   ColunaKanban({
+//     required this.title,
+//     required this.tasks,
+//   });
+// }
 
-    final itemIndex =
-    origemColuna?.indexWhere((item) => item.title == itemTitle);
+// class ItemTrabalho {
+//   final String title;
+//   late String description;
+//   late String time;
+//   late String tipe;
 
-    if (itemIndex != -1) {
-      final item = origemColuna?.removeAt(itemIndex!);
-      destinoColuna!.add(item!);
-    }
-  }
-}
+//   ItemTrabalho(
+//       {required this.title,
+//       this.description = '',
+//       this.time = '',
+//       this.tipe = ''});
+// }
 
-//!Models
+// class CardItemDeTrabalho extends StatelessWidget {
+//   final controller = Get.find<KanbanController>(); // Obtenha o controlador
 
-class Task {
-  String title;
+//   final String titulo;
+//   final int coluna;
+//   CardItemDeTrabalho({
+//     super.key,
+//     required this.titulo,
+//     required this.coluna,
+//   });
 
-  Task({required this.title});
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Draggable<Map>(
+//       // Os dados são o valor que este Draggable armazena.
+//       data: {
+//         'column': coluna,
+//         'title': titulo
+//       }, // Identificação do item sendo arrastado
+//       feedback: const Card(
+//           color: Colors.greenAccent,
+//           child: Padding(
+//             padding: EdgeInsets.all(48.0),
+//             child: Column(
+//               children: [
+//                 Text('movendo...'),
+//                 Icon(
+//                   Icons.directions_run,
+//                   size: 32,
+//                 ),
+//               ],
+//             ),
+//           )),
+//       childWhenDragging: Container(
+//         height: 100.0,
+//         width: 100.0,
+//         color: Colors.red,
+//         child: const Center(),
+//       ),
 
-class ColunaKanban {
-  final String title;
-  final List<Task> tasks;
-
-  ColunaKanban({
-    required this.title,
-    required this.tasks,
-  });
-}
-
-class ItemTrabalho {
-  final String title;
-  late String description;
-  late String time;
-  late String tipe;
-
-  ItemTrabalho(
-      {required this.title,
-        this.description = '',
-        this.time = '',
-        this.tipe = ''});
-}
-
-
-class CardItemDeTrabalho extends StatelessWidget {
-  final controller = Get.find<KanbanController>(); // Obtenha o controlador
-
-  final String titulo;
-  final int coluna;
-  CardItemDeTrabalho({
-    super.key,
-    required this.titulo,
-    required this.coluna,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Draggable<Map>(
-      // Os dados são o valor que este Draggable armazena.
-      data: {
-        'column': coluna,
-        'title': titulo
-      }, // Identificação do item sendo arrastado
-      feedback: const Card(
-          color: Colors.greenAccent,
-          child: Padding(
-            padding: EdgeInsets.all(48.0),
-            child: Column(
-              children: [
-                Text('movendo...'),
-                Icon(
-                  Icons.directions_run,
-                  size: 32,
-                ),
-              ],
-            ),
-          )),
-      childWhenDragging: Container(
-        height: 100.0,
-        width: 100.0,
-        color: Colors.red,
-        child: const Center(),
-      ),
-
-      child: Container(
-        child: Card(
-            color: Colors.lightGreenAccent,
-            child: CupertinoListTile(
-                leading: CircleAvatar(
-                  child: CustomText(
-                    text: coluna.toString(),
-                    color: Colors.white,
-                  ),
-                ),
-                trailing: IconButton(
-                  icon: Icon(
-                    Icons.delete,
-                    size: 20,
-                  ),
-                  onPressed: () {
-                    controller.removerItem(coluna, titulo);
-                  },
-                ),
-                title: CustomText(
-                  text: titulo,
-                  size: 12,
-                  weight: FontWeight.bold,
-                ))),
-      ),
-    );
-  }
-}
+//       child: Container(
+//         child: Card(
+//             color: Colors.lightGreenAccent,
+//             child: CupertinoListTile(
+//                 leading: CircleAvatar(
+//                   child: CustomText(
+//                     text: coluna.toString(),
+//                     color: Colors.white,
+//                   ),
+//                 ),
+//                 trailing: IconButton(
+//                   icon: const Icon(
+//                     Icons.delete,
+//                     size: 20,
+//                   ),
+//                   onPressed: () {
+//                     controller.removerItem(coluna, titulo);
+//                   },
+//                 ),
+//                 title: CustomText(
+//                   text: titulo,
+//                   size: 12,
+//                   weight: FontWeight.bold,
+//                 ))),
+//       ),
+//     );
+//   }
+// }

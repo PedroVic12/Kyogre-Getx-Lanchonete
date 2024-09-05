@@ -25,30 +25,25 @@ class GroundonBackEndController extends GetxController {
   String? telefoneCliente;
   String? idPedido;
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
   getDadosClienteGroundon(id) async {
     try {
       var response = await pikachu.API
-          .get("https://rayquaza-citta-server.onrender.com/cliente/${id}");
+          .get("https://rayquaza-citta-server.onrender.com/cliente/$id");
       print('Status Code: ${response.statusCode}');
       return response;
     } catch (e) {
-      pikachu.cout('Erro = ${e}');
+      pikachu.cout('Erro = $e');
     }
   }
 
-  Future<Map<String, dynamic>> salvarDadosCarrinho(id_cliente) async {
-    var dados = await getDadosClienteGroundon(id_cliente);
+  Future<Map<String, dynamic>> salvarDadosCarrinho(idCliente) async {
+    var dados = await getDadosClienteGroundon(idCliente);
     pikachu.cout('DADOS GROUNDON = $dados');
 
     List<Map<String, dynamic>> itensPedido = [];
 
     // Adicionando os produtos ao pedido
-    carrinho.SACOLA.entries.forEach((entry) {
+    for (var entry in carrinho.SACOLA.entries) {
       final produto = entry.key;
       final quantidade = entry.value;
 
@@ -57,7 +52,7 @@ class GroundonBackEndController extends GetxController {
         "nome": produto.nome,
         "preco": produto.preco_1
       });
-    });
+    }
 
     // Estrutura do pedido alinhada ao modelo do servidor
     Map<String, dynamic> pedidoInfo = {
@@ -106,13 +101,12 @@ class GroundonBackEndController extends GetxController {
 
     // Calcula o tempo de entrega
     final agora = DateTime.now();
-    final inicioEntrega = agora.add(Duration(minutes: 15));
-    final fimEntrega = agora.add(Duration(minutes: 50));
+    final inicioEntrega = agora.add(const Duration(minutes: 15));
+    final fimEntrega = agora.add(const Duration(minutes: 50));
     final formatoHora = DateFormat('HH:mm');
 
     // Acrescentando detalhes do cliente ao resumo
-    final clienteDetails = controller.nomeCliente != null &&
-            controller.telefoneCliente != null
+    final clienteDetails = controller.telefoneCliente != null
         ? "Cliente: $controller.nomeCliente\n\n Pedido #${controller.idPedido ?? 'N/A'}\n"
         : "";
 

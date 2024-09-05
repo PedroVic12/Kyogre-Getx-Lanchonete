@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/controllers/usuarios_admin_controllers.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/simple_auth_page.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/widgets/input_text_field.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/widgets/submit_button.dart';
 

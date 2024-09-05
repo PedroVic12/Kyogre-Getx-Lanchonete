@@ -17,17 +17,12 @@ class RepositoryDataBaseController extends GetxController {
   final RxList<ProdutoModel> dataBase_Array = <ProdutoModel>[].obs;
   bool isLoading = true;
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
   Future<void> getJsonFilesRepositoryProdutos() async {
     final categorias = menuCategorias.MenuCategorias_Array;
 
     if (isLoading == true) {
       for (var i = 0; i < categorias.length; i++) {
-        String produtoFile = 'lib/repository/cardapio/tabela_${i}.json';
+        String produtoFile = 'lib/repository/cardapio/tabela_$i.json';
         await carregandoDadosRepository(produtoFile);
       }
     }
@@ -82,9 +77,9 @@ class RepositoryDataBaseController extends GetxController {
       final List<dynamic> jsonData = await json.decode(response);
 
       // Convertendo o JSON para uma lista de objetos ProdutoModel
-      var _produto =
+      var produto =
           jsonData.map((jsonItem) => ProdutoModel.fromJson(jsonItem)).toList();
-      return _produto;
+      return produto;
     } catch (e) {
       print('\n\nErro ao Carregar Produtos JSON: $e');
       return [];

@@ -60,6 +60,7 @@ class ControleUsuariosCliente extends GetxController {
     return user;
   }
 
+  @override
   void onReady() {
     for (var element in usuarios) {
       print("Usuarios = ${element.user} - ${element.email}");
@@ -84,14 +85,7 @@ class ControleUsuariosCliente extends GetxController {
       (user) => user.email == email && user.senha == password,
     );
 
-    if (user != null) {
-      Get.to(DashboardPage());
-    } else {
-      // Usuário não encontrado
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Usuário ou senha inválidos')),
-      );
-    }
+    Get.to(DashboardPage());
   }
 
   //cadastro
@@ -152,7 +146,7 @@ class ControleUsuariosCliente extends GetxController {
     <h2> ATRAVES DESSA SENHA QUE VOCE TERA ACESSO AO SISTEMA POIS ENTAO NAO COMPARTILHE ELA COM NINGUEM</h2>
       
       <h3>Usuarios cadastrados </h3>>
-      - ${usuarios}
+      - $usuarios
     
     """;
 

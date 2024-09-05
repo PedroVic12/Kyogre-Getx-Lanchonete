@@ -17,12 +17,12 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SplashController _controller = Get.put(SplashController());
+    final SplashController controller = Get.put(SplashController());
 
     return Scaffold(
       backgroundColor: Colors.indigoAccent,
       body: GetBuilder<SplashController>(
-        init: _controller,
+        init: controller,
         builder: (_) {
           return Stack(
             children: [
@@ -33,11 +33,11 @@ class SplashScreen extends StatelessWidget {
               ),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 7000),
-                onEnd: _controller.initSplashScreen,
+                onEnd: controller.initSplashScreen,
                 curve: Curves.fastLinearToSlowEaseIn,
                 alignment: Alignment.center,
-                margin: EdgeInsets.only(bottom: _controller.marginAnimada),
-                child: Container(
+                margin: EdgeInsets.only(bottom: controller.marginAnimada),
+                child: SizedBox(
                   width: 250,
                   height: 250,
                   child: Card(
@@ -96,7 +96,7 @@ class SplashScreen extends StatelessWidget {
   }
 
   Widget _buildAfterAnimation() {
-    return Column(
+    return const Column(
       children: [
         Center(
           child: CustomText(
@@ -121,7 +121,7 @@ class SplashScreen extends StatelessWidget {
           return _buildAfterAnimation();
         } else {
           // Caso contrário, mostra um widget de carregamento
-          return LoadingWidget();
+          return const LoadingWidget();
         }
       },
     );
@@ -165,7 +165,7 @@ class SplashController extends GetxController {
       update();
 
       // Espera por 2 segundos
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
 
       // Navega para a próxima tela
       verificarDadosCarregados();
@@ -173,7 +173,7 @@ class SplashController extends GetxController {
   }
 
   Future<void> verificarDadosCarregados() async {
-    Timer(Duration(seconds: 2), () async {
+    Timer(const Duration(seconds: 2), () async {
       await navegarParaTelaCardapio();
     });
   }

@@ -67,7 +67,7 @@ class DisplayTabView extends StatelessWidget {
   Widget build(BuildContext context) {
     var i = 1;
     List categoriaMenu = [
-      "Categoria ${i}",
+      "Categoria $i",
       "Categoria ${i + 1}",
       "Categoria ${i + 2}",
       "Categoria ${i + 3}"

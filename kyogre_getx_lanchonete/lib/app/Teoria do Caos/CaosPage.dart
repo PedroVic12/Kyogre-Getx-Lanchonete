@@ -57,8 +57,8 @@ class LoadingWidget extends StatelessWidget {
                   size: 12,
                   color: Colors.white,
                 )),
-            CircularProgressIndicator(color: Colors.greenAccent),
-            Icon(
+            const CircularProgressIndicator(color: Colors.greenAccent),
+            const Icon(
               Icons.cloud_upload_rounded,
               color: Colors.white,
               size: 24,
@@ -80,23 +80,23 @@ class CaosPage extends StatefulWidget {
 }
 
 class _CaosPageState extends State<CaosPage> {
-  DataBaseController _dataBaseController = DataBaseController();
+  final DataBaseController _dataBaseController = DataBaseController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Teoria do Caos'),
+        title: const Text('Teoria do Caos'),
       ),
       body: FutureBuilder<List<Produto>>(
         future: _dataBaseController.getAllProducts(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text('Erro ao carregar os produtos'),
             );
           } else if (snapshot.hasData) {
@@ -122,7 +122,7 @@ class _CaosPageState extends State<CaosPage> {
               ],
             );
           } else {
-            return Center(
+            return const Center(
               child: Text('Não foi possível carregar os produtos'),
             );
           }

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/InfoCards/InfoCard.dart';
 
 class OverviewCardsMediumScreen extends StatelessWidget {
+  const OverviewCardsMediumScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -18,7 +20,7 @@ class OverviewCardsMediumScreen extends StatelessWidget {
               isActive: true,
             ),
             SizedBox(
-              width: _width / 64,
+              width: width / 64,
             ),
             InfoCard(
               title: "Packages delivered",
@@ -29,7 +31,7 @@ class OverviewCardsMediumScreen extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: _width / 64,
+          height: width / 64,
         ),
         Row(
           children: [
@@ -40,7 +42,7 @@ class OverviewCardsMediumScreen extends StatelessWidget {
               isActive: true,
             ),
             SizedBox(
-              width: _width / 64,
+              width: width / 64,
             ),
             InfoCard(
               title: "Scheduled deliveries",

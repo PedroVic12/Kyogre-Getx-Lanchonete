@@ -4,13 +4,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 
 class MyPageView extends StatefulWidget {
-  MyPageView({super.key});
+  const MyPageView({super.key});
 
   @override
   _MyPageViewState createState() => _MyPageViewState();
 }
 
-class _MyPageViewState extends State<MyPageView> with SingleTickerProviderStateMixin {
+class _MyPageViewState extends State<MyPageView>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -31,9 +32,9 @@ class _MyPageViewState extends State<MyPageView> with SingleTickerProviderStateM
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('Artistas'),
+        title: const Text('Artistas'),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(48.0),
+          preferredSize: const Size.fromHeight(48.0),
           child: tabs(), // Adicionei o TabBar aqui
         ),
       ),
@@ -49,7 +50,7 @@ class _MyPageViewState extends State<MyPageView> with SingleTickerProviderStateM
   Widget ArtistaCard() {
     return Container(
       height: 188,
-      margin: EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -58,11 +59,11 @@ class _MyPageViewState extends State<MyPageView> with SingleTickerProviderStateM
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 5,
             blurRadius: 7,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
-      child: Center(
+      child: const Center(
         child: Text(
           "Hello",
           style: TextStyle(fontSize: 24),
@@ -73,7 +74,7 @@ class _MyPageViewState extends State<MyPageView> with SingleTickerProviderStateM
 
   Widget tabs() {
     return TabBar(
-      tabs:  [
+      tabs: const [
         Tab(text: "NEWS"),
         Tab(text: "tab2"),
         Tab(text: "Portfolio"),
@@ -82,7 +83,7 @@ class _MyPageViewState extends State<MyPageView> with SingleTickerProviderStateM
       isScrollable: true,
       labelColor: context.isDarkMode ? Colors.white : Colors.black,
       indicatorColor: Colors.green,
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
     );
   }
 }
@@ -102,10 +103,12 @@ class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class GoodScreenUI extends StatelessWidget {
+  const GoodScreenUI({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,7 +117,7 @@ class GoodScreenUI extends StatelessWidget {
           onPressed: () {
             Get.to(MyPageView()); // Navega para MyPageView
           },
-          child: Text('Acessar PageView'),
+          child: const Text('Acessar PageView'),
         ),
       ),
     );

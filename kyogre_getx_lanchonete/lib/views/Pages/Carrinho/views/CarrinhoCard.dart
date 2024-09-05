@@ -13,7 +13,7 @@ class CardCarrinho extends StatelessWidget {
   final CarrinhoPedidoController carrinhoController;
   final ProdutoModel produto;
 
-  CardCarrinho(
+  const CardCarrinho(
       {Key? key,
       required this.produto,
       required this.quantidade,
@@ -35,14 +35,14 @@ class CardCarrinho extends StatelessWidget {
               radius: 32,
               child: pathImg != null
                   ? Image.network(
-                      pathImg!,
+                      pathImg,
                     )
-                  : Icon(Icons.no_food)),
+                  : const Icon(Icons.no_food)),
           title: CustomText(
             text: produto.nome,
             weight: FontWeight.bold,
           ),
-          trailing: Container(
+          trailing: SizedBox(
             width: 130, // You can adjust the width as needed
             child: Row(
               children: [
@@ -53,7 +53,7 @@ class CardCarrinho extends StatelessWidget {
                   cor: Colors.black,
                   iconData: CupertinoIcons.minus_circle_fill,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 6,
                 ),
                 CustomText(
@@ -61,7 +61,7 @@ class CardCarrinho extends StatelessWidget {
                   size: 20,
                   weight: FontWeight.bold,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 6,
                 ),
                 BotoesIcone(
@@ -82,8 +82,8 @@ class CardCarrinho extends StatelessWidget {
                       text: '${produto.ingredientes}',
                       size: 11,
                     )
-                  : Text(' '),
-              CustomText(text: 'Observações')
+                  : const Text(' '),
+              const CustomText(text: 'Observações')
             ],
           ) //TODO
           ),

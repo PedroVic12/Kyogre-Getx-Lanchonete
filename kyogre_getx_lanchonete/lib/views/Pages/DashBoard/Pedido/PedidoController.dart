@@ -8,7 +8,6 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/FilaDelivery
 import '../../Tela Cardapio Digital/controllers/pikachu_controller.dart';
 import 'modelsPedido.dart';
 
-
 class PedidoController extends GetxController {
   late final allPedidosArray;
   final pikachu = PikachuController();
@@ -19,14 +18,10 @@ class PedidoController extends GetxController {
   final FilaDeliveryController filaDeliveryController;
   PedidoController(this.filaDeliveryController);
 
-
-
-
   @override
   void onInit() {
-
     startFetchingPedidos();
-    allPedidosArray =  filaDeliveryController.getTodosPedidos();
+    allPedidosArray = filaDeliveryController.getTodosPedidos();
     super.onInit();
     update();
   }
@@ -44,46 +39,47 @@ class PedidoController extends GetxController {
   @override
   int getStatusIndex(String status) {
     switch (status) {
-      case 'Producao': return 1;
-      case 'Entrega': return 2;
-      case 'Concluido': return 3;
-      default: return 1;
+      case 'Producao':
+        return 1;
+      case 'Entrega':
+        return 2;
+      case 'Concluido':
+        return 3;
+      default:
+        return 1;
     }
   }
+
+  @override
   void onClose() {
     timer?.cancel();
     super.onClose();
   }
 
   Future fetchPedidos() async {
-    print('\n\n\n================================================================================\n\t\t\t\tAPP KYOGRE\n===========================================================================================');
-
+    print(
+        '\n\n\n================================================================================\n\t\t\t\tAPP KYOGRE\n===========================================================================================');
 
     try {
-      final response =
-      await http.get(Uri.parse('https://rayquaza-citta-server.onrender.com/pedidos'));
+      final response = await http
+          .get(Uri.parse('https://rayquaza-citta-server.onrender.com/pedidos'));
 
       print('\nResponse Status Code: ${response.statusCode}');
 
       // Reset the pedidosAlertaMostrado map
       pedidosAlertaMostrado.clear();
 
-
       if (response.statusCode == 200) {
-
         // Pegando o Json da requisição
         final jsonData = json.decode(response.body);
-        print('\nResponse Body: ${jsonData}\n\n');
+        print('\nResponse Body: $jsonData\n\n');
 
         if (jsonData is List<dynamic> && jsonData.isNotEmpty) {
           // Reset showAlert flag before processing new orders
           showAlert = false;
 
-
           //! O alerta é chamado aqui pela Fila
           filaDeliveryController.carregarPedidos(jsonData);
-
-
         } else {
           print('Não possui pedidos ainda hoje');
         }
@@ -92,7 +88,4 @@ class PedidoController extends GetxController {
       print('Erro ao fazer a solicitação GET: $e');
     }
   }
-
-
-
 }

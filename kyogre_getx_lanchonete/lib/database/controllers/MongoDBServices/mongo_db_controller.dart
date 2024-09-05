@@ -18,13 +18,13 @@ class MongoDBController extends GetxController {
     try {
       final mongoDb = await Db.create(url);
       await mongoDb.open();
-      this.db = mongoDb;
+      db = mongoDb;
       print("\nConexão realizada com sucesso");
 
       return mongoDb;
     } catch (e) {
       print("Não conectado! $e");
-      throw e;
+      rethrow;
     }
   }
 
@@ -37,9 +37,9 @@ class MongoDBController extends GetxController {
     final collection = db.collection('relatorio_records');
     final documentos = await collection.find().toList();
     print(documentos);
-    documentos.forEach((element) {
+    for (var element in documentos) {
       relatorios.add(element);
-    });
+    }
   }
 
   Future<void> inserirDocumento(String dbName, String collectionName,

@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-
 import 'package:kyogre_getx_lanchonete/views/Pages/GoogleMaps/google_maps_controller.dart';
 
 import 'package:location/location.dart';
 
 import '../Monitoramento/maps/tela_google_maps.dart';
+
 class PedidoTrackingMapsScreen extends StatefulWidget {
   const PedidoTrackingMapsScreen({super.key});
 
@@ -22,7 +22,7 @@ class PedidoTrackingMapsScreen extends StatefulWidget {
 class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
   final google_api_key = "AIzaSyBz5PufcmSRVrrmTWPHS2qlzPosL70XrwE";
   final controller = Get.put(GoogleMapsController());
-  Location _locationController = new Location();
+  final Location _locationController = Location();
   LatLng? _currentPosition;
 
 // Dados
@@ -30,21 +30,21 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
   static const LatLng destination = LatLng(-22.907662, -43.5659086);
 
   Future<void> _getLocationUpdates() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
 
-    _serviceEnabled = await _locationController.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await _locationController.requestService();
-      if (!_serviceEnabled) {
+    serviceEnabled = await _locationController.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await _locationController.requestService();
+      if (!serviceEnabled) {
         return;
       }
     }
 
-    _permissionGranted = await _locationController.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await _locationController.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+    permissionGranted = await _locationController.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await _locationController.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
         return;
       }
     }
@@ -87,28 +87,28 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Set<Marker> _markers = {
-      Marker(
+    Set<Marker> markers = {
+      const Marker(
         markerId: MarkerId('source'),
         position: GoogleMapsController.sourceLocation,
         icon: BitmapDescriptor.defaultMarker,
       ),
-      Marker(
+      const Marker(
         markerId: MarkerId('destination'),
         position: GoogleMapsController.destination,
         icon: BitmapDescriptor.defaultMarker,
       ),
       Marker(
-        markerId: MarkerId('moving'),
+        markerId: const MarkerId('moving'),
         position: controller.trackingController.currentMarkerPosition.value,
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
       ),
     };
 
     if (_currentPosition != null) {
-      _markers.add(
+      markers.add(
         Marker(
-          markerId: MarkerId('currentPosition'),
+          markerId: const MarkerId('currentPosition'),
           position: _currentPosition!,
           icon:
               BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
@@ -124,7 +124,7 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
             children: [
               ElevatedButton(
                   onPressed: () => Get.to(GoogleMapsWidget()),
-                  child: Text("Track page")),
+                  child: const Text("Track page")),
               MapaWidget(),
             ],
           ));
@@ -137,7 +137,7 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
 
   Widget MapaWidget() {
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       height: 300,
       width: 600,
       child: GoogleMap(
@@ -146,7 +146,7 @@ class _PedidoTrackingMapsScreenState extends State<PedidoTrackingMapsScreen> {
             const CameraPosition(target: sourceLocation, zoom: 13.5),
         polylines: {
           Polyline(
-              polylineId: PolylineId('route'),
+              polylineId: const PolylineId('route'),
               points: controller.coordenadas,
               color: Colors.blue,
               width: 6)

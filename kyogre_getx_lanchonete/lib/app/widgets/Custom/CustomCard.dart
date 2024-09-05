@@ -9,7 +9,7 @@ class CustomCard extends StatelessWidget {
   final String texto_card;
   final Widget? child; // Opcional: O parâmetro child agora é um Widget opcional
 
-  CustomCard({
+  const CustomCard({
     Key? key,
     required this.cor_icone,
     required this.cor_card,
@@ -21,23 +21,21 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: cor_card,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+        color: cor_card,
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10), // Define o raio dos cantos
         ),
-      child: ListTile(
-        leading: Icon(
-          tipoIcone,
-          size: 25,
-          color: cor_icone,
-        ),
-
-        title: CustomText(
-          text: texto_card,
-          size: 18,
-        ),
-      )
-    );
+        child: ListTile(
+          leading: Icon(
+            tipoIcone,
+            size: 25,
+            color: cor_icone,
+          ),
+          title: CustomText(
+            text: texto_card,
+            size: 18,
+          ),
+        ));
   }
 }

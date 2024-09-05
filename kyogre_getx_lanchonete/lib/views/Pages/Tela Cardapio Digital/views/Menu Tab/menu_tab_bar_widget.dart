@@ -112,7 +112,7 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
                         onPressed: () => Get.back()),
                   ],
                   title: CustomText(text: 'Selecione uma categoria'),
-                  content: Container(
+                  content: SizedBox(
                     height: 200, // Defina uma altura fixa para o ListView
                     child: ListView.builder(
                       itemCount:
@@ -226,7 +226,8 @@ class _MenuTabBarCardapioState extends State<MenuTabBarCardapio>
               ),
             ],
             gradient: isSelected
-                ? LinearGradient(colors: [Colors.greenAccent, Colors.green])
+                ? LinearGradient(
+                    colors: const [Colors.greenAccent, Colors.green])
                 : LinearGradient(colors: [
                     Colors.deepPurple.shade100,
                     CupertinoColors.activeBlue.highContrastElevatedColor

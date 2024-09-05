@@ -43,7 +43,7 @@ class CardapioManagerPage extends StatelessWidget {
                 )),
             TextButton(
                 onPressed: () {
-                  Get.to(DataFiltered());
+                  Get.to(const DataFiltered());
                 },
                 child: const CustomText(
                   text: "Filtrando Dados do mongo",
@@ -91,7 +91,7 @@ class CardapioManagerPage extends StatelessWidget {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return CadastroDialog(produto: "produto");
+                return const CadastroDialog(produto: "produto");
               },
             );
           },

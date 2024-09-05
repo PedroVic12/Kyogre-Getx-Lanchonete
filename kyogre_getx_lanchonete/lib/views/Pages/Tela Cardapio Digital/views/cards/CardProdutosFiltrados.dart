@@ -32,7 +32,7 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
         Get.find<MenuProdutosController>();
 
     var produtos = repositoryController.dataBase_Array;
-    var nome_categoria_selecionada = menuCategorias
+    var nomeCategoriaSelecionada = menuCategorias
         .MenuCategorias_Array[menuController.produtoIndex.value].nome;
 
     final screenSize = MediaQuery.of(context).size;
@@ -41,15 +41,15 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
       color: cor3,
       child: Column(
         children: [
-          _headerProdutos(nome_categoria_selecionada),
-          showProdutosFiltradosCategoria(nome_categoria_selecionada)
+          _headerProdutos(nomeCategoriaSelecionada),
+          showProdutosFiltradosCategoria(nomeCategoriaSelecionada)
           //displayProdutosFiltradosCategoria(nome_categoria_selecionada),
         ],
       ),
     );
   }
 
-  Widget _headerProdutos(categoria_selecionada) {
+  Widget _headerProdutos(categoriaSelecionada) {
     final MenuProdutosController menuController =
         Get.find<MenuProdutosController>();
     final MenuProdutosRepository menuCategorias =
@@ -68,8 +68,8 @@ class _CardsProdutosFIltradosState extends State<CardsProdutosFIltrados> {
             width: 16,
           ),
           CustomText(
-            text:
-                '${menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome}',
+            text: menuCategorias
+                .MenuCategorias_Array[menuController.produtoIndex.value].nome,
             //text: '${menuCategorias.MenuCategorias_Array[menuController.produtoIndex.value].nome} - ${menuController.produtoIndex.value}',
             color: Colors.white,
             size: 18,

@@ -26,11 +26,6 @@ class MenuProdutosController extends GetxController {
       update();
     }
   }
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
 }
 
 class CardapioController extends GetxController {
@@ -63,19 +58,19 @@ class CardapioController extends GetxController {
     update();
   }
 
-  setIdPage(_id) {
-    idPedido = _id;
+  setIdPage(id) {
+    idPedido = id;
     update();
   }
 
   Future initPage() async {
-    await Future.delayed(Duration(seconds: 5), () async {
+    await Future.delayed(const Duration(seconds: 5), () async {
       await setupCardapioDigitalWeb().then((_) async {
         // Verifica se os dados estão carregados
         if (repositoryController.dataBase_Array.isNotEmpty &&
             menuCategorias.MenuCategorias_Array.isNotEmpty) {
           // Espera por 2 segundos
-          await Future.delayed(Duration(seconds: 2));
+          await Future.delayed(const Duration(seconds: 2));
           // Atualiza o estado para refletir que os dados estão carregados
           menuGradiente.setCategoriasCarregadas(true);
           pikachu.cout('Produtos carregados!!!!');
@@ -105,12 +100,12 @@ class CardapioController extends GetxController {
   }
 
   Future<String> fetchIdPedido() async {
-    final response_id = await http.get(
+    final responseId = await http.get(
         Uri.parse('https://rayquaza-citta-server.onrender.com/receber-link'));
 
-    if (response_id.statusCode == 200) {
-      String id_data = response_id.body;
-      return id_data;
+    if (responseId.statusCode == 200) {
+      String idData = responseId.body;
+      return idData;
     } else {
       throw Exception('Failed to fetch ID');
     }

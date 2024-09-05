@@ -5,7 +5,7 @@ class FormSimples extends StatelessWidget {
   final bool obscureText;
   final TextEditingController controlador;
   final String hintText;
-  FormSimples(
+  const FormSimples(
       {super.key,
       this.onTap,
       required this.obscureText,
@@ -15,7 +15,7 @@ class FormSimples extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       child: TextFormField(
         onChanged: onTap,
         obscureText: obscureText,

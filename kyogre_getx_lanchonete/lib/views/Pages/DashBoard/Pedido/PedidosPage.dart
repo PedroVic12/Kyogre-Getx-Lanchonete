@@ -58,10 +58,9 @@ class Fila {
   }
 }
 
-
-
-
 class PedidosServer extends StatefulWidget {
+  const PedidosServer({super.key});
+
   @override
   _PedidosServerState createState() => _PedidosServerState();
 }
@@ -109,30 +108,30 @@ class _PedidosServerState extends State<PedidosServer> {
       }
     ];
 
-    pedidosDoServidor.forEach((pedidosList) {
+    for (var pedidosList in pedidosDoServidor) {
       final pedido = Pedido.fromJson(pedidosList);
       print("Carregando pedido: ${pedido.id}"); // Adicione esta linha
       if (!fila.contemPedidoComId(pedido.id)) {
         _mostrarAlertaParaAceitarPedido(pedido);
       }
-    });
+    }
   }
 
   _mostrarAlertaParaAceitarPedido(Pedido pedido) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Novo Pedido Recebido"),
+        title: const Text("Novo Pedido Recebido"),
         content: Text("Deseja aceitar o pedido de ${pedido.nome_cliente}?"),
         actions: [
           TextButton(
-            child: Text("Recusar"),
+            child: const Text("Recusar"),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           TextButton(
-            child: Text("Aceitar"),
+            child: const Text("Aceitar"),
             onPressed: () {
               fila.push(pedido);
               print(
@@ -151,7 +150,8 @@ class _PedidosServerState extends State<PedidosServer> {
     print(
         "Renderizando ${fila.todosPedidos().length} pedidos."); // Adicione esta linha
 
-    return Expanded(child: ListView(
+    return Expanded(
+        child: ListView(
       children: fila.todosPedidos().map((pedido) {
         return Card(
           child: ListTile(

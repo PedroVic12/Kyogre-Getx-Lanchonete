@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 class Produto {
   final String nome;
   final String iconPath;
@@ -8,8 +9,8 @@ class Produto {
 }
 
 class MenuCardapioProdutosController extends GetxController {
-  List<Produto> _categorias = [];
-  List<Produto> _produtos = [];
+  final List<Produto> _categorias = [];
+  final List<Produto> _produtos = [];
   int _selectedIndex = 0;
 
   int get selectedIndex => _selectedIndex;

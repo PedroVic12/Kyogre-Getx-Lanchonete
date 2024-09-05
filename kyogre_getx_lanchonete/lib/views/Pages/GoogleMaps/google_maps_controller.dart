@@ -75,16 +75,15 @@ class GoogleMapsController extends GetxController {
     } catch (e) {
       print('Error ao buscar a localizacao: $e');
     }
+    return null;
   }
 
   void getLocalizacaoAtual() async {
     Location location = Location();
     try {
       LocationData? locData = await location.getLocation();
-      if (locData != null) {
-        localizacaoAtual = locData;
-        update(); // Notifica a UI
-      }
+      localizacaoAtual = locData;
+      update(); // Notifica a UI
     } catch (e) {
       print("Erro ao obter localização: $e");
     }
@@ -108,8 +107,8 @@ class GoogleMapsController extends GetxController {
 }
 
 class TrackingController extends GetxController {
-  var currentMarkerPosition = LatLng(-22.9510978, -43.1807461).obs;
-  final LatLng destination = LatLng(-22.907662, -43.5659086);
+  var currentMarkerPosition = const LatLng(-22.9510978, -43.1807461).obs;
+  final LatLng destination = const LatLng(-22.907662, -43.5659086);
 
   @override
   void onInit() {
@@ -119,7 +118,7 @@ class TrackingController extends GetxController {
 
   void simulateMovement() {
     const step = 0.0001;
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
       if (currentMarkerPosition.value.latitude < destination.latitude &&
           currentMarkerPosition.value.longitude < destination.longitude) {
         var newLat = currentMarkerPosition.value.latitude + step;

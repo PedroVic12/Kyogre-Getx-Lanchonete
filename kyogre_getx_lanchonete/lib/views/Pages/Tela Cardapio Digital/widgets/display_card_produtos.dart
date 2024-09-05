@@ -16,7 +16,7 @@ Widget displayProdutosFiltradosCategoria(String categoria) {
   var produtosOrdenados = cardapioController.repositoryController.filtrarEOrdenarPorNome(categoria);
 
   if (produtosOrdenados.isEmpty) {
-    return LoadingWidget();
+    return const LoadingWidget();
   } else {
     // Exibir a lista de produtos filtrados
     return Expanded(
@@ -41,7 +41,7 @@ Widget displayProdutosFiltradosCategoria(String categoria) {
               },
 
               child: Container(
-                margin: EdgeInsets.all(6),
+                margin: const EdgeInsets.all(6),
                 color: Colors.white24,
                 height: 100,
                 child: Card(
@@ -50,11 +50,11 @@ Widget displayProdutosFiltradosCategoria(String categoria) {
                     children: [
                       //Leading
                       Expanded(flex: 30, child: pathImg != null
-                          ? Padding(padding: EdgeInsets.all(6),child:Image.asset(
+                          ? Padding(padding: const EdgeInsets.all(6),child:Image.asset(
                         pathImg,
                         fit: BoxFit.fill,
                       ))
-                          : Center(child: Icon(Icons.fastfood, size: 32)), ),
+                          : const Center(child: Icon(Icons.fastfood, size: 32)), ),
 
                       //Title and Subtitle
                       Expanded(flex: 70,child: Row(
@@ -66,7 +66,7 @@ Widget displayProdutosFiltradosCategoria(String categoria) {
                               crossAxisAlignment: CrossAxisAlignment.start, // Alinha os filhos ao início na horizontal
                               children: [
                                 CustomText(
-                                  text: '${produto.nome}',
+                                  text: produto.nome,
                                   size: 22,
                                   weight: FontWeight.bold,
                                 ),

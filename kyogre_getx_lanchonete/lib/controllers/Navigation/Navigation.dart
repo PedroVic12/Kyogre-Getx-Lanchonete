@@ -7,24 +7,24 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
     AppBar(
       leading: !ResponsiveWidget.isSmallScreen(context)
           ? Row(
-        children: [
-          Container(
-            padding: EdgeInsets.only(left: 10),
-            child: Text('Logo da Citta-RJ aqui'),
-          ),
-        ],
-      )
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: const Text('Logo da Citta-RJ aqui'),
+                ),
+              ],
+            )
           : IconButton(
-        onPressed: () {
-          key.currentState?.openDrawer();
-        },
-        icon: Icon(Icons.menu_rounded),
-      ),
+              onPressed: () {
+                key.currentState?.openDrawer();
+              },
+              icon: const Icon(Icons.menu_rounded),
+            ),
       elevation: 5,
       backgroundColor: Colors.transparent,
       title: Row(
         children: [
-          Visibility(
+          const Visibility(
             child: CustomText(
               text: 'Meu Dashboard Small Screen',
               color: CupertinoColors.inactiveGray,
@@ -54,6 +54,8 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                 ),
               ),
               Positioned(
+                top: 7,
+                right: 7,
                 child: Container(
                   width: 12,
                   height: 12,
@@ -67,22 +69,20 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                     ),
                   ),
                 ),
-                top: 7,
-                right: 7,
               ),
             ],
           ),
           Container(
             width: 2,
             height: 22,
-            padding: EdgeInsets.all(2),
+            padding: const EdgeInsets.all(2),
             color: CupertinoColors.systemGrey,
           ),
-          CustomText(
+          const CustomText(
             text: 'Pedro Victor',
             color: CupertinoColors.inactiveGray,
           ),
-          SizedBox(
+          const SizedBox(
             width: 16,
           ),
           Container(
@@ -91,9 +91,9 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
               borderRadius: BorderRadius.circular(30),
             ),
             child: Container(
-              padding: EdgeInsets.all(2),
-              margin: EdgeInsets.all(2),
-              child: CircleAvatar(
+              padding: const EdgeInsets.all(2),
+              margin: const EdgeInsets.all(2),
+              child: const CircleAvatar(
                 backgroundColor: CupertinoColors.inactiveGray,
                 child: Icon(
                   Icons.person,
@@ -104,5 +104,5 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
           ),
         ],
       ),
-      iconTheme: IconThemeData(color: Colors.blue),
+      iconTheme: const IconThemeData(color: Colors.blue),
     );

@@ -13,6 +13,7 @@ import '../ItemPage/itemPage.dart';
 //! CARD 2
 
 class DetalhesProdutosCard extends StatefulWidget {
+  @override
   final Key? key;
 
   const DetalhesProdutosCard({this.key}) : super(key: key);
@@ -30,7 +31,7 @@ class _DetalhesProdutosCardState extends State<DetalhesProdutosCard> {
   final CarrinhoController carrinhoController = Get.put(CarrinhoController());
 
   Future<void> loadProducts() async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     _productsLoader.complete(); // Complete o completer após o carregamento.
   }
 
@@ -48,7 +49,7 @@ class _DetalhesProdutosCardState extends State<DetalhesProdutosCard> {
 
 // Variável para armazenar o nome do produto
     String nomeProduto = '';
-    var categoria_selecionada =
+    var categoriaSelecionada =
         catalogoProdutosController.selectedCategoryIndex.value;
     var categoria = catalogoProdutosController.catalogoCategorias;
     var produtos = catalogoProdutosController.produtos;
@@ -61,7 +62,7 @@ class _DetalhesProdutosCardState extends State<DetalhesProdutosCard> {
           return const Center(child: CircularProgressIndicator());
         } else {
           return Obx(() => Container(
-                padding: EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: produtos
@@ -78,7 +79,7 @@ class _DetalhesProdutosCardState extends State<DetalhesProdutosCard> {
                                           Obx(() => ListView.builder(
                                                 shrinkWrap: true,
                                                 physics:
-                                                    BouncingScrollPhysics(),
+                                                    const BouncingScrollPhysics(),
                                                 scrollDirection: Axis.vertical,
                                                 itemCount:
                                                     controller.produtos.length,
@@ -86,8 +87,9 @@ class _DetalhesProdutosCardState extends State<DetalhesProdutosCard> {
                                                   Produto produto = controller
                                                       .produtos[index];
                                                   return Card(
-                                                    margin: EdgeInsets.only(
-                                                        bottom: 20),
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            bottom: 20),
                                                     color: Colors
                                                         .blueGrey.shade100,
                                                     child: ListTile(
@@ -124,10 +126,10 @@ class _DetalhesProdutosCardState extends State<DetalhesProdutosCard> {
                                                           // Adicione mais detalhes sobre o produto aqui
                                                         ],
                                                       ),
-                                                      leading: Icon(Icons
+                                                      leading: const Icon(Icons
                                                           .fastfood), // Um ícone para indicar que este é um produto
                                                       trailing: IconButton(
-                                                        icon: Icon(
+                                                        icon: const Icon(
                                                             Icons.add_box_sharp,
                                                             color: Colors.blue,
                                                             size:

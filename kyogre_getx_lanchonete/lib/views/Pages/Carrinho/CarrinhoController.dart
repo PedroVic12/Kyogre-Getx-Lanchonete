@@ -19,18 +19,13 @@ class CarrinhoController extends GetxController {
   String? telefoneCliente;
   String? idPedido;
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
   // Pedido
   Map<String, dynamic> gerarPedidoInfo() {
     // Lista para armazenar os itens do pedido em formato JSON
     List<Map<String, dynamic>> pedidoJsonItems = [];
 
     // Itera sobre cada produto no carrinho e adiciona um objeto JSON à lista
-    _products.entries.forEach((entry) {
+    for (var entry in _products.entries) {
       final produto = entry.key;
       final quantidade = entry.value;
 
@@ -39,7 +34,7 @@ class CarrinhoController extends GetxController {
         "nome": produto.nome,
         "preco": produto.preco?.preco1,
       });
-    });
+    }
 
     // Cria um objeto JSON completo para o pedido
     Map<String, dynamic> pedidoInfo = {
@@ -84,7 +79,7 @@ class CarrinhoController extends GetxController {
           snackPosition: SnackPosition.TOP,
           backgroundColor: CupertinoColors.systemGreen,
           colorText: Colors.white,
-          duration: Duration(seconds: 5),
+          duration: const Duration(seconds: 5),
         );
       } else {
         // Se o servidor responder com um código de status diferente de 200,
@@ -100,7 +95,7 @@ class CarrinhoController extends GetxController {
         snackPosition: SnackPosition.TOP,
         backgroundColor: CupertinoColors.systemRed,
         colorText: Colors.white,
-        duration: Duration(seconds: 5),
+        duration: const Duration(seconds: 5),
       );
     }
   }
@@ -127,8 +122,8 @@ class CarrinhoController extends GetxController {
 
     // Calcula o tempo de entrega
     final agora = DateTime.now();
-    final inicioEntrega = agora.add(Duration(minutes: 15));
-    final fimEntrega = agora.add(Duration(minutes: 50));
+    final inicioEntrega = agora.add(const Duration(minutes: 15));
+    final fimEntrega = agora.add(const Duration(minutes: 50));
     final formatoHora = DateFormat('HH:mm');
 
     // Acrescentando detalhes do cliente ao resumo
@@ -142,7 +137,7 @@ class CarrinhoController extends GetxController {
   *🛒 Itens do Pedido*:
    $items
    -------------------------------------
-           ▶ TOTAL: R\$${total}
+           ▶ TOTAL: R\$$total
    -------------------------------------
    🕙 Tempo de Entrega: aprox. ${formatoHora.format(inicioEntrega)} a ${formatoHora.format(fimEntrega)}
     """;
@@ -159,7 +154,7 @@ class CarrinhoController extends GetxController {
           return "https://api.whatsapp.com/send?phone=$phone&text=${Uri.encodeComponent(message)}";
         case "whatsapp":
         default:
-          return 'whatsapp://send?phone=${phone}&text=${message}';
+          return 'whatsapp://send?phone=$phone&text=$message';
       }
     }
 
@@ -204,16 +199,16 @@ class CarrinhoController extends GetxController {
               title:
                   'URL usado: $urlString\nPlataforma: ${Platform.operatingSystem}',
               backgroundColor: CupertinoColors.systemGreen,
-              duration: Duration(seconds: 1));
+              duration: const Duration(seconds: 1));
           return;
         } catch (e) {
           print('Falha ao tentar abrir: $urlString');
-          Get.snackbar('Error: ${e}',
+          Get.snackbar('Error: $e',
               'URL usado: $urlString\nPlataforma: ${Platform.operatingSystem}',
               snackPosition: SnackPosition.TOP,
               backgroundColor: CupertinoColors.systemRed,
               colorText: Colors.white,
-              duration: Duration(seconds: 5));
+              duration: const Duration(seconds: 5));
         }
       }
 
@@ -234,9 +229,9 @@ class CarrinhoController extends GetxController {
         case "api":
           return "https://api.whatsapp.com/send?phone=$phone&text=${Uri.encodeComponent(message)}";
         case "whatsapp":
-          return 'whatsapp://send?phone=${phone}&text=${message}';
+          return 'whatsapp://send?phone=$phone&text=$message';
         default:
-          return 'whatsapp://send?phone=${phone}&text=${message}';
+          return 'whatsapp://send?phone=$phone&text=$message';
       }
     }
 
@@ -283,18 +278,18 @@ class CarrinhoController extends GetxController {
               title:
                   'URL usado: $urlString\nPlataforma: ${Platform.operatingSystem}',
               backgroundColor: CupertinoColors.systemGreen,
-              duration: Duration(seconds: 1));
+              duration: const Duration(seconds: 1));
 
           return; // Se lançado com sucesso, saia da função
         } catch (e) {
           print(
               'Falha ao tentar abrir: $urlString em ${Platform.operatingSystem}');
-          Get.snackbar('Error: ${e}',
+          Get.snackbar('Error: $e',
               'URL usado: $urlString\nPlataforma: ${Platform.operatingSystem}',
               snackPosition: SnackPosition.TOP,
               backgroundColor: CupertinoColors.systemRed,
               colorText: Colors.white,
-              duration: Duration(seconds: 5));
+              duration: const Duration(seconds: 5));
         }
       }
     }

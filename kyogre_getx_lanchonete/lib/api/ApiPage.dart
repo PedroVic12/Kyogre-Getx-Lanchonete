@@ -4,6 +4,8 @@ import 'package:kyogre_getx_lanchonete/api/Raichu.dart';
 class ExampleWidget extends StatelessWidget {
   final RaichuApiDioController api = RaichuApiDioController();
 
+  ExampleWidget({super.key});
+
   Future<void> _performApiOperations() async {
     // Create
     await api.createData('/path', {'key': 'value'});
@@ -23,7 +25,7 @@ class ExampleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: _performApiOperations,
-      child: Text('Perform API Operations'),
+      child: const Text('Perform API Operations'),
     );
   }
 }

@@ -6,6 +6,8 @@ import 'package:kyogre_getx_lanchonete/views/responsividade/ResponsiveWidget.dar
 class Layout extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
+  Layout({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +15,7 @@ class Layout extends StatelessWidget {
         key: scaffoldKey,
         //TODO -> Menu Lateral de Navegação
         drawer: const Drawer(
-          child: const SideMenu(),
+          child: SideMenu(),
         ),
 
         // Responsividade

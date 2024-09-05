@@ -77,7 +77,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
               ),
             ),
             AnimatedContainer(
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               height: controller.mostrarBarraInferior
                   ? 80
                   : 0, // Altura modificada pela variável
@@ -99,7 +99,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   Widget _list() {
     return Obx(() {
       if (controller.repositoryController.dataBase_Array.isEmpty) {
-        return Center(child: LoadingWidget());
+        return const Center(child: LoadingWidget());
       } else {
         return ListView.builder(
           itemCount: controller.repositoryController.dataBase_Array.length,
@@ -124,7 +124,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
         height: 300,
         child: Obx(() {
           if (repositoryController.dataBase_Array.isEmpty) {
-            return LoadingWidget();
+            return const LoadingWidget();
           } else {
             setState(() {});
             return ListView.builder(
@@ -150,7 +150,7 @@ class _TelaCardapioDigitalState extends State<TelaCardapioDigital> {
   Widget pegarDadosCliente() {
     return Column(
       children: [
-        Text('Visualizando em uma pagina WEB'),
+        const Text('Visualizando em uma pagina WEB'),
         const Text('Dados do Cliente: '),
         Text('ID do Pedido: ${controller.idPedido}'),
         Text('Nome do Cliente: ${controller.nomeCliente}'),

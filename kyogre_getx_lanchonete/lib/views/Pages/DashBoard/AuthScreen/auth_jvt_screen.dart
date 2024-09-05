@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
 class AuthJvtScreen extends StatefulWidget {
   const AuthJvtScreen({super.key});
 
@@ -37,24 +36,24 @@ class _AuthJvtScreenState extends State<AuthJvtScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(title: const Text('Login')),
       body: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
               controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
             TextField(
               controller: _senhaController,
-              decoration: InputDecoration(labelText: 'Senha'),
+              decoration: const InputDecoration(labelText: 'Senha'),
               obscureText: true,
             ),
             ElevatedButton(
               onPressed: _login,
-              child: Text('Login'),
+              child: const Text('Login'),
             ),
           ],
         ),

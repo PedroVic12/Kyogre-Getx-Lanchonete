@@ -4,7 +4,7 @@ import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/template/p
 
 class CarrouselImagensWidget extends StatelessWidget {
   final ProdutoModel produto_selecionado;
-  CarrouselImagensWidget({super.key, required this.produto_selecionado});
+  const CarrouselImagensWidget({super.key, required this.produto_selecionado});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class CarrouselImagensWidget extends StatelessWidget {
 
     if (imagens == null || imagens.isEmpty) {
       // Se não houver imagens, exiba um widget padrão
-      return Center(child: Text('Nenhuma imagem disponível'));
+      return const Center(child: Text('Nenhuma imagem disponível'));
     }
 
     return CarouselView(

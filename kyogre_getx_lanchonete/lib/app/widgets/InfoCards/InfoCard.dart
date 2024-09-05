@@ -9,7 +9,8 @@ class InfoCard extends StatelessWidget {
   //TODO -> COLOCAR FUNCAO ONTAP E MUDAR DE COR COMO EU QUISER
 
   const InfoCard(
-      {required this.title,
+      {super.key,
+      required this.title,
       required this.value,
       this.isActive = false,
       required this.onTap});
@@ -57,7 +58,7 @@ class InfoCard extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: "$value",
+                    text: value,
                     style: const TextStyle(
                       fontSize: 40,
                       color: Colors.black,

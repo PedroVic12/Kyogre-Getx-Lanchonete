@@ -1,4 +1,3 @@
-
 //!Models
 class No {
   Pedido pedido;
@@ -35,17 +34,16 @@ class Fila {
   }
 
   List<Pedido> todosPedidos() {
-    List<Pedido> pedidos_array = [];
+    List<Pedido> pedidosArray = [];
     var atual = inicio;
     while (atual != null) {
       print('Adicionando pedido à lista: ${atual.pedido}');
-      pedidos_array.add(atual.pedido);
+      pedidosArray.add(atual.pedido);
       atual = atual.proximo;
     }
-    print('Retornando lista de pedidos com tamanho: ${pedidos_array.length}');
-    return pedidos_array;
+    print('Retornando lista de pedidos com tamanho: ${pedidosArray.length}');
+    return pedidosArray;
   }
-
 
   Pedido? pop() {
     if (estaVazia) return null;
@@ -56,7 +54,6 @@ class Fila {
     }
     return temp!.pedido;
   }
-
 
   bool contemPedidoComId(int id) {
     var atual = inicio;
@@ -70,14 +67,6 @@ class Fila {
   }
 }
 
-
-
-
-
-
-
-
-
 class Pedido {
   final int id;
   final String nome_cliente;
@@ -85,7 +74,7 @@ class Pedido {
   final String endereco;
   final String complemento;
   final String formaPagamento;
-   String status;
+  String status;
   final List<ItemPedido> carrinho;
   final double totalPagar;
 
@@ -103,7 +92,8 @@ class Pedido {
 
   factory Pedido.fromJson(Map<String, dynamic> json) {
     var listaCarrinho = json['carrinho'] as List;
-    List<ItemPedido> carrinhoLista = listaCarrinho.map((i) => ItemPedido.fromJson(i)).toList();
+    List<ItemPedido> carrinhoLista =
+        listaCarrinho.map((i) => ItemPedido.fromJson(i)).toList();
 
     return Pedido(
       id: json['id'] as int,

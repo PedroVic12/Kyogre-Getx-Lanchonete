@@ -16,7 +16,7 @@ class _CaosPageWidgetState extends State<CaosPageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Caos page'),
+          title: const Text('Caos page'),
         ),
         body: Center(
           child: Column(
@@ -26,12 +26,12 @@ class _CaosPageWidgetState extends State<CaosPageWidget> {
                   onPressed: () {
                     Get.to(RepositoryListView());
                   },
-                  child: Text('produdutos')),
+                  child: const Text('produdutos')),
               ElevatedButton(
                   onPressed: () {
                     //Get.to(MenuCardapioScollPage());
                   },
-                  child: Text('Menu Page View')),
+                  child: const Text('Menu Page View')),
             ],
           ),
         ));

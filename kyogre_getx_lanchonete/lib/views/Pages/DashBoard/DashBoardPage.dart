@@ -10,39 +10,39 @@ import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidoContro
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/PedidosPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/Pedido/modelsPedido.dart';
 
-
 class DashboardPage extends StatelessWidget {
-  final FilaDeliveryController filaDeliveryController = Get.put(FilaDeliveryController());
-  final PedidoController pedidoController =   Get.put(PedidoController(Get.find<FilaDeliveryController>()));
+  final FilaDeliveryController filaDeliveryController =
+      Get.put(FilaDeliveryController());
+  final PedidoController pedidoController =
+      Get.put(PedidoController(Get.find<FilaDeliveryController>()));
+
+  DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: NightWolfAppBar(),
-      body: Column(
-        children: [
+        appBar: const NightWolfAppBar(),
+        body: Column(
+          children: [
+            PesquisarDadosWidet(),
+            Expanded(
+              child: Row(
+                children: [
+                  //PedidosServer(),
 
-          PesquisarDadosWidet(),
-
-          Expanded(child: Row(
-            children: [
-              //PedidosServer(),
-
-              ColunaPedidosParaAceitar(pedidoController: pedidoController),
-              ColunaPedidosProcessados(),
-              ColunaInfoPedidos(),
-            ],
-          ),)
-        ],
-      )
-    );
+                  ColunaPedidosParaAceitar(pedidoController: pedidoController),
+                  ColunaPedidosProcessados(),
+                  const ColunaInfoPedidos(),
+                ],
+              ),
+            )
+          ],
+        ));
   }
 }
 
-
 class PesquisarDadosWidet extends StatefulWidget {
-  PesquisarDadosWidet({Key? key}) : super(key: key);
+  const PesquisarDadosWidet({Key? key}) : super(key: key);
 
   @override
   _PesquisarDadosWidetState createState() => _PesquisarDadosWidetState();
@@ -54,7 +54,7 @@ class _PesquisarDadosWidetState extends State<PesquisarDadosWidet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 50,
       child: Row(
         children: [
@@ -63,7 +63,7 @@ class _PesquisarDadosWidetState extends State<PesquisarDadosWidet> {
           ),
           DropdownButton<String>(
             value: lojaSelecionada,
-            hint: Text("Selecione uma loja"),
+            hint: const Text("Selecione uma loja"),
             items: lojas_citta.map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -76,15 +76,13 @@ class _PesquisarDadosWidetState extends State<PesquisarDadosWidet> {
               });
             },
           ),
-          SizedBox(width: 8),
-          Text('Numero do Pedido'),
-          SizedBox(width: 8),
-          Text('Buscar pelo Cliente'),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
+          const Text('Numero do Pedido'),
+          const SizedBox(width: 8),
+          const Text('Buscar pelo Cliente'),
+          const SizedBox(width: 8),
         ],
       ),
     );
   }
 }
-
-

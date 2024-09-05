@@ -73,7 +73,7 @@ class CardapioManager extends GetxController {
   Widget carrouselImagens() {
     final controller = Get.put(PhotoGalleryController());
 
-    return Container(
+    return SizedBox(
       //width: MediaQuery.of(context).size.width * 0.8,
       //height: MediaQuery.of(context).size.height * 0.8,
       width: 200,

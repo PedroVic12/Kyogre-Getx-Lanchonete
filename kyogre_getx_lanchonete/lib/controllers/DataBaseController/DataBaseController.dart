@@ -25,12 +25,12 @@ class DataBaseController {
 
       return listaProdutos.map((produtoJson) {
         final String nome = produtoJson['Sanduíches'] ?? '';
-        final String tipo_produto = 'Sanduíches';
+        const String tipoProduto = 'Sanduíches';
         final String igredientes = produtoJson['Igredientes'] ?? '';
         final Preco preco = Preco.fromJson({
           'preco1': produtoJson['Preço.4']?.toDouble(),
         });
-        return Produto(nome, tipo_produto,
+        return Produto(nome, tipoProduto,
             preco: preco, igredientes: igredientes);
       }).toList();
     } catch (error) {
@@ -46,15 +46,15 @@ class DataBaseController {
 
       return listaProdutos.map((produtoJson) {
         final String nome = produtoJson['Açaí e Pitaya'] ?? '';
-        final String tipo_produto = 'Açaí e Pitaya';
-        final String igredientes = ''; // Não há campo "Ingredientes" nos açaís
+        const String tipoProduto = 'Açaí e Pitaya';
+        const String igredientes = ''; // Não há campo "Ingredientes" nos açaís
         final Preco preco = Preco.fromJson({
           'preco1': produtoJson['300ml']
               ?.toDouble(), // Definimos o preço 300ml como preco1
           'preco2': produtoJson['500ml']
               ?.toDouble(), // Definimos o preço 500ml como preco2
         });
-        return Produto(nome, tipo_produto,
+        return Produto(nome, tipoProduto,
             preco: preco, igredientes: igredientes);
       }).toList();
     } catch (error) {
@@ -70,8 +70,8 @@ class DataBaseController {
 
       return listaProdutos.map((produtoJson) {
         final String nome = produtoJson['Petiscos'] ?? '';
-        final String tipo_produto = 'Petiscos';
-        final String igredientes =
+        const String tipoProduto = 'Petiscos';
+        const String igredientes =
             ''; // Não há campo "Ingredientes" nos petiscos
         final Preco preco = Preco.fromJson({
           'preco1': produtoJson['Meia']
@@ -79,7 +79,7 @@ class DataBaseController {
           'preco2': produtoJson['Inteira']
               ?.toDouble(), // Definimos o preço da Inteira como preco2
         });
-        return Produto(nome, tipo_produto,
+        return Produto(nome, tipoProduto,
             preco: preco, igredientes: igredientes);
       }).toList();
     } catch (error) {
@@ -93,7 +93,8 @@ class ProdutosListView extends StatelessWidget {
   final String categoria;
   final List<Produto> produtos;
 
-  ProdutosListView({required this.categoria, required this.produtos});
+  const ProdutosListView(
+      {super.key, required this.categoria, required this.produtos});
 
   @override
   Widget build(BuildContext context) {
@@ -102,11 +103,11 @@ class ProdutosListView extends StatelessWidget {
       children: [
         Text(
           categoria,
-          style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
         ),
         ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: produtos.length,
           itemBuilder: (context, index) {
             Produto produto = produtos[index];

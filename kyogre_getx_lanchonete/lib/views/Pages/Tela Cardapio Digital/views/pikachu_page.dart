@@ -5,13 +5,15 @@ import 'package:get/get.dart';
 import '../controllers/pikachu_controller.dart';
 
 class PikachuPage extends StatelessWidget {
+  const PikachuPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final PikachuController controller = Get.put(PikachuController());
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pikachu Info'),
+        title: const Text('Pikachu Info'),
       ),
       body: FutureBuilder(
         future: controller.loadingData(),
@@ -19,9 +21,9 @@ class PikachuPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             return Obx(() => controller.pikachuInfo.isNotEmpty
                 ? Text('Pikachu: ${controller.pikachuInfo.value}')
-                : Text('Nenhum dado de Pikachu disponível.'));
+                : const Text('Nenhum dado de Pikachu disponível.'));
           } else {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
         },
       ),

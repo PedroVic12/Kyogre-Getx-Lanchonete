@@ -7,7 +7,7 @@ class AnimatedListItem extends StatefulWidget {
   final ProdutoModel produto;
   final int index;
 
-  AnimatedListItem({Key? key, required this.produto, required this.index})
+  const AnimatedListItem({Key? key, required this.produto, required this.index})
       : super(key: key);
 
   @override
@@ -53,7 +53,7 @@ class _AnimatedListItemState extends State<AnimatedListItem>
           )),
           child: AnimatedProductCard(
             produto: widget.produto,
-            duration: Duration(
+            duration: const Duration(
                 milliseconds: 500), // Ajuste a duração conforme necessário
 
             onTap: () {

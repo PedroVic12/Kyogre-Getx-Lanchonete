@@ -25,6 +25,8 @@ class Product {
 }
 
 class ProductRegistrationScreen extends StatefulWidget {
+  const ProductRegistrationScreen({super.key});
+
   @override
   _ProductRegistrationScreenState createState() =>
       _ProductRegistrationScreenState();
@@ -46,7 +48,7 @@ class _ProductRegistrationScreenState extends State<ProductRegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cadastro de Produto'),
+        title: const Text('Cadastro de Produto'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -60,14 +62,14 @@ class _ProductRegistrationScreenState extends State<ProductRegistrationScreen> {
             _buildTextField('Imagem', imageController),
             _buildTextField('Ingredientes', ingredientsController),
             //_buildTextField('Adicionais', additionalController),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 _registerProduct();
               },
-              child: Text('Cadastrar Produto'),
+              child: const Text('Cadastrar Produto'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             _buildProductList(),
           ],
         ),
@@ -88,11 +90,11 @@ class _ProductRegistrationScreenState extends State<ProductRegistrationScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Produtos Cadastrados:',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         ListView.builder(
           shrinkWrap: true,
           itemCount: products.length,

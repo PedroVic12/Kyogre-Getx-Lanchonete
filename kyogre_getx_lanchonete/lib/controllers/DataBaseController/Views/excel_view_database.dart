@@ -115,7 +115,7 @@ class CardapioSysteam extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.blue,
       appBar: AppBar(
-        title: Text('Dados do Excel '),
+        title: const Text('Dados do Excel '),
       ),
       body: Center(
         child: ListView(
@@ -139,7 +139,7 @@ class CardapioSysteam extends StatelessWidget {
                   onPressed: () {
                     Get.to(CardapioManagerPage());
                   },
-                  child: Text("Pagina de cadastro")),
+                  child: const Text("Pagina de cadastro")),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -147,7 +147,7 @@ class CardapioSysteam extends StatelessWidget {
                   onPressed: () {
                     Get.to(DataBasePage());
                   },
-                  child: Text("Mongo cadastro")),
+                  child: const Text("Mongo cadastro")),
             ),
           ],
         ),

@@ -26,16 +26,17 @@ class FilaDeliveryController extends GetxController {
     }
   }
 
-
   void inserirPedido(Pedido pedido) {
     try {
       FILA_PEDIDOS.value.push(pedido);
       FILA_PEDIDOS.refresh();
-      print("Pedido inserido. Tamanho da fila agora: ${FILA_PEDIDOS.value.tamanhoFila()}");
+      print(
+          "Pedido inserido. Tamanho da fila agora: ${FILA_PEDIDOS.value.tamanhoFila()}");
     } catch (e) {
       print('Erro ao inserir pedido: $e');
     }
   }
+
   void _adicionarPedidoNaFila(dynamic pedido) {
     Pedido novoPedido = Pedido.fromJson(pedido);
     inserirPedido(novoPedido);
@@ -51,28 +52,22 @@ class FilaDeliveryController extends GetxController {
     }
   }
 
-
-
-
-
-
-
   //! UTILS
-  Future<void> _mostrarAlerta(dynamic pedido, List<String> itensPedido, int pedidoId) async {
+  Future<void> _mostrarAlerta(
+      dynamic pedido, List<String> itensPedido, int pedidoId) async {
     final PedidoController controller = Get.find<PedidoController>();
 
     controller.showAlert = true;
 
     await Get.to(() => AlertaPedidoWidget(
-      nomeCliente: pedido['nome_cliente'] ?? '',
-      enderecoPedido: pedido['endereco'] ?? '',
-      itensPedido: itensPedido,
-      btnOkOnPress: () {
-        _handlePedidoAceito(pedido, pedidoId);
-      },
-    ));
+          nomeCliente: pedido['nome_cliente'] ?? '',
+          enderecoPedido: pedido['endereco'] ?? '',
+          itensPedido: itensPedido,
+          btnOkOnPress: () {
+            _handlePedidoAceito(pedido, pedidoId);
+          },
+        ));
   }
-
 
   void _limparPedidosAntigos() {
     PEDIDOS_ALERTA_ARRAY.clear();
@@ -81,10 +76,8 @@ class FilaDeliveryController extends GetxController {
 
   void _adicionarPedidosNaoExistenteNaFila(List<dynamic> pedidosDoServidor) {
     for (var pedidoJson in pedidosDoServidor) {
-
       print('Número de pedidos para alerta: ${PEDIDOS_ALERTA_ARRAY.length}');
       final pedido = Pedido.fromJson(pedidoJson);
-
 
       if (!_pedidoEstaNaFila(pedido)) {
         PEDIDOS_ALERTA_ARRAY.add(pedidoJson);
@@ -120,8 +113,6 @@ class FilaDeliveryController extends GetxController {
     }
   }
 
-
-
   Future<void> showNovoPedidoAlertDialog(dynamic pedido) async {
     final pedidoId = pedido['id'];
 
@@ -141,7 +132,7 @@ class FilaDeliveryController extends GetxController {
 
     final itensPedido = _obterItensDoPedido(pedido);
 
-    print('Pedido ${pedidoId} não esta na Fila, mostrando o alerta...');
+    print('Pedido $pedidoId não esta na Fila, mostrando o alerta...');
     print('isDashPage: ${_estaNaDashPage()}');
     print('SHOW ALERTA: ${controller.showAlert}');
     print(PEDIDOS_ALERTA_ARRAY);
@@ -161,25 +152,19 @@ class FilaDeliveryController extends GetxController {
     return Get.currentRoute == '/dash';
   }
 
-
-
   void _handlePedidoAceito(dynamic pedido, int pedidoId) {
     _adicionarPedidoNaFila(pedido);
     Get.back();
     _resetarConfiguracoesDeAlerta(pedidoId);
   }
 
-
-
   void _resetarConfiguracoesDeAlerta(int pedidoId) {
     final PedidoController controller = Get.find<PedidoController>();
 
-    Future.delayed(Duration(milliseconds: 200), () {
+    Future.delayed(const Duration(milliseconds: 200), () {
       controller.showAlert = false;
       controller.pedidosAlertaMostrado[pedidoId] = true;
       _mostrarAlertaSeNecessario();
     });
   }
-
-
 }

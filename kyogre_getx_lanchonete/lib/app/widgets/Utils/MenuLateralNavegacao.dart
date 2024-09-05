@@ -40,6 +40,14 @@ class MenuLateralNavegacaoDash extends StatelessWidget {
         route: '/dash'),
 
     ItemMenuLateral(
+        title: 'Gestor Cardapio',
+        icon: Icons.food_bank_rounded,
+        route: '/cardapioManager'),
+
+    ItemMenuLateral(
+        title: 'Caos Page', icon: Icons.food_bank_rounded, route: '/caosPage'),
+
+    ItemMenuLateral(
         title: 'Tela de Cadastro',
         icon: Icons.fastfood_rounded,
         route: '/authScreen'),
@@ -68,6 +76,8 @@ class MenuLateralNavegacaoDash extends StatelessWidget {
     //ItemMenuLateral( title: 'Grid Style', icon: Icons.abc_outlined, route: '/layoutDesign'),
     //ItemMenuLateral(title: 'Caos Page', icon: Icons.ac_unit_sharp, route: '/caosPage')
   ];
+
+  MenuLateralNavegacaoDash({super.key});
 
   @override
   Widget build(BuildContext context) {

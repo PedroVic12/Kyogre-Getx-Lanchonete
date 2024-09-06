@@ -4,6 +4,7 @@ import 'package:better_page_turn/better_page_turn.dart';
 
 // Your imports
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/firebase_services.dart';
 import 'cardapio_exemplo_repository.dart';
 
 class TabBarDemo extends StatefulWidget {
@@ -20,15 +21,15 @@ class _TabBarDemoState extends State<TabBarDemo>
 
   HorizontalFlipPageTurnController horizontalFlipPageTurnController =
       HorizontalFlipPageTurnController();
-  SliderPageTurnController sliderPageTurnController =
-      SliderPageTurnController();
 
   void _handleTabSelection() {
     if (!_tabController.indexIsChanging) {
       setState(() {
         _currentIndex = _tabController.index;
         // Animate the page turn to the corresponding tab index
-        horizontalFlipPageTurnController.animToPositionWidget(_currentIndex);
+
+        horizontalFlipPageTurnController.animToPositionWidget(_currentIndex,
+            duration: const Duration(milliseconds: 350));
       });
     }
   }
@@ -44,7 +45,6 @@ class _TabBarDemoState extends State<TabBarDemo>
   void dispose() {
     _tabController.removeListener(_handleTabSelection);
     _tabController.dispose();
-
     super.dispose();
   }
 
@@ -62,6 +62,10 @@ class _TabBarDemoState extends State<TabBarDemo>
               height: 100,
               color: CupertinoColors.systemYellow,
               child: TabBar(
+                isScrollable: true,
+                enableFeedback: true,
+                automaticIndicatorColorAdjustment: true,
+                padding: const EdgeInsets.all(10),
                 controller: _tabController,
                 tabs: [
                   _buildTabItem(Icons.local_pizza, 'Pizzas', 0),
@@ -71,25 +75,19 @@ class _TabBarDemoState extends State<TabBarDemo>
                 ],
               ),
             ),
-            Expanded(
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: LayoutBuilder(builder: (context, constraints) {
-                    return HorizontalFlipPageTurn(
-                      children: [
-                        _buildProductList(ProductRepository().getPizzas()),
-                        _buildProductList(ProductRepository().getSandwiches()),
-                        _buildProductList(ProductRepository().getJuices()),
-                        _buildProductList(ProductRepository().getCoffees()),
-                      ],
-                      cellSize: Size(constraints.maxWidth, 600),
-                      controller: horizontalFlipPageTurnController,
-                    );
-                  }),
-                ),
-              ),
-            ),
+            LayoutBuilder(builder: (context, constraints) {
+              return HorizontalFlipPageTurn(
+                children: [
+                  _buildProductList(ProductRepository().getPizzas()),
+                  _buildProductList(ProductRepository().getSandwiches()),
+                  _buildProductList(ProductRepository().getJuices()),
+                  _buildProductList(ProductRepository().getCoffees()),
+                ],
+                cellSize: Size(constraints.maxWidth, 600),
+                controller: horizontalFlipPageTurnController,
+              );
+            }),
+            //StoragePhotosWidger(),
           ],
         ),
       ),
@@ -101,22 +99,18 @@ class _TabBarDemoState extends State<TabBarDemo>
     return GestureDetector(
       onTap: () {
         setState(() {
-          // horizontalFlipPageTurnController.animToPositionWidget(index,
-          //     duration: Duration(milliseconds: 350));
-
-          sliderPageTurnController.animToPositionWidget(index,
-              duration: const Duration(milliseconds: 350));
+          //horizontalFlipPageTurnController.animToPositionWidget(index);
 
           _tabController.animateTo(index);
         });
       },
       child: Container(
         height: 100,
-        width: 100,
+        width: 130,
         decoration: BoxDecoration(
-          color: Colors.blueGrey,
+          color: Colors.blueGrey.shade300,
           border: Border.all(color: Colors.black),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(30),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -148,5 +142,3 @@ class _TabBarDemoState extends State<TabBarDemo>
     );
   }
 }
-
-// ... (rest of the code - Product and ProductRepository classes remain the same)

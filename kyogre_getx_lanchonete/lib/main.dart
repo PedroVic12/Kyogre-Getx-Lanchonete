@@ -50,8 +50,6 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/splash', page: () => const SplashScreen()),
         GetPage(name: '/dash', page: () => TelaGestaoDePedidosDashBoard()),
         GetPage(name: '/caosPage', page: () => ProductsPageFlip()),
-
-        //GetPage(name: '/caosPage', page: () => const CaosPageWidget()),
         GetPage(name: '/cardapioQR', page: () => const CardapioQrCode()),
         GetPage(name: '/mapaPedido', page: () => GoogleMapsWidget()),
         GetPage(
@@ -59,7 +57,6 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/atendimento', page: () => const ChatPage()),
         GetPage(name: "/cardapioManager", page: () => CardapioManagerPage()),
         GetPage(name: "/CardapioDigital", page: () => TabBarDemo()),
-
         GetPage(
             name: '/pedido/:id',
             page: () {

@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/template/produtos_model.dart';
 
 class FirebaseServices {
-  //fireabse storage configure
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -31,7 +31,6 @@ class FirebaseServices {
       final String path = extactPathFromUrl(imageUrl);
       await _storage.ref(path).delete();
     } on Exception catch (e) {
-      // TODO
       print(e.toString());
     }
   }
@@ -40,23 +39,20 @@ class FirebaseServices {
     Uri uri = Uri.parse(url);
     String encodedPath = uri.pathSegments.last;
     return Uri.decodeComponent(encodedPath);
-    //return url.split('produto_imagens%2F')[1].split('?')[0];
   }
 
-  // Salvar um produto no Firestore
   Future<void> addProduto(ProdutoModel produto) async {
     await _firestore
         .collection('produtos')
-        .add(produto as Map<String, dynamic>);
+        .add(produto.toJson()); // Assume que ProdutoModel tem um método toMap()
   }
 
-  // Fazer upload de imagem para o Firebase Storage
   Future<String> uploadImage() async {
     try {
       isUploading = true;
 
-      final ImagePicker pikcer = ImagePicker();
-      final XFile? image = await pikcer.pickImage(source: ImageSource.gallery);
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
       if (image == null) {
         isUploading = false;
@@ -64,17 +60,66 @@ class FirebaseServices {
       }
 
       File file = File(image.path);
-      String filePath = "produto_imagens/${DateTime.now()}.png";
+      String filePath =
+          "produto_imagens/${DateTime.now().toIso8601String()}.png";
       await _storage.ref(filePath).putFile(file);
       String downloadUrl = await _storage.ref(filePath).getDownloadURL();
       imagensUrls.add(downloadUrl);
       isUploading = false;
+      return downloadUrl;
     } on Exception catch (e) {
-      // TODO
-      print("\n\nError ao fazer upload da imagem: $e");
+      print("Error ao fazer upload da imagem: $e");
+      return '';
     }
+  }
+}
 
-    // Add a return statement at the end
-    return '';
+class StoragePhotosWidger extends StatefulWidget {
+  const StoragePhotosWidger({super.key});
+
+  @override
+  _StoragePhotosWidgerState createState() => _StoragePhotosWidgerState();
+}
+
+class _StoragePhotosWidgerState extends State<StoragePhotosWidger> {
+  final FirebaseServices firebaseServices = FirebaseServices();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadImages();
+  }
+
+  Future<void> _loadImages() async {
+    await firebaseServices.fetchImagens();
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        IconButton(
+            onPressed: () async {
+              String url = await firebaseServices.uploadImage();
+              if (url.isNotEmpty) {
+                setState(() {});
+              }
+            },
+            icon: Icon(Icons.add)),
+        firebaseServices.imagensUrls.isNotEmpty
+            ? Image.network(firebaseServices.imagensUrls[0])
+            : Container(),
+        firebaseServices.imagensUrls.isNotEmpty
+            ? IconButton(
+                onPressed: () async {
+                  await firebaseServices
+                      .deleteImagem(firebaseServices.imagensUrls[0]);
+                  setState(() {});
+                },
+                icon: Icon(Icons.delete))
+            : Container(),
+      ],
+    );
   }
 }

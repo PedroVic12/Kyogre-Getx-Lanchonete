@@ -1,4 +1,5 @@
 import 'package:add_to_cart_animation/add_to_cart_animation.dart';
+import 'package:better_page_turn/horizontal_flip_page_turn.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,9 @@ class _MyCardapioWidgetState extends State<MyCardapioWidget>
   late TabController _tabController;
   int _currentIndex = 0;
 
+  HorizontalFlipPageTurnController horizontalFlipPageTurnController =
+      HorizontalFlipPageTurnController();
+
   GlobalKey<CartIconKey> cartKey = GlobalKey<CartIconKey>();
   late Function(GlobalKey) runAddToCartAnimation;
   var _cartQuantityItems = 0;
@@ -32,8 +36,8 @@ class _MyCardapioWidgetState extends State<MyCardapioWidget>
         _currentIndex = _tabController.index;
         // Animate the page turn to the corresponding tab index
 
-        //horizontalFlipPageTurnController.animToPositionWidget(_currentIndex,
-        //   duration: const Duration(milliseconds: 350));
+        horizontalFlipPageTurnController.animToPositionWidget(_currentIndex,
+            duration: const Duration(milliseconds: 350));
       });
     }
   }
@@ -164,7 +168,19 @@ class _MyCardapioWidgetState extends State<MyCardapioWidget>
                     ],
                   ),
                 ),
-                for (int index = 0; index < 15; index++)
+                LayoutBuilder(builder: (context, constraints) {
+                  return HorizontalFlipPageTurn(
+                    children: [
+                      //_
+                      _buildProductList(ProductRepository().getSandwiches()),
+                      _buildProductList(ProductRepository().getJuices()),
+                      _buildProductList(ProductRepository().getCoffees()),
+                    ],
+                    cellSize: Size(constraints.maxWidth, 300),
+                    controller: horizontalFlipPageTurnController,
+                  );
+                }),
+                for (int index = 0; index < 3; index++)
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: GlassMorphism(
@@ -180,6 +196,13 @@ class _MyCardapioWidgetState extends State<MyCardapioWidget>
                         onClick: listClick,
                         index: index,
                       ),
+
+                      // CardGlassList(
+                      //     onClick: listClick,
+                      //     index: index,
+                      //     products: ProductRepository().getSandwiches())
+
+                      //GlassCard(ProductRepository().getPizzas()),
                     ),
                   ),
               ]
@@ -204,6 +227,24 @@ class _MyCardapioWidgetState extends State<MyCardapioWidget>
     setState(() {
       _appBarHeight = 150.0; // Reduced height when scrolled
     });
+  }
+
+  Widget GlassCard(List<Product> products) {
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      itemCount: products.length,
+      itemBuilder: (context, index) {
+        final product = products[index];
+        return Card(
+          child: ListTile(
+            leading: const Icon(Icons.fastfood),
+            title: Text(product.name),
+            subtitle: Text(product.description),
+            trailing: Text('\$${product.price.toStringAsFixed(2)}'),
+          ),
+        );
+      },
+    );
   }
 
   void _showCartBottomSheet() {
@@ -298,6 +339,112 @@ class _MyCardapioWidgetState extends State<MyCardapioWidget>
             title: Text(product.name),
             subtitle: Text(product.description),
             trailing: Text('\$${product.price.toStringAsFixed(2)}'),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class CardGlassList extends StatelessWidget {
+  final GlobalKey widgetKey = GlobalKey();
+  final int index;
+  final void Function(GlobalKey) onClick;
+  final List<Product>? products;
+
+  CardGlassList(
+      {super.key,
+      required this.onClick,
+      required this.index,
+      required this.products});
+
+  @override
+  Widget build(BuildContext context) {
+    Container mandatoryContainer = Container(
+      key: widgetKey,
+      width: 150,
+      height: 150,
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.black, width: 1),
+          borderRadius: BorderRadius.circular(10.0),
+          color: Colors.blue,
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black,
+              blurRadius: 9.0,
+            ),
+          ]),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CircleAvatar(
+              backgroundImage: AssetImage("assets/logo_ruby.png"),
+              maxRadius: 50,
+              child: Container()),
+          const CustomText(
+            text: "R\$ 1.050,00 Reais",
+            color: Colors.white,
+            size: 16,
+          ),
+        ],
+      ),
+    );
+
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      itemCount: products?.length,
+      itemBuilder: (context, index) {
+        final product = products![index];
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CupertinoListTile(
+            // backgroundColor: Colors.blueGrey.shade300,
+            leadingSize: 150,
+            // onTap: () => onClick(widgetKey),
+            leading: mandatoryContainer,
+            subtitle: Wrap(
+              direction: Axis.vertical,
+              alignment: WrapAlignment.center,
+              textDirection: TextDirection.rtl,
+              runAlignment: WrapAlignment.center,
+              runSpacing: 10,
+              verticalDirection: VerticalDirection.down,
+
+              children: [
+                Text(
+                  product.description,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+              //"Animated Apple Product Image $index",
+            ),
+
+            trailing: FloatingActionButton.large(
+              elevation: 7,
+              hoverColor: Colors.green,
+              backgroundColor: Colors.white,
+              onPressed: () {
+                onClick(widgetKey);
+              },
+              child: CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.grey.shade300,
+                child: Icon(
+                  Icons.add,
+                  color: Colors.green,
+                  size: 60,
+                ),
+              ),
+            ),
+            title: CustomText(
+              text: product.name,
+              size: 24,
+              weight: FontWeight.bold,
+            ),
           ),
         );
       },

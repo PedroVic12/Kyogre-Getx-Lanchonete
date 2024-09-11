@@ -1,17 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kyogre_getx_lanchonete/app-web2024/good_ui_trainer.dart';
-import 'package:kyogre_getx_lanchonete/app/widgets/Design/CartaoGridView.dart';
+
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/MenuLateralNavegacao.dart';
-import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/Views/excel_view_database.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Caos/exemplo_flip_screen.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Caos/tab_nav_cardapio.dart';
+
 import 'package:kyogre_getx_lanchonete/views/Pages/Caos/tab_page_flip.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioScreenLayout/TabCardapioAnimated.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioScreenLayout/animated_cardapio_glass.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/ChatPage/views/ChatPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/tela_auth_jvt.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/DashBoardPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/TelaDashGestaoPedidos.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Layout/Layout.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Monitoramento/maps/tela_google_maps.dart';
@@ -22,7 +19,6 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/car
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 
 import 'controllers/binding.dart';
-import 'views/Pages/Caos/caos_page.dart';
 
 //TODO -> Menu controller 1:08
 
@@ -31,7 +27,7 @@ void main() {
   Get.put(MenuProdutosController());
   Get.put(CardapioController());
   GlobalBindings().dependencies();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -46,17 +42,22 @@ class MyApp extends StatelessWidget {
 
       // TODO Navegação Padrão
       getPages: [
+        // Telas App (1500 cada)
         GetPage(name: '/', page: () => Layout()),
         GetPage(name: '/splash', page: () => const SplashScreen()),
         GetPage(name: '/dash', page: () => TelaGestaoDePedidosDashBoard()),
-        GetPage(name: '/caosPage', page: () => ProductsPageFlip()),
-        GetPage(name: '/cardapioQR', page: () => const CardapioQrCode()),
+        GetPage(name: '/caosPage', page: () => const NewCardapioDigital2024()),
+
+        // Aministrador Pages
         GetPage(name: '/mapaPedido', page: () => GoogleMapsWidget()),
         GetPage(
             name: '/authScreen', page: () => const TelaAutenticacaoUsuarios()),
         GetPage(name: '/atendimento', page: () => const ChatPage()),
-        GetPage(name: "/cardapioManager", page: () => CardapioManagerPage()),
-        GetPage(name: "/CardapioDigital", page: () => TabBarDemo()),
+        GetPage(name: "/admin", page: () => CardapioManagerPage()),
+
+        //Pedidos WhatsApp
+        GetPage(name: '/cardapio', page: () => const MyCardapioWidget()),
+        GetPage(name: "/CardapioDigital", page: () => const TabBarDemo()),
         GetPage(
             name: '/pedido/:id',
             page: () {
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
               //id = '1998';
               return TelaCardapioDigital(id: id);
             }),
+        GetPage(name: '/cardapioQR', page: () => const CardapioQrCode()),
       ],
 
       title: 'Ruby Delivery APP',

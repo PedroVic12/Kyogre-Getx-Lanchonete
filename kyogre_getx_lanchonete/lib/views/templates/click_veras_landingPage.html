@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClickVeras Tech </title>
+    <link href="https://cdn.jsdelivr.net/npm/@ionic/react@6.0.5/dist/ionic/ionic.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .hero {
+            background: url('https://example.com/hero-bg.jpg') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .section {
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .section img {
+            max-width: 100%;
+            height: auto;
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- React and Ionic CDNs -->
+    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ionic/react@6.0.5/dist/ionic/ionic.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-responsive-carousel@3.2.16/lib/react-responsive-carousel.js"></script>
+    
+    <script type="text/javascript">
+        // Create your React components and render them to the DOM
+
+        const { IonButton, IonCard, IonCardContent, IonGrid, IonRow, IonCol, IonText } = window.ionic.react;
+        const { CarouselProvider, Slide, Slider } = window.ReactResponsiveCarousel;
+        const React = window.React;
+        const ReactDOM = window.ReactDOM;
+
+        function HeroSection() {
+            return (
+                <div className="hero">
+                    <h1>ClickVeras Tech: Soluções Digitais que Transformam Negócios</h1>
+                    <h2>Desenvolvemos sites, aplicativos e chatbots inovadores para impulsionar o seu sucesso!</h2>
+                    <IonButton href="#contact" className="button">Fale Conosco</IonButton>
+                    <IonButton href="#projects" className="button">Veja Nossos Projetos</IonButton>
+                </div>
+            );
+        }
+
+        function ServicesSection() {
+            return (
+                <div id="services" className="section">
+                    <h2>Nossas Soluções</h2>
+                    <IonGrid>
+                        <IonRow>
+                            <IonCol>
+                                <IonCard>
+                                    <IonCardContent>
+                                        <h3>Desenvolvimento Web</h3>
+                                        <p>Sites e sistemas web incríveis com Laravel e React, desenvolvidos para o sucesso do seu negócio.</p>
+                                    </IonCardContent>
+                                </IonCard>
+                            </IonCol>
+                            <IonCol>
+                                <IonCard>
+                                    <IonCardContent>
+                                        <h3>Desenvolvimento Mobile</h3>
+                                        <p>Apps em Flutter que parecem dançar no ritmo do seu negócio, proporcionando uma experiência de usuário espetacular.</p>
+                                    </IonCardContent>
+                                </IonCard>
+                            </IonCol>
+                            <IonCol>
+                                <IonCard>
+                                    <IonCardContent>
+                                        <h3>Chatbots Inteligentes</h3>
+                                        <p>Automatize o atendimento, agende compromissos e aumente a eficiência com chatbots poderosos para WhatsApp.</p>
+                                    </IonCardContent>
+                                </IonCard>
+                            </IonCol>
+                        </IonRow>
+                    </IonGrid>
+                </div>
+            );
+        }
+
+        function PortfolioSection() {
+            return (
+                <div id="projects" className="section">
+                    <h2>Conheça Nossos Projetos</h2>
+                    <CarouselProvider
+                        naturalSlideWidth={100}
+                        naturalSlideHeight={125}
+                        totalSlides={3}
+                    >
+                        <Slider>
+                            <Slide index={0}>
+                                <img src="https://example.com/project1.jpg" alt="Projeto 1" />
+                            </Slide>
+                            <Slide index={1}>
+                                <img src="https://example.com/project2.jpg" alt="Projeto 2" />
+                            </Slide>
+                            <Slide index={2}>
+                                <img src="https://example.com/project3.jpg" alt="Projeto 3" />
+                            </Slide>
+                        </Slider>
+                    </CarouselProvider>
+                </div>
+            );
+        }
+
+        function TestimonialsSection() {
+            return (
+                <div className="section">
+                    <h2>Depoimentos de Clientes</h2>
+                    <p>"Excelente trabalho! Transformaram nosso site e aumentaram nossos resultados." - Cliente A</p>
+                    <p>"Profissionais dedicados e inovadores. Recomendamos fortemente." - Cliente B</p>
+                </div>
+            );
+        }
+
+        function ContactSection() {
+            return (
+                <div id="contact" className="section">
+                    <h2>Pronto para a Revolução Tecnológica?</h2>
+                    <IonButton className="button">Fale Conosco</IonButton>
+                    <form>
+                        <label>
+                            Nome:
+                            <input type="text" name="name" />
+                        </label>
+                        <label>
+                            E-mail:
+                            <input type="email" name="email" />
+                        </label>
+                        <label>
+                            Telefone:
+                            <input type="tel" name="phone" />
+                        </label>
+                        <label>
+                            Mensagem:
+                            <textarea name="message"></textarea>
+                        </label>
+                        <IonButton type="submit" className="button">Enviar</IonButton>
+                    </form>
+                </div>
+            );
+        }
+
+        function App() {
+            return (
+                <div>
+                    <HeroSection />
+                    <ServicesSection />
+                    <PortfolioSection />
+                    <TestimonialsSection />
+                    <ContactSection />
+                </div>
+            );
+        }
+
+
+
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

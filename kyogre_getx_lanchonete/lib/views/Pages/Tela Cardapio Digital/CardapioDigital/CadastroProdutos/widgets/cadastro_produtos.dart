@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/firebase_services.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/realtime_database_controller.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/sqlite_controller.dart';
 import 'package:kyogre_getx_lanchonete/database/controllers/MongoDBServices/mongo_db_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/CadastroProdutos/widgets/photo_gallery_mongo.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/widgets/forms_simples.dart';
@@ -27,7 +30,10 @@ class _CadastroDialogState extends State<CadastroDialog> {
   bool produtosAdicionais = false;
   bool imagemEnviada = false;
   XFile? imagemSelecionada;
-  bool exibirCarrossel = false;
+  bool exibirCarrossel = true;
+
+  // Instantiate FirebaseServices
+  //final FirebaseServices firestore = FirebaseServices();
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +132,18 @@ class _CadastroDialogState extends State<CadastroDialog> {
             },
             child: const Text('Cancelar'),
           ),
+          TextButton(
+              onPressed: () {
+                //firestore.create();
+                Get.to(CadastroProdutosPage());
+              },
+              child: Text("Create")),
+          TextButton(
+              onPressed: () {
+                //Get.to(ProdutoScreen());
+                Get.to(PageAdminCardapio());
+              },
+              child: Text("Read"))
         ],
       ),
     );

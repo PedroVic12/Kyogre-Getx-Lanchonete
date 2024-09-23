@@ -1,8 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/MenuLateralNavegacao.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Utils/gerador_checklist.dart';
 
 import 'package:kyogre_getx_lanchonete/views/Pages/Caos/tab_page_flip.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioScreenLayout/TabCardapioAnimated.dart';
@@ -22,11 +25,15 @@ import 'controllers/binding.dart';
 
 //TODO -> Menu controller 1:08
 
-void main() {
+void main() async {
+  Gemini.init(apiKey: "AIzaSyBuoUQpUlhv3mAyDipxE519zUwN9B_u1XE");
+  print("C3po conectado!");
   Get.put(MenuLateralController());
   Get.put(MenuProdutosController());
   Get.put(CardapioController());
   GlobalBindings().dependencies();
+  // WidgetsFlutterBinding.ensureInitialized();
+  //await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -47,6 +54,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/splash', page: () => const SplashScreen()),
         GetPage(name: '/dash', page: () => TelaGestaoDePedidosDashBoard()),
         GetPage(name: '/caosPage', page: () => const NewCardapioDigital2024()),
+        GetPage(name: "/checklist", page: () => ChecklistPage()),
 
         // Aministrador Pages
         GetPage(name: '/mapaPedido', page: () => GoogleMapsWidget()),
@@ -57,7 +65,7 @@ class MyApp extends StatelessWidget {
 
         //Pedidos WhatsApp
         GetPage(name: '/cardapio', page: () => const MyCardapioWidget()),
-        GetPage(name: "/CardapioDigital", page: () => const TabBarDemo()),
+        GetPage(name: "/cardapioDigital", page: () => const TabBarDemo()),
         GetPage(
             name: '/pedido/:id',
             page: () {
@@ -69,7 +77,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/cardapioQR', page: () => const CardapioQrCode()),
       ],
 
-      title: 'Ruby Delivery APP',
+      title: 'Ruby IA Delivery APP',
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.indigo.shade700,
         useMaterial3: true,

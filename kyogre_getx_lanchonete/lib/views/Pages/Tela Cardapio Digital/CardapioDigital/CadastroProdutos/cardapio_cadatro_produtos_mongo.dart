@@ -85,7 +85,7 @@ class CardapioManagerPage extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.large(
           onPressed: () {
             manager.criarCategoria();
             showDialog(

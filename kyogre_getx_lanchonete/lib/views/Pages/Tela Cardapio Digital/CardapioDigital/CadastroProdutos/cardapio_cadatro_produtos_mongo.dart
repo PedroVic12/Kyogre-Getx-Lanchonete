@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/Views/firebase_admin_db.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/Views/galery_firebase.dart';
 import 'package:kyogre_getx_lanchonete/database/controllers/MongoDBServices/mongo_service.dart';
+import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/CadastroProdutos/widgets/cadastro_modal_cardapio.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/CadastroProdutos/widgets/cadastro_produtos.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/CadastroProdutos/widgets/data_filter.dart';
 
 import '../../../../../app/widgets/Custom/CustomText.dart';
 import '../../controllers/cardapio_manager.dart';
@@ -32,23 +34,20 @@ class CardapioManagerPage extends StatelessWidget {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            TextButton(onPressed: () {}, child: const Text("Procurar Produto")),
             TextButton(
                 onPressed: () {
-                  Get.to(PhotoGalleryScreen());
+                  Get.to(AdminDataBasePage());
                 },
-                child: const CustomText(
-                  text: "Galeria produtos",
-                  color: Colors.white,
-                )),
+                child: const Text("Task Firebase")),
             TextButton(
                 onPressed: () {
-                  Get.to(const DataFiltered());
+                  Get.to(ModalCadastroCardapio());
                 },
                 child: const CustomText(
-                  text: "Filtrando Dados do mongo",
+                  text: "Galeria produtos Firebase",
                   color: Colors.white,
                 )),
+            ShowCadastroDialog(),
             Container(
               height: 500, // Defina a altura da lista horizontal
               padding: const EdgeInsets.all(12),
@@ -91,7 +90,7 @@ class CardapioManagerPage extends StatelessWidget {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return const CadastroDialog(produto: "produto");
+                return CadastroDialogWidget(produto: "produto");
               },
             );
           },
@@ -239,7 +238,7 @@ class CardapioManagerPage extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return CadastroDialog(produto: produto);
+                  return CadastroDialogWidget(produto: produto);
                 },
               );
             },
@@ -251,6 +250,83 @@ class CardapioManagerPage extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class ShowCadastroDialog extends StatelessWidget {
+  ShowCadastroDialog({super.key});
+  final controller = Get.put(ProdutoController());
+
+  @override
+  @override
+  Widget build(BuildContext context) {
+    controller.fetchProdutosFromFirebase();
+    return ElevatedButton(
+      onPressed: () {
+        Get.dialog(
+          AlertDialog(
+            title: const Text('Cadastrar Produto'),
+            content: SizedBox(
+              width: 300,
+              height: 400,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: controller.nomeController,
+                      decoration: const InputDecoration(
+                        hintText: 'Nome do Produto',
+                      ),
+                    ),
+                    TextField(
+                      controller: controller.descricaoController,
+                      decoration: const InputDecoration(
+                        hintText: 'Descrição',
+                      ),
+                    ),
+                    TextField(
+                      controller: controller.precoController,
+                      decoration: const InputDecoration(
+                        hintText: 'Preço',
+                      ),
+                      keyboardType: TextInputType.number,
+                    ),
+                    TextField(
+                      controller: controller.adicionaisController,
+                      decoration: const InputDecoration(
+                        hintText: 'Adicionais (JSON)',
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () async {
+                        final imagem = await controller.pickImageFromGallery();
+                        final produto = Produto(
+                          nome: controller.nomeController.text,
+                          descricao: controller.descricaoController.text,
+                          preco: [
+                            double.parse(controller.precoController.text)
+                          ],
+                          imagem: imagem,
+                          adicionais: [
+                            {'adicional': controller.adicionaisController.text}
+                          ],
+                        );
+                        controller.uploadProduto(produto);
+                        Get.back();
+                      },
+                      child:
+                          const Text('Selecionar Imagem e Cadastrar Produto'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+      child: const Text('Cadastrar Produto'),
     );
   }
 }

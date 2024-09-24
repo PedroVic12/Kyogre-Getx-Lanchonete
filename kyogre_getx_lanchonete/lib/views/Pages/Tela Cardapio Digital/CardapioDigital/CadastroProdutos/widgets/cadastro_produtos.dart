@@ -2,23 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
-import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/firebase_services.dart';
-import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/realtime_database_controller.dart';
+import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/Views/galery_firebase.dart';
 import 'package:kyogre_getx_lanchonete/controllers/DataBaseController/sqlite_controller.dart';
-import 'package:kyogre_getx_lanchonete/database/controllers/MongoDBServices/mongo_db_controller.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioDigital/CadastroProdutos/widgets/photo_gallery_mongo.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/widgets/forms_simples.dart';
 
-class CadastroDialog extends StatefulWidget {
+class CadastroDialogWidget extends StatefulWidget {
   final String produto;
-
-  const CadastroDialog({Key? key, required this.produto}) : super(key: key);
+  const CadastroDialogWidget({super.key, required this.produto});
 
   @override
-  _CadastroDialogState createState() => _CadastroDialogState();
+  State<CadastroDialogWidget> createState() => _CadastroDialogWidgetState();
 }
 
-class _CadastroDialogState extends State<CadastroDialog> {
+class _CadastroDialogWidgetState extends State<CadastroDialogWidget> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _controller1 = TextEditingController();
   final TextEditingController _controller2 = TextEditingController();
@@ -38,7 +35,8 @@ class _CadastroDialogState extends State<CadastroDialog> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: AlertDialog(
+      color: Colors.black,
+      child: AlertDialog.adaptive(
         title: Text('Preencha os campos para: ${widget.produto}'),
         content: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -48,8 +46,8 @@ class _CadastroDialogState extends State<CadastroDialog> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                pickImageToCarrousel(),
-                if (exibirCarrossel) carrouselImagens(),
+                TasksPage(),
+                //if (exibirCarrossel) carrouselImagens(),
                 FormSimples(
                   obscureText: false,
                   controlador: _controller1,
@@ -141,42 +139,9 @@ class _CadastroDialogState extends State<CadastroDialog> {
           TextButton(
               onPressed: () {
                 //Get.to(ProdutoScreen());
-                Get.to(PageAdminCardapio());
+                //Get.to(PageAdminCardapio());
               },
               child: Text("Read"))
-        ],
-      ),
-    );
-  }
-
-  Widget pickImageToCarrousel() {
-    final controller = Get.put(PhotoGalleryController());
-
-    return Container(
-      color: Colors.lightGreen,
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Material(
-            child: TextField(
-              controller: controller.descriptionController,
-              decoration: const InputDecoration(
-                hintText: 'Enter description',
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          cardButton(
-            () {
-              controller.pickFromGallery();
-              setState(() {
-                exibirCarrossel = true;
-              });
-            },
-            Icons.photo,
-            "Escolher Imagem",
-          ),
         ],
       ),
     );

@@ -28,7 +28,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
 
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate() && _image != null) {
-      var uri = Uri.parse('http://seu_servidor_django/api/produto_cardapio/');
+      var uri = Uri.parse('https://django-rayquaza-web-server.onrender.com/api/produto_cardapio/');
       var request = http.MultipartRequest('POST', uri)
         ..fields['nome'] = _nomeController.text
         ..fields['preco'] = _precoController.text

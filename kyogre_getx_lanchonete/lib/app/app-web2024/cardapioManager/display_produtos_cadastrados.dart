@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'cadastro_screen.dart';
-import 'produto_cardapio.dart';
+import 'cadastro_page_produtos.dart';
+import 'ProdutoCardapio.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _fetchProdutos() async {
-    final response = await http.get(Uri.parse('http://seu_servidor_django/api/produto_cardapio/'));
+    final response = await http.get(Uri.parse('https://django-rayquaza-web-server.onrender.com/api/produto_cardapio/'));
     if (response.statusCode == 200) {
       List<dynamic> produtosJson = json.decode(response.body);
       setState(() {

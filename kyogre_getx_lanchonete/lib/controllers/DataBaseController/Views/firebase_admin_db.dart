@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'dart:typed_data';
 import 'dart:html' as html;
 import 'package:dio/dio.dart';
+import 'package:kyogre_getx_lanchonete/database/controllers/MongoDBServices/mongo_service.dart';
 
 // Task model
 class Task {
@@ -273,6 +274,42 @@ class AdminDataBasePage extends StatelessWidget {
                 )),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget showMongo() {
+    return Container(
+      height: 500,
+      color: Colors.white,
+      child: GetBuilder<MongoServiceDB>(
+        builder: (controller) {
+          if (controller.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (controller.productsMongo.isEmpty) {
+            return const Center(child: Text('Nenhum produto encontrado.'));
+          } else {
+            // Se houver produtos, exibe-os usando ListView.builder
+            return ListView.builder(
+              itemCount: controller.productsMongo.length,
+              itemBuilder: (context, index) {
+                var product = controller.productsMongo[index];
+
+                return Card(
+                  child: ListTile(
+                    title: Text(product["NOME"]),
+                    subtitle: Text(product["preco_1"].toString()),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () =>
+                          controller.deleteProduct(product["NOME"]),
+                    ),
+                  ),
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }

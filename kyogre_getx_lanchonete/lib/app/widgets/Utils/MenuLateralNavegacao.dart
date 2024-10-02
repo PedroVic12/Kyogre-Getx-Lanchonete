@@ -42,15 +42,12 @@ class MenuLateralNavegacaoDash extends StatelessWidget {
     ItemMenuLateral(
         title: 'Gestor Cardapio',
         icon: Icons.food_bank_rounded,
-        route: '/cardapioManager'),
-
-    ItemMenuLateral(
-        title: 'Caos Page', icon: Icons.food_bank_rounded, route: '/caosPage'),
+        route: '/admin'),
 
     ItemMenuLateral(
         title: 'Tela de Cadastro',
         icon: Icons.fastfood_rounded,
-        route: '/authScreen'),
+        route: '/login'),
     ItemMenuLateral(
         title: 'Splash',
         icon: CupertinoIcons.moon_stars_fill,
@@ -67,14 +64,6 @@ class MenuLateralNavegacaoDash extends StatelessWidget {
     //     title: 'Cardapio Digital QR',
     //     icon: Icons.fastfood_rounded,
     //     route: '/cardapioQR'),
-
-    ItemMenuLateral(
-        title: 'Atendimento ao Cliente',
-        icon: Icons.screenshot_monitor_sharp,
-        route: '/atendimento'),
-
-    //ItemMenuLateral( title: 'Grid Style', icon: Icons.abc_outlined, route: '/layoutDesign'),
-    //ItemMenuLateral(title: 'Caos Page', icon: Icons.ac_unit_sharp, route: '/caosPage')
   ];
 
   MenuLateralNavegacaoDash({super.key});

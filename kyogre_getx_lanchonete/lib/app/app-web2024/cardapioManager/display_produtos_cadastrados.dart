@@ -4,12 +4,15 @@ import 'dart:convert';
 import 'cadastro_page_produtos.dart';
 import 'ProdutoCardapio.dart';
 
-class HomeScreen extends StatefulWidget {
+class DisplayProdutosDatabase extends StatefulWidget {
+  const DisplayProdutosDatabase({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<DisplayProdutosDatabase> createState() =>
+      _DisplayProdutosDatabaseState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _DisplayProdutosDatabaseState extends State<DisplayProdutosDatabase> {
   List<ProdutoCardapio> produtos = [];
 
   @override
@@ -19,11 +22,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _fetchProdutos() async {
-    final response = await http.get(Uri.parse('https://django-rayquaza-web-server.onrender.com/api/produto_cardapio/'));
+    final response = await http.get(Uri.parse(
+        'https://django-rayquaza-web-server.onrender.com/api/produto_cardapio/'));
     if (response.statusCode == 200) {
       List<dynamic> produtosJson = json.decode(response.body);
       setState(() {
-        produtos = produtosJson.map((json) => ProdutoCardapio.fromJson(json)).toList();
+        produtos =
+            produtosJson.map((json) => ProdutoCardapio.fromJson(json)).toList();
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -45,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute(builder: (context) => CadastroScreen()),
               );
-              _fetchProdutos();  // Atualiza a lista após cadastro
+              _fetchProdutos(); // Atualiza a lista após cadastro
             },
           ),
         ],

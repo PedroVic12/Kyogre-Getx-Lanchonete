@@ -34,11 +34,12 @@ class CardapioManagerPage extends StatelessWidget {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            TextButton(
+            ElevatedButton(
                 onPressed: () {
                   Get.to(AdminDataBasePage());
                 },
-                child: const Text("Task Firebase")),
+                child: const Text(
+                    "Task Crud Funcional! Firebase,Django,Laravel, MongoDB")),
             TextButton(
                 onPressed: () {
                   Get.to(ModalCadastroCardapio());
@@ -47,7 +48,7 @@ class CardapioManagerPage extends StatelessWidget {
                   text: "Galeria produtos Firebase",
                   color: Colors.white,
                 )),
-            ShowCadastroDialog(),
+            //!ShowCadastroDialog(), Fazer o dialog funcionar com Crud corretamente por imagens no FloatButton
             Container(
               height: 500, // Defina a altura da lista horizontal
               padding: const EdgeInsets.all(12),
@@ -80,22 +81,24 @@ class CardapioManagerPage extends StatelessWidget {
                 },
               ),
             ),
-            showMongo()
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.large(
+          elevation: 5,
+          hoverElevation: 10,
           onPressed: () {
             manager.criarCategoria();
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return CadastroDialogWidget(produto: "produto");
-              },
-            );
+            // showDialog(
+            //   context: context,
+            //   builder: (BuildContext context) {
+            //     return CadastroDialogWidget(produto: "produto");
+            //   },
+            // );
+            Get.to(AdminDataBasePage());
           },
           tooltip: 'Criar Categoria',
-          child: const Text('Criar Categoria')), //
+          child: const Text('Adicionar Produtos')), //
     );
   }
 
@@ -169,42 +172,6 @@ class CardapioManagerPage extends StatelessWidget {
             ),
           )
         : Container();
-  }
-
-  Widget showMongo() {
-    return Container(
-      height: 500,
-      color: Colors.white,
-      child: GetBuilder<MongoServiceDB>(
-        builder: (controller) {
-          if (controller.isLoading.value) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (controller.productsMongo.isEmpty) {
-            return const Center(child: Text('Nenhum produto encontrado.'));
-          } else {
-            // Se houver produtos, exibe-os usando ListView.builder
-            return ListView.builder(
-              itemCount: controller.productsMongo.length,
-              itemBuilder: (context, index) {
-                var product = controller.productsMongo[index];
-
-                return Card(
-                  child: ListTile(
-                    title: Text(product["NOME"]),
-                    subtitle: Text(product["preco_1"].toString()),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () =>
-                          controller.deleteProduct(product["NOME"]),
-                    ),
-                  ),
-                );
-              },
-            );
-          }
-        },
-      ),
-    );
   }
 
   Widget botoesSuperior(BuildContext context, produto) {

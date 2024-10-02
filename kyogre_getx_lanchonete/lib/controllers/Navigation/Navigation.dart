@@ -79,7 +79,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
             color: CupertinoColors.systemGrey,
           ),
           const CustomText(
-            text: 'Pedro Victor',
+            text: 'Pedro Victor Veras',
             color: CupertinoColors.inactiveGray,
           ),
           const SizedBox(

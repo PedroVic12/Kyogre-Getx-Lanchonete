@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kyogre_getx_lanchonete/app/app-web2024/cardapioManager/display_produtos_cadastrados.dart';
 
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/MenuLateralNavegacao.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/gerador_checklist.dart';
@@ -53,15 +54,15 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => Layout()),
         GetPage(name: '/splash', page: () => const SplashScreen()),
         GetPage(name: '/dash', page: () => TelaGestaoDePedidosDashBoard()),
-        GetPage(name: '/caosPage', page: () => const NewCardapioDigital2024()),
-        GetPage(name: "/checklist", page: () => ChecklistPage()),
+        // GetPage(name: '/caosPage', page: () => const NewCardapioDigital2024()),
+        //!GetPage(name: "/checklist", page: () => ChecklistPage()),
 
         // Aministrador Pages
         GetPage(name: '/mapaPedido', page: () => GoogleMapsWidget()),
-        GetPage(
-            name: '/authScreen', page: () => const TelaAutenticacaoUsuarios()),
-        GetPage(name: '/atendimento', page: () => const ChatPage()),
+        GetPage(name: '/login', page: () => const TelaAutenticacaoUsuarios()),
+        // GetPage(name: '/atendimento', page: () => const ChatPage()),
         GetPage(name: "/admin", page: () => CardapioManagerPage()),
+        GetPage(name: "/api", page: () => DisplayProdutosDatabase()),
 
         //Pedidos WhatsApp
         GetPage(name: '/cardapio', page: () => const MyCardapioWidget()),

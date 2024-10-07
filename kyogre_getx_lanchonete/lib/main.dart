@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
 
       initialBinding: GlobalBindings(),
 
-      // TODO Navegação Padrão
+      //!  Navegação Padrão Getx do aplicativos de telas. Cada tela = 500 reais!
       getPages: [
         // Telas App (1500 cada)
         GetPage(name: '/', page: () => Layout()),

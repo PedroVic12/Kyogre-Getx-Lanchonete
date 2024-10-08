@@ -46,3 +46,23 @@ Empresarios que buscam ter o melhor tempo de delivery, ser top 1 do google, busc
 
 **Objetivo**
 Melhorar a eficiencia operacional de delivery e proporcionar para o cliente atraves de um software SAAS mais conveniente e satisfatoria atraves de automação e uma arquitetura planejada para ser escalonavel e ser auto sustentavel.
+
+## tipos de requisitos
+
+Os requisitos do sistemas sao divididos em:
+
+**Requistios Funcionais**
+Definem o que o sistema deve fazer
+
+**Requistios que são atributos de qualidade**
+Definem como o sistema deve funcionar
+
+## Nivel de prioridade dos Requisitos
+
+Funil
+
+Obrigatorio -> O sistema sem esse requisito ele nao pode ser colocado em produção
+
+Necessario -> O sistema funciona, mas ainda exige que seja implementado soluçoes de problemas mais robustas
+
+Opcional/Melhrorias -> O sistema funciona bem com esse requisito e pode ser deixado numa versão futura sem a necessidade de implementaçã imediata

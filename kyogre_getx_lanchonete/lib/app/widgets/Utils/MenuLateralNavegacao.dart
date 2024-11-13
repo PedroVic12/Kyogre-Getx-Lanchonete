@@ -56,6 +56,15 @@ class MenuLateralNavegacaoDash extends StatelessWidget {
         title: 'NEW Cardapio Digital ROBO',
         icon: CupertinoIcons.shopping_cart,
         route: '/pedido/:id'),
+
+    ItemMenuLateral(
+        title: 'Burguer App',
+        icon: CupertinoIcons.shopping_cart,
+        route: '/burguerApp'),
+    ItemMenuLateral(
+        title: 'Ingredientes App Display',
+        icon: CupertinoIcons.shopping_cart,
+        route: '/burguerWidget'),
     // ItemMenuLateral(
     //     title: 'Google Maps Pedido',
     //     icon: Icons.location_on_rounded,

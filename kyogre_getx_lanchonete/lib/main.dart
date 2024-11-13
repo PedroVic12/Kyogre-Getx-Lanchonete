@@ -1,17 +1,15 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kyogre_getx_lanchonete/app/app-web2024/cardapioManager/display_produtos_cadastrados.dart';
+import 'package:kyogre_getx_lanchonete/app/burguer_app/screens/burguer_widget_page.dart';
 
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/MenuLateralNavegacao.dart';
 import 'package:kyogre_getx_lanchonete/app/widgets/Utils/gerador_checklist.dart';
 
 import 'package:kyogre_getx_lanchonete/views/Pages/Caos/tab_page_flip.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioScreenLayout/TabCardapioAnimated.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/CardapioScreenLayout/animated_cardapio_glass.dart';
-import 'package:kyogre_getx_lanchonete/views/Pages/ChatPage/views/ChatPage.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/AuthScreen/tela_auth_jvt.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/DashBoard/TelaDashGestaoPedidos.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Layout/Layout.dart';
@@ -22,6 +20,8 @@ import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/Tel
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/cardapio_qrcode.dart';
 import 'package:kyogre_getx_lanchonete/views/Pages/Tela%20Cardapio%20Digital/controllers/cardapio_controller.dart';
 
+import 'app/burguer_app/screens/burguer_app_view.dart';
+import 'app/burguer_app/screens/ingrediente_screen.dart';
 import 'controllers/binding.dart';
 
 //TODO -> Menu controller 1:08
@@ -65,8 +65,11 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/api", page: () => DisplayProdutosDatabase()),
 
         //Pedidos WhatsApp
-        GetPage(name: '/cardapio', page: () => const MyCardapioWidget()),
+        //GetPage(name: '/cardapio', page: () => const MyCardapioWidget()),
         GetPage(name: "/cardapioDigital", page: () => const TabBarDemo()),
+        GetPage(name: "/burguerApp", page: () => const BurgerApp()),
+        GetPage(name: "/burguerWidget", page: () => const IngredientesScreen()),
+
         GetPage(
             name: '/pedido/:id',
             page: () {

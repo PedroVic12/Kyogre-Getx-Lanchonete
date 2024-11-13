@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre_getx_lanchonete/app/burguer_app/entities/ingredientesModel.dart';
+import 'package:kyogre_getx_lanchonete/app/widgets/Custom/CustomText.dart';
 
 class IngredientesScreen extends StatefulWidget {
   const IngredientesScreen({Key? key}) : super(key: key);
@@ -14,9 +15,11 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
 
   @override
   void initState() {
+    burgerController.init();
+
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
+      setState(() async {
         burgerController.ingredients.forEach((element) {
           burgerController.animateIngrediente(element);
         });
@@ -70,25 +73,25 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
                         duration: const Duration(milliseconds: 780),
                         curve: Curves.bounceOut,
                         bottom: ingredient.insertIntoBurger
-                            ? burgerController.getIngredientesStackHeight(
-                                ingredient.type + ingredient.offset.toString())
+                            ? burgerController
+                                .getIngredientesStackHeight(ingredient.offset)
                             : 100,
                         child: Transform.scale(
                           scale:
                               ingredient.scale * burgerController.burgerScale,
                           child: Draggable(
-                            feedback: Image.asset(
+                            feedback: Image.network(
                               ingredient.path,
-                              width: 50,
-                              height: 50,
+                              width: 100,
+                              height: 100,
                               fit: BoxFit.cover,
                             ),
                             childWhenDragging: Container(),
                             data: ingredient,
-                            child: Image.asset(
+                            child: Image.network(
                               ingredient.path,
-                              width: 50,
-                              height: 50,
+                              width: 100,
+                              height: 100,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -99,9 +102,12 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
                 ),
               ),
             ),
-            CarouselIngredientsSelection(
-              onAddIngrediente: onAddIngrediente,
-              onRemoveIngrediente: onRemoveIngrediente,
+            Container(
+              color: Colors.grey,
+              child: CarouselIngredientsSelection(
+                onAddIngrediente: onAddIngrediente,
+                onRemoveIngrediente: onRemoveIngrediente,
+              ),
             ),
           ],
         ),
@@ -150,6 +156,8 @@ class _CarouselIngredientsSelectionState
         .where((e) => e.type != "bunBottom" && e.type != "bunTop")
         .toList();
 
+    print("Ingredientes: ${ingredients.length}");
+
     return Padding(
       padding: const EdgeInsets.all(6),
       child: SizedBox(
@@ -159,15 +167,18 @@ class _CarouselIngredientsSelectionState
           itemCount: ingredients.length,
           itemBuilder: (_, index) {
             final ingredient = ingredients[index];
+            print("\nCurrent Index Ingredientes: ${ingredient.type}");
+            print("path imagem=  ${ingredient.path}");
+
             return Opacity(
               opacity: (1 / (((currentPage - index).abs() * 5) + 1)),
               child: Column(
                 children: [
-                  Text(ingredient.price.toString()),
+                  CustomText(text: ingredient.price.toString(), size: 20),
                   SizedBox(
                     width: 100,
                     height: 100,
-                    child: Image.asset(
+                    child: Image.network(
                       ingredient.path,
                       fit: BoxFit.cover,
                     ),

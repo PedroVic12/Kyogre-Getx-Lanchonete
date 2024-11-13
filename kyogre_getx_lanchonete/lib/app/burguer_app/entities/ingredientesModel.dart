@@ -36,27 +36,74 @@ class BurgerController extends GetxController {
   double burgerScale = 1.0;
   double totalPreco = 0.0;
 
+  void adicionarIngrediente(IngredientEntity ingrediente) {
+    ingrediente.insertIntBurger = true;
+    ingredients.insert(ingredients.length - 1, ingrediente);
+    animateIngrediente(ingrediente);
+    update();
+  }
+
   void init() {
     ingredients.addAll([
       IngredientEntity(
-        type: 'bunTop',
-        price: 2.0,
-        path: 'assets/imagesBurguerApp/top.png',
-        height: 45,
-        insertIntoBurger: true,
+        height: 30,
+        type: 'picanha',
+        price: 15.0,
+        insertIntoBurger: false,
         offset: 0,
         scale: 1,
         max: 1,
+        path: 'assets/assets_burguer_app/picanha.png',
       ),
       IngredientEntity(
-        type: 'bunBottom',
-        price: 2.0,
-        path: 'assets/imagesBurguerApp/bottom.png',
-        height: 45,
-        insertIntoBurger: true,
+        height: 20,
+        type: 'queijo',
+        price: 15.0,
+        insertIntoBurger: false,
+        offset: -50,
+        scale: 1,
+        max: 5,
+        path: 'assets/assets_burguer_app/queijo.png',
+      ),
+      IngredientEntity(
+        height: 50,
+        type: 'tomate',
+        price: -15.0,
+        insertIntoBurger: false,
         offset: 0,
         scale: 1,
         max: 1,
+        path: 'assets/assets_burguer_app/tomate.png',
+      ),
+      IngredientEntity(
+        height: 45,
+        type: 'picanha',
+        price: 15.0,
+        insertIntoBurger: false,
+        offset: 0,
+        scale: 1,
+        max: 1,
+        path: 'assets/assets_burguer_app/picanha.png',
+      ),
+      IngredientEntity(
+        height: 45,
+        type: 'bunBottom',
+        price: 15.0,
+        insertIntoBurger: false,
+        offset: 0,
+        scale: 1,
+        max: 1,
+        path: 'assets/assets_burguer_app/bottom.png',
+      ),
+      IngredientEntity(
+        height: 45,
+        type: 'bunTop',
+        price: 15.0,
+        insertIntoBurger: false,
+        offset: 0,
+        scale: 1,
+        max: 1,
+        path: 'assets/assets_burguer_app/top-burguer.png',
       ),
     ]);
     calculateTotal();
@@ -67,15 +114,24 @@ class BurgerController extends GetxController {
     update();
   }
 
-  void animateRemoveTopBun() {
-    final topBun = ingredients.firstWhere((e) => e.type == 'bunTop');
-    topBun.insertIntoBurger = false;
-    update();
+  void animateTopBun(bool bool) {
+    if (ingredients.isNotEmpty) {
+      animateIngrediente(ingredients[ingredients.length - 1]);
+
+      ingredients[ingredients.length - 1].insertIntoBurger = true;
+      update();
+    }
   }
 
   void animateAddTopBun() {
     final topBun = ingredients.firstWhere((e) => e.type == 'bunTop');
     topBun.insertIntoBurger = true;
+    update();
+  }
+
+  void animateRemoveTopBun() {
+    final topBun = ingredients.firstWhere((e) => e.type == 'bunTop');
+    topBun.insertIntoBurger = false;
     update();
   }
 
@@ -151,7 +207,7 @@ class IngredientesController extends GetxController {
       offset: 0,
       scale: 1,
       max: 1,
-      path: 'assets/imagesBurguerApp/picanha.jpeg',
+      path: 'assets/assets_burguer_app/picanha.png',
     ),
     IngredientEntity(
       height: 20,
@@ -161,7 +217,7 @@ class IngredientesController extends GetxController {
       offset: -50,
       scale: 1,
       max: 5,
-      path: 'assets/imagesBurguerApp/queijo.jpeg',
+      path: 'assets/assets_burguer_app/queijo.png',
     ),
     IngredientEntity(
       height: 50,
@@ -171,7 +227,7 @@ class IngredientesController extends GetxController {
       offset: 0,
       scale: 1,
       max: 1,
-      path: 'assets/imagesBurguerApp/tomate.jpeg',
+      path: 'assets/assets_burguer_app/tomate.png',
     ),
     IngredientEntity(
       height: 45,
@@ -181,27 +237,27 @@ class IngredientesController extends GetxController {
       offset: 0,
       scale: 1,
       max: 1,
-      path: 'assets/imagesBurguerApp/picanha.jpeg',
+      path: 'assets/assets_burguer_app/picanha.png',
     ),
     IngredientEntity(
       height: 45,
-      type: 'bottom',
+      type: 'bunBottom',
       price: 15.0,
       insertIntoBurger: false,
       offset: 0,
       scale: 1,
       max: 1,
-      path: 'assets/imagesBurguerApp/bottom.jpeg',
+      path: 'assets/assets_burguer_app/bottom.png',
     ),
     IngredientEntity(
       height: 45,
-      type: 'top',
+      type: 'bunTop',
       price: 15.0,
       insertIntoBurger: false,
       offset: 0,
       scale: 1,
       max: 1,
-      path: 'assets/imagesBurguerApp/top.jpeg',
+      path: 'assets/assets_burguer_app/top-burguer.png',
     ),
   ].obs;
 

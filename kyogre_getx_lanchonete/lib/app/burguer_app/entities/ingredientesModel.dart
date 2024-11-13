@@ -23,6 +23,8 @@ class IngredientEntity {
     required this.max,
   });
 
+  set insertIntBurger(bool insertIntBurger) {}
+
   void toggleInsert() {
     insertIntoBurger = !insertIntoBurger;
   }

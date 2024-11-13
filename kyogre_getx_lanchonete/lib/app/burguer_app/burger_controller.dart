@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:kyogre_getx_lanchonete/app/burguer_app/const/ingredientes_list_repository.dart';
 import 'package:kyogre_getx_lanchonete/app/burguer_app/entities/ingredientesModel.dart';
 
 //!https://www.youtube.com/watch?v=ztEr9Bu8Dkc&t=124s -- 11:00
@@ -35,11 +34,9 @@ class AppBurguerController extends GetxController {
 
   IngredientEntity getIngredientByType(String type) {
     // Encontra o ingrediente com base no tipo na lista pré-definida
-    print(IngredientesListaRepository.firstWhere(
-        (ingredient) => ingredient.type == type));
+    print(ingredients.firstWhere((ingredient) => ingredient.type == type));
 
-    return IngredientesListaRepository.firstWhere(
-        (ingredient) => ingredient.type == type);
+    return ingredients.firstWhere((ingredient) => ingredient.type == type);
   }
 
   void animateAddTopBun() {
